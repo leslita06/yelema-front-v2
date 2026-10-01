@@ -562,7 +562,7 @@ def wbody(t, d):
     if t == "agenda":
         it = "".join(f'<li class="ag" data-p="{p}"><span class="agt"><b>{h}</b><small>{j}</small></span><span class="grow"><b>{a}</b><small>{qu}</small></span>'
                      f'<a href="#" class="pill {c}" data-toast="Ouverture du brief : {a}">{ic("file-text", "s")} {st}</a></li>' for j, h, a, qu, c, st, p in d["items"])
-        return f'<ul class="wag">{it}</ul><a class="wlink" href="calendrier.html">{ic("calendar", "s")} Tout l’agenda</a>'
+        return f'<ul class="wag">{it}</ul><a class="wlink" href="djeneba.html#calendrier">{ic("calendar", "s")} Tout l’agenda</a>'
     if t == "eng":
         tot = sum(v for _, v, _ in d["parts"])
         bar = "".join(f'<i class="{c}" style="width:{v / tot * 100:.1f}%"></i>' for _, v, c in d["parts"])
