@@ -179,6 +179,34 @@ def page(actif, brand, titre, crumb, corps, wrap=True, dock=False):
     return (b3.head(titre, brand) + '<div class="app">' + sidebar(actif, brand) + '<main style="min-width:0">' + topbar(crumb, actif, brand)
             + inner + '</main></div>' + pops() + yele() + modal_cz() + d + fin())
 
+# ---------------------------------------------------------------- temps rendu (journées de travail, onglet à part)
+def jours(d):
+    return int(float(d["imp"][0].split()[0]) // 8)
+
+def impact4(d):
+    h, delta, pers, nj, parjour = d["imp"]
+    j = jours(d)
+    blocs = "".join('<i></i>' for _ in range(min(j, 14)))
+    pj = f"{parjour:g}".replace(".", ",")
+    return f"""<section class="impact">
+  <div class="imp"><span class="ic">{ic("calendar-check")}</span><div><div class="v">{j} journée{"s" if j > 1 else ""}</div><div class="l">de travail rendue{"s" if j > 1 else ""} à l'équipe cette semaine, soit {h}</div><div class="days">{blocs}</div></div></div>
+  <div class="imp"><span class="ic">{ic("trending-up")}</span><div><div class="v">{delta.split(" vs")[0]}</div><div class="l">de plus que la semaine passée, à date</div></div></div>
+  <div class="imp"><span class="ic">{ic("zap")}</span><div><div class="v">{pj}</div><div class="l">livrables par jour ouvré</div></div></div>
+</section>"""
+
+def temps_rendu(d, qui):
+    rows = ""
+    for k in qui:
+        dk = DASH[k]; j = jours(dk); hh = dk["imp"][0]
+        w = max(6, int(100 * float(hh.split()[0]) / 92))
+        rows += f'<div class="trw"><img src="{B}{EXPERTS[k]["photo"]}" alt=""><span class="nm2"><b>{EXPERTS[k]["prenom"]}</b><span class="xs mute3">{EXPERTS[k]["role"]}</span></span><span class="bar3"><i style="width:{w}%"></i></span><b class="num">{j if j else "moins d\'une"} journée{"s" if j > 1 else ""}</b><span class="xs mute3 num">{hh}</span></div>'
+    sem = [("31 août", 41), ("7 sept.", 55), ("14 sept.", 63), ("21 sept.", 74), ("28 sept.", 92)]
+    bars = "".join(f'<div class="wk"><span class="num">{int(v // 8)} j</span><i style="height:{int(v / 92 * 100)}%"></i><em>{l}</em></div>' for l, v in sem)
+    return f"""{impact4(d)}
+<div class="g2" style="margin-top:16px"><div class="box"><div class="ch"><h2 style="font-size:16px;font-weight:650">Par expert, cette semaine</h2></div>{rows}</div>
+<div class="box"><div class="ch"><h2 style="font-size:16px;font-weight:650">Journées rendues, 5 dernières semaines</h2></div><div class="wks">{bars}</div></div></div>
+<p class="xs mute3" style="margin-top:10px">Estimation : temps qu'aurait pris chaque livrable à une personne de l'équipe, 8 h par journée.</p>"""
+
 # ---------------------------------------------------------------- accueil
 def carte(k):
     e, p = EXPERTS[k], PRO[k]
@@ -208,7 +236,7 @@ def page_accueil(brand):
 <div class="h2x" style="margin-top:30px"><h2>Mon tableau de bord</h2><a class="link" href="tableau-de-bord.html">Tout voir {ic("arrow-right", "s")}</a></div>
 <section class="today">
   <div class="wtile"><div class="t">{ic("circle-alert")} À valider <span class="grow"></span><span class="pill ac">2</span></div>{val}</div>
-  <div class="wtile imp"><div class="t">{ic("timer")} Temps rendu cette semaine</div><div class="big">92 h</div><div class="sm" style="opacity:.92">comme 2,9 personnes à plein temps</div><span class="pill" style="background:rgba(255,255,255,.18);color:#fff;align-self:flex-start">+18 h vs semaine passée</span></div>
+  <a class="wtile imp" href="tableau-de-bord.html#temps"><div class="t">{ic("package")} Livré cette semaine</div><div class="big">46</div><div class="sm" style="opacity:.92">livrables, dont 18 visuels et 9 présentations</div><span class="pill" style="background:rgba(255,255,255,.18);color:#fff;align-self:flex-start">Voir le temps rendu {ic("arrow-right", "s")}</span></a>
   <div class="wtile"><div class="t">{ic("trending-down")} Ventes Sossa de la semaine</div><div class="big">18,4 M <span class="sm mute" style="font-family:var(--f-ui)">F CFA</span></div><span class="pill ko" style="align-self:flex-start">6 % sous l'objectif</span><span class="xs mute3">Ajouté par Djénéba à votre demande</span></div>
 </section>
 <div class="g2">{b3.chart(DASH["equipe"], ["fatima", "koffi", "djeneba"])}{b3.live_card()}</div>"""
@@ -217,7 +245,9 @@ def page_accueil(brand):
 def page_tdb(brand):
     d = DASH["equipe"]
     corps = f"""<div class="hello"><div class="grow"><p class="date">Toute l'équipe, semaine du 28 septembre</p><h1>Mon tableau de bord</h1></div><a class="btn o hide-m" href="https://t.me/" target="_blank" rel="noopener">{ic("send", "s")} Aussi chaque matin dans Telegram</a><a class="btn g" href="djeneba.html#discussion">{ic("sparkles", "s")} Le modifier avec Djénéba</a></div>
-{b3.impact(d)}{b3.filtres(d)}{b3.kpis(d)}<div class="g2">{b3.chart(d, ["fatima", "koffi", "djeneba"])}{b3.donut(d)}</div>{b3.projets(d)}{b3.livrables(d, b3.ATTENTE_TEAM)}"""
+<div data-tabs><nav class="tabs" style="margin-top:14px"><a href="#" data-t="activite" class="on">{ic("layout-dashboard", "s")} Activité</a><a href="#" data-t="temps">{ic("calendar-check", "s")} Temps rendu</a></nav>
+<div class="panel on" id="activite">{b3.filtres(d)}{b3.kpis(d)}<div class="g2">{b3.chart(d, ["fatima", "koffi", "djeneba"])}{b3.donut(d)}</div>{b3.projets(d)}{b3.livrables(d, b3.ATTENTE_TEAM)}</div>
+<div class="panel" id="temps">{temps_rendu(d, ["fatima", "koffi", "djeneba"])}</div></div>"""
     return page("tableau-de-bord", brand, "Tableau de bord", "<b>Tableau de bord</b>", corps, dock=True)
 
 # ---------------------------------------------------------------- espace d'un expert
@@ -392,7 +422,7 @@ def page_expert(k, brand):
   <div class="panel" id="profil">{x_profil(k)}</div>
   <div class="panel" id="connecteurs">{x_connect(k)}</div>
   <div class="panel" id="canaux">{x_canaux(k)}</div>
-  <div class="panel" id="suivi">{b3.impact(d)}{b3.kpis(d)}<div class="g2">{b3.chart(d, [k])}{b3.donut(d)}</div>{b3.projets(d)}</div>
+  <div class="panel" id="suivi">{b3.kpis(d)}<div class="g2">{b3.chart(d, [k])}{b3.donut(d)}</div>{b3.projets(d)}<h3 class="h3s" style="margin-top:26px">Temps rendu par {e['prenom']}</h3>{impact4(d)}</div>
   <div class="panel" id="securite">{x_secu(k)}</div>
   <div class="panel" id="drive">{x_drive(k)}</div>
   <div class="panel" id="mail">{x_mail(k)}</div>
@@ -469,7 +499,7 @@ def memoire_corps(admin=False):
     ajout = f'<a class="link" href="#">{ic("plus", "s")} Ajouter une source</a>' if admin else ""
     side = f'<div class="box"><div class="ch"><h2 style="font-size:16px;font-weight:650">Ce qu\'elle connaît</h2>{ajout}</div>{src}<p class="xs mute3" style="margin-top:12px">{aide}</p></div>'
     return (f'<div class="hello"><div class="grow"><p class="date">{"Réglages" if admin else "Pour toute l’équipe Unifood"}</p><h1>Chat entreprise</h1></div></div>'
-            f'<div class="dgrid" style="margin-top:16px;grid-template-columns:minmax(0,1fr) 340px">{chat}{side}</div>')
+            f'<div class="dgrid memg" style="margin-top:16px">{chat}{side}</div>')
 
 def page_memoire(brand):
     return page("memoire", brand, "Chat entreprise", "<b>Chat entreprise</b>", memoire_corps())
@@ -593,7 +623,7 @@ def modal_cz():
 <span class="xs mute3">Connexion sécurisée par Composio</span><button class="ib x2" data-close aria-label="Fermer">{ic("x", "s")}</button></div></div></div>"""
 
 # ---------------------------------------------------------------- Yélé, l'agent d'aide
-YELE_SVG = """<svg class="yele" viewBox="0 0 100 100" aria-hidden="true"><defs><radialGradient id="yg" cx="30%" cy="20%" r="90%"><stop offset="0" stop-color="#0084F5"/><stop offset=".4" stop-color="#5670FF"/><stop offset=".75" stop-color="#6B58FB"/><stop offset="1" stop-color="#3F48AE"/></radialGradient></defs><g class="pt p1" style="--dx:-2.1px;--dy:-2.1px"><circle cx="33.0" cy="33.0" r="7.2"/><circle cx="26.0" cy="26.0" r="5.6"/><circle cx="19.6" cy="19.6" r="4.2"/></g><g class="pt p2" style="--dx:2.1px;--dy:-2.1px"><circle cx="67.0" cy="33.0" r="7.2"/><circle cx="74.0" cy="26.0" r="5.6"/><circle cx="80.4" cy="19.6" r="4.2"/></g><g class="pt p3" style="--dx:0.0px;--dy:3.0px"><circle cx="50.0" cy="74.0" r="7.2"/><circle cx="50.0" cy="84.0" r="5.6"/><circle cx="50.0" cy="93.0" r="4.2"/></g><circle class="core" cx="50" cy="50" r="17"/><g class="eyes"><ellipse cx="44" cy="48" rx="3.6" ry="5" fill="#fff"/><ellipse cx="56" cy="48" rx="3.6" ry="5" fill="#fff"/><circle class="pu" cx="44.6" cy="49.4" r="2.1" fill="#17112B"/><circle class="pu" cx="56.6" cy="49.4" r="2.1" fill="#17112B"/></g><path d="M45.5 56.5 q4.5 3.5 9 0" stroke="#fff" stroke-width="2.2" fill="none" stroke-linecap="round"/></svg>"""
+YELE_SVG = """<svg class="yele" viewBox="0 0 200 200" aria-hidden="true"><defs><linearGradient id="ylg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#9B7BFF"/><stop offset=".55" stop-color="#6B58FB"/><stop offset="1" stop-color="#2E4EC4"/></linearGradient></defs><g class="yl-body"><g class="yl-arms"><rect x="34" y="84" width="132" height="32" rx="16" fill="url(#ylg)" transform="rotate(0 100 100)"/><rect x="34" y="84" width="132" height="32" rx="16" fill="url(#ylg)" transform="rotate(60 100 100)"/><rect x="34" y="84" width="132" height="32" rx="16" fill="url(#ylg)" transform="rotate(120 100 100)"/></g><circle cx="100" cy="100" r="34" fill="#fff"/><g class="yl-look"><g class="yl-blink"><ellipse cx="89" cy="97" rx="7.7" ry="10" fill="#17112B"/><ellipse cx="111" cy="97" rx="7.7" ry="10" fill="#17112B"/><circle cx="91.9" cy="92.6" r="3.1" fill="#fff"/><circle cx="113.9" cy="92.6" r="3.1" fill="#fff"/><circle cx="87.2" cy="100.6" r="1.4" fill="#fff"/><circle cx="109.2" cy="100.6" r="1.4" fill="#fff"/></g></g><ellipse cx="76" cy="109" rx="6" ry="3.6" fill="#FF8FA3" opacity=".65"/><ellipse cx="124" cy="109" rx="6" ry="3.6" fill="#FF8FA3" opacity=".65"/><path d="M94.6 109 q5.4 5.4 10.8 0" stroke="#17112B" stroke-width="2.9" fill="none" stroke-linecap="round"/></g></svg>"""
 
 def yele():
     sug = "".join(f'<span>{t}</span>' for t in ("Comment recruter un expert ?", "Connecter WhatsApp", "Changer le prénom de Djénéba", "Ma facture"))

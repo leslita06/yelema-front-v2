@@ -519,3 +519,79 @@ img.av{border-radius:50%;object-position:50% 20%}
 .stat4 .kpi .l{min-height:0}
 .cz h2{gap:6px}
 @media (max-width:900px){.xsw .faces{display:none}}
+
+/* Artefacts de la charte : un motif par écran, ancré en haut à droite, débord, opacité douce sous le texte.
+   Recolorés par masque pour suivre l'habillage (Yelema ou client). */
+.brief,.impact,.hire,.mph,.art-host{position:relative;overflow:hidden;isolation:isolate}
+.brief::after,.impact::after,.hire::after,.mph::after,.art-host::after{content:"";position:absolute;z-index:-1;pointer-events:none;
+  -webkit-mask:var(--art) center/contain no-repeat;mask:var(--art) center/contain no-repeat}
+.brief::after{--art:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20200%20200%22%3E%3Crect%20x%3D%2210%22%20y%3D%2278%22%20width%3D%22180%22%20height%3D%2244%22%20rx%3D%2222%22%20transform%3D%22rotate%280%20100%20100%29%22/%3E%3Crect%20x%3D%2210%22%20y%3D%2278%22%20width%3D%22180%22%20height%3D%2244%22%20rx%3D%2222%22%20transform%3D%22rotate%2860%20100%20100%29%22/%3E%3Crect%20x%3D%2210%22%20y%3D%2278%22%20width%3D%22180%22%20height%3D%2244%22%20rx%3D%2222%22%20transform%3D%22rotate%28120%20100%20100%29%22/%3E%3C/svg%3E");width:150px;height:150px;top:-52px;right:-34px;background:var(--brand);opacity:.16}
+.impact::after{--art:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20200%20140%22%3E%3Crect%20x%3D%220%22%20y%3D%220%22%20width%3D%22200%22%20height%3D%2238%22%20rx%3D%2219%22/%3E%3Crect%20x%3D%220%22%20y%3D%2251%22%20width%3D%22200%22%20height%3D%2238%22%20rx%3D%2219%22/%3E%3Crect%20x%3D%220%22%20y%3D%22102%22%20width%3D%22200%22%20height%3D%2238%22%20rx%3D%2219%22/%3E%3C/svg%3E");width:230px;height:170px;top:-40px;right:-44px;background:#fff;opacity:.2}
+.hire::after{--art:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20220%20150%22%3E%3Crect%20x%3D%22110%22%20y%3D%220%22%20width%3D%22110%22%20height%3D%2222%22%20rx%3D%2211%22%20opacity%3D%221.0%22/%3E%3Crect%20x%3D%2285%22%20y%3D%2231%22%20width%3D%22110%22%20height%3D%2222%22%20rx%3D%2211%22%20opacity%3D%220.85%22/%3E%3Crect%20x%3D%2260%22%20y%3D%2262%22%20width%3D%22110%22%20height%3D%2222%22%20rx%3D%2211%22%20opacity%3D%220.7%22/%3E%3Crect%20x%3D%2235%22%20y%3D%2293%22%20width%3D%22110%22%20height%3D%2222%22%20rx%3D%2211%22%20opacity%3D%220.55%22/%3E%3Crect%20x%3D%2210%22%20y%3D%22124%22%20width%3D%22110%22%20height%3D%2222%22%20rx%3D%2211%22%20opacity%3D%220.4%22/%3E%3C/svg%3E");width:260px;height:184px;top:-30px;right:-40px;background:var(--brand);opacity:.18}
+.mph::after{--art:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20200%20200%22%3E%3Crect%20x%3D%2210%22%20y%3D%2278%22%20width%3D%22180%22%20height%3D%2244%22%20rx%3D%2222%22%20transform%3D%22rotate%280%20100%20100%29%22/%3E%3Crect%20x%3D%2210%22%20y%3D%2278%22%20width%3D%22180%22%20height%3D%2244%22%20rx%3D%2222%22%20transform%3D%22rotate%2860%20100%20100%29%22/%3E%3Crect%20x%3D%2210%22%20y%3D%2278%22%20width%3D%22180%22%20height%3D%2244%22%20rx%3D%2222%22%20transform%3D%22rotate%28120%20100%20100%29%22/%3E%3C/svg%3E");width:210px;height:210px;top:-70px;right:-50px;background:var(--brand);opacity:.14}
+.art-v::after{--art:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20200%20140%22%3E%3Crect%20x%3D%220%22%20y%3D%220%22%20width%3D%22200%22%20height%3D%2238%22%20rx%3D%2219%22/%3E%3Crect%20x%3D%220%22%20y%3D%2251%22%20width%3D%22200%22%20height%3D%2238%22%20rx%3D%2219%22/%3E%3Crect%20x%3D%220%22%20y%3D%22102%22%20width%3D%22200%22%20height%3D%2238%22%20rx%3D%2219%22/%3E%3C/svg%3E");width:250px;height:184px;top:-60px;right:-60px;background:var(--brand);opacity:.16}
+.art-host.hello{padding-right:8px}
+[data-brand="yelema"]{--art-c:#8D68FA}[data-brand="client"]{--art-c:#E50046}
+.brief::after{width:120px;height:120px;top:-26px;right:-22px;background:var(--art-c);opacity:.22}
+.hire::after{background:var(--art-c);opacity:.2}
+.mph::after{width:170px;height:170px;top:-46px;right:-40px;background:var(--art-c);opacity:.16}
+.art-v::after{width:200px;height:140px;top:-78px;right:-70px;background:var(--art-c);opacity:.2}
+.impact::after{opacity:.24}
+.brief p{position:relative;padding-right:70px}
+
+/* Yélé, piste A : l'astérisque */
+.yele .yl-arms{transform-origin:100px 100px;animation:ylwob 2.8s ease-in-out infinite}
+.yele .yl-body{transform-origin:100px 150px;animation:ylsq 2.8s ease-in-out infinite}
+.yele .yl-blink{transform-box:fill-box;transform-origin:center;animation:ylbl 3.6s infinite}
+.yele .yl-look{animation:yllk 4.8s cubic-bezier(.22,1,.36,1) infinite}
+@keyframes ylwob{0%,100%{transform:rotate(-7deg)}50%{transform:rotate(9deg)}}
+@keyframes ylsq{0%,100%{transform:translateY(0) scale(1,1)}20%{transform:scale(1.05,.95)}45%{transform:translateY(-12px) scale(.97,1.04)}70%{transform:scale(1.03,.97)}}
+@keyframes ylbl{0%,44%,48%,100%{transform:scaleY(1)}46%{transform:scaleY(.08)}}
+@keyframes yllk{0%,25%{transform:translate(0,0)}35%,55%{transform:translate(3px,-1px)}65%,85%{transform:translate(-3px,0)}100%{transform:translate(0,0)}}
+.ybtn .yele,.ypop .yele{animation:none}
+.ybtn .yele{width:44px;height:44px}
+.ypop .yele.big{width:72px;height:72px}
+@media (prefers-reduced-motion:reduce){.yele *{animation:none!important}}
+
+/* Temps rendu */
+.impact .days{display:flex;flex-wrap:wrap;gap:4px;margin-top:8px}
+.impact .days i{width:14px;height:14px;border-radius:4px;background:rgba(255,255,255,.85)}
+.trw{display:grid;grid-template-columns:40px minmax(0,1.1fr) minmax(0,1.4fr) auto auto;gap:12px;align-items:center;padding:10px 0}
+.trw+.trw{border-top:1px solid var(--line)}
+.trw img{width:40px;height:40px;border-radius:50%;object-fit:cover;object-position:50% 15%}
+.trw .nm2{display:flex;flex-direction:column;min-width:0}
+.bar3{height:10px;border-radius:99px;background:var(--soft);overflow:hidden}.bar3 i{display:block;height:100%;border-radius:99px;background:var(--brand)}
+.wks{display:flex;align-items:flex-end;gap:14px;height:190px;padding-top:10px}
+.wk{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:6px;height:100%}
+.wk i{display:block;width:100%;max-width:56px;border-radius:10px 10px 4px 4px;background:var(--tint-2)}
+.wk:last-child i{background:var(--brand)}
+.wk span{font-size:13px;font-weight:650}.wk em{font-style:normal;font-size:12px;color:var(--ink-3)}
+@media (max-width:760px){.trw{grid-template-columns:36px minmax(0,1fr) auto}.trw .bar3,.trw>.xs{display:none}}
+
+/* tableaux larges sur téléphone */
+.box:has(>.tbl),.box:has(>table){overflow-x:auto}
+@media (max-width:760px){.tbl th:nth-child(n+5),.tbl td:nth-child(n+5){display:none}}
+.trw{grid-template-columns:40px minmax(0,1fr) minmax(0,1.3fr) 104px 44px}.trw>b.num{text-align:right}.trw>.xs{text-align:right}
+
+/* corrections de mise en page, revue téléphone du 01/10 */
+.dgrid.memg{grid-template-columns:minmax(0,1fr) 340px}
+.tbl .num,.tbl td:nth-child(2){white-space:nowrap}
+.deliv .row,.deliv .acts,.deliv>div:last-child{flex-wrap:wrap}
+@media (max-width:900px){
+  .dgrid.memg{grid-template-columns:1fr}.dgrid.memg .box{order:-1}
+  .xcol{display:flex;flex-direction:column;gap:10px}
+  .xcol .pcard{grid-row:auto}.xcol .pcard img{height:300px;width:100%;object-fit:cover;object-position:50% 14%}
+  .xcol .pcard .nm{display:block}
+  .xcol .xsw .faces{display:flex}
+  .chatp .cl{max-height:none}
+}
+@media (max-width:760px){
+  .hello{flex-wrap:wrap;gap:12px}.hello>.grow{flex-basis:100%}
+  .hello h1{font-size:30px}
+  .trw{grid-template-columns:36px minmax(0,1fr) auto}.trw .bar3,.trw>.xs{display:none}
+  .hire::after{width:120px;height:86px;top:-20px;right:-28px;opacity:.14}
+  .brief::after{width:84px;height:84px;top:-20px;right:-20px}
+  .mph::after{width:110px;height:110px}
+}
+.deliv .a{flex-wrap:wrap}
+@media (max-width:900px){.xcol .pcard{width:100%;aspect-ratio:auto;height:340px}.xcol .pcard img{height:100%}}
