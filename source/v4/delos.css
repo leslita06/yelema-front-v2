@@ -1920,3 +1920,7 @@ html[data-mode="nuit"] .gfloat i{background:linear-gradient(120deg,rgba(255,255,
 html[data-mode="nuit"] .pby2 img{content:url("img/yelema_logo_final_long_blanc.svg")}
 .dlsig{font-size:11.5px;color:var(--ink-3);padding:6px 10px 4px;border-top:1px solid var(--line);margin-top:4px}
 .tbmain .mw>footer{border-top:0;padding-top:0}.tbmain .mw:not(.hid)>footer:not(:has(.ptag:not([style*="none"]))){display:none}.editing .mw>footer{display:flex!important}
+/* le logo Yelema ne change jamais : en sombre il garde ses couleurs sur une pastille claire */
+html[data-mode="nuit"] .pby img,html[data-mode="nuit"] .pby2 img{content:normal;filter:none;opacity:1}
+html[data-mode="nuit"] .pby{background:#F1F0F7;color:#4A4563}
+html[data-mode="nuit"] .pby2{background:#F1F0F7;color:#4A4563;padding:6px 12px;border-radius:12px}
