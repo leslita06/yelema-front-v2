@@ -1,3 +1,4 @@
+import json
 #!/usr/bin/env python3
 """Front client Yelema v4, structure façon Delos (captures envoyées par Leslie le 01/10/26).
 
@@ -559,6 +560,50 @@ def wbody(t, d):
         mx = d["steps"][0][1]
         fs = "".join(f'<div class="wfn"><span>{n}</span><i><b style="width:{max(4, round(v / mx * 100))}%"></b></i><em class="num">{v}</em></div>' for n, v in d["steps"])
         return f'{fs}<p class="wfait">{ic("check", "s")} {d["fait"]}</p>'
+    if t == "kst":
+        it = "".join(f'<div class="kk"><span>{l}</span><b class="num" data-kv=\'{json.dumps(v, ensure_ascii=False)}\'>{v[""]}</b><small class="{c}">{x}</small></div>' for l, v, x, c in d["items"])
+        n = len(d["items"])
+        return f'<div class="kks" style="--kc:{4 if n == 8 else n}">{it}</div>'
+    if t == "postes":
+        rows = "".join(f'<tr data-p="{p}" class="clk" data-pick="{p}"><td><b>{n}</b><small>{m}</small></td><td class="num">{a}</td><td class="num">{b_}</td><td class="num">{c}</td><td class="num">{o}</td><td class="num"><b>{r}</b></td><td class="num">{dl}</td><td><span class="pill {pc}">{st}</span></td></tr>'
+                       for p, n, m, a, b_, c, o, r, dl, pc, st in d["items"])
+        return (f'<div class="wtw"><table class="wtab"><thead><tr><th>Poste et manager</th><th>Candidatures</th><th>Entretiens</th><th>Liste courte</th><th>Offres</th><th>Recrutés</th><th>Délai</th><th>État</th></tr></thead><tbody>{rows}</tbody></table></div>'
+                f'<p class="xs mute3">{ic("mouse-pointer-click", "s")} Touchez un poste pour voir tout le tableau de bord de ce poste.</p>')
+    if t == "funnel2":
+        mx = d["steps"][0][1]
+        fs = ""
+        for n, v in d["steps"]:
+            w = {kk: f'{max(3, round(vv / (mx[kk] or 1) * 100))}%' for kk, vv in v.items()}
+            fs += f'<div class="wfn"><span>{n}</span><i><b data-kw=\'{json.dumps(w)}\' style="width:{w[""]}"></b></i><em class="num" data-kv=\'{json.dumps({kk: str(vv) for kk, vv in v.items()})}\'>{v[""]}</em></div>'
+        cv = {kk: f'{round(d["steps"][-1][1][kk] / (vv or 1) * 100, 1)} %'.replace(".", ",") for kk, vv in mx.items()}
+        return f'{fs}<p class="wfait">{ic("target", "s")} Taux de conversion, de la candidature à l’embauche : <b data-kv=\'{json.dumps(cv, ensure_ascii=False)}\'>{cv[""]}</b></p>'
+    if t == "itv":
+        it = "".join(f'<li class="ag" data-p="{p}"><img class="cav" src="{B}{im}.jpg" alt=""><span class="grow"><b>{n}</b><small>{PROJ[p][1]}, avec {w}</small><small>{ic("calendar", "s")} {dt}, {lieu}</small></span><span class="pill {"ok" if "prêt" in st or "envoyé" in st else "mid"}">{st}</span></li>' for im, n, p, dt, w, lieu, st in d["items"])
+        return f'<ul class="wag">{it}</ul>'
+    if t == "score":
+        hd = "".join(f'<th>{c}</th>' for c in d["crit"])
+        rows = "".join(f'<tr data-p="{p}"><td><span class="who"><img class="cav" src="{B}{im}.jpg" alt=""><span><b>{n}</b><small>{PROJ[p][1]}</small></span></span></td>'
+                       + "".join(dots(v) for v in sc)
+                       + f'<td class="num"><b>{tot}</b></td><td><span class="pill {pc}">{st}</span></td></tr>' for im, n, p, sc, tot, pc, st in d["items"])
+        return f'<div class="wtw"><table class="wtab"><thead><tr><th>Finaliste</th>{hd}<th>Note</th><th>Avis</th></tr></thead><tbody>{rows}</tbody></table></div>'
+    if t == "sources":
+        mx = max(x[2] for x in d["items"])
+        rows = "".join(f'<tr><td><span class="who">{srci(dom)} {n}</span></td><td><span class="mbar"><i style="width:{a / mx * 100:.0f}%"></i></span><span class="num">{a}</span></td><td class="num">{e}</td><td class="num"><b>{r}</b></td><td class="num">{e / a * 100:.0f} %</td></tr>' for dom, n, a, e, r in d["items"])
+        return f'<div class="wtw"><table class="wtab"><thead><tr><th>Source</th><th>Candidatures</th><th>Entretiens</th><th>Recrutés</th><th>Conversion</th></tr></thead><tbody>{rows}</tbody></table></div>'
+    if t == "satis":
+        it = "".join(f'<div class="sat"><span>{n}</span><b class="num">{v}<small> / 5</small></b><span class="stars">{"".join(ic("star", "s") for _ in range(5))}<i style="width:{float(v.replace(",", ".")) / 5 * 100:.0f}%">{"".join(ic("star", "s") for _ in range(5))}</i></span><small>{nb} réponses, {pct} % satisfaits</small></div>' for n, v, nb, pct in d["items"])
+        q, a = d["quote"]
+        return f'<div class="sats">{it}</div><div class="wkv"><span>Délai de réponse aux candidats</span><b class="num">{d["delai"]}</b></div><blockquote class="wq">{q}<small>{a}</small></blockquote>'
+    if t == "recrues":
+        it = "".join(f'<li data-p="{p}"><img class="cav" src="{B}{im}.jpg" alt=""><span class="grow"><b>{n}</b><small>{PROJ[p][1]}, {ar}</small><span class="wprog sm"><i style="width:{pc}%"></i></span></span><span class="num xs mute3">{pc} %</span></li>' for im, n, p, ar, pc in d["items"])
+        return f'<ul class="wcr">{it}</ul><p class="xs mute3">Intégration : accès, matériel, formation, premier objectif.</p>'
+    if t == "engresp":
+        mx = max(a + b_ + c for _, _, a, b_, c in d["items"])
+        rows = "".join(f'<div class="er"><span class="who">{face(i, "", 26)} {n}</span><span class="erb"><i class="ok" style="width:{a / mx * 100:.0f}%"></i><i class="mid" style="width:{b_ / mx * 100:.0f}%"></i><i class="late" style="width:{c / mx * 100:.0f}%"></i></span><span class="num xs">{a}/{a + b_ + c}</span></div>' for i, n, a, b_, c in d["items"])
+        return f'<div class="ers">{rows}</div><div class="wleg"><span><i class="ok"></i>Tenus</span><span><i class="mid"></i>En cours</span><span><i class="late"></i>En retard</span></div>'
+    if t == "camp2":
+        rows = "".join(f'<tr data-p="{p}" class="clk" data-pick="{p}"><td><b>{n}</b></td><td class="num">{bu}</td><td class="num">{po}</td><td class="num">{cl}</td><td class="num"><b>{co}</b></td><td class="num">{cpc}</td><td><span class="pill {pc}">{st}</span></td></tr>' for p, n, bu, po, cl, co, cpc, pc, st in d["items"])
+        return f'<div class="wtw"><table class="wtab"><thead><tr><th>Campagne</th><th>Budget</th><th>Portée</th><th>Clics</th><th>Résultat</th><th>Coût par contact</th><th>État</th></tr></thead><tbody>{rows}</tbody></table></div><p class="xs mute3">{ic("mouse-pointer-click", "s")} Touchez une campagne pour voir son détail.</p>'
     if t == "agenda":
         it = "".join(f'<li class="ag" data-p="{p}"><span class="agt"><b>{h}</b><small>{j}</small></span><span class="grow"><b>{a}</b><small>{qu}</small></span>'
                      f'<a href="#" class="pill {c}" data-toast="Ouverture du brief : {a}">{ic("file-text", "s")} {st}</a></li>' for j, h, a, qu, c, st, p in d["items"])
@@ -609,15 +654,111 @@ def wbody(t, d):
     return ""
 
 def filtres(k=None):
-    pr = '<span class="chip on" data-fp="">Tous les projets</span>' + "".join(f'<span class="chip" data-fp="{p}">{ic(i, "s")} {n}</span>' for p, (i, n) in PROJ.items())
+    used = [p for p in PROJ if k and any(p in w[2] for w in TDB[k])] or list(PROJ)[:4]
+    pr = f'<span class="chip on" data-fp="">{FILT_LBL.get(k, "Tous les projets")}</span>' + "".join(f'<span class="chip" data-fp="{p}">{ic(PROJ[p][0], "s")} {PROJ[p][1]}</span>' for p in used)
     per = '<div class="seg tdper"><a data-per="semaine" class="on">Semaine</a><a data-per="mois">Mois</a><a data-per="trimestre">Trimestre</a></div>'
     ty = ""
     if k:
-        ty = '<label class="tdty"><span class="xs mute3">Type de livrable</span><select><option value="">Tous</option>' + "".join(f'<option>{w[1]}</option>' for w in TDB[k]) + '</select></label>'
+        ty = '<label class="tdty"><span class="xs mute3">Type de livrable</span><select><option value="">Tous</option>' + "".join(f'<option>{w[1]}</option>' for w in TDB[k] if w[0] != "kst") + '</select></label>'
     return f'<div class="tdf"><div class="chips tdp">{pr}</div><div class="row tdr">{per}{ty}</div></div>'
 
 WIDE = ("eng", "edcal", "posts", "rs", "kanban")
 FULL = ("edcal", "kanban")
+
+# ---------- v4.15 tableaux de bord : indicateurs du métier, détail par poste, projet ou campagne
+PROJ.update({"pcom": ("briefcase", "Commercial terrain, Korhogo"), "pceq": ("briefcase", "Chef d'équipe, ligne confiserie"),
+             "ptec": ("briefcase", "Technicien de maintenance"), "pcg": ("briefcase", "Contrôleur de gestion"),
+             "zab": ("map-pin", "Abidjan"), "zbk": ("map-pin", "Bouaké"), "zko": ("map-pin", "Korhogo")})
+FILT_LBL = {"adjoua": "Tous les postes", "kouassi": "Toutes les zones", "fatima": "Toutes les campagnes"}
+def KV(**d):
+    return {("" if k == "tout" else k): v for k, v in d.items()}
+
+TDB["adjoua"] = [
+ ("kst", "Indicateurs du recrutement", ["pcom", "pceq", "ptec", "pcg"], {"items": [
+   ("Postes ouverts", KV(tout="4", pcom="1", pceq="1", ptec="1", pcg="1"), "+1 ce mois-ci", ""),
+   ("Candidatures", KV(tout="187", pcom="96", pceq="51", ptec="28", pcg="12"), "+42 sur 7 jours", "up"),
+   ("Entretiens", KV(tout="34", pcom="14", pceq="11", ptec="6", pcg="3"), "9 cette semaine", ""),
+   ("Offres faites", KV(tout="6", pcom="3", pceq="2", ptec="1", pcg="0"), "4 acceptées", ""),
+   ("Recrutés", KV(tout="4", pcom="3", pceq="1", ptec="0", pcg="0"), "objectif 7", "up"),
+   ("Délai moyen d'embauche", KV(tout="23 j", pcom="19 j", pceq="27 j", ptec="en cours", pcg="en cours"), "-5 j sur le trimestre", "up"),
+   ("Taux d'acceptation", KV(tout="67 %", pcom="100 %", pceq="50 %", ptec="en attente", pcg="pas d'offre"), "des offres faites", ""),
+   ("Satisfaction des candidats", KV(tout="4,5 / 5", pcom="4,6 / 5", pceq="4,4 / 5", ptec="4,5 / 5", pcg="4,3 / 5"), "64 réponses", "up")]}),
+ ("postes", "Postes ouverts", ["pcom", "pceq", "ptec", "pcg"], {"items": [
+   ("pcom", "Commercial terrain, Korhogo", "Fanta Bakayoko", 96, 14, 6, 3, 3, "19 j", "ok", "3 recrutés sur 5"),
+   ("pceq", "Chef d'équipe, ligne confiserie", "Serge Bamba", 51, 11, 4, 2, 1, "27 j", "mid", "Offre en attente"),
+   ("ptec", "Technicien de maintenance", "Serge Bamba", 28, 6, 3, 1, 0, "en cours", "mid", "Offre envoyée"),
+   ("pcg", "Contrôleur de gestion", "Ibrahim Sylla", 12, 3, 0, 0, 0, "en cours", "late", "Peu de candidatures")]}),
+ ("funnel2", "Entonnoir de recrutement", ["pcom", "pceq", "ptec", "pcg"], {"steps": [
+   ("Candidatures", KV(tout=187, pcom=96, pceq=51, ptec=28, pcg=12)), ("Présélectionnés", KV(tout=58, pcom=31, pceq=16, ptec=8, pcg=3)),
+   ("Entretiens", KV(tout=34, pcom=14, pceq=11, ptec=6, pcg=3)), ("Liste courte", KV(tout=13, pcom=6, pceq=4, ptec=3, pcg=0)),
+   ("Offres", KV(tout=6, pcom=3, pceq=2, ptec=1, pcg=0)), ("Recrutés", KV(tout=4, pcom=3, pceq=1, ptec=0, pcg=0))]}),
+ ("itv", "Entretiens à venir", ["pcom", "pceq", "ptec"], {"items": [
+   ("m_women_62", "Mariam Coulibaly", "pcom", "Jeu 2 oct, 10:00", "Fanta Bakayoko", "Visio", "Brief envoyé"),
+   ("m_men_30", "Didier Yao", "pceq", "Jeu 2 oct, 14:30", "Serge Bamba", "Sur place", "Épreuve pratique prête"),
+   ("m_men_49", "Hamed Niang", "ptec", "Ven 3 oct, 09:00", "Serge Bamba", "Sur place", "Brief envoyé"),
+   ("m_women_69", "Salimata Diallo", "pcom", "Lun 6 oct, 11:00", "Fanta Bakayoko", "Visio", "À planifier avec le manager")]}),
+ ("score", "Scorecards des finalistes", ["pcom", "pceq"], {"crit": ["Expérience", "Négociation", "Terrain", "Motivation"], "items": [
+   ("m_women_62", "Mariam Coulibaly", "pcom", (5, 4, 5, 4), "4,5", "ok", "À recruter"),
+   ("m_men_16", "Olivier Kouamé", "pcom", (4, 4, 3, 5), "4,0", "mid", "À revoir"),
+   ("m_men_30", "Didier Yao", "pceq", (5, 3, 4, 4), "4,0", "ok", "À recruter"),
+   ("m_women_89", "Rokia Traoré", "pceq", (3, 4, 3, 4), "3,5", "late", "Écarté")]}),
+ ("sources", "Efficacité des sources", ["pcom", "pceq", "ptec", "pcg"], {"items": [
+   ("linkedin.com", "LinkedIn", 64, 12, 2), ("emploi.ci", "Emploi.ci", 58, 9, 1), ("facebook.com", "Facebook", 39, 6, 0), ("", "Cooptation", 14, 5, 1), ("", "Vivier interne", 12, 2, 0)]}),
+ ("satis", "Satisfaction", ["pcom", "pceq", "ptec", "pcg"], {"items": [("Candidats", "4,5", 64, 90), ("Managers", "4,7", 9, 94)], "delai": "1,2 jour",
+   "quote": ("« Réponse en moins de 48 h et retour après l’entretien, c’est rare. »", "Candidat, poste Commercial terrain")}),
+ ("recrues", "Recrues et intégration", ["pcom", "pceq"], {"items": [
+   ("m_women_36", "Awa Konaté", "pcom", "Arrivée le 22 sept", 80), ("m_men_83", "Jean Kouadio", "pcom", "Arrivée le 22 sept", 75),
+   ("m_women_30", "Aminata Sanogo", "pcom", "Arrive le 6 oct", 20), ("m_men_59", "Koné Brahima", "pceq", "Arrive le 13 oct", 10)]}),
+]
+TDB["djeneba"] = [("kst", "Indicateurs du cabinet", ["usine", "sossa", "mint", "nord"], {"items": [
+   ("Réunions préparées", KV(tout="12", usine="6", sossa="3", mint="2", nord="1"), "+3 sur 7 jours", "up"),
+   ("CR envoyés sous 24 h", KV(tout="100 %", usine="100 %", sossa="100 %", mint="100 %", nord="100 %"), "11 envoyés", "up"),
+   ("Engagements tenus", KV(tout="76 %", usine="68 %", sossa="91 %", mint="80 %", nord="75 %"), "29 sur 38", ""),
+   ("Engagements en retard", KV(tout="3", usine="2", sossa="0", mint="1", nord="0"), "dont 1 de plus de 5 jours", "warn"),
+   ("Décisions suivies", KV(tout="47", usine="22", sossa="12", mint="9", nord="4"), "15 ce mois-ci", ""),
+   ("Temps rendu au DG", KV(tout="9 h", usine="4 h", sossa="2 h", mint="2 h", nord="1 h"), "cette semaine", "up")]})] + TDB["djeneba"][:3] + [
+ ("engresp", "Engagements par responsable", ["usine", "sossa", "mint", "nord"], {"items": [("SB", "Serge Bamba", 8, 2, 2), ("JA", "Jean-Marc Aka", 7, 2, 0), ("FB", "Fanta Bakayoko", 6, 2, 1), ("AD", "Aïcha Diabaté", 5, 0, 0), ("IS", "Ibrahim Sylla", 3, 0, 0)]}),
+] + TDB["djeneba"][3:]
+TDB["fatima"] = [("kst", "Indicateurs marketing", ["sossa", "mint", "usine"], {"items": [
+   ("Posts publiés", KV(tout="14", sossa="8", mint="4", usine="2"), "+3 sur 7 jours", "up"),
+   ("Portée totale", KV(tout="146 800", sossa="92 400", mint="41 200", usine="13 200"), "+18 %", "up"),
+   ("Engagement moyen", KV(tout="7,2 %", sossa="8,4 %", mint="6,2 %", usine="6,9 %"), "+0,8 pt", "up"),
+   ("Abonnés gagnés", KV(tout="4 270", sossa="2 610", mint="1 380", usine="280"), "tous réseaux", ""),
+   ("Contacts générés", KV(tout="412", sossa="412", mint="en cours", usine="0"), "via la campagne", ""),
+   ("Coût par contact", KV(tout="2 900 F", sossa="2 900 F", mint="en cours", usine="pas de budget"), "-12 %", "up")]}),
+ TDB["fatima"][0],
+ ("camp2", "Par campagne", ["sossa", "mint", "usine"], {"items": [
+   ("sossa", "Promo Sossa de la rentrée", "1,2 M F", "92 400", "3 140", "412", "2 900 F", "ok", "En cours"),
+   ("mint", "Super Mint, édition limitée", "600 000 F", "41 200", "1 260", "en cours", "en cours", "mid", "Lancée le 1er oct"),
+   ("usine", "Nouvelle ligne, marque employeur", "0 F", "13 200", "410", "62 candidatures", "gratuit", "ok", "Organique")]}),
+] + TDB["fatima"][1:]
+TDB["koffi"] = [("kst", "Indicateurs design", ["sossa", "mint", "usine"], {"items": [
+   ("Créations livrées", KV(tout="27", sossa="14", mint="9", usine="4"), "+6 sur 7 jours", "up"),
+   ("BAT validés du premier coup", KV(tout="87 %", sossa="93 %", mint="78 %", usine="75 %"), "+5 pts", "up"),
+   ("Délai moyen", KV(tout="1,6 j", sossa="1,2 j", mint="2,1 j", usine="2,4 j"), "du brief au BAT", ""),
+   ("Retouches demandées", KV(tout="4", sossa="1", mint="2", usine="1"), "sur 31 créations", ""),
+   ("Déclinaisons", KV(tout="34", sossa="14", mint="20", usine="0"), "formats", ""),
+   ("En attente de BAT", KV(tout="2", sossa="1", mint="0", usine="1"), "à valider", "warn")]})] + TDB["koffi"]
+TDB["kouassi"] = [("kst", "Indicateurs commerciaux", ["zab", "zbk", "zko"], {"items": [
+   ("Chiffre d'affaires", KV(tout="48,6 M F", zab="31,2 M F", zbk="9,8 M F", zko="7,6 M F"), "+11 % sur 7 jours", "up"),
+   ("Commandes", KV(tout="312", zab="198", zbk="64", zko="50"), "+38 relances réussies", "up"),
+   ("Boutiques actives", KV(tout="286", zab="171", zbk="62", zko="53"), "sur 340", ""),
+   ("Panier moyen", KV(tout="156 000 F", zab="158 000 F", zbk="153 000 F", zko="152 000 F"), "stable", ""),
+   ("Ruptures signalées", KV(tout="9", zab="4", zbk="3", zko="2"), "Sossa 200 g", "warn"),
+   ("Nouveaux distributeurs", KV(tout="2", zab="0", zbk="0", zko="2"), "Korhogo, Ferkessédougou", "up")]}),
+ ("count", "Commandes des boutiques", ["zab", "zbk", "zko"], {"v": (312, 1240, 3600), "unit": "commandes prises", "by": [("zab", 198), ("zbk", 64), ("zko", 50)], "fait": "Relance automatique des boutiques sans commande depuis 10 jours : 38 ont recommandé."}),
+ ("list", "Comptes à relancer", ["zko", "zab"], {"items": [("Supermarché Prosuma, Korhogo", "Pas de commande depuis 14 jours", "zko"), ("Grossiste Adjamé Liberté", "Facture en attente", "zab")]}),
+ ("funnel", "Prospects distributeurs", ["zko"], {"steps": [("Repérés", 40), ("Contactés", 22), ("Rendez-vous", 7), ("Signés", 2)], "fait": "Deux distributeurs signés à Korhogo et Ferkessédougou."}),
+]
+TDB_PART[0] = ("adjoua", "Fanta Bakayoko", "FB", "Lecture", "15/10/2026", "Recrutement de l'équipe commerciale et de la ligne")
+WIDE = ("eng", "edcal", "posts", "rs", "kanban", "postes", "score", "camp2", "kst", "sources")
+FULL = ("edcal", "kanban", "kst", "postes", "camp2")
+
+def dots(v):
+    return '<td><span class="dots" title="' + str(v) + ' sur 5">' + "".join('<i class="on"></i>' if j < v else "<i></i>" for j in range(5)) + '</span></td>'
+def srci(dom):
+    return f'<img class="rsi" src="{FAV}{dom}" alt="" style="width:18px;height:18px">' if dom else f'<span class="rsi0">{ic("users", "s")}</span>'
+
 def wcard(k, t, titre, projs, d, wide=False):
     tags = "".join(ptag(p) for p in projs[:2]) + (f'<span class="ptag more">+{len(projs) - 2}</span>' if len(projs) > 2 else "")
     return (f'<article class="mw{" wide" if wide or t in WIDE else ""}{" full" if t in FULL else ""}" data-ps="{" ".join(projs)}" data-ty="{titre}"><header><h4>{titre}</h4>'
@@ -639,7 +780,7 @@ def tdb_agent(k, part=None):
     else:
         espace = f'<a class="btn o sm" href="{k}.html">{ic("arrow-right", "s")} Son espace</a><a class="btn o sm" href="{k}.html#analytique">{ic("chart-column", "s")} Analytique</a>'
         head = (f'<div class="tbh"><img src="{B}{e["photo"]}" alt=""><div class="grow"><b>Tableau de bord de {e["prenom"]}, {e["role"]}</b><span class="xs mute3">Son travail, projet par projet. {e["prenom"]} propose les blocs, vous les modifiez.</span></div>{espace}'
-                f'<a class="btn o sm" href="https://t.me/" target="_blank" rel="noopener">{TG} Telegram</a><a class="btn p sm" href="#" data-open="share" data-shk="{k}">{ic("share-2", "s")} Partager</a></div>')
+                f'<a class="btn o sm" href="#" data-dup="{e["prenom"]}">{ic("copy-plus", "s")} Dupliquer</a><a class="btn o sm" href="https://t.me/" target="_blank" rel="noopener">{TG} Telegram</a><a class="btn p sm" href="#" data-open="share" data-shk="{k}">{ic("share-2", "s")} Partager</a></div>')
         add = (f'<article class="mw mwadd"><h4>{ic("plus", "s")} Ajouter un bloc</h4><p class="sm mute3">Les blocs de base viennent du travail de {e["prenom"]} : {GAB_BASE[k]}. Dites ce que vous voulez suivre en plus, {e["prenom"]} le construit sur mesure.</p>'
                f'<form class="mwf" data-k="{k}"><input type="text" placeholder="Par exemple : {SUGG_W[k][0].lower()}" aria-label="Ce que vous voulez suivre"><button class="btn p sm" type="submit">Ajouter</button></form><div class="mws">{sg_}</div></article>')
     return f'{head}{filtres(k)}<section class="mwg2">{ws}{add}</section>'
@@ -1402,7 +1543,6 @@ def modal_share():
 {ppl}</div>
 <div class="shv" id="sh-public"><p class="xs mute3">Pour l’extérieur : un client, un investisseur, un partenaire. Sans connexion, en lecture seule.</p>
 <div class="lnk"><span class="ell">yelema.ai/p/tdb-djeneba-7Hk2</span><a class="btn o sm" href="#" data-toast="Lien copié">{ic("copy", "s")} Copier</a></div></div>
-<h3 class="shh">Ce que voient les autres</h3><div class="shbs">{blocs}</div>
 <div class="sg"><div><div class="grow"><b>Masquer les montants</b><span class="d">Budgets, coûts et prix</span></div><button class="sw swx off" data-nom="Montants masqués" aria-label="Masquer les montants"></button></div>
 <div><div class="grow"><b>Masquer les noms des membres</b><span class="d">Remplacés par leur service</span></div><button class="sw swx off" data-nom="Noms masqués" aria-label="Masquer les noms"></button></div>
 <div><div class="grow"><b>Expire le</b><span class="d">90 jours au maximum, renouvelable</span></div><div class="ctl"><select class="fi shexp" aria-label="Durée"><option>Dans 7 jours</option><option selected>Dans 30 jours</option><option>Dans 90 jours</option><option value="d">Date au choix</option></select><input class="fi shdt" type="date" min="2026-10-02" max="2026-12-30" value="2026-10-31" aria-label="Date d’expiration" hidden></div></div></div>
