@@ -142,3 +142,13 @@ label.chc:has(input:checked) .chk.off{display:none}
 .tblkd{margin-top:6px}
 .tbcl{width:40px;padding:0}
 @media (max-width:560px){.tblk{flex-wrap:wrap}.tblk .btn{width:100%}.tblka{flex-direction:column;align-items:stretch}.tblka .fi{max-width:none}}
+/* accueil : un seul bloc En ce moment */
+.nowbox{border-radius:22px;background:var(--surface);border:1px solid var(--line);overflow:hidden}
+.nowbox .lvnow{border:0;border-radius:0;background:transparent;box-shadow:none}
+.nowsep{display:flex;align-items:center;gap:10px;padding:0 18px;font-size:12px;font-weight:650;color:var(--ink-3)}
+.nowsep::after{content:"";flex:1;height:1px;background:var(--line)}
+.nowl{display:flex;align-items:center;gap:10px;padding:10px 18px 14px;color:var(--ink);font-size:14px;min-height:44px}
+.nowl:hover{background:var(--soft)}
+.nowl .nowi{color:var(--ok);display:grid;flex:none}.nowl img{width:26px;height:26px;border-radius:50%;object-fit:cover;object-position:top;flex:none}
+.nowl time{font-size:12.5px;color:var(--ink-3);flex:none}
+.h2x .wlink{margin-left:auto;display:inline-flex;align-items:center;gap:4px;font-size:13.5px;font-weight:600}

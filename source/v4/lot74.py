@@ -231,6 +231,20 @@ def _lien74(html):
                         f'<a class="btn o sm tbcl" href="#" aria-label="Copier le lien du tableau">{ic("link", "s")}</a><a class="btn p sm" href="#" data-open="share" data-shk=')
     return html
 
+# accueil : un seul bloc « En ce moment » (tâche en cours, puis dernière livraison), plus de fil qui défile (choix A, 01/10 22:57)
+def _accueil74(html):
+    if '<div class="tick" data-tick>' not in html or '<h2>En ce moment</h2>' not in html:
+        return html
+    html = re.sub(r'<div class="tick" data-tick>.*?<button class="tnx"[^>]*>.*?</svg></button></div>\n?', '', html, count=1, flags=re.S)
+    m = re.search(r'<div class="h2x" style="margin-top:22px"><h2>En ce moment</h2></div>(<a class="lvnow".*?</a>)', html, flags=re.S)
+    if not m:
+        return html
+    last = (f'<a class="nowl" href="koffi.html#livrables"><span class="nowi">{ic("circle-check", "s")}</span><img src="{B}koffi.jpg" alt="">'
+            f'<span class="grow ell"><b>Koffi</b> a livré la v2 du packaging Super Mint à Yao</span><time>09:40</time></a>')
+    box = (f'<div class="h2x" style="margin-top:22px"><h2>En ce moment</h2><a class="wlink" href="notifications.html">Tout voir {ic("arrow-right", "s")}</a></div>'
+           f'<div class="nowbox">{m.group(1)}<div class="nowsep"><span>Dernière livraison</span></div>{last}</div>')
+    return html[:m.start()] + box + html[m.end():]
+
 def _fix74(html):
     html = html.replace(f'<span class="composio">{ic("plug-zap", "s")} Fournis par Composio, plus de 3 000 outils</span>', f'<span class="composio">{ic("plug-zap", "s")} Plus de 3 000 outils disponibles</span>')
     html = html.replace(f'<span class="composio">{ic("plug-zap", "s")} Connecteurs fournis par Composio</span>', f'<span class="composio">{ic("plug-zap", "s")} Plus de 3 000 outils disponibles</span>')
@@ -249,4 +263,4 @@ def _fix74(html):
         chan_card(x.group(2), TG if x.group(2) == "Telegram" else f'<img src="{x.group(1)}" alt="">', x.group(3), "checked" in x.group(0), sel=("radio", "onbc"))
         for x in re.finditer(r'<label><input type="radio" name="onbc"[^>]*><img src="([^"]+)" alt=""><b>([^<]+)</b><small>([^<]+)</small></label>', m.group(1))) + '</div>', html, count=1, flags=re.S)
     html = re.sub(r'<a href="\.\./(yelema|client)/admin-general\.html" class="on">', r'<a href="#" class="on" data-toast="Cet habillage est déjà actif">', html)
-    return _lien74(html)
+    return _accueil74(_lien74(html))
