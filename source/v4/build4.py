@@ -897,7 +897,7 @@ TB_ASK = {"djeneba": ["Quels engagements risquent de glisser ?", "Le temps du DG
 def dl_menu(nom):
     return (f'<details class="dlm"><summary class="btn o sm">{ic("download", "s")} <span>Télécharger</span></summary><div class="dlml">'
             f'<a href="#" data-toast="Google Slides créé dans votre Drive : {nom}"><img src="{FAV}slides.google.com" alt=""><span><b>Google Slides</b><small>Modifiable, une page par bloc</small></span></a>'
-            f'<a href="#" data-toast="PDF téléchargé : {nom}.pdf"><span class="pdfi">PDF</span><span><b>PDF</b><small>Prêt à imprimer ou à envoyer</small></span></a></div></details>')
+            f'<a href="#" data-toast="PDF téléchargé : {nom}.pdf"><span class="pdfi">PDF</span><span><b>PDF</b><small>Prêt à imprimer ou à envoyer</small></span></a><p class="dlsig">Chaque export porte la signature Powered by Yelema en bas de page.</p></div></details>')
 def tb_editbar(k):
     e = qui(k)
     fm = "".join(f'<label class="fmc"><input type="radio" name="fm2-{k}"{" checked" if n == 0 else ""}>{ic(i_, "s")} {l}</label>' for n, (i_, l) in enumerate(TB_FMTS))
@@ -923,7 +923,9 @@ def tdb_agent(k, part=None, titre=None):
                 f'<a class="btn o sm" href="#" data-dup="{titre}">{ic("copy-plus", "s")} Dupliquer</a>{dl_menu(titre)}'
                 f'<a class="btn p sm" href="#" data-open="share" data-shk="{k}">{ic("share-2", "s")} Partager</a></div></div>')
         bar = tb_editbar(k)
-    return f'{head}{bar}{filtres(k)}<section class="mwg2">{ws}</section>'
+    sig = (f'<a class="tbsig" href="https://leslita06.github.io/yelema-site-preview/" target="_blank" rel="noopener"><span>Tableau préparé par {e["prenom"]}, Expert Yelema</span>'
+           f'<span class="pby2">Powered by <img src="../img/yelema_logo_final_long.svg" alt="Yelema"></span></a>')
+    return f'{head}{bar}{filtres(k)}<section class="mwg2">{ws}</section>{sig}'
 
 def page_tdb(brand):
     MINE = [("djeneba", "djeneba", "Pilotage de la direction", "Aujourd’hui, 10:31"), ("djeneba2", "djeneba", "Nouvelle ligne de confiserie", "Aujourd’hui, 09:12"),
@@ -1781,7 +1783,7 @@ def modal_share():
 <div class="seg shs" data-sh><a class="on" href="#" data-v="prive">{ic("users", "s")} À des personnes</a><a href="#" data-v="public">{ic("link", "s")} Par un lien</a></div>
 <div class="shv on" id="sh-prive"><label class="shadd">{ic("search", "s")}<input type="text" placeholder="Ajouter un membre par son nom ou son email" aria-label="Ajouter un membre"><button class="btn p sm" type="button" data-toast="Invitation envoyée, en lecture">Inviter</button></label>
 {ppl}</div>
-<div class="shv" id="sh-public"><p class="xs mute3">Pour l’extérieur : un client, un investisseur, un partenaire. Sans connexion, en lecture seule.</p>
+<div class="shv" id="sh-public"><p class="xs mute3">Pour l’extérieur : un client, un investisseur, un partenaire. Sans connexion, en lecture seule, avec la signature Powered by Yelema en bas de page.</p>
 <div class="lnk"><span class="ell">yelema.ai/p/tdb-djeneba-7Hk2</span><a class="btn o sm" href="#" data-toast="Lien copié">{ic("copy", "s")} Copier</a></div></div>
 <div class="sg"><div><div class="grow"><b>Masquer les montants</b><span class="d">Budgets, coûts et prix</span></div><button class="sw swx off" data-nom="Montants masqués" aria-label="Masquer les montants"></button></div>
 <div><div class="grow"><b>Masquer les noms des membres</b><span class="d">Remplacés par leur service</span></div><button class="sw swx off" data-nom="Noms masqués" aria-label="Masquer les noms"></button></div>
