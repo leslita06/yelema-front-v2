@@ -165,7 +165,6 @@ def topbar(crumb, actif, brand):
     lib = "Couleurs Unifood" if brand == "yelema" else "Couleurs Yelema"
     return f"""<header class="top"><div class="crumb grow">{crumb}</div>
 <a class="tbtn hide-m" href="../{autre}/{actif}.html">{ic("palette", "s")} {lib}</a>
-<a class="tbtn hide-m" href="#">{ic("user-plus", "s")} Inviter un collègue</a>
 <button class="tbtn ico" data-pop="ping" aria-label="Ping, messagerie interne">{ic("message-circle", "s")}<span class="bdg">2</span></button>
 <button class="tbtn ico" data-pop="notifs" aria-label="Notifications">{ic("bell", "s")}<span class="bdg">4</span></button>
 <a href="admin-membre.html" aria-label="Mon profil">{face("AD", "", 38)}</a></header>"""
@@ -177,7 +176,7 @@ def page(actif, brand, titre, crumb, corps, wrap=True, dock=False):
              f'<span class="ph">Demander à mon équipe</span><span class="mic">{ic("mic", "s")}</span></div></a>')
     inner = f'<div class="page">{corps}</div>' if wrap else corps
     return (b3.head(titre, brand) + '<div class="app">' + sidebar(actif, brand) + '<main style="min-width:0">' + topbar(crumb, actif, brand)
-            + inner + '</main></div>' + pops() + yele() + modal_cz() + d + fin())
+            + inner + '</main></div>' + pops() + yele() + modales() + d + fin())
 
 # ---------------------------------------------------------------- temps rendu (journées de travail, onglet à part)
 def jours(d):
@@ -219,12 +218,12 @@ def carte(k):
 <span class="nm"><h3>{e['prenom']} {ic("chevron-right", "s")}</h3><span class="rl">{e['role']}</span></span></a>
 <span class="pair"><span class="faces">{faces}</span>{p['duo']}</span>
 <div class="acts">{acts}</div>
-<div class="bar2"><a class="p" href="{k}.html#discussion">{ic("message-circle", "s")} Écrire</a><a class="ic" href="#" aria-label="Appeler">{ic("phone", "s")}</a><a class="ic" href="{k}.html#mail" aria-label="Sa boîte mail">{ic("mail", "s")}</a>{extra}</div></div>"""
+<div class="bar2"><a class="p" href="{k}.html#discussion">{ic("message-circle", "s")} Écrire</a><a class="ic" href="#" data-call="{k}" aria-label="Appeler">{ic("phone", "s")}</a><a class="ic" href="{k}.html#mail" aria-label="Sa boîte mail">{ic("mail", "s")}</a>{extra}</div></div>"""
 
 def page_accueil(brand):
     fan = "".join(f'<img src="{B}{x}.jpg" alt="">' for x in ("salif", "kouassi", "adjoua", "mamadou", "nadia"))
     team = "".join(carte(k) for k in ("djeneba", "fatima", "koffi"))
-    team += (f'<a class="cw grow" href="recruter.html"><span class="k">AGRANDIR L’ÉQUIPE</span><div class="fan">{fan}</div>'
+    team += (f'<a class="cw grow" href="recruter.html"><span class="k">AGRANDIR L’ÉQUIPE</span><div class="fan">{fan}<span class="plus" aria-hidden="true">{ic("plus")}</span></div>'
              f'<span class="sm mute">Ventes, RH, finance, juridique, données. <b style="color:var(--ink)">Recruter un expert {ic("arrow-right", "s")}</b></span></a>')
     val = "".join(f'<div class="val"><span class="th {"poster" if th == "poster" else "doc"}" style="padding:0">{"" if th == "poster" else ic("file-text")}</span><span class="grow"><b class="ell">{t}</b><span class="xs mute3">{EXPERTS[k]["prenom"]}, {dep}</span></span><a class="btn p sm" href="{k}.html#discussion">Valider</a></div>'
                   for k, t, th, dep in b3.ATTENTE_TEAM)
@@ -276,7 +275,7 @@ def x_profil(k):
 <div class="danger"><span class="ic">{ic("user-minus", "s")}</span><div class="grow"><b>Retirer de l'équipe</b><span>Plus facturé dès le mois suivant</span></div><a class="btn sm" href="#">Retirer</a></div></div>"""
 
 def cx(n, d, on):
-    st = '<span class="st on">Connecté</span>' if on else f'<a class="btn o sm st" href="#" data-open="cz" data-app="{n}">Connecter</a>'
+    st = f'<span class="st on sti" title="Connecté" aria-label="Connecté">{ic("circle-check")}</span>' if on else f'<a class="btn o sm st" href="#" data-open="cz" data-app="{n}">Connecter</a>'
     return f'<div class="cx"><img src="{FAV}{d}" alt=""><span>{n}</span>{st}</div>'
 
 def x_connect(k):
@@ -410,7 +409,7 @@ def page_expert(k, brand):
     corps = f"""<div class="xp" data-tabs>
 <aside class="xcol"><div class="xsw"><a href="accueil.html" aria-label="Retour à l'équipe">{ic("arrow-left", "s")}</a><span class="grow">{e['prenom']}</span><span class="faces">{"".join(f'<a href="{x}.html"><img src="{B}{EXPERTS[x]["photo"]}" alt="{EXPERTS[x]["prenom"]}"></a>' for x in ("djeneba", "fatima", "koffi") if x != k)}</span></div><div class="pcard"><img src="{B}{e['photo']}" alt=""><span class="st"><span class="dot"></span> {'Au travail' if e['live'] else 'Disponible'}</span>
 <div class="nm">{e['prenom']} <span>{e['role']}</span></div>
-<div class="cta"><a class="call" href="#">{ic("audio-lines", "s")} Appeler</a><a class="sq" href="#" data-go="direct" aria-label="Voir son écran">{ic("monitor", "s")}</a><a class="sq pause" href="#" aria-label="Mettre en pause">{ic("power", "s")}</a></div></div>
+<div class="cta"><a class="call" href="#" data-call="{k}">{ic("audio-lines", "s")} Appeler</a><a class="sq" href="#" data-go="direct" aria-label="Voir son écran">{ic("monitor", "s")}</a><a class="sq pause" href="#" aria-label="Mettre en pause">{ic("power", "s")}</a></div></div>
 <div class="xmail"><span>{p['mail']}</span>{ic("copy", "s")}</div>
 <nav class="xnav">{n1}<div class="lb">Son espace de travail</div>{n2}</nav></aside>
 <div class="xmain">
@@ -499,7 +498,7 @@ def memoire_corps(admin=False):
     ajout = f'<a class="link" href="#">{ic("plus", "s")} Ajouter une source</a>' if admin else ""
     side = f'<div class="box"><div class="ch"><h2 style="font-size:16px;font-weight:650">Ce qu\'elle connaît</h2>{ajout}</div>{src}<p class="xs mute3" style="margin-top:12px">{aide}</p></div>'
     return (f'<div class="hello"><div class="grow"><p class="date">{"Réglages" if admin else "Pour toute l’équipe Unifood"}</p><h1>Chat entreprise</h1></div></div>'
-            f'<div class="dgrid memg" style="margin-top:16px">{chat}{side}</div>')
+            + (f'<div class="dgrid memg" style="margin-top:16px">{chat}{side}</div>' if admin else f'<div class="memfull" style="margin-top:16px">{chat}</div>'))
 
 def page_memoire(brand):
     return page("memoire", brand, "Chat entreprise", "<b>Chat entreprise</b>", memoire_corps())
@@ -518,8 +517,8 @@ def admin_page(actif, titre, corps, brand):
 <div class="foot"><span class="row sm mute" style="padding:6px 10px">{face("SB", "#2E4EC4", 30)} Serge Bamba, admin</span></div></aside>"""
     autre = "client" if brand == "yelema" else "yelema"
     top = f"""<header class="top"><div class="crumb grow">Réglages {ic("chevron-right", "s")} <b>{titre}</b></div><a class="tbtn hide-m" href="../{autre}/{actif}.html">{ic("palette", "s")} {"Couleurs Unifood" if brand == "yelema" else "Couleurs Yelema"}</a>
-<a class="tbtn hide-m" href="admin-membres.html">{ic("user-plus", "s")} Inviter un membre</a><button class="tbtn ico" data-pop="notifs" aria-label="Notifications">{ic("bell", "s")}<span class="bdg">4</span></button>{face("SB", "", 38)}</header>"""
-    return b3.head(titre, brand) + f'<div class="app">{side}<main style="min-width:0">{top}<div class="page"><div class="sform" style="max-width:1080px">{corps}</div></div></main></div>' + pops() + yele() + fin()
+<a class="tbtn hide-m" href="#" data-open="inv">{ic("user-plus", "s")} Inviter un membre</a><button class="tbtn ico" data-pop="notifs" aria-label="Notifications">{ic("bell", "s")}<span class="bdg">4</span></button>{face("SB", "", 38)}</header>"""
+    return b3.head(titre, brand) + f'<div class="app">{side}<main style="min-width:0">{top}<div class="page"><div class="sform" style="max-width:1080px">{corps}</div></div></main></div>' + pops() + yele() + modales() + fin()
 
 def sg(rows):
     return '<div class="sg">' + "".join(f'<div><div class="grow"><b>{t}</b><span class="d">{d}</span></div>{f"<div class=ctl>{c}</div>" if c else ""}</div>' for t, d, c in rows) + "</div>"
@@ -558,7 +557,7 @@ def adm_membres(brand):
            ("YK", "#0F7B5F", "Yao Kra", "Graphiste", "Équipe", "Koffi"), ("NT", "#8A3B12", "Nadège Touré", "Chargée de communication", "Équipe", "Fatima"),
            ("KO", "#5A1022", "Kader Ouattara", "Commercial", "Équipe", "Chat entreprise")]
     ml = "".join(f'<tr><td><a class="who" href="admin-membre.html">{face(i, "", 36)}<span><b>{n}</b><br><span class="xs mute3">{po}</span></span></a></td><td class="hide-m">{svc}</td><td><span class="pill br">{r}</span></td><td><a class="link" href="admin-membre.html">Voir</a></td></tr>' for i, n, po, svc, r in MEMBRES)
-    corps = f"""<div class="hello"><div class="grow"><h1>Membres et droits</h1><p class="sub">14 membres dans 5 services, 2 invitations en attente</p></div><a class="btn p" href="#">{ic("user-plus", "s")} Inviter un membre</a></div>
+    corps = f"""<div class="hello"><div class="grow"><h1>Membres et droits</h1><p class="sub">14 membres dans 5 services, 2 invitations en attente</p></div><a class="btn p" href="#" data-open="inv">{ic("user-plus", "s")} Inviter un membre</a></div>
 <div class="box" style="margin-top:16px"><table class="tbl"><tr><th>Membre</th><th class="hide-m">Service</th><th>Rôle</th><th></th></tr>{ml}</table></div>
 <div class="box" style="margin-top:14px"><div class="ch"><h2 style="font-size:16px;font-weight:650">Qui peut faire quoi</h2></div><table class="tbl"><tr><th></th><th style="text-align:center">Direction</th><th style="text-align:center">Responsable</th><th style="text-align:center">Équipe</th></tr>{tr}</table></div>"""
     return admin_page("admin-membres", "Membres et droits", corps, brand)
@@ -593,12 +592,12 @@ def adm_profil(brand):
 # ---------------------------------------------------------------- canaux (Telegram, WhatsApp, Slack, Teams)
 CANAUX = [("Telegram", "telegram.org", True, "Groupe Unifood, un sujet par expert", "https://t.me/", "Ouvrir dans Telegram"),
           ("WhatsApp", "whatsapp.com", True, "+225 07 00 00 00 00", "https://wa.me/", "Ouvrir WhatsApp"),
-          ("Email", "gmail.com", True, "@unifood.yelema.ai", "#", "Voir les emails"),
+          ("Email", "gmail.com", True, "@unifood.yelema.ai", "fatima.html#mail", "Voir les emails"),
           ("Slack", "slack.com", False, "Pas encore connecté", "#", "Activer"),
           ("Microsoft Teams", "teams.microsoft.com", False, "Pas encore connecté", "#", "Activer")]
 
 def canaux_strip():
-    it = "".join(f'<a class="chn{" on" if on else ""}" href="{u if on else "#"}"{" target=_blank rel=noopener" if on and u.startswith("http") else ""}{"" if on else " data-open=cz data-app=" + chr(34) + n + chr(34)}><img src="{FAV}{d}" alt=""><span><b>{n}</b><small>{"Activé" if on else "Activer"}</small></span></a>' for n, d, on, _, u, _l in CANAUX)
+    it = "".join(f'<a class="chn{" on" if on else ""}" title="{n} {"activé" if on else "à activer"}" href="{u if on else "#"}"{" target=_blank rel=noopener" if on and u.startswith("http") else ""}{"" if on else " data-open=cz data-app=" + chr(34) + n + chr(34)}><span class="lg"><img src="{FAV}{d}" alt=""><i class="bd{" on" if on else ""}">{ic("check" if on else "plus", "s")}</i></span><b>{n}</b></a>' for n, d, on, _, u, _l in CANAUX)
     return f'<div class="chs"><span class="sm mute">Votre équipe répond aussi sur</span>{it}</div>'
 
 def x_canaux(k):
@@ -608,10 +607,36 @@ def x_canaux(k):
         det2 = det.replace("@unifood", PRO[k]["mail"].split("@")[0] + "@unifood") if n == "Email" else (f"Sujet « {e['prenom']} » du groupe Unifood" if n == "Telegram" else det)
         btn = (f'<a class="btn k sm" href="{u}" target="_blank" rel="noopener">{ic("external-link", "s")} {lib}</a>' if on and u.startswith("http")
                else (f'<a class="btn o sm" href="#" data-go="mail">{lib}</a>' if on else f'<a class="btn o sm" href="#" data-open="cz" data-app="{n}">{ic("plus", "s")} {lib}</a>'))
-        rows += f'<div class="chrow"><img src="{FAV}{d}" alt=""><div class="grow"><b>{n}</b><span>{det2}</span></div>{"<span class=pill style=background:var(--ok-pale);color:var(--ok)>Activé</span>" if on else "<span class=pill style=background:var(--soft-2);color:var(--ink-3)>Non activé</span>"}{btn}</div>'
+        rows += f'<div class="chrow"><img src="{FAV}{d}" alt=""><div class="grow"><b>{n}</b><span>{det2}</span></div>{f'<span class="sti on" title="Activé" aria-label="Activé">{ic("circle-check")}</span>' if on else f'<span class="sti" title="Non activé" aria-label="Non activé">{ic("circle-dashed")}</span>'}{btn}</div>'
     return f"""<div class="h2x"><h2>Où parler à {e['prenom']}</h2><span class="sm">Les messages arrivent aussi ici, dans Discussion</span></div>
 <div class="chlist">{rows}</div>
 <div class="gbox" style="margin-top:14px;display:flex;gap:12px;align-items:center"><span class="ib">{ic("layout-dashboard", "s")}</span><div class="grow"><b>Votre tableau de bord dans Telegram</b><div class="sm mute">Chaque matin à 8 h, Djénéba l'envoie dans le sujet « Tableau de bord ».</div></div><a class="btn k sm" href="https://t.me/" target="_blank" rel="noopener">{ic("send", "s")} Ouvrir dans Telegram</a></div>"""
+
+# ---------------------------------------------------------------- modales communes : appel, invitation, aperçu
+def modal_call():
+    return f"""<div class="modal" id="call"><div class="ov" data-close></div><div class="pn callp"><img class="cph" src="{B}fatima.jpg" alt="">
+<div class="cin"><span class="xs" style="opacity:.8">Appel avec</span><h2 class="cnm">Fatima</h2><span class="ctm num">00:00</span><div class="wave"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+<div class="row" style="gap:14px;justify-content:center"><button class="cb" data-mute aria-label="Couper le micro">{ic("mic", "s")}</button><button class="cb" aria-label="Haut-parleur">{ic("volume-2", "s")}</button><button class="cb end" data-close aria-label="Raccrocher">{ic("phone-off", "s")}</button></div></div></div></div>"""
+
+def modal_inv():
+    xs = "".join(f'<span class="{"on" if k == "djeneba" else ""}"><img src="{B}{k}.jpg" alt="">{EXPERTS[k]["prenom"]}</span>' for k in ("djeneba", "fatima", "koffi"))
+    return f"""<div class="modal" id="inv"><div class="ov" data-close></div><div class="pn invp"><div class="rt2">
+<h2>Inviter un membre <button class="ib x2" data-close aria-label="Fermer">{ic("x", "s")}</button></h2>
+<label class="fl2"><span>Email ou numéro WhatsApp</span><input class="inp3" value="awa.kone@unifood.info"></label>
+<div class="fl2"><span>Rôle</span><div class="opts r3"><span>Direction</span><span>Responsable</span><span class="on">Équipe</span></div></div>
+<div class="fl2"><span>Ses experts</span><div class="opts r3 ex">{xs}</div></div>
+<a class="btn p invgo" href="#" style="min-height:48px;justify-content:center">{ic("send", "s")} Envoyer l'invitation</a>
+<div class="invok">{ic("circle-check", "s")} Invitation envoyée. Elle recevra un lien par email et par WhatsApp.</div>
+<p class="xs mute3" style="text-align:center">Ou partagez le lien d'invitation <a class="link" href="#" data-toast="Lien copié">Copier le lien</a></p></div></div></div>"""
+
+def modal_doc():
+    return f"""<div class="modal" id="doc"><div class="ov" data-close></div><div class="pn docp"><div class="rt2">
+<h2><span class="dtt">Document</span><button class="ib x2" data-close aria-label="Fermer">{ic("x", "s")}</button></h2>
+<div class="dprev"><img src="{B}flyer-sossa.jpg" alt=""></div>
+<div class="row" style="gap:8px;flex-wrap:wrap"><a class="btn p" href="#" data-toast="Validé, Fatima publie">{ic("check", "s")} Valider</a><a class="btn o" href="#" data-toast="Demande de modification envoyée">Demander une modification</a><a class="btn o" href="#" data-toast="Téléchargement lancé">{ic("download", "s")} Télécharger</a></div></div></div></div>"""
+
+def modales():
+    return modal_cz() + modal_call() + modal_inv() + modal_doc() + '<div class="toast" role="status"></div>'
 
 # ---------------------------------------------------------------- Composio
 def modal_cz():
@@ -659,7 +684,7 @@ def page_chat(brand):
     nad = ('<span class="day">Hier</span>' + m("lui", "Je t'envoie les photos de Yopougon ce soir, le gérant était absent ce matin.", "18:02")
            + m("moi", "Parfait, merci. Envoie-les directement à Fatima.", "18:05"))
     head = lambda c, n, sub, extra: f'<div class="chd">{conv_av(c, 40)}<div class="grow"><b>{n}</b><div class="xs mute3">{sub}</div></div>{extra}</div>'
-    xa = lambda k: f'<a class="tbtn ico" href="#" aria-label="Appeler">{ic("phone", "s")}</a><a class="tbtn" href="{k}.html">{ic("arrow-up-right", "s")} Son espace</a>'
+    xa = lambda k: f'<a class="tbtn ico" href="#" data-call="{k}" aria-label="Appeler">{ic("phone", "s")}</a><a class="tbtn" href="{k}.html">{ic("arrow-up-right", "s")} Son espace</a>'
     th = lambda i, h, body, on=False: f'<div class="cth{" on" if on else ""}" id="c-{i}">{h}<div class="thread">{body}</div></div>'
     threads = (th("fatima", head("fatima", "Fatima", "Expert marketing et contenu, au travail", xa("fatima")), b3.FIL_FATIMA, True)
                + th("general", head("general", "# Général", "14 membres et 3 experts", '<a class="tbtn" href="https://t.me/" target="_blank" rel="noopener">' + ic("send", "s") + ' Aussi dans Telegram</a>'), gen)
@@ -700,7 +725,7 @@ def adm_vue(brand):
     corps = f"""<div class="hello"><div class="grow"><p class="date">Espace admin, Serge Bamba</p><h1>Vue d'ensemble</h1></div><a class="btn p" href="recruter.html">{ic("plus", "s")} Recruter un expert</a></div>
 <div class="stat4">{stat("sparkles", "7", "experts, dont 6 en service")}{stat("users", "14", "membres dans 5 services")}{stat("package", "126", "livrables ce mois-ci", '<span class="pill ok">+31</span>')}{stat("receipt", "1 300 000", "F CFA, facture du 1er novembre")}</div>
 <div class="h2x" style="margin-top:24px"><h2>Experts d'Unifood</h2><a class="link" href="admin-experts.html">Gérer {ic("arrow-right", "s")}</a></div><div class="axg">{xs}</div>
-<div class="h2x"><h2>Membres</h2><a class="link" href="admin-membres.html">Membres et droits {ic("arrow-right", "s")}</a></div><div class="amg">{ms}<a class="am add2" href="#"><span class="ib">{ic("user-plus", "s")}</span><b>Inviter</b><span>un membre</span></a></div>
+<div class="h2x"><h2>Membres</h2><a class="link" href="admin-membres.html">Membres et droits {ic("arrow-right", "s")}</a></div><div class="amg">{ms}<a class="am add2" href="#" data-open="inv"><span class="ib">{ic("user-plus", "s")}</span><b>Inviter</b><span>un membre</span></a></div>
 <div class="h2x"><h2>Canaux de l'organisation</h2></div>{canaux_strip()}"""
     return admin_page("admin", "Vue d'ensemble", corps, brand)
 
