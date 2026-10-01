@@ -18,6 +18,7 @@ with sync_playwright() as p:
         elif act=="x": pg.click('.pc >> nth=0')
         elif act=="yele": pg.click('.ybtn')
         elif act=="cz": pg.click('[data-open="cz"] >> nth=0')
+        elif act.startswith("o-"): pg.click(f'[data-open="{act[2:]}"] >> nth=0')
         pg.wait_for_timeout(350)
         d=pg.evaluate("document.documentElement.scrollWidth-innerWidth")
         if full: pg.add_style_tag(content=FIX)

@@ -106,6 +106,44 @@ MORE = [("Notion", "notion.so"), ("HubSpot", "hubspot.com"), ("Calendly", "calen
 PHOTO = {"AD": "m_women_62", "SB": "m_men_80", "YK": "m_men_53", "NT": "m_women_36", "KO": "m_men_59", "MK": "m_women_30", "IS": "m_men_91",
          "FB": "m_women_16", "HN": "m_men_49", "RT": "m_women_89", "OK": "m_men_16", "JA": "m_men_83", "SD": "m_women_69", "DY": "m_men_30"}
 
+FICHES = json.load(open(os.path.join(ICI, "fiches.json"), encoding="utf-8"))
+FK = {"djeneba": "chiefofstaff"}
+DOM = {"Agenda": "calendar.google.com", "Banques": "bceao.int", "Buffer": "buffer.com", "Calendly": "calendly.com", "Canva": "canva.com", "DocuSign": "docusign.com",
+       "Excel": "office.com", "Facebook": "facebook.com", "Figma": "figma.com", "Fireflies": "fireflies.ai", "Gmail": "gmail.com", "Google Drive": "drive.google.com",
+       "Google Sheets": "sheets.google.com", "Google Workspace": "workspace.google.com", "HubSpot": "hubspot.com", "Instagram": "instagram.com", "LinkedIn": "linkedin.com",
+       "Looker": "lookerstudio.google.com", "Notion": "notion.so", "Odoo": "odoo.com", "QuickBooks": "quickbooks.intuit.com", "Sage": "sage.com", "Slack": "slack.com",
+       "Telegram": "telegram.org", "WhatsApp": "whatsapp.com", "Zendesk": "zendesk.com", "Zoom": "zoom.us"}
+def fiche_de(k):
+    return FICHES[FK.get(k, k)]
+def esc(t):
+    return t.replace("&", "&amp;").replace("<", "&lt;")
+
+def x_fiche(k):
+    f = fiche_de(k); nom = f["nom"] if k != "djeneba" else EXPERTS[k]["prenom"]
+    elle = "elle" if f["tl"].startswith("Elle") else "il"
+    sk = "".join(f'<div class="fsk"><span class="ic">{ic("sparkles", "s")}</span><div><b>{esc(a)}</b><span>{esc(b)}</span></div></div>' for a, b in f.get("competences", []))
+    q = "".join(f'<li>{ic("check", "s")}<span>{esc(x)}</span></li>' for x in f.get("quotidien", []))
+    ac = "".join(f'<li>{ic("lock", "s")}<span>{esc(x)}</span></li>' for x in f.get("accord", []))
+    be = "".join(f'<li>{ic("file-input", "s")}<span>{esc(x)}</span></li>' for x in f.get("besoins", []))
+    ri = "".join(f'<div class="rt"><span class="ib" style="width:36px;height:36px">{ic("repeat", "s")}</span><div class="grow"><b>{esc(t)}</b><span>{esc(w)}</span></div><span class="sw"></span></div>' for t, w in f.get("rituels", []))
+    lv = "".join(f'<div class="flv"><span class="ic">{ic("file-text", "s")}</span><div><b>{esc(a)}</b><span>{esc(b)}</span></div></div>' for a, b in f.get("livrables", []))
+    ou = "".join(f'<span class="ochip"><img src="{FAV}{DOM.get(o, "yelema.ai")}" alt="">{esc(o)}</span>' for o in f.get("outils", []))
+    refs = "".join(f'<span class="pill" style="background:var(--soft-2)">{esc(r)}</span>' for r in f.get("refs", []))
+    seul = "seule" if elle == "elle" else "seul"
+    return f"""<div class="fp">
+<div class="fph"><span class="k">Fiche de poste</span><h1>{nom}, {esc(f['role'])}</h1><p class="lead">{esc(f.get('mission', ''))}</p>
+<p class="sm mute">{esc(f.get('valeur', f['tl']))}</p></div>
+<div class="fpa"><span class="tag">{ic("play", "s")} En action</span><p>{esc(f.get('action', ''))}</p></div>
+<h3 class="h3s">Ses compétences</h3><p class="sub">Des savoir-faire déjà construits dans l'atelier Yelema</p><div class="fsks">{sk}</div>
+<div class="g2 fpg"><div class="box"><h3 class="bt">{ic("sun", "s")} Au quotidien</h3><ul class="fl3">{q}</ul></div>
+<div class="box"><h3 class="bt">{ic("shield-check", "s")} Soumis à votre accord</h3><ul class="fl3 lk">{ac}</ul><p class="xs mute3" style="margin-top:8px">{nom} demande votre validation avant chacune de ces actions.</p></div></div>
+<h3 class="h3s">Ce qu'{elle} fait sans qu'on le demande</h3><p class="sub">Ses rendez-vous, tenus {seul}, sans relance</p>{ri}
+<h3 class="h3s">Ses livrables</h3><p class="sub">Prêts à relire, envoyés seulement après votre accord</p><div class="flvs">{lv}</div>
+<div class="g2 fpg"><div class="box"><h3 class="bt">{ic("inbox", "s")} Ce dont {elle} a besoin</h3><ul class="fl3">{be}</ul></div>
+<div class="box"><h3 class="bt">{ic("plug", "s")} Ses outils</h3><div class="ochips">{ou}</div><p class="xs mute3" style="margin-top:10px">Vous autorisez, vous révoquez quand vous voulez.</p></div></div>
+<div class="box" style="margin-top:14px"><h3 class="bt">{ic("map-pin", "s")} Sa maîtrise du terrain</h3><p class="sm" style="line-height:1.6;max-width:820px">{esc(f.get('terrain', ''))}</p><div class="row" style="gap:6px;flex-wrap:wrap;margin-top:10px">{refs}</div></div>
+</div>"""
+
 def face(i, c, s=26):
     if i in PHOTO:
         return f'<img class="av" src="{B}{PHOTO[i]}.jpg" alt="" style="width:{s}px;height:{s}px;object-fit:cover">'
@@ -116,8 +154,7 @@ def fin():
 
 # ---------------------------------------------------------------- coquille
 def sidebar(actif, brand):
-    items = [("accueil", "house", "Accueil"), ("tableau-de-bord", "layout-dashboard", "Tableau de bord"), ("chat", "messages-square", "Discussions"),
-             ("recruter", "user-plus", "Recruter"), ("memoire", "book-open", "Chat entreprise")]
+    items = [("accueil", "house", "Accueil"), ("tableau-de-bord", "layout-dashboard", "Tableau de bord"), ("recruter", "user-plus", "Recruter"), ("memoire", "book-open", "Chat entreprise")]
     nav = "".join(f'<a class="it{" on" if actif == k else ""}" href="{k}.html">{ic(i, "s")} {l}{"<span class=n>3</span>" if k == "chat" else ""}</a>' for k, i, l in items)
     team = ""
     for k in ("djeneba", "fatima", "koffi"):
@@ -125,14 +162,14 @@ def sidebar(actif, brand):
         tag = '<span class="tag">Incluse</span>' if k == "djeneba" else ""
         team += (f'<a class="mt{" on" if actif == k else ""}" href="{k}.html"><span class="p"><img src="{B}{e["photo"]}" alt=""><i class="{"" if e["live"] else "idle"}"></i></span>'
                  f'<span class="grow"><span class="ell" style="display:block">{e["prenom"]}</span><small class="ell">{e["role"]}</small></span>{tag}</a>')
-    team += f'<a class="mt add" href="recruter.html"><span class="p">{ic("plus", "s")}</span>Ajouter un expert</a>'
     return f"""<aside class="sb">
   <a class="org" href="accueil.html"><img src="{B}{CLIENT['logo']}" alt="{CLIENT['nom']}"><div><b>{CLIENT['nom']}</b><span>Espace de travail</span></div></a>
   {nav}
-  <div class="lb">Mon équipe <a href="recruter.html" aria-label="Ajouter un expert">{ic("plus", "s")}</a></div>
+  <div class="lb">Mon équipe</div>
   {team}
-  <div class="foot"><a class="it" href="admin.html">{ic("shield", "s")} Espace admin</a>
-  <a class="pby" href="https://leslita06.github.io/yelema-site-preview/">Propulsé par <img src="{B}yelema_logo_final_long.svg" alt="Yelema"></a></div>
+  <div class="foot"><a class="it{" on" if actif.startswith("admin") else ""}" href="admin.html">{ic("settings", "s")} Administration</a>
+  <a class="me{" on" if actif in ("profil", "admin-profil") else ""}" href="profil.html">{face("AD", "", 36)}<span class="grow"><b class="ell">Aïcha Diabaté</b><small class="ell">Admin, Unifood</small></span>{ic("chevrons-up-down", "s")}</a>
+  <a class="pby" href="https://leslita06.github.io/yelema-site-preview/">Powered by <img src="{B}yelema_logo_final_long.svg" alt="Yelema"></a></div>
 </aside>"""
 
 def pops():
@@ -154,7 +191,7 @@ def pops():
     nts = [("circle-check", "Fatima attend votre accord", "Post Facebook de la promo Sossa, depuis 10:31"),
            ("file-text", "Note au comité prête", "Djénéba, à relire avant demain 9 h"),
            ("trending-down", "Ventes Sossa sous l'objectif", "6 % sous la cible cette semaine"),
-           ("user-plus", "Nadège a rejoint Unifood", "Invitée par Serge Bamba")]
+           ("user-plus", "Nadège a rejoint Unifood", "Invitée par Aïcha Diabaté")]
     nl = "".join(f'<div class="nt"><span class="ic">{ic(i, "s")}</span><div><b>{t}</b><span>{d}</span></div></div>' for i, t, d in nts)
     return f"""<div class="pop" id="ping"><h3>Ping <span class="row">{ic("check-check", "s")}{ic("maximize-2", "s")}</span></h3>
 <div class="srch">{ic("search", "s")} Chercher une conversation</div>
@@ -165,10 +202,10 @@ def topbar(crumb, actif, brand):
     autre = "client" if brand == "yelema" else "yelema"
     lib = "Couleurs Unifood" if brand == "yelema" else "Couleurs Yelema"
     return f"""<header class="top"><div class="crumb grow">{crumb}</div>
-<a class="tbtn hide-m" href="../{autre}/{actif}.html">{ic("palette", "s")} {lib}</a>
+<a class="tbtn ico hide-m" href="../{autre}/{actif}.html" title="{lib}" aria-label="{lib}">{ic("palette", "s")}</a>
 <button class="tbtn ico" data-pop="ping" aria-label="Ping, messagerie interne">{ic("message-circle", "s")}<span class="bdg">2</span></button>
 <button class="tbtn ico" data-pop="notifs" aria-label="Notifications">{ic("bell", "s")}<span class="bdg">4</span></button>
-<a href="admin-membre.html" aria-label="Mon profil">{face("AD", "", 38)}</a></header>"""
+</header>"""
 
 def page(actif, brand, titre, crumb, corps, wrap=True, dock=False):
     d = ""
@@ -212,42 +249,51 @@ def carte(k):
     e, p = EXPERTS[k], PRO[k]
     faces = "".join(face(i, c) for i, c in p["faces"])
     tag = f'<span class="tag">{ic("gift", "s")} Incluse</span>' if k == "djeneba" else ""
-    acts = f'<p class="desc">{DESC[k]}</p>' + (f'<div class="act cur"><span class="dot"></span><span class="ell">{p["now"]}</span></div>' if e["live"] else "")
+    acts = f'<p class="desc">{DESC[k]}</p>'
     extra = (f'<a href="djeneba.html#profil" class="ic" aria-label="Personnaliser Djénéba">{ic("wand-sparkles", "s")}</a>' if k == "djeneba"
              else f'<a href="{k}.html#direct" class="ic" aria-label="Voir son écran">{ic("monitor-play", "s")}</a>')
     return f"""<div class="cw"><a class="big" href="{k}.html"><img src="{B}{e['photo']}" alt=""><span class="st"><span class="dot{'' if e['live'] else ' idle'}"></span> {'Au travail' if e['live'] else 'Disponible'}</span>{tag}
 <span class="nm"><h3>{e['prenom']} {ic("chevron-right", "s")}</h3><span class="rl">{e['role']}</span></span></a>
-<span class="pair"><span class="faces">{faces}</span>{p['duo']}</span>
 <div class="acts">{acts}</div>
-<div class="bar2"><a class="p" href="{k}.html#discussion">{ic("message-circle", "s")} Écrire</a><a class="ic" href="#" data-call="{k}" aria-label="Appeler">{ic("phone", "s")}</a><a class="ic" href="{k}.html#mail" aria-label="Sa boîte mail">{ic("mail", "s")}</a>{extra}</div></div>"""
+<div class="bar2"><a class="p" href="{k}.html#discussion">{ic("message-circle", "s")} Écrire</a><a class="ic tel" href="#" data-call="{k}" aria-label="Appeler {e['prenom']}">{ic("phone", "s")}</a></div></div>"""
 
 def page_accueil(brand):
     fan = "".join(f'<img src="{B}{x}.jpg" alt="">' for x in ("salif", "kouassi", "adjoua", "mamadou", "nadia"))
     team = "".join(carte(k) for k in ("djeneba", "fatima", "koffi"))
-    team += (f'<a class="cw grow" href="recruter.html"><span class="k">AGRANDIR L’ÉQUIPE</span><div class="fan">{fan}<span class="plus" aria-hidden="true">{ic("plus")}</span></div>'
-             f'<span class="sm mute">Ventes, RH, finance, juridique, données. <b style="color:var(--ink)">Recruter un expert {ic("arrow-right", "s")}</b></span></a>')
+    team += (f'<a class="cw grow" href="recruter.html"><span class="k">AGRANDIR L’ÉQUIPE</span><div class="fan">{fan}</div>'
+             f'<span class="sm mute">Ventes, RH, finance, juridique, données</span><span class="rbtn">{ic("plus", "s")} Recruter un expert</span></a>')
     val = "".join(f'<div class="val"><span class="th {"poster" if th == "poster" else "doc"}" style="padding:0">{"" if th == "poster" else ic("file-text")}</span><span class="grow"><b class="ell">{t}</b><span class="xs mute3">{EXPERTS[k]["prenom"]}, {dep}</span></span><a class="btn p sm" href="{k}.html#discussion">Valider</a></div>'
                   for k, t, th, dep in b3.ATTENTE_TEAM)
+    cards, drawer = recrues(4)
+    nts = [("fatima", "attend votre accord sur le post Facebook de la promo Sossa", "fatima.html#discussion", "10:31"),
+           ("djeneba", "a préparé la note au comité de demain, 9 h", "djeneba.html#discussion", "08:50"),
+           ("koffi", "a livré la v2 du packaging Super Mint à Yao", "koffi.html#livrables", "09:40"),
+           ("fatima", "voit les ventes Sossa 6 % sous l'objectif cette semaine", "tableau-de-bord.html", "08:05")]
+    ti = "".join(f'<a class="ti{" on" if i == 0 else ""}" href="{h}"><img src="{B}{EXPERTS[k]["photo"]}" alt=""><span class="ell"><b>{EXPERTS[k]["prenom"]}</b> {t}</span><time>{tm}</time></a>' for i, (k, t, h, tm) in enumerate(nts))
+    dots = "".join(f'<i{" class=on" if i == 0 else ""}></i>' for i in range(len(nts)))
     corps = f"""<div class="hello"><div class="grow"><p class="date">Jeudi 1er octobre</p><h1>Bonjour Aïcha</h1></div></div>
-<a class="brief" href="djeneba.html#discussion"><img src="{B}djeneba.jpg" alt=""><p><b>Djénéba :</b> Fatima a fini le post de la promo Sossa et la note au comité est prête <span class="hl">2 à valider</span>. Koffi a livré la v2 du packaging.</p></a>
-<div class="h2x" style="margin-top:28px"><h2>Mon équipe</h2><a class="link" href="recruter.html">{ic("plus", "s")} Ajouter un expert</a></div>
+<div class="tick" data-tick><span class="yl-mini">{YELE_SVG}</span><div class="tw">{ti}</div><span class="tdots">{dots}</span><button class="tnx" aria-label="Notification suivante">{ic("chevron-right", "s")}</button></div>
+<div class="h2x" style="margin-top:22px"><h2>Mon équipe</h2></div>
 <section class="crew">{team}</section>
-{canaux_strip()}
-<div class="h2x" style="margin-top:30px"><h2>Mon tableau de bord</h2><a class="link" href="tableau-de-bord.html">Tout voir {ic("arrow-right", "s")}</a></div>
-<section class="today">
-  <div class="wtile"><div class="t">{ic("circle-alert")} À valider <span class="grow"></span><span class="pill ac">2</span></div>{val}</div>
-  <a class="wtile imp" href="tableau-de-bord.html#temps"><div class="t">{ic("package")} Livré cette semaine</div><div class="big">46</div><div class="sm" style="opacity:.92">livrables, dont 18 visuels et 9 présentations</div><span class="pill" style="background:rgba(255,255,255,.18);color:#fff;align-self:flex-start">Voir le temps rendu {ic("arrow-right", "s")}</span></a>
-  <div class="wtile"><div class="t">{ic("trending-down")} Ventes Sossa de la semaine</div><div class="big">18,4 M <span class="sm mute" style="font-family:var(--f-ui)">F CFA</span></div><span class="pill ko" style="align-self:flex-start">6 % sous l'objectif</span><span class="xs mute3">Ajouté par Djénéba à votre demande</span></div>
-</section>
-<div class="g2">{b3.chart(DASH["equipe"], ["fatima", "koffi", "djeneba"])}{b3.live_card()}</div>"""
+<div class="h2x" style="margin-top:34px"><h2>Experts à recruter</h2><a class="link" href="recruter.html">Voir les 8 experts {ic("arrow-right", "s")}</a></div>
+<section class="pcs pcs4">{cards}</section>{drawer}"""
     return page("accueil", brand, "Accueil", "<b>Accueil</b>", corps, dock=True)
 
 def page_tdb(brand):
     d = DASH["equipe"]
-    corps = f"""<div class="hello"><div class="grow"><p class="date">Toute l'équipe, semaine du 28 septembre</p><h1>Mon tableau de bord</h1></div><a class="btn o hide-m" href="https://t.me/" target="_blank" rel="noopener">{TG} Aussi chaque matin dans Telegram</a><a class="btn g" href="djeneba.html#discussion">{ic("sparkles", "s")} Le modifier avec Djénéba</a></div>
-<div data-tabs><nav class="tabs" style="margin-top:14px"><a href="#" data-t="activite" class="on">{ic("layout-dashboard", "s")} Activité</a><a href="#" data-t="temps">{ic("calendar-check", "s")} Temps rendu</a></nav>
-<div class="panel on" id="activite">{b3.filtres(d)}{b3.kpis(d)}<div class="g2">{b3.chart(d, ["fatima", "koffi", "djeneba"])}{b3.donut(d)}</div>{b3.projets(d)}{b3.livrables(d, b3.ATTENTE_TEAM)}</div>
-<div class="panel" id="temps">{temps_rendu(d, ["fatima", "koffi", "djeneba"])}</div></div>"""
+    tabs = f'<a href="#" data-t="codir" class="on">{ic("building-2", "s")} Codir</a>' + "".join(
+        f'<a href="#" data-t="tb-{k}"><img class="tav" src="{B}{EXPERTS[k]["photo"]}" alt=""> {EXPERTS[k]["prenom"]}</a>' for k in ("djeneba", "fatima", "koffi"))
+    tabs += f'<a href="#" data-t="temps">{ic("calendar-check", "s")} Temps rendu</a>'
+    par = ""
+    for k in ("djeneba", "fatima", "koffi"):
+        dk = DASH[k]; e = EXPERTS[k]
+        att = [a for a in b3.ATTENTE_TEAM if a[0] == k]
+        par += (f'<div class="panel" id="tb-{k}"><div class="tbh"><img src="{B}{e["photo"]}" alt=""><div class="grow"><b>{e["prenom"]}, {e["role"]}</b><span class="xs mute3">Pour Aïcha Diabaté et son équipe</span></div><a class="btn o sm" href="{k}.html">{ic("arrow-right", "s")} Son espace</a></div>'
+                f'{b3.kpis(dk)}<div class="g2">{b3.chart(dk, [k])}{b3.donut(dk)}</div>{b3.projets(dk)}{b3.livrables(dk, att)}</div>')
+    corps = f"""<div class="hello"><div class="grow"><p class="date">Semaine du 28 septembre</p><h1>Tableau de bord</h1></div><a class="btn o hide-m" href="https://t.me/" target="_blank" rel="noopener">{TG} Chaque matin dans Telegram</a><a class="btn o" href="#" data-open="share">{ic("share-2", "s")} Partager</a><a class="btn g" href="djeneba.html#discussion">{ic("sparkles", "s")} Le modifier avec Djénéba</a></div>
+<div data-tabs><nav class="tabs tbs" style="margin-top:14px">{tabs}</nav>
+<div class="panel on" id="codir"><p class="sm mute" style="margin:2px 0 12px">Vue Codir : tout ce que l'équipe d'experts a produit, pour tous les services d'Unifood.</p>{b3.filtres(d)}{b3.kpis(d)}<div class="g2">{b3.chart(d, ["fatima", "koffi", "djeneba"])}{b3.donut(d)}</div>{b3.projets(d)}{b3.livrables(d, b3.ATTENTE_TEAM)}</div>
+{par}<div class="panel" id="temps">{temps_rendu(d, ["fatima", "koffi", "djeneba"])}</div></div>"""
     return page("tableau-de-bord", brand, "Tableau de bord", "<b>Tableau de bord</b>", corps, dock=True)
 
 # ---------------------------------------------------------------- espace d'un expert
@@ -266,8 +312,7 @@ def x_profil(k):
 <div class="fld"><span>VOIX</span><span class="v">{ic("audio-lines", "s")} Awa, chaleureuse</span><a class="btn o sm" href="#">{ic("play", "s")} Écouter</a></div>
 <div class="fld"><span>TON</span><span class="v">Vouvoiement, réponses courtes</span></div></div>
 <div style="text-align:center"><div class="faces3"><img src="{B}{e['photo']}" alt=""><img src="{B}{e['photo']}" alt=""><img src="{B}{e['photo']}" alt=""></div>{visage}</div></div>
-<div class="h2x"><h2>Compétences</h2><a class="btn o sm" href="#">{ic("plus", "s")} Ajouter</a></div><div class="skills">{skills}</div>
-<div class="h2x"><h2>Routines</h2><a class="btn o sm" href="#">{ic("plus", "s")} Ajouter</a></div>{rout}
+<div class="h2x"><h2>Compétences et routines</h2><a class="btn o sm" href="#" data-go="fiche">{ic("id-card", "s")} Voir sa fiche de poste</a></div>
 <div class="h2x"><h2>Équipe</h2></div><div class="row" style="gap:22px;flex-wrap:wrap">{team}<a class="btn o sm" href="#">{ic("user-plus", "s")} Ajouter un responsable</a></div>
 <div class="h2x"><h2>Réglages avancés</h2></div>
 <div class="adv"><div><span class="ic">{ic("brain", "s")}</span><div class="grow"><b>Mémoire</b><span>Ce que {e['prenom']} a appris sur Unifood et garde en tête</span></div><a class="btn o sm" href="#">Gérer</a></div>
@@ -386,6 +431,35 @@ def modal_perso():
 <div><p class="oq">Fond</p><div class="opts">{fond}</div></div>
 <a class="btn k" href="#" data-close style="min-height:50px;border-radius:99px">{ic("sparkles", "s")} Créer son nouveau portrait</a></div></div></div>"""
 
+CURSOR = '<svg class="cur" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 2l16 9-7 2-3 7z" fill="#fff" stroke="#17112B" stroke-width="1.5" stroke-linejoin="round"/></svg>'
+def ecran_win(k, mini=False):
+    e = EXPERTS[k]
+    apps = [("Canva", "canva.com", True), ("Gmail", "gmail.com", False), ("Drive", "drive.google.com", False)]
+    tabs = "".join(f'<span class="wt{" on" if on else ""}"><img src="{FAV}{d}" alt="">{n}</span>' for n, d, on in apps)
+    side = "".join(f'<i style="width:{w}%"></i>' for w in (80, 60, 70, 45))
+    return f"""<div class="win{" mini" if mini else ""}"><div class="wbar"><span class="lights"><i></i><i></i><i></i></span>{"" if mini else tabs}<span class="wurl ell">{ic("lock", "s")} canva.com/design/sossa-promo-rentree</span></div>
+<div class="wbody"><div class="wside">{side}</div><div class="wcanvas"><img src="{B}flyer-sossa.jpg" alt="Visuel Sossa en cours"><span class="sel"></span></div>
+<div class="wpanel"><b>Exporter</b><span>PNG, 1080 x 1350</span><span class="wbtn">Télécharger</span></div>{CURSOR}
+<span class="doing"><span class="dot"></span> {e['prenom']} exporte le visuel pour Instagram</span></div></div>"""
+
+def ecran(k):
+    e, p = EXPERTS[k], PRO[k]
+    if not e["live"]:
+        return f"""<div class="scrv"><div class="win off"><div class="wbar"><span class="lights"><i></i><i></i><i></i></span><span class="wurl">Écran en veille</span></div>
+<div class="wbody idlew"><span class="ib" style="width:56px;height:56px">{ic("moon", "s")}</span><b>{e['prenom']} ne travaille sur rien en ce moment</b><span class="sm mute3">Dernière tâche : {p["act"][0][1].lower()}, à {p["act"][0][2]}</span>
+<a class="btn p sm" href="#" data-go="discussion">{ic("message-circle", "s")} Lui confier un travail</a></div></div></div>"""
+    steps = [("done", "Ouvrir le visuel validé par Aïcha", "10:15"), ("done", "Adapter au format Instagram 1080 x 1350", "10:24"), ("done", "Vérifier la charte Sossa", "10:29"),
+             ("now", "Exporter le visuel", "en cours"), ("next", "Envoyer à Aïcha pour accord", "vers 11:30")]
+    st = "".join(f'<li class="{c}"><i></i><span class="grow">{t}</span><time>{h}</time></li>' for c, t, h in steps)
+    log = [("canva.com", "A ouvert le design « Sossa promo rentrée »", "10:15"), ("canva.com", "A redimensionné en 1080 x 1350", "10:24"),
+           ("drive.google.com", "A lu la charte Sossa dans le Drive Unifood", "10:28"), ("canva.com", "Lance l'export en PNG", "10:41")]
+    lg = "".join(f'<div class="lg"><img src="{FAV}{d}" alt=""><span class="grow">{t}</span><time>{h}</time></div>' for d, t, h in log)
+    return f"""<div class="scrv"><div class="scrh"><span class="live2"><span class="dot"></span> En direct</span><b class="grow">{e['prenom']} adapte le visuel Sossa pour Instagram</b>
+<a class="btn o sm" href="#" data-toast="Vous avez la main, {e['prenom']} attend">{ic("mouse-pointer-2", "s")} Prendre la main</a><a class="btn o sm" href="#" data-toast="{e['prenom']} est en pause">{ic("pause", "s")} Pause</a></div>
+{ecran_win(k)}
+<div class="g2 scrg"><div class="box"><h3 class="bt">{ic("list-checks", "s")} Étapes, 4 sur 5</h3><div class="prog2"><i style="width:72%"></i></div><ul class="tl st2">{st}</ul></div>
+<div class="box"><h3 class="bt">{ic("history", "s")} Ce qu'{"elle" if k != "koffi" else "il"} a fait sur l'ordinateur</h3>{lg}<p class="xs mute3" style="margin-top:10px">Demandé par Aïcha à 10:15. Fin prévue vers 11:30.</p></div></div></div>"""
+
 def page_expert(k, brand):
     e, p, d = EXPERTS[k], PRO[k], DASH[k]
     fil = {"fatima": b3.FIL_FATIMA, "koffi": b3.FIL_KOFFI, "djeneba": b3.FIL_DJENEBA}[k]
@@ -394,23 +468,21 @@ def page_expert(k, brand):
     s = "".join(f"<span>{x}</span>" for x in sugg)
     tl = "".join(f'<li class="{st}"><i></i><span class="grow">{t}</span><time>{h}</time></li>' for st, t, h in p["act"])
     docs = "".join(f'<a href="#" data-go="drive"><span class="th {"poster" if t == "poster" else ""}">{"" if t == "poster" else ic("file-text" if t == "doc" else "table")}</span><span class="ell">{n}</span></a>' for t, n, _ in DRIVE[k][:3])
-    term = (f'<div class="term"><span class="w">fatima@unifood:~$</span> editeur ouvrir sossa-instagram<br>[ ok ] visuel chargé<br>[ ok ] format 1080 x 1350<br>[ .. ] export en cours ▍</div>'
-            f'<a class="link sm" href="#" data-go="direct" style="margin-top:6px">Voir son écran en grand {ic("arrow-right", "s")}</a>'
-            if e["live"] else f'<div class="term"><span class="w">{k}@unifood:~$</span> en attente<br><span class="w">Dernière tâche à {p["act"][0][2]}</span></div>')
+    term = (f'<a href="#" data-go="direct" class="minis">{ecran_win(k, True)}</a><a class="link sm" href="#" data-go="direct" style="margin-top:8px">Voir son écran en grand {ic("arrow-right", "s")}</a>'
+            if e["live"] else f'<div class="sm mute3">Écran en veille. Dernière tâche à {p["act"][0][2]}.</div>')
     dl = "".join(f'<a class="dl" href="#"><span class="ic">{ic(icn, "s")}</span><span class="grow"><b class="ell">{t}</b><span class="xs mute3">{typ}, {dt}</span></span><span class="pill {pc}">{pl}</span></a>'
                  for icn, t, kk, typ, dt, fm, (pc, pl) in d["livrables"])
-    nav1 = [("discussion", "message-circle", "Discussion"), ("resume", "notebook-text", "Résumé"), ("profil", "sliders-horizontal", "Profil"),
+    nav1 = [("discussion", "message-circle", "Discussion"), ("resume", "notebook-text", "Résumé"), ("fiche", "id-card", "Fiche de poste"), ("profil", "sliders-horizontal", "Profil"),
             ("connecteurs", "plug", "Connecteurs"), ("canaux", "radio-tower", "Canaux"), ("suivi", "chart-line", "Suivi"), ("securite", "shield-check", "Sécurité")]
     nav2 = [("drive", "hard-drive", "Drive", "#E66A4E"), ("mail", "mail", "Mail", "#E5677D"), ("calendrier", "calendar", "Calendrier", "#F0955A"),
             ("direct", "monitor-play", "En direct", "#2FB5A3"), ("livrables", "archive", "Livrables", "#5B5BD6")]
     n1 = "".join(f'<a href="#" data-t="{t}"{" class=on" if t == "discussion" else ""}>{ic(i, "s")} {l}</a>' for t, i, l in nav1)
     n2 = "".join(f'<a href="#" data-t="{t}"><span class="ap" style="background:{c}">{ic(i, "s")}</span> {l}</a>' for t, i, l, c in nav2)
-    direct = (b3.live_card(True) if e["live"] else
-              f'<div class="box" style="text-align:center;padding:40px"><p class="mute">{e["prenom"]} ne travaille sur rien en ce moment.</p><p class="sm mute3" style="margin-top:6px">Dernière tâche : {p["act"][0][1].lower()}, à {p["act"][0][2]}.</p></div>')
+    direct = ecran(k)
     corps = f"""<div class="xp" data-tabs>
 <aside class="xcol"><div class="xsw"><a href="accueil.html" aria-label="Retour à l'équipe">{ic("arrow-left", "s")}</a><span class="grow">{e['prenom']}</span><span class="faces">{"".join(f'<a href="{x}.html"><img src="{B}{EXPERTS[x]["photo"]}" alt="{EXPERTS[x]["prenom"]}"></a>' for x in ("djeneba", "fatima", "koffi") if x != k)}</span></div><div class="pcard"><img src="{B}{e['photo']}" alt=""><span class="st"><span class="dot"></span> {'Au travail' if e['live'] else 'Disponible'}</span>
 <div class="nm">{e['prenom']} <span>{e['role']}</span></div>
-<div class="cta"><a class="call" href="#" data-call="{k}">{ic("audio-lines", "s")} Appeler</a><a class="sq" href="#" data-go="direct" aria-label="Voir son écran">{ic("monitor", "s")}</a><a class="sq pause" href="#" aria-label="Mettre en pause">{ic("power", "s")}</a></div></div>
+<div class="cta"><a class="call" href="#" data-call="{k}">{ic("phone", "s")} Appeler</a><a class="sq" href="#" data-go="direct" aria-label="Voir son écran">{ic("monitor", "s")}</a><a class="sq pause" href="#" aria-label="Mettre en pause">{ic("power", "s")}</a></div></div>
 <div class="xmail"><span>{p['mail']}</span>{ic("copy", "s")}</div>
 <nav class="xnav">{n1}<div class="lb">Son espace de travail</div>{n2}</nav></aside>
 <div class="xmain">
@@ -419,6 +491,7 @@ def page_expert(k, brand):
     <div class="rbox"><h4>{ic("files", "s")} Documents récents</h4><div class="docs">{docs}</div></div>
     <div class="rbox"><h4>{ic("monitor", "s")} Son ordinateur</h4>{term}</div></div></div></div>
   <div class="panel" id="resume">{x_resume(k)}</div>
+  <div class="panel" id="fiche">{x_fiche(k)}</div>
   <div class="panel" id="profil">{x_profil(k)}</div>
   <div class="panel" id="connecteurs">{x_connect(k)}</div>
   <div class="panel" id="canaux">{x_canaux(k)}</div>
@@ -453,24 +526,39 @@ CATALOGUE = [
      ["Relecture de contrats", "Veille réglementaire", "Modèles de documents"], "il"),
 ]
 
-def page_recruter(brand):
-    mine = "".join(f'<a class="who" href="{k}.html"><img src="{B}{EXPERTS[k]["photo"]}" alt="">{EXPERTS[k]["prenom"]}, {EXPERTS[k]["role"]}</a>' for k in ("djeneba", "fatima", "koffi"))
-    filt = [("tous", "sparkles", "Tous", 8), ("ventes", "handshake", "Ventes et clients", 2), ("rh", "users", "RH", 2), ("finance", "landmark", "Finance et opérations", 2),
-            ("donnees", "chart-pie", "Données", 1), ("juridique", "scale", "Juridique", 1)]
-    chips = "".join(f'<span class="chip{" on" if f == "tous" else ""}" data-f="{f}" role="button" tabindex="0">{ic(i, "s")} {l} <em>{n}</em></span>' for f, i, l, n in filt)
+ASSIGN = "".join(f'<span class="as{" on" if i == 0 else ""}" data-who="{n}">{face(c, "", 28)}{n}</span>' for i, (c, n) in enumerate(
+    [("AD", "Moi"), ("FB", "Fanta"), ("KO", "Kader"), ("NT", "Nadège"), ("MK", "Mariam"), ("IS", "Ibrahim")])) + f'<span class="as" data-who="tout le service">{ic("users", "s")} Tout un service</span>'
+CHN3 = "".join(f'<span class="c3{" on" if on else ""}"><img src="{FAV}{d}" alt="">{n}{ic("check", "s")}</span>' for n, d, on in
+               [("Ici", "yelema.ai", True), ("WhatsApp", "whatsapp.com", True), ("Telegram", "telegram.org", False), ("Email", "gmail.com", False)])
+
+def recrues(n=None):
     cards = ""
-    for ph, nom, met, f, icn, desc, taches, pron in CATALOGUE:
-        data = json.dumps({"photo": f"{B}{ph}.jpg", "nom": nom, "metier": met, "desc": desc, "taches": taches,
+    for ph, nom, met, f, icn, desc, taches, pron in (CATALOGUE[:n] if n else CATALOGUE):
+        fi = FICHES.get(ph, {})
+        data = json.dumps({"photo": f"{B}{ph}.jpg", "nom": nom, "metier": fi.get("role", met).replace("&", "et"), "desc": fi.get("mission", desc), "taches": fi.get("quotidien", taches),
+                           "comp": [c[0] for c in fi.get("competences", [])][:8], "accord": fi.get("accord", [])[:4], "pron": pron,
                            "done": f"{nom} rejoint votre équipe. {pron.capitalize()} vous écrit dans quelques minutes."}, ensure_ascii=False).replace('"', "&quot;")
         cards += (f'<button class="pc" data-m="{f}" data-x="{data}"><div class="ph"><img src="{B}{ph}.jpg" alt=""><span class="badge">{ic(icn, "s")}</span></div>'
                   f'<h3>{nom}</h3><div class="mtr">{met}</div><p>{desc}</p><div class="ft"><span><b class="num" style="color:var(--ink)">200 000</b> F CFA par mois</span></div><span class="hb">Recruter</span></button>')
     drawer = f"""<div class="drawer" data-check='{ic("circle-check", "s")}'><div class="ov" data-close></div><div class="pn">
 <div class="ph"><img src="" alt=""><button class="ib x" data-close aria-label="Fermer">{ic("x")}</button></div>
 <div class="bd"><div><h2 style="font-size:30px;font-weight:650"></h2><div class="rl mute"></div></div><p class="desc"></p>
-<div><b class="sm">Ce qu'il ou elle fera chez vous</b><ul class="tasks" style="margin-top:8px"></ul></div>
-<div class="kv"><div><span>Où lui parler</span>Ici, WhatsApp, email</div><div><span>Prêt en</span>quelques minutes</div><div><span>Prix</span>200 000 F CFA par mois</div></div>
+<div><b class="sm">Au quotidien</b><ul class="tasks" style="margin-top:8px"></ul></div>
+<div><b class="sm">Ses compétences</b><div class="cps"></div></div>
+<div><b class="sm">Toujours avec votre accord</b><ul class="acc"></ul></div>
+<div class="asgw"><b class="sm">Assigner à</b><p class="xs mute3">La personne qui travaillera avec l'expert. Vous pourrez en ajouter d'autres.</p><div class="asg">{ASSIGN}</div></div>
+<div><b class="sm">Où le joindre</b><div class="chn3">{CHN3}</div></div>
+<div class="kv"><div><span>Prêt en</span>quelques minutes</div><div><span>Prix</span>200 000 F CFA par mois</div></div>
 <p class="xs mute3">Rien n'est facturé si la mise en place échoue.</p>
-<a class="btn p go" href="#">Recruter</a><div class="done"></div></div></div></div>"""
+<a class="btn p go" href="#">Recruter</a><div class="done"></div></div></div></div>""".replace("{ASSIGN}", ASSIGN).replace("{CHN3}", CHN3)
+    return cards, drawer
+
+def page_recruter(brand):
+    mine = "".join(f'<a class="who" href="{k}.html"><img src="{B}{EXPERTS[k]["photo"]}" alt="">{EXPERTS[k]["prenom"]}, {EXPERTS[k]["role"]}</a>' for k in ("djeneba", "fatima", "koffi"))
+    filt = [("tous", "sparkles", "Tous", 8), ("ventes", "handshake", "Ventes et clients", 2), ("rh", "users", "RH", 2), ("finance", "landmark", "Finance et opérations", 2),
+            ("donnees", "chart-pie", "Données", 1), ("juridique", "scale", "Juridique", 1)]
+    chips = "".join(f'<span class="chip{" on" if f == "tous" else ""}" data-f="{f}" role="button" tabindex="0">{ic(i, "s")} {l} <em>{n}</em></span>' for f, i, l, n in filt)
+    cards, drawer = recrues()
     corps = f"""<div class="hire"><h1>Qui sera votre prochaine recrue&nbsp;?</h1>
 <a class="ask" href="djeneba.html#discussion">{ic("sparkles", "s")} Décrivez le travail à confier, Djénéba trouve le bon expert<span class="go2">{ic("arrow-up")}</span></a>
 <p class="or">ou choisissez un expert prêt à l'emploi</p></div>
@@ -501,8 +589,33 @@ def memoire_corps(admin=False):
     return (f'<div class="hello"><div class="grow"><p class="date">{"Réglages" if admin else "Pour toute l’équipe Unifood"}</p><h1>Chat entreprise</h1></div></div>'
             + (f'<div class="dgrid memg" style="margin-top:16px">{chat}{side}</div>' if admin else f'<div class="memfull" style="margin-top:16px">{chat}</div>'))
 
+GPT_FILS = [("Aujourd'hui", [("Promos Sossa de la rentrée 2025", True), ("Qui gère le compte Carrefour ?", False)]),
+            ("Hier", [("Prix de gros Super Mint par région", False), ("Résumé du comité du 24 septembre", False)]),
+            ("Cette semaine", [("Fournisseurs d'emballage carton", False), ("Règles de congés terrain", False), ("Objectifs ventes T4", False)])]
+
+def gpt_msg(qui, html, src=None):
+    if qui == "moi":
+        return f'<div class="gm2 moi"><div class="bq">{html}</div></div>'
+    s2 = f'<div class="srcs">{"".join(f"<span>{ic(chr(102)+chr(105)+chr(108)+chr(101)+chr(45)+chr(116)+chr(101)+chr(120)+chr(116), chr(115))} {x}</span>" for x in src)}</div>' if src else ""
+    return f'<div class="gm2 lui"><span class="ga">{ic("book-open", "s")}</span><div class="ba">{html}{s2}<div class="acts2">{ic("copy", "s")}{ic("thumbs-up", "s")}{ic("thumbs-down", "s")}{ic("refresh-cw", "s")}</div></div></div>'
+
 def page_memoire(brand):
-    return page("memoire", brand, "Chat entreprise", "<b>Chat entreprise</b>", memoire_corps())
+    fils = "".join(f'<div class="glb">{g}</div>' + "".join(f'<a class="gf" href="#" data-fil="{"c1" if on else "c2"}">{t}</a>' for t, on in its) for g, its in GPT_FILS)
+    conv = (gpt_msg("moi", "Quelles promos Sossa avons-nous faites l'an dernier à la rentrée&nbsp;?")
+            + gpt_msg("lui", "<p>Deux promotions, toutes les deux en septembre 2025 :</p><ol><li><b>-15 % sur le prix de gros</b> du 1er au 20 septembre, pour tous les distributeurs.</li><li><b>Un lot offert</b> dès 25 000 F CFA d'achat, réservé aux boutiques de quartier.</li></ol><p>La première a mieux marché : <b>+22 % de ventes</b> sur la période, contre +9 % pour le lot offert.</p>", ["Bilan rentrée 2025", "Ventes 2025"])
+            + gpt_msg("moi", "Et qui avait validé le budget&nbsp;?")
+            + gpt_msg("lui", "<p>Le comité de direction du <b>14 août 2025</b>, sur proposition d'Aïcha Diabaté. Montant validé : <b>4,5 M F CFA</b>.</p>", ["CR comité du 14/08/2025"]))
+    conv2 = (gpt_msg("moi", "Qui gère le compte Carrefour&nbsp;?")
+             + gpt_msg("lui", "<p><b>Fanta Bakayoko</b>, responsable commerciale, depuis mars 2026. Kader Ouattara suit les livraisons en magasin.</p>", ["Organigramme commercial"]))
+    corps = f"""<div class="gpt"><aside class="gside"><a class="gnew" href="#" data-fil="vide">{ic("square-pen", "s")} Nouvelle conversation</a>
+<div class="srch">{ic("search", "s")} Chercher dans les conversations</div>{fils}</aside>
+<section class="gmain vide"><div class="ghead"><b class="gtt">Nouvelle conversation</b><span class="xs mute3">Mémoire d'Unifood</span></div>
+<div class="gconv"><div class="gfil" id="c1">{conv}</div><div class="gfil" id="c2">{conv2}</div></div>
+<div class="gcomp"><h2 class="ghello">Que puis-je faire pour vous&nbsp;?</h2>
+<div class="gin2"><div class="tx">Posez votre question sur Unifood</div><div class="row" style="justify-content:space-between"><span class="row" style="gap:6px"><button class="ib" aria-label="Joindre un fichier">{ic("paperclip", "s")}</button><span class="mode">{ic("zap", "s")} Rapide {ic("chevron-down", "s")}</span></span><button class="send" aria-label="Envoyer">{ic("arrow-up", "s")}</button></div></div>
+<p class="xs mute3 gnote">Plus vous donnez de contexte, meilleure est la réponse. Chaque réponse cite ses sources.</p>
+<div class="sugg gsug"><span>Nos chiffres de septembre</span><span>Dernier comité</span><span>Qui s'occupe de quoi</span></div></div></section></div>"""
+    return page("memoire", brand, "Chat entreprise", "<b>Chat entreprise</b>", corps, wrap=False)
 
 # ---------------------------------------------------------------- admin (réglages)
 ADM_NAV = [("Organisation", [("admin", "layout-grid", "Vue d'ensemble"), ("admin-general", "building-2", "Général"), ("admin-experts", "sparkles", "Experts"), ("admin-membres", "users", "Membres et droits"),
@@ -514,12 +627,12 @@ def admin_page(actif, titre, corps, brand):
     nav = ""
     for g, its in ADM_NAV:
         nav += f'<div class="lb">{g}</div>' + "".join(f'<a class="it{" on" if k == actif else ""}" href="{k}.html">{ic(i, "s")} {l}</a>' for k, i, l in its)
-    side = f"""<aside class="sb set"><a class="it" href="accueil.html">{ic("arrow-left", "s")} Retour à mon espace</a><div class="ttl">Réglages</div>{nav}
-<div class="foot"><span class="row sm mute" style="padding:6px 10px">{face("SB", "#2E4EC4", 30)} Serge Bamba, admin</span></div></aside>"""
+    snav = f'<nav class="snav"><div class="ttl">{ic("settings", "s")} Administration</div>{nav}</nav>'
     autre = "client" if brand == "yelema" else "yelema"
-    top = f"""<header class="top"><div class="crumb grow">Réglages {ic("chevron-right", "s")} <b>{titre}</b></div><a class="tbtn hide-m" href="../{autre}/{actif}.html">{ic("palette", "s")} {"Couleurs Unifood" if brand == "yelema" else "Couleurs Yelema"}</a>
-<a class="tbtn hide-m" href="#" data-open="inv">{ic("user-plus", "s")} Inviter un membre</a><button class="tbtn ico" data-pop="notifs" aria-label="Notifications">{ic("bell", "s")}<span class="bdg">4</span></button>{face("SB", "", 38)}</header>"""
-    return b3.head(titre, brand) + f'<div class="app">{side}<main style="min-width:0">{top}<div class="page"><div class="sform" style="max-width:1080px">{corps}</div></div></main></div>' + pops() + yele() + modales() + fin()
+    top = f"""<header class="top"><div class="crumb grow"><a href="admin.html">Administration</a> {ic("chevron-right", "s")} <b>{titre}</b></div><a class="tbtn ico hide-m" href="../{autre}/{actif}.html" title="{"Couleurs Unifood" if brand == "yelema" else "Couleurs Yelema"}">{ic("palette", "s")}</a>
+<a class="tbtn hide-m" href="#" data-open="inv">{ic("user-plus", "s")} Inviter un membre</a><button class="tbtn ico" data-pop="notifs" aria-label="Notifications">{ic("bell", "s")}<span class="bdg">4</span></button></header>"""
+    return (b3.head(titre, brand) + f'<div class="app">{sidebar(actif, brand)}<main style="min-width:0">{top}<div class="adm">{snav}<div class="page"><div class="sform" style="max-width:1080px">{corps}</div></div></div></main></div>'
+            + pops() + yele() + modales() + fin())
 
 def sg(rows):
     return '<div class="sg">' + "".join(f'<div><div class="grow"><b>{t}</b><span class="d">{d}</span></div>{f"<div class=ctl>{c}</div>" if c else ""}</div>' for t, d, c in rows) + "</div>"
@@ -551,7 +664,7 @@ def adm_experts(brand):
 
 def adm_membres(brand):
     ok = f'<td align="center" style="color:var(--ok)">{ic("check", "s")}</td>'; no = '<td align="center" class="xs mute3">non</td>'
-    droits = [("Voir son tableau de bord", "ooo"), ("Parler aux experts de son équipe", "ooo"), ("Utiliser le chat entreprise", "ooo"), ("Recruter un expert", "oon"),
+    droits = [("Voir son tableau de bord", "ooo"), ("Parler aux experts de son équipe", "ooo"), ("Utiliser le chat entreprise", "ooo"), ("Recruter un expert et l'assigner", "onn"),
               ("Inviter des membres", "onn"), ("Voir la facturation", "onn"), ("Voir le suivi de l'équipe", "oon"), ("Changer la charte et les réglages", "onn")]
     tr = "".join(f'<tr><td>{l}</td>{"".join(ok if c == "o" else no for c in r)}</tr>' for l, r in droits)
     mem = [("AD", "#7A4E2D", "Aïcha Diabaté", "Directrice marketing", "Responsable", "Djénéba, Fatima"), ("SB", "#2E4EC4", "Serge Bamba", "Direction administrative", "Direction", "Djénéba"),
@@ -560,16 +673,43 @@ def adm_membres(brand):
     ml = "".join(f'<tr><td><a class="who" href="admin-membre.html">{face(i, "", 36)}<span><b>{n}</b><br><span class="xs mute3">{po}</span></span></a></td><td class="hide-m">{svc}</td><td><span class="pill br">{r}</span></td><td><a class="link" href="admin-membre.html">Voir</a></td></tr>' for i, n, po, svc, r in MEMBRES)
     corps = f"""<div class="hello"><div class="grow"><h1>Membres et droits</h1><p class="sub">14 membres dans 5 services, 2 invitations en attente</p></div><a class="btn p" href="#" data-open="inv">{ic("user-plus", "s")} Inviter un membre</a></div>
 <div class="box" style="margin-top:16px"><table class="tbl"><tr><th>Membre</th><th class="hide-m">Service</th><th>Rôle</th><th></th></tr>{ml}</table></div>
-<div class="box" style="margin-top:14px"><div class="ch"><h2 style="font-size:16px;font-weight:650">Qui peut faire quoi</h2></div><table class="tbl"><tr><th></th><th style="text-align:center">Direction</th><th style="text-align:center">Responsable</th><th style="text-align:center">Équipe</th></tr>{tr}</table></div>"""
+<div class="box" style="margin-top:14px"><div class="ch"><h2 style="font-size:16px;font-weight:650">Qui peut faire quoi</h2></div><table class="tbl"><tr><th></th><th style="text-align:center">Admin</th><th style="text-align:center">Responsable</th><th style="text-align:center">Équipe</th></tr>{tr}</table></div>"""
     return admin_page("admin-membres", "Membres et droits", corps, brand)
+
+JEKO_BTN = '<a class="btn jk sm" href="#" data-open="jeko"><b>jèko</b> Payer avec Jèko</a>'
+def modal_jeko():
+    ms = [("Wave", "wave.com"), ("Orange Money", "orange.ci"), ("MTN MoMo", "mtn.ci"), ("Moov Money", "moov-africa.ci"), ("Carte Visa ou Mastercard", "visa.com")]
+    opts = "".join(f'<label class="jm{" on" if i == 0 else ""}"><img src="{FAV}{d}" alt=""><span class="grow">{n}</span><i></i></label>' for i, (n, d) in enumerate(ms))
+    return f"""<div class="modal" id="jeko"><div class="ov" data-close></div><div class="pn jkp"><button class="ib x" data-close aria-label="Fermer">{ic("x")}</button>
+<div class="jkh"><span class="jkl">jèko</span><span class="xs" style="opacity:.85">Paiement sécurisé</span></div>
+<div class="jkb"><p class="xs mute3">Facture de novembre, Yelema</p><div class="jka num">500 000 F CFA</div>
+<b class="sm">Payer avec</b><div class="jms">{opts}</div>
+<div class="fl2"><span class="xs mute3">Numéro mobile money</span><span class="inp3">+225 07 00 00 00 00</span></div>
+<a class="btn p jgo" href="#">Payer 500 000 F CFA</a>
+<p class="xs mute3" style="text-align:center;margin-top:8px">Vous validez sur votre téléphone. Le reçu arrive par email.</p></div></div></div>"""
+
+def modal_share():
+    ppl = "".join(f'<div class="shp">{face(i, "", 32)}<span class="grow"><b class="sm">{n}</b><span class="xs mute3">{r}</span></span><span class="pill" style="background:var(--soft-2)">{d}</span></div>'
+                  for i, n, r, d in [("JA", "Jean-Marc Aka", "Directeur général", "Lecture"), ("SB", "Serge Bamba", "Directeur administratif", "Lecture"), ("IS", "Ibrahim Sylla", "Contrôleur financier", "Lecture")])
+    return f"""<div class="modal" id="share"><div class="ov" data-close></div><div class="pn shpn"><button class="ib x" data-close aria-label="Fermer">{ic("x")}</button>
+<h2>Partager le tableau de bord</h2><p class="sm mute">Vue Codir, semaine du 28 septembre</p>
+<div class="seg shs" data-sh><a class="on" href="#" data-v="prive">{ic("lock", "s")} Version privée</a><a href="#" data-v="public">{ic("globe", "s")} Version publique</a></div>
+<div class="shv on" id="sh-prive"><p class="xs mute3">Pour les collaborateurs d'Unifood. Tous les chiffres, mis à jour en direct.</p>
+<div class="inp3 row" style="gap:8px">{ic("search", "s")} <span class="mute3">Ajouter un collègue par nom ou email</span></div>{ppl}</div>
+<div class="shv" id="sh-public"><p class="xs mute3">Pour l'extérieur : un client, un investisseur, un partenaire. Lecture seule, sans connexion.</p>
+<div class="sg"><div><div class="grow"><b>Masquer les montants</b><span class="d">Factures, coûts et prix des experts</span></div><span class="sw"></span></div>
+<div><div class="grow"><b>Masquer les noms des membres</b><span class="d">Remplacés par leur service</span></div><span class="sw"></span></div>
+<div><div class="grow"><b>Expire</b><span class="d">Le lien ne s'ouvre plus après</span></div><span class="inp2">dans 30 jours</span></div></div>
+<div class="lnk"><span class="ell">yelema.ai/p/unifood-codir-7Hk2</span><a class="btn o sm" href="#" data-toast="Lien copié">{ic("copy", "s")} Copier</a></div></div>
+<div class="row" style="justify-content:flex-end;gap:8px;margin-top:16px"><a class="btn o" href="#" data-close>Annuler</a><a class="btn p" href="#" data-close data-toast="Tableau de bord partagé">Partager</a></div></div></div>"""
 
 def adm_factu(brand):
     fac = "".join(f'<tr><td>{m_}</td><td class="num">{v}</td><td><span class="pill {s}">{l}</span></td><td><a class="link" href="#">{ic("download", "s")} PDF</a></td></tr>' for m_, v, s, l in
-                  [("Novembre 2026", "500 000", "ac", "À venir"), ("Octobre 2026", "500 000", "ok", "Payée, Wave"), ("Septembre 2026", "1 300 000", "ok", "Payée, Orange Money")])
+                  [("Novembre 2026", "500 000", "ac", "À venir"), ("Octobre 2026", "500 000", "ok", "Payée par Jèko, Wave"), ("Septembre 2026", "1 300 000", "ok", "Payée par Jèko, Orange Money")])
     corps = f"""<div style="max-width:880px"><h1>Facturation</h1><p class="sub">Formule Experts Yelema</p>
 {sg([("Prochaine facture", "Le 1er novembre", '<b class="num" style="font-size:22px">500 000 F CFA</b>'),
      ("Experts", "Djénéba incluse, Fatima et Koffi", '<a class="btn o sm" href="admin-experts.html">Gérer</a>'),
-     ("Moyen de paiement", "Wave, Orange Money, MTN ou virement", '<a class="btn p sm" href="#">Payer par mobile money</a>')])}
+     ("Moyen de paiement", "Par Jèko : Wave, Orange Money, MTN, Moov ou carte", JEKO_BTN)])}
 <div class="box" style="margin-top:16px"><div class="ch"><h2 style="font-size:16px;font-weight:650">Factures</h2></div><table class="tbl"><tr><th>Mois</th><th>F CFA</th><th>État</th><th></th></tr>{fac}</table>
 <p class="xs mute3" style="margin-top:10px">Septembre comprend la mise en place, réglée une fois au démarrage.</p></div></div>"""
     return admin_page("admin-facturation", "Facturation", corps, brand)
@@ -584,8 +724,8 @@ def adm_analytics(brand):
     return admin_page("admin-analytics", "Suivi", corps, brand)
 
 def adm_profil(brand):
-    corps = f"""<div style="max-width:820px"><h1>Mon profil</h1><p class="sub">Serge Bamba, direction administrative</p>
-{sg([("Nom", "", '<span class="inp2">Serge Bamba</span>'), ("Adresse email", "", '<span class="inp2">serge.bamba@unifood.info</span>'),
+    corps = f"""<div style="max-width:820px"><h1>Mon profil</h1><p class="sub">Aïcha Diabaté, directrice marketing, admin de l'espace Unifood</p>
+{sg([("Nom", "", '<span class="inp2">Aïcha Diabaté</span>'), ("Adresse email", "", '<span class="inp2">aicha.diabate@unifood.info</span>'),
      ("Notifications", "Un résumé chaque matin par email", '<span class="sw"></span>'), ("Double authentification", "Code par SMS à chaque connexion", '<span class="sw"></span>')])}</div>"""
     return admin_page("admin-profil", "Mon profil", corps, brand)
 
@@ -637,7 +777,7 @@ def modal_doc():
 <div class="row" style="gap:8px;flex-wrap:wrap"><a class="btn p" href="#" data-toast="Validé, Fatima publie">{ic("check", "s")} Valider</a><a class="btn o" href="#" data-toast="Demande de modification envoyée">Demander une modification</a><a class="btn o" href="#" data-toast="Téléchargement lancé">{ic("download", "s")} Télécharger</a></div></div></div></div>"""
 
 def modales():
-    return modal_cz() + modal_call() + modal_inv() + modal_doc() + '<div class="toast" role="status"></div>'
+    return modal_cz() + modal_jeko() + modal_share() + modal_call() + modal_inv() + modal_doc() + '<div class="toast" role="status"></div>'
 
 # ---------------------------------------------------------------- Composio
 def modal_cz():
@@ -709,7 +849,7 @@ ALL_EXPERTS = [("djeneba", "Djénéba", "Chief of Staff", "Direction", "Aïcha, 
                ("mamadou", "Mamadou", "Finance", "Finance", "Ibrahim", 12, "200 000", True),
                ("awa", "Awa", "Service client", "Commercial", "Rokia", 38, "200 000", False)]
 MEMBRES = [("JA", "Jean-Marc Aka", "Directeur général", "Direction", "Direction"), ("SB", "Serge Bamba", "Directeur administratif", "Direction", "Direction"),
-           ("AD", "Aïcha Diabaté", "Directrice marketing", "Marketing", "Responsable"), ("NT", "Nadège Touré", "Chargée de communication", "Marketing", "Équipe"),
+           ("AD", "Aïcha Diabaté", "Directrice marketing", "Marketing", "Admin"), ("NT", "Nadège Touré", "Chargée de communication", "Marketing", "Équipe"),
            ("YK", "Yao Kra", "Graphiste", "Marketing", "Équipe"), ("FB", "Fanta Bakayoko", "Responsable commerciale", "Commercial", "Responsable"),
            ("KO", "Kader Ouattara", "Commercial terrain", "Commercial", "Équipe"), ("RT", "Rokia Traoré", "Service client", "Commercial", "Équipe"),
            ("MK", "Mariam Koné", "Responsable RH", "RH", "Responsable"), ("IS", "Ibrahim Sylla", "Contrôleur financier", "Finance", "Responsable"),
@@ -723,10 +863,9 @@ def xh(k):
 def adm_vue(brand):
     xs = "".join(f'<a class="ax" href="{xh(k)}"><img src="{B}{k}.jpg" alt=""><span class="grow"><b>{n}</b><span>{r}</span>{"" if sv == r else f'<span class="xs mute3">Service {sv}</span>'}</span>{"<span class=sw></span>" if on else "<span class=\"sw off\"></span>"}</a>' for k, n, r, sv, u, lv, p, on in ALL_EXPERTS)
     ms = "".join(f'<a class="am" href="admin-membre.html">{face(i, "", 48)}<b>{n.split(" ")[0]}</b><span>{svc}</span></a>' for i, n, po, svc, r in MEMBRES)
-    corps = f"""<div class="hello"><div class="grow"><p class="date">Espace admin, Serge Bamba</p><h1>Vue d'ensemble</h1></div><a class="btn p" href="recruter.html">{ic("plus", "s")} Recruter un expert</a></div>
+    corps = f"""<div class="hello"><div class="grow"><p class="date">Administration Unifood</p><h1>Vue d'ensemble</h1></div><a class="btn p" href="recruter.html">{ic("plus", "s")} Recruter un expert</a></div>
 <div class="stat4">{stat("sparkles", "7", "experts, dont 6 en service")}{stat("users", "14", "membres dans 5 services")}{stat("package", "126", "livrables ce mois-ci", '<span class="pill ok">+31</span>')}{stat("receipt", "1 300 000", "F CFA, facture du 1er novembre")}</div>
 <div class="h2x" style="margin-top:24px"><h2>Experts d'Unifood</h2><a class="link" href="admin-experts.html">Gérer {ic("arrow-right", "s")}</a></div><div class="axg">{xs}</div>
-<div class="h2x"><h2>Membres</h2><a class="link" href="admin-membres.html">Membres et droits {ic("arrow-right", "s")}</a></div><div class="amg">{ms}<a class="am add2" href="#" data-open="inv"><span class="ib">{ic("user-plus", "s")}</span><b>Inviter</b><span>un membre</span></a></div>
 <div class="h2x"><h2>Canaux de l'organisation</h2></div>{canaux_strip()}"""
     return admin_page("admin", "Vue d'ensemble", corps, brand)
 
@@ -735,12 +874,18 @@ def stat(i, v, l, extra=""):
 
 def adm_membre(brand):
     xs = "".join(f'<a class="ax" href="{k}.html"><img src="{B}{k}.jpg" alt=""><span class="grow"><b>{EXPERTS[k]["prenom"]}</b><span>{EXPERTS[k]["role"]}</span></span>{ic("chevron-right", "s")}</a>' for k in ("djeneba", "fatima", "koffi"))
-    corps = f"""<div class="mp"><div class="mph">{face("AD", "", 120)}<div class="grow"><h1>Aïcha Diabaté</h1><p class="mute">Directrice marketing, Unifood</p><div class="row" style="gap:6px;margin-top:10px;flex-wrap:wrap"><span class="pill br">Responsable</span><span class="pill" style="background:var(--soft-2)">Service Marketing</span><span class="pill ok">Active aujourd'hui</span></div></div>
+    corps = f"""<div class="mp"><div class="mph">{face("AD", "", 120)}<div class="grow"><h1>Aïcha Diabaté</h1><p class="mute">Directrice marketing, Unifood</p><div class="row" style="gap:6px;margin-top:10px;flex-wrap:wrap"><span class="pill br">Admin</span><span class="pill" style="background:var(--soft-2)">Service Marketing</span><span class="pill ok">Active aujourd'hui</span></div></div>
 <div class="row" style="gap:8px"><a class="btn o" href="#">{ic("message-circle", "s")} Écrire</a><a class="btn p" href="#">{ic("pencil", "s")} Modifier</a></div></div>
-<div class="g2e"><div>{sg([("Email", "", '<span class="inp2">aicha.diabate@unifood.info</span>'), ("Téléphone", "", '<span class="inp2">+225 07 00 00 00 00</span>'), ("Entreprise", "", '<span class="inp2">Unifood, Abidjan</span>'), ("Rôle", "Ce qu'elle peut faire dans l'espace", '<span class="inp2">Responsable</span>')])}</div>
+<div class="g2e"><div>{sg([("Email", "", '<span class="inp2">aicha.diabate@unifood.info</span>'), ("Téléphone", "", '<span class="inp2">+225 07 00 00 00 00</span>'), ("Entreprise", "", '<span class="inp2">Unifood, Abidjan</span>'), ("Rôle", "Ce qu'elle peut faire dans l'espace", '<span class="inp2">Admin : membres, experts, facturation</span>')])}</div>
 <div><div class="box"><div class="ch"><h2 style="font-size:16px;font-weight:650">Ses experts</h2><a class="link" href="#">{ic("plus", "s")} Ajouter</a></div><div class="axg" style="grid-template-columns:1fr">{xs}</div></div>
 <div class="box" style="margin-top:12px"><div class="ch"><h2 style="font-size:16px;font-weight:650">Ce mois-ci</h2></div><div class="kv" style="font-size:14px;gap:10px"><div><span>Livrables reçus</span><b>31</b></div><div><span>Messages aux experts</span><b>64</b></div><div><span>Canaux</span><b>Telegram, WhatsApp, ici</b></div></div></div></div></div></div>"""
-    return admin_page("admin-membres", "Aïcha Diabaté", corps, brand)
+    return corps
+
+def page_admin_membre(brand):
+    return admin_page("admin-membres", "Aïcha Diabaté", adm_membre(brand), brand)
+
+def page_profil(brand):
+    return page("profil", brand, "Mon profil", "<b>Mon profil</b>", adm_membre(brand))
 
 def page_choix():
     s = b3.page_choix()
@@ -765,7 +910,7 @@ if __name__ == "__main__":
     for brand in ("yelema", "client"):
         d = os.path.join(OUT, brand); os.makedirs(d, exist_ok=True)
         pages = {"accueil": page_accueil(brand), "tableau-de-bord": page_tdb(brand), "recruter": page_recruter(brand), "memoire": page_memoire(brand),
-                 "admin": adm_vue(brand), "admin-general": adm_general(brand), "admin-membre": adm_membre(brand), "chat": page_chat(brand), "admin-experts": adm_experts(brand), "admin-membres": adm_membres(brand), "admin-facturation": adm_factu(brand),
+                 "admin": adm_vue(brand), "admin-general": adm_general(brand), "admin-membre": page_admin_membre(brand), "profil": page_profil(brand), "chat": page_chat(brand), "admin-experts": adm_experts(brand), "admin-membres": adm_membres(brand), "admin-facturation": adm_factu(brand),
                  "admin-analytics": adm_analytics(brand), "admin-chat": admin_page("admin-chat", "Chat entreprise", memoire_corps(True), brand), "admin-profil": adm_profil(brand)}
         for k in ("djeneba", "fatima", "koffi"):
             pages[k] = page_expert(k, brand)
