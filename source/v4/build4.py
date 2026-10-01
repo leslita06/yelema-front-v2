@@ -2110,7 +2110,7 @@ def page_profil(brand):
 def auth_page(titre, brand, droite):
     tags = "".join(f'<span class="hero-tag" style="left:{l}"><b>{n}</b><span>{r}</span></span>' for l, n, r in [("3.2%", "Fatou", "Experte RH et Paie"), ("38.6%", "Ibrahim", "Expert Juridique et Conformité"), ("74.2%", "Fatima", "Experte Marketing et Contenu")])
     gauche = f"""<div class="aul"><a class="aulogo" href="connexion.html"><img src="{B}yelema_logo_final_long_blanc.svg" alt="Yelema"></a>
-<div class="aut"><h1>Décuplez les forces<br><span class="hl">de votre entreprise</span>.</h1><p>Vos Experts Yelema, chacun formé à un métier, sont déjà au travail.</p></div>
+<div class="aut"><h1>Décuplez les forces<br><span class="hl">de votre entreprise</span>.</h1><p>Une IA pensée pour l’Afrique, prête à l’emploi, au service de vos équipes.</p></div>
 <div class="hero-img auhero"><img src="{B}hero-site.webp" alt="Trois Experts IA Yelema : Fatou, Ibrahim et Fatima">{tags}</div>
 <p class="ausec">{ic("lock", "s")} Espace sécurisé, réservé aux membres de votre entreprise</p></div>"""
     return (b3.head(titre, brand) + f'<div class="auth"><div class="aucard">{gauche}<div class="aur">{droite}'
