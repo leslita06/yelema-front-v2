@@ -222,3 +222,10 @@ document.querySelectorAll('[data-forgot]').forEach(function(f){f.addEventListene
 document.querySelectorAll('[data-next]').forEach(function(a){handled(a);a.addEventListener('click',function(e){e.preventDefault();document.querySelectorAll('.aust').forEach(function(s){s.hidden=s.dataset.st!==a.dataset.next})})});
 document.querySelectorAll('[data-reset]').forEach(function(f){f.addEventListener('submit',function(e){e.preventDefault();location.href='connexion.html';})});
 document.querySelectorAll('.auok,.mdok,.eye').forEach(function(b){handled(b)});
+
+// v4.9 : bandeau final de Recruter, retour à la recherche
+document.querySelectorAll('[data-ask]').forEach(function(a){handled(a);a.addEventListener('click',function(e){e.preventDefault();var f=document.getElementById('ask');if(!f)return;
+  f.scrollIntoView({behavior:'smooth',block:'center'});var i=f.querySelector('input');if(i)setTimeout(function(){i.focus()},400)})});
+// connexion : le compte (utilisateur ou admin) se déduit de l'adresse
+document.querySelectorAll('[data-login]').forEach(function(f){f.addEventListener('submit',function(e){e.preventDefault();e.stopImmediatePropagation();var em=f.querySelector('input[type=email]');
+  location.href=(em&&/^admin@/.test(em.value.trim()))?'admin.html':'accueil.html'},true)});

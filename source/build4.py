@@ -286,11 +286,33 @@ def carte_equipe(k):
             f'<span class="nm"><b>{e["prenom"]}</b><span class="rl">{esc(fi.get("role", e["role"]))}</span><span class="tl">{DESC[k]}</span>'
             f'<span class="eqb"><a class="rb" href="{k}.html#discussion">{ic("message-circle", "s")} Écrire</a><a class="rb tel" href="#" data-call="{k}" aria-label="Appeler {e["prenom"]}">{ic("phone", "s")}</a></span></span></div>')
 
+YS_TRUST = [("message-circle", "Conversationnel", ", sur vos canaux"), ("mic", "Commande", " vocale"), ("globe", "Open source", " et interopérable"),
+            ("lock", "Données", " sécurisées"), ("monitor-smartphone", "Mobile", " et web"), ("clock", "24h/24", ", 7j/7"), ("landmark", "Secteurs privé et public", "")]
+def ys_trust():
+    g = "".join(f'<span>{ic(i, "s")} <b>{b}</b>{t}</span>' for i, b, t in YS_TRUST)
+    return f'<div class="ys-trust" aria-label="Ce que font vos Experts"><div class="ys-track"><div class="ys-grp">{g}</div><div class="ys-grp" aria-hidden="true">{g}</div></div></div>'
+
+def ys_outils():
+    t = lambda xs: "".join(f'<span class="ys-t"><img src="{B}lg/{f}.png" alt="">{n}</span>' for f, n in xs)
+    outils = t([("hubspot", "HubSpot"), ("zoom", "Zoom"), ("sage", "Sage"), ("odoo", "Odoo"), ("figma", "Figma"), ("github", "GitHub"), ("notion", "Notion"), ("drive", "Drive"), ("excel", "Excel")])
+    canaux = t([("telegram", "Telegram"), ("whatsapp", "WhatsApp"), ("gmail", "Gmail"), ("slack", "Slack"), ("teams", "Teams")]) + f'<span class="ys-t">{ic("globe", "s")}Espace web</span>'
+    et = "".join(f'<span class="ys-et"><b>{i}</b><span><em>{a}</em>{b}</span></span>' for i, a, b in [(1, "Vous choisissez l'outil", "Dans la liste ci-dessous, ou par recherche."), (2, "Vous l'autorisez", "Une fois, pour toute l'organisation."), (3, "Vous choisissez les experts", "Seuls ceux-là y ont accès.")])
+    return f"""<div class="ys-3">
+<div class="ys-p"><span class="ys-ic">{ic("plug")}</span><div class="ys-big">3 000+</div><h3>outils connectables</h3><p>Vos Experts lisent, écrivent et agissent dans ce que vous utilisez déjà. Vous autorisez, vous révoquez quand vous voulez.</p><div class="ys-tools">{outils}</div></div>
+<div class="ys-p"><span class="ys-ic">{ic("clock")}</span><div class="ys-big">24h/24</div><h3>7 jours sur 7</h3><p>Ils vous parlent sur vos canaux, et parlent à vos clients sur les leurs.</p><div class="ys-tools ys-2c">{canaux}</div></div>
+<div class="ys-p"><span class="ys-ic">{ic("rocket")}</span><div class="ys-big">5 minutes</div><h3>pour brancher un outil</h3><p>Pas besoin d'équipe technique : trois clics, et l'expert s'en sert dès sa prochaine tâche.</p><div class="ys-steps">{et}</div></div></div>"""
+
+def ys_cta():
+    return f"""<div class="ys-ctav"><img class="ys-ctap" src="{B}cta-people.webp" alt="Trois Experts Yelema"><div class="ys-band"><div class="ys-fl" aria-hidden="true"><i></i><i></i></div>
+<h2>Votre prochain Expert peut commencer dès demain.</h2><p>Vous décrivez le métier, on branche l'Expert sur l'activité d'Unifood, il travaille avec vous dès la première semaine.</p>
+<a class="btn ys-light" href="#ask" data-ask>{ic("sparkles", "s")} Décrire mon besoin</a></div></div>"""
+
 def page_accueil(brand):
     fan = "".join(f'<img src="{B}{x}.jpg" alt="">' for x in ("salif", "kouassi", "adjoua", "mamadou", "nadia"))
     team = "".join(carte_equipe(k) for k in ("djeneba", "fatima", "koffi"))
     stack = "".join(f'<img src="{B}{x}.jpg" alt="">' for x in ("adjoua", "mamadou", "nadia")) + f'<span class="gplus">{ic("plus")}</span>'
-    team += (f'<a class="cw grow2" href="recruter.html"><div class="gstk">{stack}</div>'
+    stack = f'<img class="ys-caps" src="{B}hero-site.webp" alt="Fatou, Ibrahim et Fatima, Experts Yelema">'
+    team += (f'<a class="cw grow2 ys-grow" href="recruter.html"><div class="gstk">{stack}</div>'
              f'<div class="gtx"><b>Agrandir l\'équipe</b><span>Des spécialistes pour tous vos métiers</span></div><span class="rbtn">{ic("plus", "s")} Recruter un expert</span></a>')
     val = "".join(f'<div class="val"><span class="th {"poster" if th == "poster" else "doc"}" style="padding:0">{"" if th == "poster" else ic("file-text")}</span><span class="grow"><b class="ell">{t}</b><span class="xs mute3">{EXPERTS[k]["prenom"]}, {dep}</span></span><a class="btn p sm" href="{k}.html#discussion">Valider</a></div>'
                   for k, t, th, dep in b3.ATTENTE_TEAM)
@@ -303,6 +325,7 @@ def page_accueil(brand):
     dots = "".join(f'<i{" class=on" if i == 0 else ""}></i>' for i in range(len(nts)))
     corps = f"""<div class="hello"><div class="grow"><p class="date">Jeudi 1er octobre</p><h1>Bonjour Aïcha</h1></div></div>
 <div class="tick" data-tick><span class="yl-mini">{YELE_SVG}</span><div class="tw">{ti}</div><span class="tdots">{dots}</span><button class="tnx" aria-label="Notification suivante">{ic("chevron-right", "s")}</button></div>
+{ys_trust()}
 <div class="h2x" style="margin-top:22px"><h2>Mon équipe</h2></div>
 <section class="pcs2 crew2">{team}</section>
 <div class="h2x" style="margin-top:34px"><h2>Experts à recruter</h2><a class="link" href="recruter.html">Tous les experts {FLECHE}</a></div>
@@ -761,10 +784,11 @@ def page_recruter(brand):
                       "kw": " ".join([met, fiche_de(ph)["role"], fiche_de(ph).get("mission", "")] + [c[0] for c in fiche_de(ph).get("competences", [])]).lower()}
                      for ph, nom, met, *_ in CATALOGUE], ensure_ascii=False).replace("'", "&#39;")
     corps = f"""<div class="hire"><h1>Qui sera votre prochaine recrue&nbsp;?</h1><p class="sub hsub">Décrivez votre besoin, ou parcourez les experts prêts à rejoindre votre équipe.</p>
-<form class="ask ask2" data-kw='{kw}'><span class="ic2">{ic("sparkles", "s")}</span><input type="text" placeholder="Décrivez le travail à confier, on vous propose le bon expert" aria-label="Décrivez le travail à confier"><button class="go2" type="submit" aria-label="Trouver l'expert">{ic("arrow-up")}</button></form>
+<form class="ask ask2" id="ask" data-kw='{kw}'><span class="ic2">{ic("sparkles", "s")}</span><input type="text" placeholder="Décrivez le travail à confier, on vous propose le bon expert" aria-label="Décrivez le travail à confier"><button class="go2" type="submit" aria-label="Trouver l'expert">{ic("arrow-up")}</button></form>
 <div class="ares" hidden></div></div>
 <div class="filters" data-filter style="margin-top:16px"><div class="chips">{chips}</div></div>
-<section class="pcs2">{cards}</section>"""
+<section class="pcs2">{cards}</section>
+{ys_cta()}"""
     return page("recruter", brand, "Recruter", "<b>Recruter</b>", corps)
 
 # ---------------------------------------------------------------- chat entreprise
@@ -866,7 +890,8 @@ def adm_connect(brand):
         ctl = (f'<a class="btn o sm" href="#" data-open="cxa" data-app="{n}">Choisir les experts</a>' if on else f'<a class="btn k sm" href="#" data-open="cz" data-app="{n}">Connecter</a>')
         rows += f'<tr data-q="{n.lower()}"><td><div class="who"><img src="{FAV}{dom}" alt="" style="width:28px;height:28px;border-radius:7px"><span><b>{n}</b><br><span class="xs mute3">{d}</span></span></div></td><td class="hide-m">{c}</td><td>{who}</td><td>{ctl}</td></tr>'
     corps = f"""<div class="hello"><div class="grow"><h1>Connecteurs</h1><p class="sub">Les outils d'Unifood branchés une fois, puis donnés aux experts qui en ont besoin</p></div><span class="composio">{ic("plug-zap", "s")} Fournis par Composio</span></div>
-<div class="cfil" style="margin-top:12px"><label class="srch czs">{ic("search", "s")}<input type="search" placeholder="Chercher un outil" aria-label="Chercher un outil" data-tq></label></div>
+{ys_outils()}
+<div class="cfil" style="margin-top:18px"><label class="srch czs">{ic("search", "s")}<input type="search" placeholder="Chercher un outil" aria-label="Chercher un outil" data-tq></label></div>
 <div class="box" style="margin-top:10px"><table class="tbl"><tr><th>Outil</th><th class="hide-m">Catégorie</th><th>Experts qui y ont accès</th><th></th></tr>{rows}</table></div>"""
     return admin_page("admin-connecteurs", "Connecteurs", corps, brand)
 
@@ -1134,7 +1159,7 @@ def adm_vue(brand):
                     for ph, nom, met, *_ in CATALOGUE if ph not in deja)
     xs = "".join(f'<a class="ax" href="{xh(k)}"><img src="{B}{k}.jpg" alt=""><span class="grow"><b>{n}</b><span>{r}</span>{"" if sv == r else f'<span class="xs mute3">Service {sv}</span>'}</span>{"<span class=sw></span>" if on else "<span class=\"sw off\"></span>"}</a>' for k, n, r, sv, u, lv, p, on in ALL_EXPERTS)
     ms = "".join(f'<a class="am" href="admin-membre.html">{face(i, "", 48)}<b>{n.split(" ")[0]}</b><span>{svc}</span></a>' for i, n, po, svc, r in MEMBRES)
-    corps = f"""<div class="hello"><div class="grow"><p class="date">Administration Unifood</p><h1>Vue d'ensemble</h1></div><a class="btn p" href="recruter.html">{ic("plus", "s")} Recruter un expert</a></div>
+    corps = f"""<div class="hello"><div class="grow"><p class="date">Administration Unifood</p><h1>Vue d'ensemble</h1></div></div>
 <div class="stat4">{stat("sparkles", "7", "experts, dont 6 en service")}{stat("users", "14", "membres dans 5 services")}{stat("package", "126", "livrables ce mois-ci", '<span class="pill ok">+31</span>')}{stat("receipt", "1 300 000", "F CFA, facture du 1er novembre")}</div>
 <div class="h2x" style="margin-top:24px"><h2>Experts d'Unifood <span class="sm">6 actifs, 1 en pause</span></h2><a class="link" href="admin-experts.html">Gérer {FLECHE}</a></div><div class="axg2">{act}</div>
 <div class="h2x"><h2>Pas encore dans l'équipe <span class="sm">{len(CATALOGUE) + 3 - len(deja)}</span></h2><a class="link" href="recruter.html">Tous les experts {FLECHE}</a></div><div class="axg2">{dispo}</div>
@@ -1167,7 +1192,7 @@ def auth_page(titre, brand, droite):
 <div class="hero-img auhero"><img src="{B}hero-site.webp" alt="Trois Experts IA Yelema : Fatou, Ibrahim et Fatima">{tags}</div>
 <p class="ausec">{ic("lock", "s")} Espace sécurisé, réservé aux membres d'Unifood</p></div>"""
     return (b3.head(titre, brand) + f'<div class="auth"><div class="aucard">{gauche}<div class="aur">{droite}'
-            + f'<a class="pby aupby" href="https://leslita06.github.io/yelema-site-preview/">Powered by <img src="{B}yelema_logo_final_long.svg" alt="Yelema"></a></div></div></div>'
+            + '</div></div></div>'
             + '<div class="toast" role="status"></div>' + fin())
 
 def page_connexion(brand):
@@ -1176,7 +1201,6 @@ def page_connexion(brand):
 <form class="auf" data-login><label class="mdf"><span>Adresse email</span><span class="mdi"><input type="email" value="aicha.diabate@unifood.info" autocomplete="username"></span></label>
 <label class="mdf"><span>Mot de passe</span><span class="mdi"><input type="password" value="motdepasse" autocomplete="current-password"><button type="button" class="eye" aria-label="Afficher le mot de passe">{ic("eye", "s")}</button></span></label>
 <div class="row aurow"><label class="mdc"><input type="checkbox" checked> Rester connectée</label><a class="link" href="mot-de-passe.html">Mot de passe oublié ?</a></div>
-<div class="seg auseg"><a class="on" data-acc="accueil.html">{ic("user", "s")} Compte utilisateur</a><a data-acc="admin.html">{ic("shield-check", "s")} Compte admin</a></div>
 <button class="btn p auok" type="submit">Se connecter {ic("arrow-right", "s")}</button></form>
 <p class="xs mute3 aunote">Besoin d'un accès ? Demandez à l'administrateur d'Unifood de vous inviter.</p>"""
     return auth_page("Connexion", brand, d)
@@ -1231,5 +1255,6 @@ if __name__ == "__main__":
             html = html.replace('href="ecran.html"', 'href="fatima.html#direct"')
             open(os.path.join(d, n + ".html"), "w", encoding="utf-8").write(html)
         print("ok", brand, len(pages), "pages")
-    open(os.path.join(OUT, "index.html"), "w", encoding="utf-8").write(page_choix())
+    open(os.path.join(OUT, "plan.html"), "w", encoding="utf-8").write(page_choix())
+    open(os.path.join(OUT, "index.html"), "w", encoding="utf-8").write('<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="robots" content="noindex"><meta http-equiv="refresh" content="0; url=yelema/connexion.html"><title>Yelema</title></head><body><a href="yelema/connexion.html">Ouvrir Yelema</a></body></html>')
     print("ok index")
