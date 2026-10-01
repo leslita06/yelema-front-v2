@@ -229,3 +229,7 @@ document.querySelectorAll('[data-ask]').forEach(function(a){handled(a);a.addEven
 // connexion : le compte (utilisateur ou admin) se déduit de l'adresse
 document.querySelectorAll('[data-login]').forEach(function(f){f.addEventListener('submit',function(e){e.preventDefault();e.stopImmediatePropagation();var em=f.querySelector('input[type=email]');
   location.href=(em&&/^admin@/.test(em.value.trim()))?'admin.html':'accueil.html'},true)});
+
+// v4.10 : un widget ouvre l'onglet du tableau de bord correspondant
+document.querySelectorAll('[data-tab]').forEach(function(a){handled(a);a.addEventListener('click',function(e){e.preventDefault();var t=document.querySelector('[data-tabs] [data-t="'+a.dataset.tab+'"]');
+  if(t){t.click();var w=t.closest('[data-tabs]');if(w)w.scrollIntoView({behavior:'smooth',block:'start'})}})});

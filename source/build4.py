@@ -325,7 +325,6 @@ def page_accueil(brand):
     dots = "".join(f'<i{" class=on" if i == 0 else ""}></i>' for i in range(len(nts)))
     corps = f"""<div class="hello"><div class="grow"><p class="date">Jeudi 1er octobre</p><h1>Bonjour Aïcha</h1></div></div>
 <div class="tick" data-tick><span class="yl-mini">{YELE_SVG}</span><div class="tw">{ti}</div><span class="tdots">{dots}</span><button class="tnx" aria-label="Notification suivante">{ic("chevron-right", "s")}</button></div>
-{ys_trust()}
 <div class="h2x" style="margin-top:22px"><h2>Mon équipe</h2></div>
 <section class="pcs2 crew2">{team}</section>
 <div class="h2x" style="margin-top:34px"><h2>Experts à recruter</h2><a class="link" href="recruter.html">Tous les experts {FLECHE}</a></div>
@@ -393,6 +392,37 @@ def livr4(d, attente, extra=False):
 <div class="chips lvc">{chips}</div><div class="lvl">{rows}</div><p class="sm mute lv0" hidden>Aucun livrable pour ces filtres.</p></div>
 <div class="card"><div class="ch"><h2>{att}"""
 
+WIDGETS = {
+    "djeneba": {"kpi": [("Décisions suivies", "14", "3 en retard", "warn"), ("Réunions préparées", "6", "+2 cette semaine", "up"), ("Engagements tenus", "92 %", "+4 pts", "up")],
+                "bars": [3, 5, 2, 6, 4, 1, 0], "note": "Comité de direction demain à 9 h : la note est prête, deux décisions à trancher.", "att": 1},
+    "fatima": {"kpi": [("Publications", "18", "+5 cette semaine", "up"), ("Portée", "42 k", "+18 %", "up"), ("Engagement", "4,8 %", "-0,3 pt", "down")],
+               "bars": [2, 4, 3, 5, 3, 1, 0], "note": "Promo Sossa de la rentrée : +22 % de clics par rapport à septembre.", "att": 1},
+    "koffi": {"kpi": [("Visuels livrés", "17", "+4 cette semaine", "up"), ("Acceptés du premier coup", "76 %", "+6 pts", "up"), ("Délai moyen", "1,2 j", "-0,3 j", "up")],
+              "bars": [1, 3, 4, 2, 5, 2, 0], "note": "Packaging Super Mint v2 envoyé à l'imprimeur, maquette validée par Yao.", "att": 0},
+}
+JOURS7 = ["L", "M", "M", "J", "V", "S", "D"]
+
+def widget(k):
+    e, w = EXPERTS[k], WIDGETS[k]
+    mx = max(w["bars"]) or 1
+    bars = "".join(f'<span class="wgb"><i style="height:{max(6, round(v / mx * 100))}%"></i><em>{j}</em></span>' for v, j in zip(w["bars"], JOURS7))
+    kp = "".join(f'<div class="wgk"><span>{l}</span><b class="num">{v}</b><small class="{c}">{d}</small></div>' for l, v, d, c in w["kpi"])
+    live = '<span class="wgl"><span class="dot"></span> En train de travailler</span>' if e["live"] else ""
+    att = (f'<a class="wga" href="{k}.html#discussion">{ic("circle-alert", "s")} {w["att"]} en attente de votre accord</a>' if w["att"] else f'<span class="wga ok">{ic("circle-check", "s")} Rien en attente</span>')
+    return f"""<article class="wg"><header class="wgh"><img src="{B}{e['photo']}" alt=""><div class="grow"><b>{e['prenom']}</b><span>{e['role']}</span>{live}</div></header>
+<div class="wgks">{kp}</div>
+<div class="wgc"><div class="wgct"><span class="xs mute3">Livrables par jour, cette semaine</span></div><div class="wgbars">{bars}</div></div>
+<p class="wgn">{ic("sparkles", "s")} {w['note']}</p>
+<footer class="wgf">{att}<a class="wgo" href="#" data-tab="tb-{k}">Son tableau de bord {FLECHE}</a></footer></article>"""
+
+def codir_widgets():
+    ws = "".join(widget(k) for k in ("djeneba", "fatima", "koffi"))
+    add = f'<a class="wg wgadd" href="djeneba.html#discussion"><span class="wgplus">{ic("plus")}</span><b>Ajouter un widget</b><span class="sm mute3">Demandez à votre Chief of Staff le suivi que vous voulez voir ici : ventes, recrutement, trésorerie…</span></a>'
+    sumr = (f'<div class="wgsum"><a href="#" data-tab="temps"><b class="num">5 journées</b> de travail rendues cette semaine</a>'
+            f'<a href="#" data-tab="tb-fatima"><b class="num">46</b> livrables, dont 38 acceptés sans révision</a>'
+            f'<a href="notifications.html"><b class="num">2</b> en attente de votre accord</a></div>')
+    return f'{sumr}<section class="wgg">{ws}{add}</section>'
+
 def page_tdb(brand):
     d = DASH["equipe"]
     tabs = f'<a href="#" data-t="codir" class="on"><span class="cdr">{"".join(f'<img src="{B}{EXPERTS[x]["photo"]}" alt="">' for x in ("djeneba", "fatima", "koffi"))}</span> Codir</a>' + "".join(
@@ -404,9 +434,9 @@ def page_tdb(brand):
         att = [a for a in b3.ATTENTE_TEAM if a[0] == k]
         par += (f'<div class="panel" id="tb-{k}"><div class="tbh"><img src="{B}{e["photo"]}" alt=""><div class="grow"><b>{e["prenom"]}, {e["role"]}</b><span class="xs mute3">Pour Aïcha Diabaté et son équipe</span></div><a class="btn o sm" href="{k}.html">{ic("arrow-right", "s")} Son espace</a></div>'
                 f'{b3.kpis(dk)}<div class="g2">{b3.chart(dk, [k])}{donut4(dk)}</div>{projets4(dk)}{livr4(dk, att)}</div>')
-    corps = f"""<div class="hello"><div class="grow"><p class="date">Semaine du 28 septembre</p><h1>Tableau de bord</h1></div><a class="btn o hide-m" href="https://t.me/" target="_blank" rel="noopener">{TG} Recevoir dans Telegram</a><a class="btn o" href="#" data-open="share">{ic("share-2", "s")} Partager</a><a class="btn g" href="djeneba.html#discussion" title="Avec {EXPERTS['djeneba']['prenom']}, votre Chief of Staff"><img class="tav" src="{B}{EXPERTS['djeneba']['photo']}" alt=""> Modifier votre tableau de bord</a></div>
+    corps = f"""<div class="hello"><div class="grow"><p class="date">Semaine du 28 septembre</p><h1>Tableau de bord</h1></div><a class="btn o hide-m" href="https://t.me/" target="_blank" rel="noopener">{TG} Recevoir dans Telegram</a><a class="btn o" href="#" data-open="share">{ic("share-2", "s")} Partager</a><a class="btn g" href="djeneba.html#discussion" title="Avec {EXPERTS['djeneba']['prenom']}, votre Chief of Staff">{ic("pencil", "s")} Modifier votre tableau de bord</a></div>
 <div data-tabs><nav class="tabs tbs" style="margin-top:14px">{tabs}</nav>
-<div class="panel on" id="codir"><p class="sm mute" style="margin:2px 0 12px">Vue Codir : tout ce que l'équipe d'experts a produit, pour tous les services d'Unifood.</p>{b3.kpis(d)}<div class="g2">{b3.chart(d, ["fatima", "koffi", "djeneba"])}{donut4(d)}</div>{projets4(d)}{livr4(d, b3.ATTENTE_TEAM, True)}</div>
+<div class="panel on" id="codir"><p class="sm mute" style="margin:2px 0 12px">Vue Codir : un widget par expert, avec les chiffres de son métier. Touchez un widget pour ouvrir son tableau de bord.</p>{codir_widgets()}</div>
 {par}<div class="panel" id="temps">{temps_rendu(d, ["fatima", "koffi", "djeneba"])}</div></div>"""
     return page("tableau-de-bord", brand, "Tableau de bord", "<b>Tableau de bord</b>", corps, dock=True)
 
@@ -890,8 +920,7 @@ def adm_connect(brand):
         ctl = (f'<a class="btn o sm" href="#" data-open="cxa" data-app="{n}">Choisir les experts</a>' if on else f'<a class="btn k sm" href="#" data-open="cz" data-app="{n}">Connecter</a>')
         rows += f'<tr data-q="{n.lower()}"><td><div class="who"><img src="{FAV}{dom}" alt="" style="width:28px;height:28px;border-radius:7px"><span><b>{n}</b><br><span class="xs mute3">{d}</span></span></div></td><td class="hide-m">{c}</td><td>{who}</td><td>{ctl}</td></tr>'
     corps = f"""<div class="hello"><div class="grow"><h1>Connecteurs</h1><p class="sub">Les outils d'Unifood branchés une fois, puis donnés aux experts qui en ont besoin</p></div><span class="composio">{ic("plug-zap", "s")} Fournis par Composio</span></div>
-{ys_outils()}
-<div class="cfil" style="margin-top:18px"><label class="srch czs">{ic("search", "s")}<input type="search" placeholder="Chercher un outil" aria-label="Chercher un outil" data-tq></label></div>
+<div class="cfil" style="margin-top:12px"><label class="srch czs">{ic("search", "s")}<input type="search" placeholder="Chercher un outil" aria-label="Chercher un outil" data-tq></label></div>
 <div class="box" style="margin-top:10px"><table class="tbl"><tr><th>Outil</th><th class="hide-m">Catégorie</th><th>Experts qui y ont accès</th><th></th></tr>{rows}</table></div>"""
     return admin_page("admin-connecteurs", "Connecteurs", corps, brand)
 

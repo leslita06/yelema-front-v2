@@ -1176,3 +1176,40 @@ body.sbmini .sbt svg{transform:scaleX(-1)}
 .ys-fl i:nth-child(2){width:156px;height:36px;bottom:15%;left:-34px;transform:rotate(13deg);opacity:.42}
 @media (max-width:900px){.ys-3{grid-template-columns:1fr}.ys-ctav{padding-top:90px}.ys-ctap{width:240px}.ys-band{padding:34px 18px}.ys-grp{font-size:11.5px;gap:24px;padding-right:24px}}
 @media (max-width:900px){.sg .ctl .inp2,.sg .inp2{white-space:normal;max-width:100%;text-align:left}}
+/* v4.9b : même taille de carte quelle que soit la largeur d'écran */
+.pcs2,.crew2{grid-template-columns:repeat(auto-fill,minmax(230px,1fr))!important}
+@media (max-width:560px){.pcs2,.crew2{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
+.pcs2,.crew2{grid-template-columns:repeat(auto-fill,minmax(230px,262px))!important;justify-content:start}
+@media (max-width:560px){.pcs2,.crew2{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
+
+/* ---------- v4.10 tableau de bord Codir en widgets */
+.wgsum{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:14px}
+.wgsum a{display:inline-flex;align-items:baseline;gap:6px;padding:10px 14px;border-radius:14px;background:var(--surface);border:1px solid var(--line);font-size:14px;color:var(--ink-2)}
+.wgsum a:hover{border-color:var(--brand)}.wgsum b{font-size:17px;color:var(--ink)}
+.wgg{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:14px}
+.wg{display:flex;flex-direction:column;gap:14px;padding:18px;border-radius:22px;background:var(--surface);border:1px solid var(--line)}
+.wgh{display:flex;align-items:center;gap:12px}
+.wgh img{width:48px;height:48px;border-radius:14px;object-fit:cover;object-position:50% 15%;background:#B79BD8}
+.wgh b{display:block;font-size:16px}.wgh span{font-size:13px;color:var(--ink-3)}
+.wgl{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:650;color:#11643A;background:#E8F7EE;padding:4px 9px;border-radius:999px;white-space:nowrap}
+.wgl .dot{width:7px;height:7px;border-radius:50%;background:#1DB954}
+.wgks{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.wgk{display:flex;flex-direction:column;gap:2px;padding:10px;border-radius:14px;background:var(--soft)}
+.wgk span{font-size:12px;color:var(--ink-3);line-height:1.25;min-height:30px}.wgk b{font-size:22px;letter-spacing:-.01em}
+.wgk small{font-size:11.5px;font-weight:600;color:var(--ink-3)}.wgk small.up{color:#11643A}.wgk small.down,.wgk small.warn{color:#B4441F}
+.wgbars{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;height:74px;margin-top:6px;align-items:end}
+.wgb{display:flex;flex-direction:column;align-items:center;gap:4px;height:100%;justify-content:flex-end}
+.wgb i{display:block;width:100%;max-width:22px;border-radius:6px 6px 3px 3px;background:var(--brand);opacity:.85}
+.wgb em{font-style:normal;font-size:10.5px;color:var(--ink-3)}
+.wgn{display:flex;gap:8px;align-items:flex-start;margin:0;font-size:13.5px;line-height:1.45;color:var(--ink-2)}.wgn svg{flex:none;width:16px;height:16px;color:var(--brand);margin-top:2px}
+.wgf{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:auto;padding-top:12px;border-top:1px solid var(--line);font-size:13.5px}
+.wga{display:inline-flex;align-items:center;gap:6px;font-weight:600;color:#B4441F}.wga.ok{color:#11643A}.wga svg{width:16px;height:16px}
+.wgo{display:inline-flex;align-items:center;gap:6px;font-weight:650;color:var(--brand);white-space:nowrap}.wgo .flc{width:15px;height:15px}
+.wgadd{align-items:flex-start;justify-content:center;border-style:dashed;background:transparent;color:var(--ink);min-height:300px}
+.wgadd:hover{border-color:var(--brand);background:var(--soft)}
+.wgplus{width:48px;height:48px;border-radius:14px;display:grid;place-items:center;background:var(--soft-2);color:var(--brand)}
+.wgadd b{font-size:16px}
+@media (max-width:560px){.wgg{grid-template-columns:1fr}.wgsum a{width:100%}}
+.wgh .grow{display:flex;flex-direction:column;align-items:flex-start;gap:2px}.wgh .wgl{margin-top:4px}
+.wgadd{min-height:0;padding:22px}
+.tbs .cdr{flex:none}.tbs .cdr img{flex:none;min-width:20px;display:block}
