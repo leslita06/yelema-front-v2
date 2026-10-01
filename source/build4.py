@@ -159,7 +159,7 @@ def acmenu(admin):
     return (f'<div class="acm" hidden><div class="acl">Comptes</div>'
             f'<a class="aci{"" if admin else " on"}" href="accueil.html">{face("AD", "", 32)}<span class="grow"><b>Aïcha Diabaté</b><small>Compte utilisateur</small></span>{"" if admin else ic("check", "s")}</a>'
             f'<a class="aci{" on" if admin else ""}" href="admin.html"><span class="adav">{ic("shield-check", "s")}</span><span class="grow"><b>Admin Unifood</b><small>Compte administrateur</small></span>{ic("check", "s") if admin else ""}</a>'
-            f'<a class="aco" href="#" data-toast="Vous êtes déconnectée">{ic("log-out", "s")} Se déconnecter</a></div>')
+            f'<a class="aco" href="connexion.html#{"out-admin" if admin else "out"}">{ic("log-out", "s")} Se déconnecter</a></div>')
 ACMENU = acmenu(False)
 
 def sidebar_admin(actif, brand):
@@ -581,8 +581,8 @@ def modal_perso():
     acc = o([f'{ic("sparkles")}Auto', f'{ic("headset")}Casque', f'{ic("laptop")}Ordinateur', f'{ic("glasses")}Lunettes'])
     fond = o(['<i class="sw2" style="background:#C5C4FF"></i>Lavande', '<i class="sw2" style="background:#EBDCCB"></i>Sable',
               '<i class="sw2" style="background:#E00040"></i>Couleur Unifood', '<i class="sw2" style="background:#241C33"></i>Sombre'])
-    return f"""<div class="modal" id="pz"><div class="ov" data-close></div><div class="pn">
-<div class="lf"><img src="{B}djeneba.jpg" alt=""><img src="{B}djeneba.jpg" alt=""><img src="{B}djeneba.jpg" alt=""></div>
+    return f"""<div class="modal" id="pz"><div class="ov" data-close></div><div class="pn pzp">
+<div class="lf pzl"><figure class="pzb"><img src="{B}pied/djeneba.jpg" alt="Djénéba en pied"><figcaption>Portrait actuel</figcaption></figure><figure class="pzf"><img src="{B}djeneba.jpg" alt="Visage de Djénéba"><figcaption>Visage</figcaption></figure><figure class="pzs"><img src="{B}vid/djeneba.webp" alt="Djénéba en silhouette"><figcaption>Vidéo</figcaption></figure></div>
 <div class="rt2"><h2>Personnaliser votre Chief of Staff <button class="ib" data-close aria-label="Fermer">{ic("x", "s")}</button></h2>
 <div><p class="oq">Prénom</p><div class="nmf"><span class="v">Djénéba</span><a class="btn o" href="#">Suggérer</a></div><p class="xs mute3" style="margin-top:6px">Toute l'équipe la verra sous ce prénom, ici, sur WhatsApp et dans ses emails.</p></div>
 <div class="drop"><span class="fz">{ic("scan-face")}</span><div><b>Choisir son visage</b><div class="sm mute">Déposez une photo ou laissez Yelema en créer un</div></div></div>
@@ -590,7 +590,7 @@ def modal_perso():
 <div><p class="oq">Tenue</p><div class="opts">{style}</div></div>
 <div><p class="oq">Accessoire</p><div class="opts">{acc}</div></div>
 <div><p class="oq">Fond</p><div class="opts">{fond}</div></div>
-<a class="btn k" href="#" data-close style="min-height:50px;border-radius:99px">{ic("sparkles", "s")} Créer son nouveau portrait</a></div></div></div>"""
+<div class="pzgo"><a class="btn k" href="#" data-close data-toast="Nouveau portrait en préparation, prêt dans 2 minutes" style="min-height:50px;border-radius:99px;width:100%;justify-content:center">{ic("sparkles", "s")} Créer son nouveau portrait et sa vidéo</a></div></div></div></div>"""
 
 CURSOR = '<svg class="cur" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 2l16 9-7 2-3 7z" fill="#fff" stroke="#17112B" stroke-width="1.5" stroke-linejoin="round"/></svg>'
 def ecran_win(k, mini=False):
@@ -962,7 +962,9 @@ def adm_analytics(brand):
 def adm_profil(brand):
     corps = f"""<div style="max-width:820px"><h1>Compte administrateur</h1><p class="sub">Séparé de votre compte utilisateur. Il sert seulement à gérer l'espace Unifood.</p><div class="pfh" style="margin:12px 0 14px"><div class="pfav" style="width:96px;height:96px"><span class="adav big">{ic("shield-check")}</span></div><div><b style="font-size:20px">Admin Unifood</b><p class="sub">Tenu par Aïcha Diabaté, Directrice marketing</p></div></div>
 {sg([("Nom du compte", "", '<span class="inp2">Admin Unifood</span>'), ("Adresse email", "Différente de l'adresse utilisateur", '<span class="inp2">admin@unifood.info</span>'),
-     ("Notifications", "Un résumé chaque matin par email", '<span class="sw"></span>'), ("Double authentification", "Code par SMS à chaque connexion", '<span class="sw"></span>')])}</div>"""
+     ("Notifications", "Un résumé chaque matin par email", '<span class="sw"></span>'), ("Double authentification", "Code par SMS à chaque connexion", '<span class="sw"></span>'),
+     ("Mot de passe", "Différent de celui du compte utilisateur", f'<a class="btn o sm" href="#" data-open="mdp" data-mdwho="Compte administrateur, admin@unifood.info">{ic("key-round", "s")} Changer le mot de passe</a>'),
+     ("Se déconnecter", "Quitter le compte administrateur", f'<a class="btn o sm" href="connexion.html#out-admin">{ic("log-out", "s")} Se déconnecter</a>')])}</div>"""
     return admin_page("admin-profil", "Compte administrateur", corps, brand)
 
 
@@ -1026,8 +1028,21 @@ def modal_doc():
 <div class="dprev"><img src="{B}flyer-sossa.jpg" alt=""></div>
 <div class="row" style="gap:8px;flex-wrap:wrap"><a class="btn p" href="#" data-toast="Validé, Fatima publie">{ic("check", "s")} Valider</a><a class="btn o" href="#" data-toast="Demande de modification envoyée">Demander une modification</a><a class="btn o" href="#" data-toast="Téléchargement lancé">{ic("download", "s")} Télécharger</a></div></div></div></div>"""
 
+def modal_mdp():
+    regles = "".join(f'<li data-r="{r}">{ic("circle", "s")}{ic("circle-check", "s")} {t}</li>' for r, t in [("len", "8 caractères minimum"), ("num", "Au moins un chiffre"), ("maj", "Au moins une majuscule"), ("eq", "Les deux saisies sont identiques")])
+    champ = lambda i, l, p: f'<label class="mdf"><span>{l}</span><span class="mdi"><input type="password" id="{i}" placeholder="{p}" autocomplete="new-password"><button type="button" class="eye" aria-label="Afficher le mot de passe">{ic("eye", "s")}</button></span></label>'
+    return f"""<div class="modal" id="mdp"><div class="ov" data-close></div><div class="pn mdpp"><div class="rt2">
+<h2>Changer le mot de passe <button class="ib" data-close aria-label="Fermer">{ic("x", "s")}</button></h2>
+<p class="sm mute" data-who>Compte utilisateur, aicha.diabate@unifood.info</p>
+<form class="mdform">{champ("md0", "Mot de passe actuel", "Votre mot de passe actuel")}{champ("md1", "Nouveau mot de passe", "8 caractères minimum")}{champ("md2", "Confirmer le nouveau mot de passe", "Saisissez-le à nouveau")}
+<ul class="mdr">{regles}</ul>
+<label class="mdc"><input type="checkbox" checked> Déconnecter mes autres appareils</label>
+<button class="btn p mdok" type="submit" disabled>{ic("lock", "s")} Enregistrer le nouveau mot de passe</button>
+<a class="link mdlost" href="mot-de-passe.html">Mot de passe actuel oublié ?</a></form>
+<div class="mddone">{ic("circle-check")}<b>Mot de passe changé</b><span class="sm mute">Vos autres appareils sont déconnectés. Un email de confirmation vous a été envoyé.</span><a class="btn o" href="#" data-close>Fermer</a></div></div></div></div>"""
+
 def modales():
-    return modal_cz() + modal_cxa() + modal_jeko() + modal_share() + modal_call() + modal_inv() + modal_doc() + '<div class="toast" role="status"></div>'
+    return modal_mdp() + modal_cz() + modal_cxa() + modal_jeko() + modal_share() + modal_call() + modal_inv() + modal_doc() + '<div class="toast" role="status"></div>'
 
 # ---------------------------------------------------------------- Composio
 def modal_cz():
@@ -1131,9 +1146,10 @@ def stat(i, v, l, extra=""):
 
 def adm_membre(brand):
     xs = "".join(f'<a class="ax" href="{k}.html"><img src="{B}{k}.jpg" alt=""><span class="grow"><b>{EXPERTS[k]["prenom"]}</b><span>{EXPERTS[k]["role"]}</span></span>{ic("chevron-right", "s")}</a>' for k in ("djeneba", "fatima", "koffi"))
-    corps = f"""<div class="mp"><div class="mph">{face("AD", "", 120)}<div class="grow"><h1>Aïcha Diabaté</h1><p class="mute">Directrice marketing, Unifood</p><div class="row" style="gap:6px;margin-top:10px;flex-wrap:wrap"><span class="pill br">Admin</span><span class="pill" style="background:var(--soft-2)">Service Marketing</span><span class="pill ok">Active aujourd'hui</span></div></div>
+    corps = f"""<div class="mp"><div class="mph">{face("AD", "", 120)}<div class="grow"><h1>Aïcha Diabaté</h1><p class="mute">Directrice marketing, Unifood</p><div class="row" style="gap:6px;margin-top:10px;flex-wrap:wrap"><span class="pill br">Responsable de service</span><span class="pill" style="background:var(--soft-2)">Service Marketing</span><span class="pill ok">Active aujourd'hui</span></div></div>
 <div class="row" style="gap:8px"><a class="btn o" href="#">{ic("message-circle", "s")} Écrire</a><a class="btn p" href="#">{ic("pencil", "s")} Modifier</a></div></div>
-<div class="g2e"><div>{sg([("Email", "", '<span class="inp2">aicha.diabate@unifood.info</span>'), ("Téléphone", "", '<span class="inp2">+225 07 00 00 00 00</span>'), ("Entreprise", "", '<span class="inp2">Unifood, Abidjan</span>'), ("Rôle", "Ce qu'elle peut faire dans l'espace", '<span class="inp2">Admin : membres, experts, facturation</span>')])}</div>
+<div class="g2e"><div>{sg([("Email", "", '<span class="inp2">aicha.diabate@unifood.info</span>'), ("Téléphone", "", '<span class="inp2">+225 07 00 00 00 00</span>'), ("Entreprise", "", '<span class="inp2">Unifood, Abidjan</span>'), ("Rôle", "Ce qu'elle peut faire dans l'espace", '<span class="inp2">Responsable : ses experts et ceux du service Marketing</span>')])}
+{sg([("Mot de passe", "Modifié il y a 3 mois", f'<a class="btn o sm" href="#" data-open="mdp" data-mdwho="Compte utilisateur, aicha.diabate@unifood.info">{ic("key-round", "s")} Changer le mot de passe</a>'), ("Se déconnecter", "De cet appareil", f'<a class="btn o sm" href="connexion.html#out">{ic("log-out", "s")} Se déconnecter</a>')])}</div>
 <div><div class="box"><div class="ch"><h2 style="font-size:16px;font-weight:650">Ses experts</h2><a class="link" href="#">{ic("plus", "s")} Ajouter</a></div><div class="axg" style="grid-template-columns:1fr">{xs}</div></div>
 <div class="box" style="margin-top:12px"><div class="ch"><h2 style="font-size:16px;font-weight:650">Ce mois-ci</h2></div><div class="kv" style="font-size:14px;gap:10px"><div><span>Livrables reçus</span><b>31</b></div><div><span>Messages aux experts</span><b>64</b></div><div><span>Canaux</span><b>Telegram, WhatsApp, ici</b></div></div></div></div></div></div>"""
     return corps
@@ -1143,6 +1159,39 @@ def page_admin_membre(brand):
 
 def page_profil(brand):
     return page("profil", brand, "Mon profil", "<b>Mon profil</b>", adm_membre(brand))
+
+def auth_page(titre, brand, droite):
+    gauche = f"""<div class="aul"><a class="aulogo" href="connexion.html"><img src="{B}{CLIENT['logo']}" alt="{CLIENT['nom']}"><b>{CLIENT['nom']}</b></a>
+<div class="aut"><h1>Vos experts IA<br>vous attendent.</h1><p>Djénéba, Fatima et Koffi reprennent là où vous vous êtes arrêtée.</p>
+<div class="aupile"><img src="{B}pied/djeneba.jpg" alt=""><img src="{B}pied/fatima.jpg" alt=""><img src="{B}pied/koffi.jpg" alt=""></div></div>
+<p class="ausec">{ic("lock", "s")} Espace sécurisé, réservé aux membres d'Unifood</p></div>"""
+    return (b3.head(titre, brand) + f'<div class="auth"><div class="aucard">{gauche}<div class="aur">{droite}'
+            + f'<a class="pby aupby" href="https://leslita06.github.io/yelema-site-preview/">Powered by <img src="{B}yelema_logo_final_long.svg" alt="Yelema"></a></div></div></div>'
+            + '<div class="toast" role="status"></div>' + fin())
+
+def page_connexion(brand):
+    d = f"""<div class="aumsg" data-out hidden>{ic("circle-check", "s")} <span>Vous êtes déconnectée. À bientôt, Aïcha.</span></div>
+<h2>Connexion à votre espace</h2><p class="sub">Entrez vos identifiants pour retrouver vos experts.</p>
+<form class="auf" data-login><label class="mdf"><span>Adresse email</span><span class="mdi"><input type="email" value="aicha.diabate@unifood.info" autocomplete="username"></span></label>
+<label class="mdf"><span>Mot de passe</span><span class="mdi"><input type="password" value="motdepasse" autocomplete="current-password"><button type="button" class="eye" aria-label="Afficher le mot de passe">{ic("eye", "s")}</button></span></label>
+<div class="row aurow"><label class="mdc"><input type="checkbox" checked> Rester connectée</label><a class="link" href="mot-de-passe.html">Mot de passe oublié ?</a></div>
+<div class="seg auseg"><a class="on" data-acc="accueil.html">{ic("user", "s")} Compte utilisateur</a><a data-acc="admin.html">{ic("shield-check", "s")} Compte admin</a></div>
+<button class="btn p auok" type="submit">Se connecter {ic("arrow-right", "s")}</button></form>
+<p class="xs mute3 aunote">Besoin d'un accès ? Demandez à l'administrateur d'Unifood de vous inviter.</p>"""
+    return auth_page("Connexion", brand, d)
+
+def page_mdp_oublie(brand):
+    d = f"""<a class="back" href="connexion.html">{ic("arrow-left", "s")} Retour à la connexion</a>
+<div class="aust" data-st="1"><h2>Mot de passe oublié</h2><p class="sub">Indiquez votre adresse email. Nous vous envoyons un lien pour en choisir un nouveau.</p>
+<form class="auf" data-forgot><label class="mdf"><span>Adresse email</span><span class="mdi"><input type="email" value="aicha.diabate@unifood.info"></span></label>
+<button class="btn p auok" type="submit">Recevoir le lien {ic("arrow-right", "s")}</button></form></div>
+<div class="aust" data-st="2" hidden><span class="aubig">{ic("mail-check")}</span><h2>Vérifiez vos emails</h2><p class="sub">Un lien vient de partir vers <b>aicha.diabate@unifood.info</b>. Il reste valable 30 minutes.</p>
+<a class="btn o" href="#" data-next="3">J'ai cliqué sur le lien</a><a class="link" href="#" data-toast="Nouveau lien envoyé" style="margin-top:12px;display:inline-block">Renvoyer le lien</a></div>
+<div class="aust" data-st="3" hidden><h2>Nouveau mot de passe</h2><p class="sub">Choisissez-le, puis reconnectez-vous.</p>
+<form class="auf" data-reset><label class="mdf"><span>Nouveau mot de passe</span><span class="mdi"><input type="password" placeholder="8 caractères minimum"><button type="button" class="eye" aria-label="Afficher le mot de passe">{ic("eye", "s")}</button></span></label>
+<label class="mdf"><span>Confirmer</span><span class="mdi"><input type="password" placeholder="Saisissez-le à nouveau"></span></label>
+<button class="btn p auok" type="submit">Enregistrer et me connecter {ic("arrow-right", "s")}</button></form></div>"""
+    return auth_page("Mot de passe oublié", brand, d)
 
 def page_choix():
     s = b3.page_choix()
@@ -1171,7 +1220,8 @@ if __name__ == "__main__":
         d = os.path.join(OUT, brand); os.makedirs(d, exist_ok=True)
         pages = {"accueil": page_accueil(brand), "tableau-de-bord": page_tdb(brand), "notifications": page_notifs(brand), "recruter": page_recruter(brand), "memoire": page_memoire(brand),
                  "admin": adm_vue(brand), "admin-general": adm_general(brand), "admin-membre": page_admin_membre(brand), "profil": page_profil(brand), "chat": page_chat(brand), "admin-experts": adm_experts(brand), "admin-membres": adm_membres(brand), "admin-facturation": adm_factu(brand),
-                 "admin-analytics": adm_analytics(brand), "admin-chat": admin_page("admin-chat", "Chat entreprise", memoire_corps(True), brand), "admin-profil": adm_profil(brand), "admin-connecteurs": adm_connect(brand)}
+                 "admin-analytics": adm_analytics(brand), "admin-chat": admin_page("admin-chat", "Chat entreprise", memoire_corps(True), brand), "admin-profil": adm_profil(brand), "admin-connecteurs": adm_connect(brand),
+                 "connexion": page_connexion(brand), "mot-de-passe": page_mdp_oublie(brand)}
         for k in ("djeneba", "fatima", "koffi"):
             pages[k] = page_expert(k, brand)
         for c in CATALOGUE:
