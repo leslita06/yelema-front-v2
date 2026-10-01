@@ -1,8 +1,20 @@
-# Front client Yelema v2 : fiche pour l'intégration
+# Front client Yelema : fiche pour l'intégration (v3, ordinateur d'abord)
 
-Maquettes HTML statiques, données fictives (entreprise « Sika Distribution » inventée). Elles fixent le parcours, la hiérarchie et les composants ; l'équipe tech les intègre dans le front React existant (Clerk pour la connexion, Supabase pour la base, chat des experts via Hermès / Agent 37).
+Maquettes HTML statiques. Démo avec Unifood comme client (vrai prospect), personnes, projets et chiffres inventés. Deux habillages : `yelema/` (couleurs Yelema, logo du client) et `client/` (couleurs du client), produits par `source/build3.py` à partir des mêmes données. La v2 mobile reste dans `v2/`. Elles fixent le parcours, la hiérarchie et les composants ; l'équipe tech les intègre dans le front React existant (Clerk pour la connexion, Supabase pour la base, chat des experts via Hermès / Agent 37).
 
-## Parcours (vue utilisateur)
+## V3 : écrans ordinateur
+
+| Écran | Fichier | Rôle |
+|---|---|---|
+| Tableau de bord de l'équipe | `accueil.html` | Brief de Djénéba, bandeau d'impact, en direct, à valider, compteurs, activité, formats, projets, livrables, équipe ; Djénéba ouverte à droite |
+| Tableau de bord d'un expert | `fatima.html`, `koffi.html`, `djeneba.html` | Même structure que les tableaux de bord Experts existants (mstudio-frames), discussion avec l'expert à droite |
+| En direct | `ecran.html` | Écran de l'expert, étapes, outils utilisés |
+| Recruter | `recruter.html` | Experts disponibles, prix, recrutement |
+| Espace entreprise | `entreprise.html` | Facture, droits, membres |
+
+Habillage : tokens sous `[data-brand="yelema"]` et `[data-brand="client"]` dans `source/app.css`. Pour un nouveau client, changer `--brand`, `--accent`, `--band` et les couleurs de graphique `--c1` à `--c6`, plus le logo.
+
+## V2 : parcours mobile (vue utilisateur)
 
 | Écran | Fichier | Rôle |
 |---|---|---|
