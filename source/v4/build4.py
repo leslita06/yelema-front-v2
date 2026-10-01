@@ -21,7 +21,7 @@ def _head_modes(titre, brand):
     return _b3head(titre, brand).replace('<link rel="stylesheet" href="../app.css"></head>', '<link rel="stylesheet" href="../app.css"><script>try{var a=localStorage.getItem("yap")||"clair";if(a==="sombre"||(a==="auto"&&matchMedia("(prefers-color-scheme: dark)").matches))document.documentElement.setAttribute("data-mode","nuit")}catch(e){}</script></head>')
 b3.head = _head_modes
 
-OUT = os.path.join(ICI, "site")
+OUT = os.environ.get("YOUT") or os.path.join(ICI, "site")
 B = "../img/"
 TG = '<svg class="tg" viewBox="0 0 240 240" aria-hidden="true"><circle cx="120" cy="120" r="120" fill="#2AABEE"/><path fill="#fff" d="M54 117.4c35-15.2 58.3-25.3 70-30.2 33.3-13.9 40.2-16.3 44.7-16.4 1 0 3.2.2 4.7 1.4 1.2 1 1.5 2.3 1.7 3.3.2 1 .4 3.1.2 4.8-1.8 19-9.6 65.1-13.6 86.3-1.7 9-5 12-8.2 12.3-7 .6-12.3-4.6-19-9.1-10.6-6.9-16.5-11.2-26.8-18-11.9-7.8-4.2-12.1 2.6-19.1 1.8-1.8 32.6-29.9 33.2-32.4.1-.3.1-1.5-.6-2.1-.7-.6-1.7-.4-2.5-.2-1.1.2-17.8 11.3-50.2 33.1-4.7 3.3-9 4.9-12.9 4.8-4.2-.1-12.4-2.4-18.4-4.4-7.4-2.4-13.3-3.7-12.8-7.8.3-2.1 3.2-4.3 8.8-6.5z"/></svg>'
 FAV = "https://www.google.com/s2/favicons?sz=64&domain="
@@ -700,7 +700,7 @@ def wbody(t, d):
         cols = "".join(f'<div class="wkb"><h5>{h} <span class="cnt">{len(xs)}</span></h5>' + "".join(f'<a href="#" class="wkc" data-p="{p}" data-toast="Ouverture : {x}">{x}{ptag(p)}</a>' for x, p in xs) + '</div>' for h, xs in d["cols"])
         return f'<div class="wkbs">{cols}</div>'
     if t == "bat":
-        it = "".join(f'<div class="wbat" data-p="{p}"><img src="{B}{im}" alt=""><span class="grow"><b>{a}</b><small>{b_}</small></span><span class="row" style="gap:6px"><a href="#" class="btn o sm" data-toast="Demande de retouche envoyée à Koffi">Retoucher</a><a href="#" class="btn p sm" data-toast="BAT validé, envoyé à l’imprimeur">Valider</a></span></div>' for im, a, b_, p in d["items"])
+        it = "".join(f'<div class="wbat" data-p="{p}"><img src="{B}{im}" alt=""><span class="grow"><b>{a}</b><small>{b_}</small></span><span class="row" style="gap:6px"><a href="#" class="btn p sm" data-toast="BAT validé, envoyé à l’imprimeur">Valider</a></span></div>' for im, a, b_, p in d["items"])
         return f'<div class="wbats">{it}</div>'
     return ""
 
@@ -946,7 +946,7 @@ def page_tdb(brand):
     par += "".join(f'<div class="panel" id="tb-{k}">{tdb_agent(k)}</div>' for k in ("fatima", "koffi"))
     par += "".join(f'<div class="panel" id="tb-{p[0]}">{tdb_agent(p[0], p)}</div>' for p in TDB_PART)
     corps = f"""<div class="hello"><div class="grow"><p class="date">Semaine du 28 septembre</p><h1>Tableaux de bord</h1></div><button class="btn o tbswitch" type="button" aria-expanded="false">{ic("layout-list", "s")} Tous les tableaux <b class="num">{len(MINE) + len(TDB_PART)}</b>{ic("chevron-down", "s")}</button><a class="btn g" href="#" data-open="newtdb">{ic("plus", "s")} Créer un tableau</a></div>
-<div data-tabs class="tbl">{rail}<div class="tbmain">{par}</div></div>"""
+<div data-tabs class="tbx">{rail}<div class="tbmain">{par}</div></div>"""
     xs = "".join(f'<label class="nx"><input type="radio" name="nxe"{" checked" if k == "djeneba" else ""}><img src="{B}{qui(k)["photo"]}" alt=""><b>{qui(k)["prenom"]}</b><small>{qui(k)["role"]}</small></label>' for k in ("djeneba", "fatima", "koffi"))
     pj = "".join(f'<option>{n}</option>' for _, n in list(PROJ.values())[:4])
     corps += f"""<div class="modal" id="newtdb"><div class="ov" data-close></div><div class="pn shpn"><button class="ib x" data-close aria-label="Fermer">{ic("x")}</button>
@@ -1488,7 +1488,7 @@ def page_recrue(ph, brand):
     corps = f"""<div class="rq"><aside class="rqc"><a class="back" href="recruter.html">{ic("arrow-left", "s")} Tous les experts</a>
 <div class="rqp">{vid(ph, nom)}<span class="nm"><b>{nom}</b><span>{esc(fi["role"])}</span></span></div>
 <p class="sm" style="margin-top:12px">{esc(fi["tl"])}</p>
-<div class="row" style="gap:6px;flex-wrap:wrap;margin-top:12px"><span class="pill" style="background:var(--soft-2)"><b>{len(fi.get("competences", []))}</b>&nbsp;compétences</span><span class="pill" style="background:var(--soft-2)"><b>{len(fi.get("livrables", []))}</b>&nbsp;livrables</span><span class="pill" style="background:var(--soft-2)"><b>{len(fi.get("outils", []))}</b>&nbsp;outils</span></div>
+
 <div class="rqprice"><a class="btn p rqgo" href="#rq-go">{ic("user-plus", "s")} Recruter {nom}</a></div></aside>
 <div class="rqm">{x_fiche(ph)}
 <div class="rqbox" id="rq-go"><h3 class="h3s" style="margin-top:0">Recruter {nom}</h3>
@@ -2167,6 +2167,479 @@ def page_choix():
 </div><p class="sm mute" style="margin-top:18px">Versions précédentes : <a class="link" href="v3/index.html">v3</a>, <a class="link" href="v2/index.html">v2 mobile</a></p></div></body>""")
     return s
 
+# ---------- v4.18 mobile (barre d'onglets, feuilles), deux boutons d'affichage, tableaux de bord retravaillés, dates en français, états en cours
+def modes_btn(actif, brand):
+    return (f'<button class="tbtn ico apbtn" data-pop="eclair" aria-label="Éclairage" title="Éclairage">{ic("sun", "s")}{ic("moon", "s")}</button>'
+            f'<button class="tbtn ico" data-pop="modes" aria-label="Couleurs" title="Couleurs">{ic("palette", "s")}</button>')
+
+def modes_pop(actif, brand):
+    def th(b, nom, sub, sw):
+        on = " on" if b == brand else ""
+        return (f'<a class="mdx{on}" href="../{b}/{actif}.html"><span class="msw">{sw}</span>'
+                f'<span class="grow"><b>{nom}</b><small>{sub}</small></span><span class="mck">{ic("check", "s")}</span></a>')
+    ap = "".join(f'<a class="apo" data-ap="{k}"><span class="ic">{ic(i, "s")}</span><span class="grow"><b>{l}</b><small>{d}</small></span><span class="mck">{ic("check", "s")}</span></a>' for k, i, l, d in
+                 [("clair", "sun", "Clair", "Fond blanc, pour la journée"), ("sombre", "moon", "Sombre", "Fond foncé, repose les yeux le soir"),
+                  ("auto", "sun-moon", "Automatique", "Suit le réglage de votre appareil")])
+    return f"""<div class="pop mpop" id="eclair"><h3>Éclairage</h3><div class="apseg apl">{ap}</div></div>
+<div class="pop mpop" id="modes"><h3>Couleurs</h3>
+{th("yelema", "Yelema", "Les couleurs Yelema", '<i style="background:#301667"></i><i style="background:#8D68FA"></i><i style="background:#E4765A"></i>')}
+{th("client", "Votre entreprise", "La charte d’Unifood", '<i style="background:#E00040"></i><i style="background:#F8B400"></i><i style="background:#5A1022"></i>')}</div>"""
+
+def topbar(crumb, actif, brand):
+    return f"""<header class="top"><a class="mlogo" href="accueil.html" aria-label="Accueil"><img src="{B}{CLIENT['logo']}" alt="{CLIENT['nom']}"></a><div class="crumb grow">{crumb}</div>
+{modes_btn(actif, brand)}
+<button class="tbtn ico" data-pop="ping" aria-label="Messages">{ic("message-circle", "s")}<span class="bdg">2</span></button>
+<button class="tbtn ico" data-pop="notifs" aria-label="Notifications">{ic("bell", "s")}<span class="bdg">4</span></button>
+</header>"""
+
+def tabbar(actif):
+    eq = actif in ("djeneba", "fatima", "koffi", "recruter") or actif.startswith("recrue")
+    its = [("house", "Accueil", "accueil.html", actif == "accueil", ""), ("layout-dashboard", "Tableaux", "tableau-de-bord.html", actif == "tableau-de-bord", ""),
+           ("message-square-text", "Chat", "memoire.html", actif in ("memoire", "chat"), ""), ("users", "Équipe", "#", eq, ' data-sheet="sh-equipe"'),
+           ("circle-user-round", "Moi", "#", actif in ("profil", "notifications"), ' data-sheet="sh-moi"')]
+    a = "".join(f'<a href="{h}"{x}{" class=on aria-current=page" if on else ""}><span class="tbi">{ic(i, "s")}</span>{l}</a>' for i, l, h, on, x in its)
+    rows = ""
+    for k in ("djeneba", "fatima", "koffi"):
+        e = EXPERTS[k]
+        st = '<span class="mslive"><span class="dot"></span> Au travail</span>' if e["live"] else '<span class="xs mute3">Disponible</span>'
+        rows += (f'<a class="msr{" on" if actif == k else ""}" href="{k}.html"><img src="{B}{e["photo"]}" alt=""><span class="grow"><b>{e["prenom"]}</b><small>{e["role"]}</small></span>{st}</a>')
+    eqs = (f'<div class="msheet" id="sh-equipe" role="dialog" aria-modal="true" aria-label="Mon équipe"><div class="msov" data-shclose></div><div class="mspn"><span class="msgrip"></span>'
+           f'<h3>Mon équipe</h3>{rows}<div class="msb"><a class="btn o" href="chat.html">{ic("messages-square", "s")} Discussions</a><a class="btn p" href="recruter.html">{ic("user-plus", "s")} Recruter un expert</a></div></div></div>')
+    moi = (f'<div class="msheet" id="sh-moi" role="dialog" aria-modal="true" aria-label="Mon compte"><div class="msov" data-shclose></div><div class="mspn"><span class="msgrip"></span>'
+           f'<a class="msme" href="profil.html">{face("AD", "", 48)}<span class="grow"><b>Aïcha Diabaté</b><small>Directrice marketing, Unifood</small></span>{ic("chevron-right", "s")}</a>'
+           f'<a class="msi" href="notifications.html">{ic("bell", "s")} Notifications<span class="n">4</span></a>'
+           f'<a class="msi" href="admin.html">{ic("settings", "s")} Administration</a>'
+           f'<a class="msi" href="#" data-yele>{ic("life-buoy", "s")} Aide, avec Yélé</a>'
+           f'<a class="msi" href="connexion.html#out">{ic("log-out", "s")} Se déconnecter</a>'
+           f'<a class="pby" href="https://leslita06.github.io/yelema-site-preview/">Powered by <img src="{B}yelema_logo_final_long.svg" alt="Yelema"></a></div></div>')
+    return f'<nav class="tabbar" aria-label="Navigation principale">{a}</nav>{eqs}{moi}'
+
+def page(actif, brand, titre, crumb, corps, wrap=True, dock=False):
+    d = ""
+    if dock:
+        d = (f'<a class="dock" href="djeneba.html#discussion"><div class="in"><span class="who"><img src="{B}djeneba.jpg" alt=""><img src="{B}fatima.jpg" alt=""><img src="{B}koffi.jpg" alt=""></span>'
+             f'<span class="ph">Demander à mon équipe</span><span class="mic">{ic("mic", "s")}</span></div></a>')
+    inner = f'<div class="page">{corps}</div>' if wrap else corps
+    return (b3.head(titre, brand) + '<div class="app">' + sidebar(actif, brand) + '<main style="min-width:0">' + topbar(crumb, actif, brand)
+            + inner + '</main></div>' + pops() + modes_pop(actif, brand) + yele() + modales() + d + tabbar(actif) + fin())
+
+# états en cours, vivants
+LIVE = {"fatima": ("Rédige les 3 posts de la promo Sossa", ["Relit le brief de la campagne", "Écrit le texte du post 2 sur 3", "Choisit le visuel avec Koffi", "Vérifie la charte et les mentions"], 64, "environ 12 min")}
+def live_now(k, compact=False):
+    if k not in LIVE:
+        return ""
+    e = EXPERTS[k]
+    t, steps, pc, rest = LIVE[k]
+    st = "".join(f'<span{" class=on" if n == 1 else ""}>{s}</span>' for n, s in enumerate(steps))
+    return (f'<a class="lvnow{" sm" if compact else ""}" href="{k}.html#direct" data-live><span class="lvav"><img src="{B}{e["photo"]}" alt=""><i></i></span>'
+            f'<span class="grow"><span class="lvtt"><b>{e["prenom"]}</b> {t[0].lower() + t[1:]}</span><span class="lvs2" aria-live="polite">{st}</span>'
+            f'<span class="lvbar"><i style="width:{pc}%"></i></span></span><span class="lvr"><b class="num" data-pc="{pc}">{pc} %</b><small>{rest}</small></span></a>')
+
+_page_accueil_avant = page_accueil
+def page_accueil(brand):
+    h = _page_accueil_avant(brand)
+    return h.replace('<div class="h2x" style="margin-top:22px"><h2>Mon équipe</h2></div>',
+                     f'<div class="h2x" style="margin-top:22px"><h2>En ce moment</h2></div>{live_now("fatima")}<div class="h2x" style="margin-top:26px"><h2>Mon équipe</h2></div>', 1)
+
+_page_expert_avant = page_expert
+def page_expert(k, brand):
+    h = _page_expert_avant(k, brand)
+    if k in LIVE:
+        h = h.replace('<div class="rail"><div class="rbox">', f'<div class="rail"><div class="rbox lvbox"><h4>{ic("loader", "s")} En ce moment</h4>{live_now(k, True)}</div><div class="rbox">', 1)
+    return h
+
+# tableaux de bord : filtres sur une ligne, période étendue
+PERIODES = [("semaine", "Semaine"), ("mois", "Mois"), ("trimestre", "Trimestre"), ("semestre", "Semestre"), ("annee", "Année")]
+def fdd(cls, icone, label, corps, extra=""):
+    return (f'<details class="fdd {cls}"{extra}><summary>{ic(icone, "s")}<span class="fdl ell">{label}</span>{ic("chevron-down", "s")}</summary>'
+            f'<div class="fdp">{corps}</div></details>')
+
+def filtres(k=None):
+    used = [p for p in PROJ if k and any(p in w[2] for w in TDB[k])] or list(PROJ)[:4]
+    tout = FILT_LBL.get(k, "Tous les projets")
+    nom = {"Tous les postes": "un poste", "Toutes les zones": "une zone", "Toutes les campagnes": "une campagne"}.get(tout, "un projet")
+    items = f'<a class="fdo on" data-fp="">{ic("layers", "s")} <span>{tout}</span>{ic("check", "s")}</a>' + "".join(
+        f'<a class="fdo" data-fp="{p}">{ic(PROJ[p][0], "s")} <span>{PROJ[p][1]}</span>{ic("check", "s")}</a>' for p in used)
+    pr = fdd("fdpj", "folder-kanban", tout, f'<label class="fdq">{ic("search", "s")}<input type="search" placeholder="Chercher {nom}" aria-label="Chercher {nom}"></label><div class="fdos">{items}</div><p class="fdnone" hidden>Aucun résultat.</p>')
+    per = '<div class="seg tdper">' + "".join(f'<a data-per="{v}"{" class=on" if v == "semaine" else ""}>{l}</a>' for v, l in PERIODES) + '</div>'
+    dt = f'<p class="fdh">Ou des dates précises</p><label class="anr tddt">{ic("calendar", "s")}<input type="date" value="2026-09-28" aria-label="Du"><span>au</span><input type="date" value="2026-10-04" aria-label="Au"></label>'
+    pe = fdd("fdpe", "calendar-range", "Cette semaine", per + dt)
+    ty = ""
+    if k:
+        ty = (f'<label class="tdty fsel">{ic("shapes", "s")}<select aria-label="Type de bloc"><option value="">Tous les blocs</option>'
+              + "".join(f'<option>{w[1]}</option>' for w in TDB[k] if w[0] != "kst") + f'</select>{ic("chevron-down", "s")}</label>')
+    q = f'<label class="srch tdq">{ic("search", "s")}<input type="search" placeholder="Chercher dans le tableau" aria-label="Chercher dans le tableau"></label>'
+    return f'<div class="tdf tdf1">{pr}{pe}{ty}{q}</div>'
+
+def dl_menu(nom):
+    return (f'<details class="dlm"><summary class="btn o sm">{ic("download", "s")} <span>Télécharger</span></summary><div class="dlml">'
+            f'<a href="#" data-toast="PowerPoint téléchargé : {nom}.pptx"><span class="pdfi ppt">PPT</span><span><b>PowerPoint</b><small>Modifiable, une diapositive par bloc</small></span></a>'
+            f'<a href="#" data-toast="PDF téléchargé : {nom}.pdf"><span class="pdfi">PDF</span><span><b>PDF</b><small>Prêt à imprimer ou à envoyer</small></span></a><p class="dlsig">Chaque export porte la signature Yelema en bas de page.</p></div></details>')
+
+def gs_btn(nom):
+    return f'<a class="btn o sm gsb" href="#" data-open="gslides" data-gs="{nom}"><img src="{FAV}slides.google.com" alt=""> <span>Google Slides</span></a>'
+
+def tb_editbar(k):
+    e = qui(k)
+    fm = "".join(f'<label class="fmc"><input type="checkbox"{" checked" if n == 0 else ""} value="{l}">{ic(i_, "s")} {l}</label>' for n, (i_, l) in enumerate(TB_FMTS))
+    sg_ = "".join(f'<span data-sw="{x}">{ic("sparkles", "s")} {x}</span>' for x in TB_ASK.get(k, SUGG_W.get(k, [])))
+    ex = TB_ASK.get(k, ["les chiffres de la semaine"])[0].lower()
+    return (f'<div class="tbedit"><div class="tbeh"><span class="ic">{ic("pencil", "s")}</span><div class="grow"><b>Vous modifiez ce tableau</b><span>Glissez les blocs pour les déplacer, masquez-les dans les partages ou retirez-les.</span></div>'
+            f'<a class="btn p sm tbdone" href="#">{ic("check", "s")} Enregistrer</a></div>'
+            f'<div class="tbcmp"><div class="seg tbmode"><a class="on" data-m="new">{ic("square-plus", "s")} Nouveau bloc</a><a data-m="fb">{ic("message-square-text", "s")} Retour sur le tableau</a></div>'
+            f'<div class="tbfmw"><p class="tbfl">Formats du bloc <small>un ou plusieurs</small></p><div class="fmts sm tbfm">{fm}</div></div>'
+            f'<div class="tbthr" aria-live="polite"></div>'
+            f'<form class="tbask" data-k="{k}" data-who="{e["prenom"]}"><img src="{B}{e["photo"]}" alt=""><div class="tbin"><textarea rows="2" data-ph-new="Décrivez le bloc à {e["prenom"]}, par exemple : {ex}" data-ph-fb="Dites à {e["prenom"]} ce qu’il faut changer, par exemple : les chiffres en mois plutôt qu’en semaines" placeholder="Décrivez le bloc à {e["prenom"]}, par exemple : {ex}" aria-label="Votre demande à {e["prenom"]}"></textarea>'
+            f'<div class="tbinb"><span class="tbsel xs mute3"></span><button class="tbsend" type="submit" aria-label="Envoyer à {e["prenom"]}">{ic("arrow-up", "s")}</button></div></div></form>'
+            f'<div class="mws">{sg_}</div></div></div>')
+
+def tdb_agent(k, part=None, titre=None, copie=False):
+    e = qui(k)
+    ws = "".join(wcard(k, *w) for w in TDB[k])
+    if part:
+        _, par_, ini, droit, exp, titre_ = part
+        head = (f'<div class="tbh2"><div class="grow"><h2>{titre_}</h2><span class="tbby">{face(ini, "", 22)} Partagé par {par_}, '
+                f'{ic("pencil" if droit == "Édition" else "eye", "s")} {droit.lower()} jusqu’au {exp}</span></div>'
+                f'<div class="tbact">{gs_btn(titre_)}{dl_menu(titre_)}<a class="btn p sm" href="#" data-dupk="tb-{part[0]}-copie" data-dup2="{titre_}">{ic("copy-plus", "s")} <span>Copier dans mes tableaux</span></a></div></div>')
+        bar = ""
+    else:
+        titre = titre or TB_TITRE.get(k, "Tableau de " + e["prenom"])
+        tid = {"Nouvelle ligne de confiserie": "djeneba2"}.get(titre, k)
+        dup = "" if copie else f'<a class="btn o sm tbdup" href="#" data-dupk="tb-{tid}-copie" data-dup2="{titre}" aria-label="Dupliquer">{ic("copy-plus", "s")} <span>Dupliquer</span></a>'
+        sub = (f'<span class="tbby tbcp">{ic("copy", "s")} Copie de « {titre[:-8]} », créée à l’instant par vous. Adaptez-la avant de la partager.</span>' if copie else
+               f'<span class="tbby"><img src="{B}{e["photo"]}" alt=""> Tenu par {e["prenom"]}, {e["role"]}, mis à jour aujourd’hui à 10:31</span>')
+        head = (f'<div class="tbh2"><div class="grow"><h2>{titre}</h2>{sub}</div>'
+                f'<div class="tbact"><a class="btn o sm tbed" href="#">{ic("pencil", "s")} <span>Modifier</span></a>'
+                f'{dup}{gs_btn(titre)}{dl_menu(titre)}'
+                f'<a class="btn p sm" href="#" data-open="share" data-shk="{k}">{ic("share-2", "s")} <span>Partager</span></a></div></div>')
+        bar = tb_editbar(k)
+    sig = (f'<a class="tbsig" href="https://leslita06.github.io/yelema-site-preview/" target="_blank" rel="noopener"><span>Tableau préparé par {e["prenom"]}, Expert IA Yelema {SIG_SPEC.get(k, "")}.</span>'
+           f'<span class="pby2">Powered by <img src="../img/yelema_logo_final_long.svg" alt="Yelema"></span></a>')
+    return f'{head}{bar}{filtres(k)}<section class="mwg2">{ws}</section>{sig}'
+
+def modal_gslides():
+    return f"""<div class="modal" id="gslides"><div class="ov" data-close></div><div class="pn shpn gspn"><button class="ib x" data-close aria-label="Fermer">{ic("x")}</button>
+<div class="row" style="gap:10px;align-items:center"><img src="{FAV}slides.google.com" alt="" style="width:28px;height:28px"><div><h2 style="margin:0">Présentation Google Slides</h2><p class="sm mute gsn">Tableau</p></div></div>
+<div class="gsv"><div class="gss on"><span class="gsk">Diapositive 1</span><b class="gst">Tableau</b><span class="gsd">Semaine du 28 septembre</span><span class="gsf">Powered by <img src="../img/yelema_logo_final_long.svg" alt="Yelema"></span></div>
+<div class="gsth"><i class="on"></i><i></i><i></i><i></i><i></i><i></i></div></div>
+<p class="xs mute3">Une diapositive par bloc, mise à jour à chaque nouvelle version du tableau. Rangée dans votre Drive, dossier Tableaux de bord.</p>
+<div class="row" style="justify-content:flex-end;gap:8px;margin-top:14px;flex-wrap:wrap"><a class="btn o" href="#" data-close data-toast="Lien de la présentation copié">{ic("link", "s")} Copier le lien</a><a class="btn p" href="#" data-close data-toast="Présentation ouverte dans Google Slides">{ic("external-link", "s")} Ouvrir dans Google Slides</a></div></div></div>"""
+
+_page_tdb_avant = page_tdb
+def page_tdb(brand):
+    h = _page_tdb_avant(brand)
+    # copies prêtes, révélées par Dupliquer
+    cps = [("djeneba", "djeneba", "Pilotage de la direction"), ("djeneba2", "djeneba", "Nouvelle ligne de confiserie"), ("fatima", "fatima", "Marketing et contenu"), ("koffi", "koffi", "Studio design")]
+    cps += [(p[0], p[0], p[5]) for p in TDB_PART]
+    lis = "".join(f'<a href="#" data-t="tb-{tid}-copie" data-g="mine" hidden><span class="tbav"><img src="{B}{qui(x)["photo"]}" alt=""></span><span class="grow"><b>{t} (copie)</b><small>Vous, à l’instant</small></span></a>' for tid, x, t in cps)
+    pans = "".join(f'<div class="panel" id="tb-{tid}-copie">{tdb_agent(x, titre=t + " (copie)", copie=True)}</div>' for tid, x, t in cps)
+    h = h.replace('<p class="tbg">Partagés avec moi', lis + '<p class="tbg">Partagés avec moi', 1)
+    h = h.replace('<div class="tbmain">', '<div class="tbmain">' + pans, 1)
+    # création : le nom d'abord, plusieurs formats, période étendue, Google Slides, PowerPoint, PDF
+    h = h.replace('<h3 class="shh">Avec quel expert</h3>', '<label class="fl2 ntn"><span>Nom du tableau</span><input class="fi" style="width:100%" placeholder="Par exemple : Lancement Super Mint" aria-label="Nom du tableau"></label><h3 class="shh">Avec quel expert</h3>', 1)
+    h = h.replace('<option>Cette semaine</option><option>Ce mois-ci</option><option>Ce trimestre</option>', '<option>Cette semaine</option><option>Ce mois-ci</option><option>Ce trimestre</option><option>Ce semestre</option><option>Cette année</option>', 1)
+    h = h.replace('<h3 class="shh">Formats préférés</h3>', '<h3 class="shh">Formats des blocs <small class="xs mute3">un ou plusieurs</small></h3>', 1)
+    h = h.replace(f'<label class="fmc"><input type="checkbox">{ic("file-text", "s")} PDF</label>',
+                  f'<label class="fmc"><input type="checkbox"><span class="pdfi ppt sm">PPT</span> PowerPoint</label><label class="fmc"><input type="checkbox" checked><span class="pdfi sm">PDF</span> PDF</label>', 1)
+    h = h.replace('data-toast="Tableau en cours de création, il arrive dans Mes tableaux dans quelques minutes"', 'data-newtb data-toast="Tableau en cours de création, il arrive dans Mes tableaux dans quelques minutes"', 1)
+    h = h.replace('</main>', '</main>' + modal_gslides(), 1)
+    return h
+
+# compte : menu standard (profil, administration, aide, changer de compte, se déconnecter)
+def acmenu(admin):
+    if admin:
+        return (f'<div class="acm" hidden><div class="ach"><span class="adav">{ic("shield-check", "s")}</span><span class="grow"><b>Administrateur</b><small>admin@unifood.info</small></span></div>'
+                f'<a class="acx" href="admin-profil.html">{ic("user-round", "s")} Profil administrateur</a>'
+                f'<a class="acx" href="accueil.html">{ic("arrow-left", "s")} Retour à mon espace</a><div class="acsep"></div>'
+                f'<a class="acx" href="accueil.html">{face("AD", "", 22)} Passer au compte d’Aïcha<span class="xs mute3">Utilisateur</span></a>'
+                f'<a class="acx out" href="connexion.html#out-admin">{ic("log-out", "s")} Se déconnecter</a></div>')
+    return (f'<div class="acm" hidden><div class="ach">{face("AD", "", 36)}<span class="grow"><b>Aïcha Diabaté</b><small>aicha.diabate@unifood.info</small></span></div>'
+            f'<a class="acx" href="profil.html">{ic("user-round", "s")} Mon profil</a>'
+            f'<a class="acx" href="notifications.html">{ic("bell", "s")} Notifications</a>'
+            f'<a class="acx" href="admin.html">{ic("settings", "s")} Administration</a>'
+            f'<a class="acx" href="#" data-yele>{ic("life-buoy", "s")} Aide, avec Yélé</a><div class="acsep"></div>'
+            f'<a class="acx" href="admin.html"><span class="adav sm">{ic("shield-check", "s")}</span> Passer au compte administrateur</a>'
+            f'<a class="acx out" href="connexion.html#out">{ic("log-out", "s")} Se déconnecter</a></div>')
+ACMENU = acmenu(False)
+
+def _sb_fix(h):
+    logo = f'<img src="{B}{CLIENT["logo"]}" alt="{CLIENT["nom"]}">'
+    ico = CLIENT.get("icone", CLIENT["logo"])
+    h = h.replace(logo, f'<img class="{"lgw" if CLIENT.get("large") else "lg"}" src="{B}{CLIENT["logo"]}" alt="{CLIENT["nom"]}"><img class="ico" src="{B}{ico}" alt="">', 1)
+    pby = f'<a class="pby" href="https://leslita06.github.io/yelema-site-preview/">Powered by <img src="{B}yelema_logo_final_long.svg" alt="Yelema"></a>'
+    return h.replace(pby, pby + f'<a class="pbyy" href="https://leslita06.github.io/yelema-site-preview/" title="Powered by Yelema" aria-label="Powered by Yelema"><img src="{B}yelema_y.svg" alt=""></a>', 1)
+
+_sidebar_avant = sidebar
+def sidebar(actif, brand):
+    return _sb_fix(_sidebar_avant("recruter" if actif.startswith("recrue") else actif, brand))
+_sidebar_admin_avant = sidebar_admin
+def sidebar_admin(actif, brand):
+    return _sb_fix(_sidebar_admin_avant(actif, brand))
+
+def _nav_fix(html):
+    html = html.replace('<div class="h2x" style="margin-top:26px"><h2>Mon équipe</h2></div>', '<div class="h2x" id="equipe" style="margin-top:26px"><h2>Mon équipe</h2></div>', 1)
+    html = html.replace('<a href="accueil.html" aria-label="Retour à l\'équipe">', '<a href="accueil.html#equipe" aria-label="Retour à l\'équipe">')
+    html = html.replace('<div class="crumb grow"><a href="accueil.html">Mon équipe</a>', '<div class="crumb grow"><a href="accueil.html#equipe">Mon équipe</a>')
+    html = html.replace(" Rien n'est facturé si la mise en place échoue.", "").replace('<p class="xs mute3">Rien n\'est facturé si la mise en place échoue.</p>', "")
+    html = html.replace('<p class="sm mute3" style="margin-top:16px">Prêt en quelques minutes.</p>', '<p class="sm mute3" style="margin-top:16px">Prêt en quelques minutes.</p>')
+    html = html.replace('https://www.google.com/s2/favicons?sz=64&domain=yelema.ai', '../img/yelema_y.svg')
+    return html
+
+# fiche d'un membre côté admin : rôle et permissions
+PERMS = [("users", "Gestion des membres", "Inviter, retirer, changer les rôles", False), ("credit-card", "Gestion de la facturation", "Factures, moyens de paiement, abonnement", False),
+         ("building-2", "Gestion de l’organisation", "Détails de l’entreprise, charte, canaux", False), ("user-plus", "Recruter et assigner les experts", "Ajouter un expert, choisir qui y a accès", True),
+         ("chart-column", "Voir le suivi de l’équipe", "Coûts, tâches, connecteurs utilisés", True), ("plug", "Gérer les connecteurs", "Brancher ou retirer un outil", False)]
+def perm_box():
+    rows = "".join(f'<label class="prm"><input type="checkbox"{" checked" if on else ""}><span class="ic">{ic(i, "s")}</span><span class="grow"><b>{t}</b><small>{d}</small></span></label>' for i, t, d, on in PERMS)
+    return (f'<div class="box prmbox" data-perm><div class="ch"><h2 style="font-size:16px;font-weight:650">Rôle et permissions</h2></div>'
+            f'<label class="fl2"><span class="xs mute3">Rôle</span><select class="fi prmrole" aria-label="Rôle"><option>Administrateur</option><option selected>Responsable de service</option><option>Membre de l’équipe</option></select></label>'
+            f'<p class="xs mute3" style="margin:12px 0 6px">Permissions</p><div class="prms">{rows}</div>'
+            f'<div class="row prmact"><a class="btn o sm prmno" href="#">Annuler</a><a class="btn p sm prmok" href="#">Enregistrer</a></div></div>')
+def page_admin_membre(brand):
+    h = admin_page("admin-membres", "Aïcha Diabaté", adm_membre(brand), brand)
+    a = '<div><div class="box"><div class="ch"><h2 style="font-size:16px;font-weight:650">Ses experts</h2>'
+    return h.replace(a, '<div>' + perm_box() + '<div class="box" style="margin-top:14px"><div class="ch"><h2 style="font-size:16px;font-weight:650">Ses experts</h2>', 1)
+
+
+import re
+
+# ---------- v4.19 retours du parcours complet (vocal du 01/10, 21:51)
+# admin : pleine largeur
+_admin_page_avant = admin_page
+def admin_page(actif, titre, corps, brand):
+    h = _admin_page_avant(actif, titre, corps, brand)
+    h = h.replace('<div class="sform" style="max-width:1080px">', '<div class="sform">', 1)
+    if actif not in ("admin-general", "admin-profil"):
+        h = h.replace('<div class="sform">', '<div class="sform sfw">', 1)
+    if actif == "admin-membres" and titre != "Membres et droits":
+        h = h.replace(f'<div class="crumb grow"><a href="admin.html">Administration</a> {ic("chevron-right", "s")} <b>{titre}</b></div>',
+                      f'<div class="crumb grow"><a href="admin.html">Administration</a> {ic("chevron-right", "s")} <a href="admin-membres.html">Membres et droits</a> {ic("chevron-right", "s")} <b>{titre}</b></div>', 1)
+        h = h.replace('<div class="sform sfw">', f'<div class="sform sfw"><a class="back" href="admin-membres.html" style="margin-bottom:14px">{ic("arrow-left", "s")} Membres et droits</a>', 1)
+    return h
+
+# vue d'ensemble : une seule ligne de petites cartes, sans les livrables
+_adm_vue_avant = adm_vue
+def adm_vue(brand):
+    h = _adm_vue_avant(brand)
+    a = h.index('<div class="stat4 st6">')
+    b = h.index('<div class="h2x" style="margin-top:24px"><h2>Vos experts</h2>')
+    st = "".join(f'<div class="kp5"><span class="ic">{ic(i, "s")}</span><span><b class="num">{v}</b><small>{l}</small></span></div>' for i, v, l in
+                 [("user-plus", "8", "experts recrutés"), ("sparkles", "7", "experts en service"), ("users", "14", "membres"), ("users-round", "1,8", "experts par membre"), ("plug", "7", "connecteurs branchés")])
+    return h[:a] + f'<div class="kp5s">{st}</div>' + h[b:]
+
+# canaux : un seul composant, partout, dans l'ordre Telegram, Web, Slack, Teams, WhatsApp
+def chan_card(n, logo, sub, on, action="", sel=None):
+    chk = f'<span class="chk">{ic("circle-check", "s")}</span>' if on else '<span class="chk off"></span>'
+    inp = f'<input type="{sel[0]}" name="{sel[1]}"{" checked" if on else ""}>' if sel else ""
+    tag = "label" if sel else "div"
+    return (f'<{tag} class="chc{"" if on else " off"}">{inp}<span class="chl">{logo}</span>{chk}<b>{n}</b><small>{sub}</small>{action}</{tag}>')
+WEB_LOGO = f'<img src="{B}yelema_y.svg" alt="">'
+def chan_logo(n, d):
+    return TG if n == "Telegram" else (WEB_LOGO if n == "Web" else f'<img src="{FAV}{d}" alt="">')
+CH_ORDRE = ["Telegram", "Web", "Slack", "Microsoft Teams", "WhatsApp", "Email"]
+def canaux_strip():
+    t = chan_card("Web", WEB_LOGO, "Cet espace", True)
+    for n, d, on, det, u, lib in CANAUX:
+        t += chan_card(n, chan_logo(n, d), "Activé" if on else "À activer", on)
+    cards = sorted(re.findall(r'<div class="chc.*?</div>', t, flags=re.S), key=lambda c: next((i for i, x in enumerate(CH_ORDRE) if f"<b>{x}</b>" in c), 9))
+    return f'<a class="chcs chcs-mini" href="admin-canaux.html">{"".join(cards)}</a>'
+
+# experts : quantité, prix unitaire, total, en service ; plus de colonne livrables
+def adm_experts(brand):
+    NOMS = {i: n for i, n, *_ in MEMBRES}
+    rows = ""
+    tot = 0
+    for k, n, r, sv, u, lv, p, on in ALL_EXPERTS:
+        ppl = "".join(f'<span class="mbx">{face(i, "", 26)}<span>{NOMS[i].split(" ")[0]}</span></span>' for i in UTIL[k])
+        q = 2 if k == "kouassi" else 1
+        pu = 0 if p == "incluse" else (200000 if not str(p)[0].isdigit() else int("".join(c for c in str(p) if c.isdigit())))
+        t_ = pu * q if on else 0
+        tot += t_
+        f_ = lambda v: f"{v:,}".replace(",", " ") + " F"
+        rows += (f'<tr><td><a class="who" href="{xh(k)}"><img src="{B}{k}.jpg" alt=""><span><b>{n}</b><span class="xs mute3">{r}</span></span></a></td>'
+                 f'<td class="hide-m"><div class="mbs">{ppl}<a class="ib mba" href="#" data-open="inv" aria-label="Ajouter un membre">{ic("plus", "s")}</a></div></td>'
+                 f'<td class="num">{q}</td><td class="num">{"Incluse" if p == "incluse" else f_(pu)}</td><td class="num"><b>{"Incluse" if p == "incluse" else (f_(t_) if on else "Pas facturé")}</b></td>'
+                 f'<td><button class="sw{"" if on else " off"} swx" data-nom="{n}" aria-label="En service"></button></td></tr>')
+    corps = f"""<div class="hello"><div class="grow"><h1>Experts</h1><p class="sub">7 en service dont Kouassi en deux exemplaires, 1 en pause</p></div><a class="btn p" href="recruter.html">{ic("user-plus", "s")} Recruter un expert</a></div>
+<div class="box" style="margin-top:16px"><table class="tbl tbex2"><tr><th>Expert</th><th class="hide-m">Membres qui l'utilisent</th><th>Quantité</th><th>Prix unitaire</th><th>Total par mois</th><th>En service</th></tr>{rows}
+<tr class="tot"><td colspan="4"><b>Total par mois</b></td><td class="num"><b>{f"{tot:,}".replace(",", " ")} F CFA</b></td><td></td></tr></table></div>"""
+    return admin_page("admin-experts", "Experts", corps, brand)
+
+# modèles d'IA : clés posées, fournisseurs, modèles par expert, clés partagées
+PROV = [("Anthropic", "anthropic.com", "sk-ant-••••8f2", "Aïcha Diabaté", "12 sept.", ["djeneba", "fatima", "mamadou"], ["Aïcha", "Nadège"], "Claude Sonnet, Claude Opus, Claude Haiku"),
+        ("Google", "gemini.google.com", "AIza••••Qe4", "Serge Bamba", "3 sept.", ["koffi"], ["Serge"], "Gemini 2.5 Pro, Gemini 2.5 Flash"),
+        ("OpenAI", "openai.com", "", "", "", [], [], "GPT-5, GPT-5 mini, GPT-4.1"),
+        ("Mistral AI", "mistral.ai", "Fourni par Yelema", "", "", ["adjoua", "kouassi"], [], "Mistral Large, Mistral Medium"),
+        ("Meta", "meta.com", "Fourni par Yelema, sur votre cloud dédié", "", "", ["awa"], [], "Llama 4 Maverick, Llama 4 Scout")]
+MODS = ["Claude Sonnet", "Claude Opus", "Claude Haiku", "GPT-5", "GPT-5 mini", "GPT-4.1", "Gemini 2.5 Pro", "Gemini 2.5 Flash", "Mistral Large", "Mistral Medium", "Llama 4 Maverick", "Llama 4 Scout", "DeepSeek V3"]
+def adm_modeles(brand):
+    rows = ""
+    for n, d, cle, par, quand, xs, mbr, mods in PROV:
+        own = cle.startswith(("sk", "AIza"))
+        st = (f'<span class="kst ok">{ic("circle-check", "s")} Clé active</span>' if own else (f'<span class="kst yl">{ic("shield-check", "s")} Inclus par Yelema</span>' if cle else '<span class="kst no">Pas de clé</span>'))
+        ex = "".join(f'<img class="xav" src="{B}{k}.jpg" alt="" title="{dict((a, b) for a, b, *_ in ALL_EXPERTS).get(k, k)}">' for k in xs) or '<span class="xs mute3">Aucun</span>'
+        sh = (", ".join(mbr) if mbr else "")
+        det = (f'<span class="kcle num">{cle}</span><small>Ajoutée par {par} le {quand}{", partagée avec " + sh if sh else ""}</small>' if own else f'<small>{cle or "Ajoutez votre clé pour utiliser ces modèles"}</small>')
+        act = (f'<a class="btn o sm" href="#" data-open="mkey" data-app="{n}">{ic("pencil", "s")} Gérer</a>' if own else
+               (f'<a class="btn p sm" href="#" data-open="mkey" data-app="{n}">{ic("plus", "s")} Ajouter une clé</a>' if not cle else f'<a class="btn o sm" href="#" data-open="mkey" data-app="{n}">{ic("key-round", "s")} Utiliser ma clé</a>'))
+        rows += (f'<div class="kpv"><span class="kpl"><img src="{FAV}{d}" alt=""></span><div class="kpm"><div class="row" style="gap:8px;flex-wrap:wrap"><b>{n}</b>{st}</div>{det}<span class="xs mute3">Modèles : {mods}</span></div>'
+                 f'<div class="kpx"><small>Experts</small><span class="row" style="gap:0">{ex}</span></div><div class="kpa">{act}</div></div>')
+    opt = lambda cur: "".join(f'<option{" selected" if m == cur else ""}>{m}</option>' for m in MODS) + '<option value="autre">Autre</option>'
+    cur = {"djeneba": "Claude Sonnet", "fatima": "Claude Sonnet", "koffi": "Gemini 2.5 Pro", "kouassi": "Mistral Large", "adjoua": "Mistral Large", "mamadou": "Claude Opus", "awa": "Llama 4 Scout"}
+    xs = "".join(f'<tr><td><span class="who"><img src="{B}{k}.jpg" alt=""><span><b>{nm}</b><span class="xs mute3">{r}</span></span></span></td><td><select class="fi">{opt(cur.get(k, "Claude Sonnet"))}</select></td>'
+                 f'<td class="hide-m"><span class="xs mute3">{"Clé Anthropic de l’entreprise" if "Claude" in cur.get(k, "") else ("Clé Google de l’entreprise" if "Gemini" in cur.get(k, "") else "Fourni par Yelema")}</span></td></tr>' for k, nm, r, *_ in ALL_EXPERTS)
+    exs = "".join(f'<label class="kxo"><input type="checkbox"{" checked" if k in ("djeneba", "fatima") else ""}><img src="{B}{k}.jpg" alt=""><span class="grow"><b>{nm}</b><small>{r}</small></span></label>' for k, nm, r, *_ in ALL_EXPERTS)
+    mbs = "".join(f'<label class="kxo"><input type="checkbox"{" checked" if i in ("AD",) else ""}>{face(i, "", 32)}<span class="grow"><b>{n}</b><small>{po}</small></span></label>' for i, n, po, svc, r in MEMBRES[:6])
+    pv = "".join(f"<option>{x}</option>" for x in ("Anthropic", "OpenAI", "Google", "Mistral AI", "Meta", "DeepSeek", "xAI", "Cohere")) + '<option value="autre">Autre</option>'
+    corps = f"""<div class="hello"><div class="grow"><h1>Modèles d'IA</h1><p class="sub">Yelema fournit des modèles par défaut. Branchez aussi vos propres clés, puis choisissez quel expert utilise quel modèle.</p></div><a class="btn p" href="#" data-open="mkey">{ic("plus", "s")} Ajouter une clé</a></div>
+<h3 class="h3s">Fournisseurs et clés</h3><div class="kpvs">{rows}</div>
+<h3 class="h3s">Modèle par expert</h3><p class="sub">Chaque membre peut aussi choisir un autre modèle dans la discussion</p>
+<div class="box" style="margin-top:10px"><table class="tbl"><tr><th>Expert</th><th>Modèle par défaut</th><th class="hide-m">Clé utilisée</th></tr>{xs}</table></div>
+<div class="modal" id="mkey"><div class="ov" data-close></div><div class="pn shpn mkp"><button class="ib x" data-close aria-label="Fermer">{ic("x")}</button><h2>Ajouter une clé d’API</h2><p class="sm mute">La clé reste chiffrée. Vous la retirez à tout moment.</p>
+<div class="g2i"><label class="fl2"><span>Fournisseur</span><select class="fi mkpv">{pv}</select></label><label class="fl2"><span>Nom de la clé</span><input class="fi" placeholder="Par exemple : Clé marketing"></label></div>
+<label class="fl2"><span>Clé d’API</span><input class="fi" type="password" placeholder="sk-..." style="width:100%"></label>
+<label class="fl2"><span>Modèles autorisés</span><select class="fi">{opt("Claude Sonnet")}</select></label>
+<p class="tbfl" style="margin-top:12px">Experts qui l’utilisent</p><div class="kxs">{exs}</div>
+<p class="tbfl" style="margin-top:12px">Membres qui partagent cette clé <small>leur usage est compté sur la même clé</small></p><div class="kxs">{mbs}</div>
+<div class="row" style="justify-content:flex-end;gap:8px;margin-top:14px"><a class="btn o" href="#" data-close>Annuler</a><a class="btn p" href="#" data-close data-toast="Clé enregistrée et vérifiée">Enregistrer la clé</a></div></div></div>"""
+    return admin_page("admin-modeles", "Modèles d'IA", corps, brand)
+
+# analytique admin : coûts expliqués, alertes en couleur, échanges retravaillés
+_adm_analytics_avant = adm_analytics
+def adm_analytics(brand):
+    h = _adm_analytics_avant(brand)
+    h = h.replace('<div class="an-k"><span>Coût par livrable</span><b class="num">10 300 F</b><small class="up">-14 % sur le mois</small></div>',
+                  '<div class="an-k"><span>Coût par livrable</span><b class="num">10 300 F</b><small>1 300 000 F ÷ 126 livrables</small><em class="dlt up">↓ 14 % sur le mois</em></div>', 1)
+    h = h.replace('<div class="an-k"><span>Coût par membre</span><b class="num">92 900 F</b><small>14 membres</small></div>',
+                  '<div class="an-k"><span>Coût par membre</span><b class="num">92 900 F</b><small>1 300 000 F ÷ 14 membres</small><em class="dlt">stable</em></div>', 1)
+    a = h.index(f'<h3 class="an-h">{ic("messages-square", "s")} Échanges</h3>')
+    b = h.index('<section class="an-c"><header><h2>Télécharger les métriques</h2>')
+    ks = "".join(f'<div class="ech"><span class="ic">{ic(i, "s")}</span><span class="grow"><b class="num">{v}</b><small>{l}</small></span><em class="dlt {c}">{d}</em></div>' for i, v, l, d, c in
+                 [("phone", "23", "appels, 5 h 10 au téléphone", "↑ 4", "up"), ("send", "176", "emails envoyés, 392 reçus et triés", "↑ 12 %", "up"),
+                  ("calendar-days", "21", "rendez-vous suivis, dont 12 préparés", "↓ 3", "down"), ("message-circle", "1 240", "messages avec l’équipe", "↑ 18 %", "up")])
+    parts = [("Telegram", 62, "#2AABEE"), ("Web", 21, "#6B58FB"), ("Slack", 9, "#E01E5A"), ("Teams", 6, "#5059C9"), ("WhatsApp", 2, "#25D366")]
+    bar = "".join(f'<i style="width:{v}%;background:{c}" title="{n} {v} %"></i>' for n, v, c in parts)
+    lg = "".join(f'<span><i style="background:{c}"></i>{n} <b class="num">{v} %</b></span>' for n, v, c in parts)
+    ech = (f'<h3 class="an-h">{ic("messages-square", "s")} Échanges</h3><div class="echs">{ks}</div>'
+           f'<section class="an-c"><header><h2>Où l’équipe parle aux experts</h2><span>part des messages, ce mois-ci</span></header><div class="chbar">{bar}</div><div class="chlg">{lg}</div></section>')
+    return h[:a] + ech + h[b:]
+
+# fiche d'un membre : ajouter un lien qui marche
+# composeur des tableaux et création : le micro en plus
+_tb_editbar_avant = tb_editbar
+def tb_editbar(k):
+    return _tb_editbar_avant(k).replace('<button class="tbsend" type="submit"', f'<button class="tbmic" type="button" aria-label="Dicter à la voix">{ic("mic", "s")}</button><button class="tbsend" type="submit"', 1)
+
+_page_tdb_avant2 = page_tdb
+def page_tdb(brand):
+    h = _page_tdb_avant2(brand)
+    return h.replace('<h3 class="shh">De quoi doit-il parler</h3><textarea class="fi fta" style="width:100%"',
+                     f'<h3 class="shh">De quoi doit-il parler</h3><div class="tamic"><button class="tbmic" type="button" aria-label="Dicter à la voix">{ic("mic", "s")}</button><textarea class="fi fta" style="width:100%"', 1).replace(
+                     'les rendez-vous et les blocages"></textarea>', 'les rendez-vous et les blocages"></textarea></div>', 1)
+
+# invitation : rôle en cartes, experts en liste, vrai aperçu de ce que reçoit la personne
+_modal_inv_avant = modal_inv
+def modal_inv():
+    h = _modal_inv_avant()
+    h = h.replace('<label class="fl2"><span>Rôle</span><select class="fi"><option>Membre</option><option>Responsable de service</option><option>Administrateur</option></select></label></div>', '</div>'
+                  + '<div class="fl2"><span>Rôle</span><div class="rlc">' + "".join(f'<label><input type="radio" name="irl"{" checked" if n == 0 else ""}><b>{t}</b><small>{d}</small></label>' for n, (t, d) in enumerate(
+                      [("Membre", "Parle à ses experts"), ("Responsable", "Gère les experts de son service"), ("Administrateur", "Gère tout l’espace")])) + '</div></div>', 1)
+    h = h.replace('<a class="link sm" href="bienvenue.html" style="align-self:center">', '<a class="link sm" href="#" data-open="invprev" style="align-self:center">', 1)
+    prev = f"""<div class="modal" id="invprev"><div class="ov" data-close></div><div class="pn shpn ivp"><button class="ib x" data-close aria-label="Fermer">{ic("x")}</button>
+<h2>Ce que reçoit la personne invitée</h2><div class="seg ivs"><a class="on" data-iv="mail">{ic("mail", "s")} Email</a><a data-iv="tg">{TG} Telegram</a></div>
+<div class="ivm on" data-iv="mail"><div class="ivh"><span class="xs mute3">De : Yelema pour Unifood &lt;invitations@yelema.ai&gt;</span><b>Aïcha Diabaté vous invite dans l’espace Unifood</b></div>
+<div class="ivb"><img class="ivl" src="{B}yelema_logo_final_long.svg" alt="Yelema"><p>Bonjour Awa,</p><p>Aïcha Diabaté vous invite à rejoindre l’espace de travail <b>Unifood</b> sur Yelema. Vous y retrouverez vos experts : <b>Djénéba</b>, Chief of Staff.</p>
+<a class="btn p" href="bienvenue.html">Rejoindre l’espace Unifood</a><p class="xs mute3">Le lien est valable 7 jours. Si vous ne connaissez pas Aïcha, ignorez ce message.</p></div></div>
+<div class="ivm" data-iv="tg"><div class="ivtg"><div class="bub">Bonjour Awa 👋 Aïcha Diabaté vous invite dans l’espace Unifood sur Yelema. Djénéba, votre Chief of Staff, vous attend.</div><a class="btn k sm" href="bienvenue.html">Ouvrir l’invitation</a></div></div>
+<div class="row" style="justify-content:flex-end;margin-top:12px"><a class="btn o" href="bienvenue.html">{ic("eye", "s")} Voir la page d’arrivée</a></div></div></div>"""
+    return h + prev
+
+# équipe d'un expert : les vrais postes
+_x_profil2_avant = x_profil2
+def x_profil2(k):
+    h = _x_profil2_avant(k)
+    for n, r, po in [("Aïcha Diabaté", "Responsable", "Directrice marketing"), ("Nadège Touré", "Binôme", "Chargée de communication"), ("Yao Kra", "Binôme", "Graphiste"),
+                     ("Jean-Marc Aka", "Direction", "Directeur général"), ("Serge Bamba", "Direction", "Directeur administratif")]:
+        h = h.replace(f'<b>{n}</b><small>{r}</small>', f'<b>{n}</b><small>{po}</small>')
+    return h
+
+# détails de l'entreprise : logo long et icône carrée (menu replié)
+_adm_general_avant = adm_general
+def adm_general(brand):
+    h = _adm_general_avant(brand)
+    ico = (f'<div class="row" style="gap:10px;align-items:center"><span class="icsq"><img src="{B}{CLIENT.get("icone", CLIENT["logo"])}" alt=""></span>'
+           f'<a class="btn o sm" href="#" data-toast="Choisissez une image carrée, 512 × 512 px">{ic("upload", "s")} Changer</a></div>')
+    return h.replace('<div class="sg"><div><div class="grow"><b>Logo</b><span class="d">Plusieurs formats</span></div>',
+        '<div class="sg"><div><div class="grow"><b>Logo</b><span class="d">Plusieurs formats, version longue</span></div>', 1).replace(
+        '<div><div class="grow"><b>Couleurs</b>', f'<div><div class="grow"><b>Icône carrée</b><span class="d">Affichée quand le menu est replié</span></div><div class="ctl">{ico}</div></div><div><div class="grow"><b>Couleurs</b>', 1)
+
+# canaux de l'organisation : le même composant que partout
+def adm_canaux(brand):
+    t = chan_card("Web", WEB_LOGO, "Cet espace, sur ordinateur et téléphone", True, f'<a class="btn k sm" href="accueil.html">Ouvrir {ic("arrow-right", "s")}</a>')
+    for n, d, on, det, u, lib in CANAUX:
+        btn = (f'<a class="btn k sm" href="{u}" target="_blank" rel="noopener">Ouvrir {ic("arrow-up-right", "s")}</a>' if on and u.startswith("http")
+               else (f'<a class="btn k sm" href="#" data-toast="Ouverture de la messagerie">Ouvrir {ic("arrow-right", "s")}</a>' if on else f'<a class="btn o sm" href="#" data-open="cz" data-app="{n}">{ic("plus", "s")} Connecter</a>'))
+        t += chan_card(n, chan_logo(n, d), det, on, btn)
+    cards = sorted(re.findall(r'<div class="chc.*?</div>', t, flags=re.S), key=lambda c: next((i for i, x in enumerate(CH_ORDRE) if f"<b>{x}</b>" in c), 9))
+    corps = f"""<div class="hello"><div class="grow"><h1>Canaux</h1><p class="sub">Où vos experts vous parlent, pour toute l'organisation</p></div></div>
+<div class="chcs chcs-act" style="margin-top:16px">{"".join(cards)}</div>
+<p class="xs mute3" style="margin-top:12px">Telegram est le canal conseillé : un groupe pour l'entreprise, un sujet par expert.</p>"""
+    return admin_page("admin-canaux", "Canaux", corps, brand)
+
+
+# tableaux : « Enregistrer comme modèle » remplace Dupliquer ; les modèles se retrouvent à la création (choix A du 01/10, 22:30)
+_tdb_agent_avant74 = tdb_agent
+def tdb_agent(k, part=None, titre=None, copie=False):
+    h = _tdb_agent_avant74(k, part, titre, copie)
+    return re.sub(r'<a class="btn o sm tbdup" href="#" data-dupk="[^"]*" data-dup2="([^"]*)" aria-label="Dupliquer">.*?<span>Dupliquer</span></a>',
+                  lambda m: f'<a class="btn o sm tbtpl" href="#" data-open="savetpl" data-tpl="{m.group(1)}" data-tplk="{k}" aria-label="Enregistrer comme modèle">{ic("layout-template", "s")} <span>Enregistrer comme modèle</span></a>', h, count=1, flags=re.S)
+
+TPLS_X = [("Pilotage de la semaine", "djeneba", "Engagements, rendez-vous, blocages"), ("Calendrier éditorial", "fatima", "Posts, vues, engagements"), ("Studio et visuels", "koffi", "Livraisons, retours, formats")]
+TPLS_V = [("Revue marketing du lundi", "AD", "Aïcha, partagé avec l’équipe")]
+def tpl_card(t, img, sub, cls=""):
+    return f'<label class="tpc{cls}"><input type="radio" name="ntpl"><span class="tpi">{img}</span><span class="grow"><b>{t}</b><small>{sub}</small></span></label>'
+def modal_savetpl():
+    vis = "".join(f'<label><input type="radio" name="tplv"{" checked" if n == 1 else ""}><b>{t}</b><small>{d}</small></label>' for n, (t, d) in enumerate([("Moi seule", "Visible dans vos modèles"), ("Toute l’équipe", "Chaque membre peut partir de ce modèle")]))
+    return f"""<div class="modal" id="savetpl"><div class="ov" data-close></div><div class="pn shpn tplpn"><button class="ib x" data-close aria-label="Fermer">{ic("x")}</button>
+<h2>Enregistrer comme modèle</h2><p class="sm mute">Le modèle garde les blocs, leurs formats et la période. Les chiffres ne sont pas copiés : l’expert les recalcule pour chaque nouveau tableau.</p>
+<label class="fl2"><span>Nom du modèle</span><input class="fi tpln" style="width:100%"></label>
+<label class="fl2"><span>Description <small class="xs mute3">facultatif</small></span><input class="fi" style="width:100%" placeholder="Par exemple : à utiliser pour chaque lancement de produit"></label>
+<div class="fl2"><span>Qui peut l’utiliser</span><div class="rlc rlc2">{vis}</div></div>
+<div class="tplbl"><span class="xs mute3">Contenu du modèle</span><span class="tplbc"></span></div>
+<div class="row" style="justify-content:flex-end;gap:8px;margin-top:14px"><a class="btn o" href="#" data-close>Annuler</a><a class="btn p tplok" href="#">{ic("check", "s")} Enregistrer le modèle</a></div></div></div>"""
+
+_page_tdb_avant74 = page_tdb
+def page_tdb(brand):
+    h = _page_tdb_avant74(brand)
+    xs = "".join(tpl_card(t, f'<img src="{B}{k}.jpg" alt="">', f"Proposé par {qui(k)['prenom']}, {d.lower()}") for t, k, d in TPLS_X)
+    vs = "".join(tpl_card(t, face(i, "", 34), d) for t, i, d in TPLS_V)
+    bloc = (f'<h3 class="shh">Partir d’un modèle <small class="xs mute3">facultatif</small></h3><div class="tpls">'
+            f'{tpl_card("Tableau vide", ic("plus", "s"), "L’expert part de votre demande", " tpv")}</div>'
+            f'<p class="tbg2">Vos modèles</p><div class="tpls tplv">{vs}</div><p class="tbg2">Proposés par vos experts</p><div class="tpls">{xs}</div>')
+    h = h.replace('<label class="fl2 ntn">', bloc + '<label class="fl2 ntn">', 1)
+    return h.replace('</main>', '</main>' + modal_savetpl(), 1)
+
+def _fix74(html):
+    html = html.replace(f'<span class="composio">{ic("plug-zap", "s")} Fournis par Composio, plus de 3 000 outils</span>', f'<span class="composio">{ic("plug-zap", "s")} Plus de 3 000 outils disponibles</span>')
+    html = html.replace(f'<span class="composio">{ic("plug-zap", "s")} Connecteurs fournis par Composio</span>', f'<span class="composio">{ic("plug-zap", "s")} Plus de 3 000 outils disponibles</span>')
+    html = html.replace(f'<span class="composio">{ic("plug-zap", "s")} Fournis par Composio</span>', f'<span class="composio">{ic("plug-zap", "s")} Plus de 3 000 outils disponibles</span>')
+    html = html.replace('<p class="sub">Fournis par Composio, partagés par tous les experts</p>', '<p class="sub">Partagés par tous les experts</p>')
+    html = html.replace('Connexion sécurisée par Composio', 'Connexion sécurisée')
+    html = html.replace(f'<a class="btn o sm" href="#" data-toast="Ouverture de la mémoire" style="margin-top:10px">{ic("eye", "s")} Voir ce qu\'elle sait</a>', '')
+    html = html.replace('<section class="an-imp"><div><small>Impact</small>', '<section class="an-imp"><div><small>Temps rendu</small>')
+    # livrables : période au choix
+    html = html.replace('<a data-per="tri">Trimestre</a></div>', f'<a data-per="tri">Trimestre</a></div><label class="anr lvdt">{ic("calendar", "s")}<input type="date" value="2026-09-01" aria-label="Du"><span>au</span><input type="date" value="2026-10-01" aria-label="Au"></label>')
+    # canaux du recrutement : même composant
+    html = re.sub(r'<span class="dt( on)?"><img src="([^"]+)" alt=""><b>([^<]+)</b><span>([^<]+)</span><i>.*?</i></span>',
+                  lambda m: chan_card(m.group(3), TG if m.group(3) == "Telegram" else f'<img src="{m.group(2)}" alt="">', m.group(4), bool(m.group(1)), sel=("checkbox", "rqch")), html, flags=re.S)
+    html = html.replace('<div class="dts">', '<div class="chcs">')
+    html = re.sub(r'<div class="onbc">(.*?)</div>', lambda m: '<div class="chcs">' + "".join(
+        chan_card(x.group(2), TG if x.group(2) == "Telegram" else f'<img src="{x.group(1)}" alt="">', x.group(3), "checked" in x.group(0), sel=("radio", "onbc"))
+        for x in re.finditer(r'<label><input type="radio" name="onbc"[^>]*><img src="([^"]+)" alt=""><b>([^<]+)</b><small>([^<]+)</small></label>', m.group(1))) + '</div>', html, count=1, flags=re.S)
+    html = re.sub(r'<a href="\.\./(yelema|client)/admin-general\.html" class="on">', r'<a href="#" class="on" data-toast="Cet habillage est déjà actif">', html)
+    return html
+
+
 if __name__ == "__main__":
     os.makedirs(os.path.join(OUT, "img"), exist_ok=True)
     for f in glob.glob(os.path.join(ICI, "..", "v3", "site", "img", "*")):
@@ -2190,7 +2663,7 @@ if __name__ == "__main__":
         for c in CATALOGUE:
             pages["recrue-" + c[0]] = page_recrue(c[0], brand)
         for n, html in pages.items():
-            html = html.replace('href="ecran.html"', 'href="fatima.html#direct"')
+            html = _fix74(_nav_fix(html.replace('href="ecran.html"', 'href="fatima.html#direct"')))
             open(os.path.join(d, n + ".html"), "w", encoding="utf-8").write(html)
         print("ok", brand, len(pages), "pages")
     open(os.path.join(OUT, "plan.html"), "w", encoding="utf-8").write(page_choix())
