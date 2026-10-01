@@ -2599,7 +2599,7 @@ TPLS_V = [("Revue marketing du lundi", "AD", "Aïcha, partagé avec l’équipe"
 def tpl_card(t, img, sub, cls=""):
     return f'<label class="tpc{cls}"><input type="radio" name="ntpl"><span class="tpi">{img}</span><span class="grow"><b>{t}</b><small>{sub}</small></span></label>'
 def modal_savetpl():
-    vis = "".join(f'<label><input type="radio" name="tplv"{" checked" if n == 1 else ""}><b>{t}</b><small>{d}</small></label>' for n, (t, d) in enumerate([("Moi seule", "Visible dans vos modèles"), ("Toute l’équipe", "Chaque membre peut partir de ce modèle")]))
+    vis = "".join(f'<label><input type="radio" name="tplv"{" checked" if n == 1 else ""}><span class="rli">{ic(i, "s")}</span><b>{t}</b><small>{d}</small></label>' for n, (i, t, d) in enumerate([("lock", "Moi seule", "Visible dans vos modèles"), ("users", "Toute l’équipe", "Chaque membre peut partir de ce modèle")]))
     return f"""<div class="modal" id="savetpl"><div class="ov" data-close></div><div class="pn shpn tplpn"><button class="ib x" data-close aria-label="Fermer">{ic("x")}</button>
 <h2>Enregistrer comme modèle</h2><p class="sm mute">Le modèle garde les blocs, leurs formats et la période. Les chiffres ne sont pas copiés : l’expert les recalcule pour chaque nouveau tableau.</p>
 <label class="fl2"><span>Nom du modèle</span><input class="fi tpln" style="width:100%"></label>
@@ -2613,9 +2613,8 @@ def page_tdb(brand):
     h = _page_tdb_avant74(brand)
     xs = "".join(tpl_card(t, f'<img src="{B}{k}.jpg" alt="">', f"Proposé par {qui(k)['prenom']}, {d.lower()}") for t, k, d in TPLS_X)
     vs = "".join(tpl_card(t, face(i, "", 34), d) for t, i, d in TPLS_V)
-    bloc = (f'<h3 class="shh">Partir d’un modèle <small class="xs mute3">facultatif</small></h3><div class="tpls">'
-            f'{tpl_card("Tableau vide", ic("plus", "s"), "L’expert part de votre demande", " tpv")}</div>'
-            f'<p class="tbg2">Vos modèles</p><div class="tpls tplv">{vs}</div><p class="tbg2">Proposés par vos experts</p><div class="tpls">{xs}</div>')
+    bloc = (f'<h3 class="shh">Comment démarrer</h3><div class="seg tpsg"><a class="on" data-tps="mod">{ic("layout-template", "s")} Partir d’un modèle</a><a data-tps="zero">{ic("plus", "s")} Partir de zéro</a></div>'
+            f'<div class="tpbox"><p class="tbg2">Vos modèles</p><div class="tpls tplv">{vs}</div><p class="tbg2">Proposés par vos experts</p><div class="tpls">{xs}</div></div>')
     h = h.replace('<label class="fl2 ntn">', bloc + '<label class="fl2 ntn">', 1)
     return h.replace('</main>', '</main>' + modal_savetpl(), 1)
 
@@ -2648,6 +2647,30 @@ def _accueil74(html):
            f'<div class="nowbox">{m.group(1)}<div class="nowsep"><span>Dernière livraison</span></div>{last}</div>')
     return html[:m.start()] + box + html[m.end():]
 
+# tableaux, vocal du 01/10 23:00 : apprentissages en pleine largeur, icônes des indicateurs, Slides visible, partage à deux, réception web
+FULL = FULL + ("learn",)
+KK_IC = [("commande", "shopping-cart"), ("boutique", "store"), ("panier", "shopping-basket"), ("rupture", "package-x"), ("distribut", "truck"), ("stock", "boxes"), ("publication", "megaphone"), ("impression", "eye"), ("portée", "radio"), ("partage", "share-2"), ("recrue", "user-plus"), ("embauch", "user-check"), ("profil", "id-card"), ("note", "star"), ("visite", "map-pin"), ("zone", "map"), ("réunion", "calendar-check"), ("cr ", "file-check"), ("compte", "file-check"), ("engagement", "handshake"), ("retard", "alarm-clock"), ("décision", "gavel"),
+         ("temps", "clock"), ("email", "mail"), ("mail", "mail"), ("sollicitation", "filter"), ("post", "megaphone"), ("vue", "eye"), ("abonné", "users"),
+         ("engag", "heart"), ("clic", "mouse-pointer-click"), ("vente", "shopping-bag"), ("chiffre", "banknote"), ("budget", "wallet"), ("coût", "wallet"),
+         ("candidat", "user-search"), ("entretien", "messages-square"), ("poste", "briefcase"), ("visuel", "image"), ("livr", "package-check"), ("retour", "message-circle"),
+         ("taux", "percent"), ("prospect", "target"), ("rendez", "calendar"), ("appel", "phone"), ("devis", "file-text"), ("client", "user-round"), ("délai", "timer")]
+def _kk_ic(lbl):
+    l = lbl.lower()
+    return next((i for k, i in KK_IC if k in l), "activity")
+def _tdb76(html):
+    if 'class="kks"' in html:
+        html = re.sub(r'<div class="kk"><span>([^<]+)</span>', lambda m: f'<div class="kk"><span><i class="kki">{ic(_kk_ic(m.group(1)), "s")}</i>{m.group(1)}</span>', html)
+    html = html.replace('<span>Google Slides</span></a>', f'<span>Google Slides</span>{ic("arrow-up-right", "s")}</a>')
+    if 'data-t="tb-kouassi"' in html:
+        html = re.sub(r'(<a href="#" data-t="tb-kouassi"[^>]*><span class="tbav"><img[^>]*>)(.*?)(</span><span class="grow"><b>[^<]*</b><small>)Partagé par Kader Ouattara',
+                      lambda m: m.group(1) + f'<span class="tbav2">{face("KO", "", 20)}{face("FB", "", 20)}</span>' + m.group(3) + 'Partagé par Kader et Fanta', html, count=1, flags=re.S)
+        html = re.sub(r'Partagé par Kader Ouattara, ', 'Partagé par Kader Ouattara et Fanta Bakayoko, ', html)
+        html = html.replace(f'{face("KO", "", 22)} Partagé par Kader Ouattara et Fanta', f'<span class="tbby2">{face("KO", "", 22)}{face("FB", "", 22)}</span> Partagé par Kader Ouattara et Fanta')
+    if '<h3 class="shh">Le recevoir aussi en</h3><div class="fmts">' in html:
+        html = html.replace('<h3 class="shh">Le recevoir aussi en</h3><div class="fmts">',
+                            f'<h3 class="shh">Comment le recevoir</h3><div class="fmts"><label class="fmc fmlk"><input type="checkbox" checked disabled>{ic("link", "s")} Lien web <small class="xs mute3">toujours inclus</small></label>', 1)
+    return html
+
 def _fix74(html):
     html = html.replace(f'<span class="composio">{ic("plug-zap", "s")} Fournis par Composio, plus de 3 000 outils</span>', f'<span class="composio">{ic("plug-zap", "s")} Plus de 3 000 outils disponibles</span>')
     html = html.replace(f'<span class="composio">{ic("plug-zap", "s")} Connecteurs fournis par Composio</span>', f'<span class="composio">{ic("plug-zap", "s")} Plus de 3 000 outils disponibles</span>')
@@ -2666,7 +2689,7 @@ def _fix74(html):
         chan_card(x.group(2), TG if x.group(2) == "Telegram" else f'<img src="{x.group(1)}" alt="">', x.group(3), "checked" in x.group(0), sel=("radio", "onbc"))
         for x in re.finditer(r'<label><input type="radio" name="onbc"[^>]*><img src="([^"]+)" alt=""><b>([^<]+)</b><small>([^<]+)</small></label>', m.group(1))) + '</div>', html, count=1, flags=re.S)
     html = re.sub(r'<a href="\.\./(yelema|client)/admin-general\.html" class="on">', r'<a href="#" class="on" data-toast="Cet habillage est déjà actif">', html)
-    return _accueil74(_lien74(html))
+    return _tdb76(_accueil74(_lien74(html)))
 
 
 if __name__ == "__main__":

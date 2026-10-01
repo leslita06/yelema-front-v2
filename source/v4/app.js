@@ -698,8 +698,8 @@ document.querySelectorAll('[data-perm]').forEach(function(b){var ok=b.querySelec
 (function(){
   var cur=null,m=document.getElementById('savetpl');if(!m)return;
   document.querySelectorAll('[data-tpl]').forEach(function(a){handled(a);a.addEventListener('click',function(){cur=a;
-    m.querySelector('.tpln').value='Modèle : '+a.dataset.tpl;
-    var p=a.closest('.panel'),n=p?p.querySelectorAll('.mwg2>*').length:0,f=p?[].map.call(p.querySelectorAll('.mwg2 .wt,.mwg2 h3'),function(x){return x.textContent.trim()}).slice(0,4):[];
+    m.querySelector('.tpln').value=a.dataset.tpl;
+    var p=a.closest('.panel'),n=p?p.querySelectorAll('.mwg2>*').length:0,f=p?[].map.call(p.querySelectorAll('.mwg2>.mw>header h4'),function(x){return x.textContent.trim()}).slice(0,4):[];
     m.querySelector('.tplbc').textContent=n+' blocs'+(f.length?' : '+f.join(', ')+(n>4?'…':''):'')})});
   var ok=m.querySelector('.tplok');handled(ok);ok.addEventListener('click',function(e){e.preventDefault();e.stopImmediatePropagation();
     var nm=m.querySelector('.tpln').value.trim()||'Mon modèle',l=document.querySelector('#newtdb .tplv');
@@ -725,3 +725,7 @@ document.querySelectorAll('[data-perm]').forEach(function(b){var ok=b.querySelec
   function upd(){if(!s)return;d.textContent=T[s.value];if(pub)pub.hidden=s.value!=='public';document.querySelectorAll('#share .sg').forEach(function(g){g.hidden=s.value!=='public'})}
   if(s){s.addEventListener('change',function(){upd();toast('Accès au lien mis à jour')});upd()}
 })();
+// création : partir d'un modèle ou de zéro
+(function(){var g=document.querySelector('#newtdb .tpsg');if(!g)return;var box=document.querySelector('#newtdb .tpbox');
+  g.querySelectorAll('a').forEach(function(a){handled(a);a.addEventListener('click',function(e){e.preventDefault();g.querySelectorAll('a').forEach(function(x){x.classList.toggle('on',x===a)});
+    var z=a.dataset.tps==='zero';box.hidden=z;if(z){box.querySelectorAll('input:checked').forEach(function(i){i.checked=false});var n=document.querySelector('#newtdb .ntn input');if(n)n.value=''}})})})();
