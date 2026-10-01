@@ -1654,3 +1654,4 @@ body.sbmini .sbt svg{transform:scaleX(-1)}
 .wgh .grow{display:flex;flex-direction:column;align-items:flex-start;gap:2px}.wgh .wgl{margin-top:4px}
 .wgadd{min-height:0;padding:22px}
 .tbs .cdr{flex:none}.tbs .cdr img{flex:none;min-width:20px;display:block}
+.xmail{display:flex;align-items:center;gap:6px}.xmail>svg:first-child{width:15px;height:15px;color:var(--brand);flex:none}

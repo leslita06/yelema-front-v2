@@ -696,7 +696,7 @@ def page_expert(k, brand):
 <aside class="xcol"><div class="xsw"><a href="accueil.html" aria-label="Retour à l'équipe">{ic("arrow-left", "s")}</a><span class="grow">{e['prenom']}</span><span class="faces">{"".join(f'<a href="{x}.html"><img src="{B}{EXPERTS[x]["photo"]}" alt="{EXPERTS[x]["prenom"]}"></a>' for x in ("djeneba", "fatima", "koffi") if x != k)}</span></div><div class="pcard"><img src="{B}{e['photo']}" alt="">{'<span class="st"><span class="dot"></span> En train de travailler</span>' if e['live'] else ''}
 <div class="nm">{e['prenom']} <span>{e['role']}</span></div>
 <div class="cta"><a class="call" href="#" data-call="{k}">{ic("phone", "s")} Appeler</a><a class="sq" href="#" data-go="direct" aria-label="Voir son écran">{ic("monitor", "s")}</a><a class="sq pause" href="#" aria-label="Mettre en pause">{ic("power", "s")}</a></div></div>
-<div class="xmail"><span>{p['mail']}</span>{ic("copy", "s")}</div>
+<div class="xmail">{ic("mail", "s")}<span>{p['mail']}</span>{ic("copy", "s")}</div>
 <nav class="xnav">{n1}<div class="lb">Son espace de travail</div>{n2}</nav></aside>
 <div class="xmain">
   <div class="panel on" id="discussion"><div class="dgrid"><div class="chat2"><div class="thread">{fil}</div><div class="comp"><div class="sugg">{s}</div><div class="inp"><button class="ib" aria-label="Joindre un fichier">{ic("plus", "s")}</button><span class="ph">Écrire à {e['prenom']}</span><span class="mode hide-m">{ic("zap", "s")} Rapide {ic("chevron-down", "s")}</span><button class="mic" aria-label="Message vocal">{ic("mic", "s")}</button></div></div></div>
