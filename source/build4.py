@@ -1161,9 +1161,10 @@ def page_profil(brand):
     return page("profil", brand, "Mon profil", "<b>Mon profil</b>", adm_membre(brand))
 
 def auth_page(titre, brand, droite):
-    gauche = f"""<div class="aul"><a class="aulogo" href="connexion.html"><img src="{B}{CLIENT['logo']}" alt="{CLIENT['nom']}"><b>{CLIENT['nom']}</b></a>
-<div class="aut"><h1>Vos experts IA<br>vous attendent.</h1><p>Djénéba, Fatima et Koffi reprennent là où vous vous êtes arrêtée.</p>
-<div class="aupile"><img src="{B}pied/djeneba.jpg" alt=""><img src="{B}pied/fatima.jpg" alt=""><img src="{B}pied/koffi.jpg" alt=""></div></div>
+    tags = "".join(f'<span class="hero-tag" style="left:{l}"><b>{n}</b><span>{r}</span></span>' for l, n, r in [("3.2%", "Fatou", "Experte RH et Paie"), ("38.6%", "Ibrahim", "Expert Juridique et Conformité"), ("74.2%", "Fatima", "Experte Marketing et Contenu")])
+    gauche = f"""<div class="aul"><a class="aulogo" href="connexion.html"><img src="{B}yelema_logo_final_long_blanc.svg" alt="Yelema"></a>
+<div class="aut"><h1>Chaque métier a<br><span class="hl">son Expert IA</span>.</h1><p>Retrouvez votre équipe d'Experts, là où vous l'avez laissée.</p></div>
+<div class="hero-img auhero"><img src="{B}hero-site.webp" alt="Trois Experts IA Yelema : Fatou, Ibrahim et Fatima">{tags}</div>
 <p class="ausec">{ic("lock", "s")} Espace sécurisé, réservé aux membres d'Unifood</p></div>"""
     return (b3.head(titre, brand) + f'<div class="auth"><div class="aucard">{gauche}<div class="aur">{droite}'
             + f'<a class="pby aupby" href="https://leslita06.github.io/yelema-site-preview/">Powered by <img src="{B}yelema_logo_final_long.svg" alt="Yelema"></a></div></div></div>'
