@@ -155,6 +155,26 @@ def fin():
     return '<script src="../app.js"></script></body></html>'
 
 # ---------------------------------------------------------------- coquille
+def acmenu(admin):
+    return (f'<div class="acm" hidden><div class="acl">Comptes</div>'
+            f'<a class="aci{"" if admin else " on"}" href="accueil.html">{face("AD", "", 32)}<span class="grow"><b>Aïcha Diabaté</b><small>Compte utilisateur</small></span>{"" if admin else ic("check", "s")}</a>'
+            f'<a class="aci{" on" if admin else ""}" href="admin.html"><span class="adav">{ic("shield-check", "s")}</span><span class="grow"><b>Admin Unifood</b><small>Compte administrateur</small></span>{ic("check", "s") if admin else ""}</a>'
+            f'<a class="aco" href="#" data-toast="Vous êtes déconnectée">{ic("log-out", "s")} Se déconnecter</a></div>')
+ACMENU = acmenu(False)
+
+def sidebar_admin(actif, brand):
+    nav = ""
+    for g, its in ADM_NAV:
+        nav += f'<div class="lb">{g}</div>' + "".join(f'<a class="it{" on" if k == actif or (k == "admin-membres" and actif == "admin-membre") else ""}" href="{k}.html">{ic(i, "s")} {l}</a>' for k, i, l in its)
+    return f"""<aside class="sb sbadm">
+  <div class="orgw"><a class="org" href="admin.html"><img src="{B}{CLIENT['logo']}" alt="{CLIENT['nom']}"><div><b>{CLIENT['nom']}</b><span>Administration</span></div></a><button class="sbt" aria-label="Replier le menu" title="Replier le menu">{ic("panel-left-close", "s")}</button></div>
+  <a class="back2" href="accueil.html">{ic("arrow-left", "s")} Retour à mon espace</a>
+  {nav}
+  <div class="foot">
+  <div class="acw"><a class="me{" on" if actif == "admin-profil" else ""}" href="admin-profil.html"><span class="adav">{ic("shield-check", "s")}</span><span class="grow"><b class="ell">Admin Unifood</b><small class="ell">Compte administrateur</small></span><button class="acsw" aria-label="Changer de compte">{ic("chevrons-up-down", "s")}</button></a>{acmenu(True)}</div>
+  <a class="pby" href="https://leslita06.github.io/yelema-site-preview/">Powered by <img src="{B}yelema_logo_final_long.svg" alt="Yelema"></a></div>
+</aside>"""
+
 def sidebar(actif, brand):
     items = [("accueil", "house", "Accueil"), ("tableau-de-bord", "layout-dashboard", "Tableau de bord"), ("recruter", "user-plus", "Recruter"), ("memoire", "book-open", "Chat entreprise")]
     nav = "".join(f'<a class="it{" on" if actif == k else ""}" href="{k}.html">{ic(i, "s")} {l}{"<span class=n>3</span>" if k == "chat" else ""}</a>' for k, i, l in items)
@@ -171,7 +191,7 @@ def sidebar(actif, brand):
   <div class="lb">Mon équipe</div>
   {team}
   <div class="foot"><a class="it{" on" if actif.startswith("admin") else ""}" href="admin.html">{ic("settings", "s")} Administration</a>
-  <a class="me{" on" if actif in ("profil", "admin-profil") else ""}" href="profil.html">{face("AD", "", 36)}<span class="grow"><b class="ell">Aïcha Diabaté</b><small class="ell">Admin, Unifood</small></span>{ic("chevrons-up-down", "s")}</a>
+  <div class="acw"><a class="me{" on" if actif == "profil" else ""}" href="profil.html">{face("AD", "", 36)}<span class="grow"><b class="ell">Aïcha Diabaté</b><small class="ell">Directrice marketing</small></span><button class="acsw" aria-label="Changer de compte">{ic("chevrons-up-down", "s")}</button></a>{ACMENU}</div>
   <a class="pby" href="https://leslita06.github.io/yelema-site-preview/">Powered by <img src="{B}yelema_logo_final_long.svg" alt="Yelema"></a></div>
 </aside>"""
 
@@ -803,17 +823,17 @@ ORG_NAV = [("admin", "layout-grid", "Vue d'ensemble"), ("admin-experts", "sparkl
 ADM_NAV = [("Organisation", [("admin", "layout-grid", "Vue d'ensemble"), ("admin-general", "building-2", "Détails de l'entreprise"), ("admin-experts", "sparkles", "Experts"), ("admin-membres", "users", "Membres et droits"),
                              ("admin-connecteurs", "plug", "Connecteurs"), ("admin-chat", "book-open", "Chat entreprise")]),
            ("Usage et facturation", [("admin-analytics", "chart-column", "Suivi"), ("admin-facturation", "receipt", "Facturation")]),
-           ("Personnel", [("admin-profil", "user", "Mon profil")])]
+           ("Compte", [("admin-profil", "shield-check", "Compte administrateur")])]
 
 def admin_page(actif, titre, corps, brand):
     nav = ""
     for g, its in ADM_NAV:
         nav += f'<div class="lb">{g}</div>' + "".join(f'<a class="it{" on" if k == actif else ""}" href="{k}.html">{ic(i, "s")} {l}</a>' for k, i, l in its)
-    snav = f'<nav class="snav"><div class="ttl">{ic("settings", "s")} Administration</div>{nav}</nav>'
+    snav = ""
     autre = "client" if brand == "yelema" else "yelema"
     top = f"""<header class="top"><div class="crumb grow"><a href="admin.html">Administration</a> {ic("chevron-right", "s")} <b>{titre}</b></div><a class="tbtn ico hide-m" href="../{autre}/{actif}.html" title="{"Couleurs Unifood" if brand == "yelema" else "Couleurs Yelema"}">{ic("palette", "s")}</a>
 <a class="tbtn hide-m" href="#" data-open="inv">{ic("mail-plus", "s")} Inviter un membre</a><a class="tbtn pr" href="recruter.html">{ic("user-plus", "s")} Recruter un expert</a><button class="tbtn ico" data-pop="notifs" aria-label="Notifications">{ic("bell", "s")}<span class="bdg">4</span></button></header>"""
-    return (b3.head(titre, brand) + f'<div class="app">{sidebar(actif, brand)}<main style="min-width:0">{top}<div class="adm">{snav}<div class="page"><div class="sform" style="max-width:1080px">{corps}</div></div></div></main></div>'
+    return (b3.head(titre, brand) + f'<div class="app adm-app">{sidebar_admin(actif, brand)}<main style="min-width:0">{top}<div class="adm adm1">{snav}<div class="page"><div class="sform" style="max-width:1080px">{corps}</div></div></div></main></div>'
             + pops() + yele() + modales() + fin())
 
 def sg(rows):
@@ -940,10 +960,10 @@ def adm_analytics(brand):
     return admin_page("admin-analytics", "Suivi", corps, brand)
 
 def adm_profil(brand):
-    corps = f"""<div style="max-width:820px"><h1>Mon profil</h1><div class="pfh" style="margin:12px 0 14px"><div class="pfav" style="width:96px;height:96px">{face("AD", "", 96)}<button class="pen" data-toast="Choisissez une photo" aria-label="Changer ma photo">{ic("camera", "s")}</button></div><div><b style="font-size:20px">Aïcha Diabaté</b><p class="sub">Directrice marketing, admin de l'espace Unifood</p></div></div>
-{sg([("Nom", "", '<span class="inp2">Aïcha Diabaté</span>'), ("Adresse email", "", '<span class="inp2">aicha.diabate@unifood.info</span>'),
+    corps = f"""<div style="max-width:820px"><h1>Compte administrateur</h1><p class="sub">Séparé de votre compte utilisateur. Il sert seulement à gérer l'espace Unifood.</p><div class="pfh" style="margin:12px 0 14px"><div class="pfav" style="width:96px;height:96px"><span class="adav big">{ic("shield-check")}</span></div><div><b style="font-size:20px">Admin Unifood</b><p class="sub">Tenu par Aïcha Diabaté, Directrice marketing</p></div></div>
+{sg([("Nom du compte", "", '<span class="inp2">Admin Unifood</span>'), ("Adresse email", "Différente de l'adresse utilisateur", '<span class="inp2">admin@unifood.info</span>'),
      ("Notifications", "Un résumé chaque matin par email", '<span class="sw"></span>'), ("Double authentification", "Code par SMS à chaque connexion", '<span class="sw"></span>')])}</div>"""
-    return admin_page("admin-profil", "Mon profil", corps, brand)
+    return admin_page("admin-profil", "Compte administrateur", corps, brand)
 
 
 # ---------------------------------------------------------------- canaux (Telegram, WhatsApp, Slack, Teams)

@@ -1049,3 +1049,24 @@ body.sbmini .sbt svg{transform:scaleX(-1)}
 @media (max-width:900px){.hire h1{font-size:28px}}
 @media (max-width:900px){.crew2 .cw.grow2 .gstk img,.crew2 .cw.grow2 .gstk img:nth-child(3),.gplus{width:42px!important;height:42px!important;min-width:42px;margin-left:-10px!important}.gplus svg{width:18px;height:18px}.crew2 .cw.grow2 .gtx b{font-size:18px}.crew2 .cw.grow2 .rbtn{font-size:13px;padding:10px 8px;white-space:nowrap}}
 @media (max-width:900px){.crew2 .cw.grow2{aspect-ratio:480/854;min-height:0;padding:12px;gap:8px}.crew2 .cw.grow2 .gtx span{font-size:12.5px}}
+
+/* ---------- v4.7 comptes utilisateur et admin séparés */
+.acw{position:relative}
+.acsw{border:0;background:transparent;color:inherit;display:grid;place-items:center;width:30px;height:30px;border-radius:8px;cursor:pointer;flex:none}
+.acsw:hover{background:var(--soft-2)}
+.acm{position:absolute;left:0;right:0;bottom:calc(100% + 8px);z-index:40;padding:8px;border-radius:16px;background:var(--surface);border:1px solid var(--line);box-shadow:0 18px 40px -16px rgba(23,17,43,.35)}
+.acm[hidden]{display:none}
+.acl{font-size:12px;color:var(--ink-3);padding:4px 8px 6px}
+.aci{display:flex;align-items:center;gap:10px;padding:8px;border-radius:12px;color:var(--ink)}
+.aci:hover{background:var(--soft)}.aci.on{background:var(--soft-2)}
+.aci b{display:block;font-size:14px}.aci small{display:block;font-size:12px;color:var(--ink-3)}
+.aci>svg{color:var(--brand)}
+.aco{display:flex;align-items:center;gap:8px;padding:9px 8px;margin-top:4px;border-top:1px solid var(--line);font-size:14px;color:var(--ink-2)}
+.adav{flex:none;width:36px;height:36px;border-radius:50%;display:grid;place-items:center;background:var(--brand);color:var(--on-brand,#fff)}
+.aci .adav{width:32px;height:32px}
+.adav.big{width:96px;height:96px;border-radius:28px}.adav.big svg{width:40px;height:40px}
+.sbadm .org span{color:var(--brand);font-weight:650}
+.back2{display:flex;align-items:center;gap:8px;margin:2px 0 6px;padding:9px 12px;border-radius:12px;font-size:14px;font-weight:600;color:var(--ink-2);background:var(--soft)}
+.back2:hover{background:var(--soft-2);color:var(--ink)}
+.adm-app .adm.adm1{display:block}
+.back2{white-space:nowrap;flex:none}@media (max-width:900px){.back2{margin:0;padding:8px 12px}}
