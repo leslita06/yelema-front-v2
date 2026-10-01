@@ -2365,3 +2365,8 @@ html[data-mode="nuit"] .pby2 img{content:url("img/yelema_logo_final_long_blanc.s
 html[data-mode="nuit"] .pby img,html[data-mode="nuit"] .pby2 img{content:normal;filter:none;opacity:1}
 html[data-mode="nuit"] .pby{background:#F1F0F7;color:#4A4563}
 html[data-mode="nuit"] .pby2{background:#F1F0F7;color:#4A4563;padding:6px 12px;border-radius:12px}
+/* cartes de recrutement : aucun mouvement au survol ni au toucher */
+.pc2 img,.pc2:hover img{transform:none!important;transition:none!important}
+.cw.grow:hover .rbtn,.rbtn:hover{transform:none!important}
+.pc2,.pc2 .rb,.xcard,.pc{transition:background-color .15s,color .15s!important}
+.pc2:hover,.xcard:hover,.pc:hover{transform:none!important}
