@@ -560,6 +560,36 @@ def wbody(t, d):
         mx = d["steps"][0][1]
         fs = "".join(f'<div class="wfn"><span>{n}</span><i><b style="width:{max(4, round(v / mx * 100))}%"></b></i><em class="num">{v}</em></div>' for n, v in d["steps"])
         return f'{fs}<p class="wfait">{ic("check", "s")} {d["fait"]}</p>'
+    if t == "pie":
+        tot = sum(v for _, v, _ in d["parts"]); acc = 0; seg = []
+        for _, v, c in d["parts"]:
+            seg.append(f"{c} {acc / tot * 360:.0f}deg {(acc + v) / tot * 360:.0f}deg"); acc += v
+        lg = "".join(f'<li><i style="background:{c}"></i>{n}<b class="num">{v / tot * 100:.0f} %</b></li>' for n, v, c in d["parts"])
+        return f'<div class="pie"><div class="pd" style="background:conic-gradient({", ".join(seg)})"><span><b class="num">{tot}</b><small>{d["unit"]}</small></span></div><ul>{lg}</ul></div>'
+    if t == "bars":
+        mx = max(v for _, v in d["items"])
+        b = "".join(f'<div class="hb"><i style="height:{v / mx * 100:.0f}%"><b class="num">{v}</b></i><span>{l}</span></div>' for l, v in d["items"])
+        return f'<div class="hbs">{b}</div><p class="xs mute3">{d["note"]}</p>'
+    if t == "learn":
+        col = lambda h, i_, xs, c: f'<div class="lrn {c}"><h5>{ic(i_, "s")} {h}</h5><ul>{"".join(f"<li>{x}</li>" for x in xs)}</ul></div>'
+        return (f'<div class="lrns">{col("Ce qu’on a appris", "lightbulb", d["a"], "a")}{col("Défis", "mountain", d["d"], "d")}{col("Blocages", "octagon-alert", d["b"], "b")}</div>'
+                f'<p class="lrnx">{ic("arrow-right", "s")} <b>Prochaine étape :</b> {d["n"]}</p>')
+    if t in ("mails", "news", "lib"):
+        tri = "".join(f'<div><b class="num">{v}</b><span>{l}</span></div>' for l, v in d["v"])
+        if t == "mails":
+            it = "".join(f'<li data-p="{p}"><span class="ic">{ic("mail", "s")}</span><span class="grow"><b>{a}</b><small>{b_}</small></span><a href="#" class="pill {"late" if "répondre" in s_ else "ok"}" data-toast="Ouverture : {a}">{s_}</a></li>' for a, b_, p, s_ in d["items"])
+            return f'<div class="wtri w4">{tri}</div><ul class="wcr">{it}</ul>'
+        it = "".join(f'<li data-p="{p}"><b>{a}</b><span>{b_}</span></li>' for a, b_, p in d["items"])
+        return f'<div class="wtri">{tri}</div><ul class="witems">{it}</ul>'
+    if t == "depl":
+        it = "".join(f'<li data-p="{p}"><span class="ic">{ic("plane" if v == "Paris" or v == "Korhogo" else "car", "s")}</span><span class="grow"><b>{v}, {dt}</b><small>{o}</small></span><span class="pill {c}">{st}</span></li>' for v, dt, o, st, c, p in d["items"])
+        return f'<ul class="wcr">{it}</ul>'
+    if t == "ads":
+        rows = "".join(f'<tr data-p="{p}"><td><span class="who">{rsi(c)} {n}</span></td><td class="num">{dp}</td><td class="num">{im}</td><td class="num">{ctr}</td><td class="num">{cpc}</td><td class="num"><b>{cv}</b></td></tr>' for c, n, dp, im, ctr, cpc, cv, p in d["rows"])
+        return f'<div class="wtw"><table class="wtab"><thead><tr><th>Plateforme</th><th>Dépense</th><th>Impressions</th><th>Taux de clic</th><th>Coût par clic</th><th>Contacts</th></tr></thead><tbody>{rows}</tbody></table></div>'
+    if t == "sites":
+        it = "".join(f'<li data-p="{p}"><span class="ic">{ic("globe", "s")}</span><span class="grow"><b>{a}</b><small>{b_}</small></span><a href="#" class="pill {"ok" if s_ == "Livré" else "mid"}" data-toast="Ouverture : {a}">{s_}</a></li>' for a, b_, s_, p in d["items"])
+        return f'<ul class="wcr">{it}</ul>'
     if t == "kst":
         it = "".join(f'<div class="kk"><span>{l}</span><b class="num" data-kv=\'{json.dumps(v, ensure_ascii=False)}\'>{v[""]}</b><small class="{c}">{x}</small></div>' for l, v, x, c in d["items"])
         n = len(d["items"])
@@ -660,7 +690,9 @@ def filtres(k=None):
     ty = ""
     if k:
         ty = '<label class="tdty"><span class="xs mute3">Type de livrable</span><select><option value="">Tous</option>' + "".join(f'<option>{w[1]}</option>' for w in TDB[k] if w[0] != "kst") + '</select></label>'
-    return f'<div class="tdf"><div class="chips tdp">{pr}</div><div class="row tdr">{per}{ty}</div></div>'
+    dt = f'<label class="anr tddt">{ic("calendar", "s")}<input type="date" value="2026-09-28" aria-label="Du"><span>au</span><input type="date" value="2026-10-04" aria-label="Au"></label>'
+    q = f'<label class="srch tdq">{ic("search", "s")}<input type="search" placeholder="Chercher dans le tableau" aria-label="Chercher dans le tableau"></label>'
+    return f'<div class="tdf"><div class="chips tdp">{pr}</div><div class="row tdr">{q}{per}{dt}{ty}</div></div>'
 
 WIDE = ("eng", "edcal", "posts", "rs", "kanban")
 FULL = ("edcal", "kanban")
@@ -754,6 +786,54 @@ TDB_PART[0] = ("adjoua", "Fanta Bakayoko", "FB", "Lecture", "15/10/2026", "Recru
 WIDE = ("eng", "edcal", "posts", "rs", "kanban", "postes", "score", "camp2", "kst", "sources")
 FULL = ("edcal", "kanban", "kst", "postes", "camp2")
 
+# ---------- v4.16 encore plus de contenu métier
+TDB["djeneba"].insert(4, ("mails", "Boîte mail de direction", ["usine", "sossa", "mint", "nord"], {"v": [("Reçus", "214"), ("Envoyés", "96"), ("Traités sans vous", "141"), ("Attendent votre réponse", "6")],
+   "items": [("Banque Atlantique", "Conditions du prêt pour la ligne, réponse attendue avant jeudi", "usine", "À répondre"), ("Agence média", "Bilan de la première semaine de la promo Sossa", "sossa", "Résumé prêt"),
+             ("Mairie de Yopougon", "Pièces manquantes pour le permis d'extension", "usine", "Brouillon prêt")]}))
+TDB["djeneba"].insert(6, ("depl", "Déplacements et agenda du DG", ["usine", "nord"], {"items": [("Korhogo", "6 au 7 octobre", "Distributeurs du Nord", "Vols et hôtel réservés", "ok", "nord"),
+   ("Yopougon", "Ven 3 octobre", "Mairie et visite du site", "Chauffeur prévu", "ok", "usine"), ("Paris", "20 au 23 octobre", "Salon SIAL", "Visa en cours", "mid", "usine")]}))
+TDB["fatima"].insert(2, ("ads", "Publicité payante", ["sossa", "mint"], {"rows": [
+   ("fb", "Facebook Ads", "620 000 F", "184 000", "2,4 %", "14 F", "246", "sossa"), ("ig", "Instagram Ads", "380 000 F", "121 000", "2,9 %", "11 F", "131", "sossa"),
+   ("tt", "TikTok Ads", "200 000 F", "96 000", "1,8 %", "12 F", "35", "mint")]}))
+TDB["fatima"].append(("news", "Newsletter", ["sossa", "mint", "usine"], {"v": [("Abonnés", "3 240"), ("Taux d'ouverture", "41 %"), ("Taux de clic", "6,8 %")],
+   "items": [("Le goûter de la rentrée", "Envoyée le 29 sept, 1 330 ouvertures", "sossa"), ("Super Mint arrive", "Programmée le 8 oct", "mint")]}))
+TDB["koffi"].insert(3, ("sites", "Sites et pages", ["mint", "usine"], {"items": [("Page Super Mint, édition limitée", "En ligne, 4 120 visites, 3,1 % de clics vers les boutiques", "Livré", "mint"),
+   ("Page carrières de la nouvelle ligne", "En ligne, 1 860 visites, 62 candidatures", "Livré", "usine"), ("Refonte de la page Sossa", "Maquette en validation", "En cours", "sossa")]}))
+TDB["koffi"].insert(4, ("lib", "Bibliothèque de la marque", ["sossa", "mint", "usine"], {"v": [("Visuels", "412"), ("Vidéos et animations", "38"), ("Logos et chartes", "16")],
+   "items": [("Pack Sossa rentrée", "64 fichiers, tous formats", "sossa"), ("Kit Super Mint", "48 fichiers, dont 6 vidéos", "mint")]}))
+TDB["koffi"][0][3]["items"].append(("Sites et pages livrés", KV(tout="2", sossa="0", mint="1", usine="1"), "1 en cours", ""))
+TDB["koffi"][0][3]["items"].append(("Vidéos et animations", KV(tout="6", sossa="2", mint="4", usine="0"), "+2 sur 7 jours", "up"))
+TDB["fatima"][0][3]["items"].extend([("Articles et newsletters", KV(tout="5", sossa="2", mint="1", usine="2"), "41 % d'ouverture", ""), ("Budget publicitaire", KV(tout="1,2 M F", sossa="1 M F", mint="200 000 F", usine="0 F"), "sur 1,8 M F", "")])
+TDB["djeneba"][0][3]["items"].extend([("Emails traités", KV(tout="141", usine="62", sossa="38", mint="24", nord="17"), "sur 214 reçus", "up"), ("Sollicitations écartées", KV(tout="33", usine="14", sossa="9", mint="6", nord="4"), "sur 42", "")])
+SUGG_W["koffi"] = ["Commandes chez l'imprimeur", "Pistes de nom", "Habillage des camions"]
+FULL = FULL + ("ads",)
+WIDE = WIDE + ("ads", "mails")
+
+# ---------- v4.16 apprentissages, défis, blocages : le texte qui accompagne les chiffres
+LEARN = {
+ "djeneba": (["Les comités sont plus courts quand l'ordre du jour part la veille à 18 h.", "Serge répond plus vite sur Telegram que par email."],
+             ["Trois engagements de la ligne de confiserie dépendent du même fournisseur."], ["Devis de la machine d'emballage bloqué depuis 6 jours."],
+             "Proposer au DG un point fournisseur jeudi pour débloquer le devis."),
+ "fatima": (["Les carrousels font deux fois plus d'engagement que les posts simples.", "Le meilleur créneau est le mardi entre 12 h et 13 h."],
+            ["La portée TikTok monte mais convertit encore peu en contacts."], ["Photos des points de vente de Yopougon toujours attendues."],
+            "Tester deux visuels Super Mint en publicité la semaine prochaine."),
+ "koffi": (["Les BAT passent du premier coup quand le brief contient les prix.", "Les déclinaisons WhatsApp sont les plus réutilisées."],
+           ["Le packaging Super Mint doit tenir en quatre couleurs."], ["Validation de la charte Super Mint en attente de Yao."],
+           "Livrer la signalétique de la ligne avant le 10 octobre."),
+ "adjoua": (["La cooptation donne le meilleur taux de recrutement.", "Les candidats de Korhogo préfèrent un entretien en visio."],
+            ["Peu de candidatures pour le contrôleur de gestion."], ["Une offre de chef d'équipe attend la validation du salaire."],
+            "Ouvrir la diffusion du poste de contrôleur à LinkedIn et aux écoles."),
+ "kouassi": (["Les relances le lundi matin donnent le plus de commandes."], ["Ruptures de Sossa 200 g à Bouaké."], ["Deux factures du grossiste d'Adjamé impayées."],
+             "Planifier une tournée à Bouaké avec la logistique."),
+}
+for _k, (_a, _d, _b, _n) in LEARN.items():
+    TDB[_k].append(("learn", "Apprentissages, défis et blocages", sorted({p for w in TDB[_k] for p in w[2]})[:3], {"a": _a, "d": _d, "b": _b, "n": _n}))
+WIDE = WIDE + ("learn",)
+
+TDB["fatima"].insert(4, ("pie", "Posts par réseau", ["sossa", "mint", "usine"], {"unit": "posts", "parts": [("Facebook", 6, "#1877F2"), ("Instagram", 4, "#E1306C"), ("LinkedIn", 2, "#0A66C2"), ("TikTok", 2, "#17112B")]}))
+TDB["koffi"].insert(2, ("bars", "Créations livrées par semaine", ["sossa", "mint", "usine"], {"items": [("S36", 14), ("S37", 19), ("S38", 22), ("S39", 21), ("S40", 27)], "note": "Semaine en cours : 27 créations, record du trimestre."}))
+TDB["djeneba"].insert(3, ("pie", "Temps du DG par sujet", ["usine", "sossa", "mint", "nord"], {"unit": "h de réunion", "parts": [("Nouvelle ligne", 9, "#301667"), ("Promo Sossa", 4, "#8D68FA"), ("Super Mint", 3, "#C5C4FF"), ("Équipe Nord", 2, "#E4765A")]}))
+
 def dots(v):
     return '<td><span class="dots" title="' + str(v) + ' sur 5">' + "".join('<i class="on"></i>' if j < v else "<i></i>" for j in range(5)) + '</span></td>'
 def srci(dom):
@@ -773,27 +853,41 @@ def tdb_agent(k, part=None):
     sg_ = "".join(f'<span data-sw="{x}">{ic("plus", "s")} {x}</span>' for x in SUGG_W[k])
     if part:
         _, par_, ini, droit, exp, titre = part
-        head = (f'<div class="tbh tbsh"><img src="{B}{e["photo"]}" alt=""><div class="grow"><b>{titre}</b><span class="xs mute3">Tableau de {e["prenom"]}, {e["role"]}</span></div>'
+        head = (f'<div class="tbh tbsh"><span class="duo">{face(ini, "", 48)}<img class="ag" src="{B}{e["photo"]}" alt=""></span><div class="grow"><b>{titre}</b><span class="xs mute3">Tableau de {e["prenom"]}, {e["role"]}</span></div>'
                 f'<span class="shby">{face(ini, "", 28)}<span><b>Partagé par {par_}</b><small>{ic("pencil" if droit == "Édition" else "eye", "s")} {droit}, jusqu’au {exp}</small></span></span>'
                 f'<a class="btn o sm" href="#" data-toast="Tableau ajouté à vos tableaux">{ic("copy", "s")} Copier dans mes tableaux</a></div>')
         add = ""
     else:
-        espace = f'<a class="btn o sm" href="{k}.html">{ic("arrow-right", "s")} Son espace</a><a class="btn o sm" href="{k}.html#analytique">{ic("chart-column", "s")} Analytique</a>'
-        head = (f'<div class="tbh"><img src="{B}{e["photo"]}" alt=""><div class="grow"><b>Tableau de bord de {e["prenom"]}, {e["role"]}</b><span class="xs mute3">Son travail, projet par projet. {e["prenom"]} propose les blocs, vous les modifiez.</span></div>{espace}'
-                f'<a class="btn o sm" href="#" data-dup="{e["prenom"]}">{ic("copy-plus", "s")} Dupliquer</a><a class="btn o sm" href="https://t.me/" target="_blank" rel="noopener">{TG} Telegram</a><a class="btn p sm" href="#" data-open="share" data-shk="{k}">{ic("share-2", "s")} Partager</a></div>')
+        espace = f'<a class="btn o sm" href="{k}.html">{ic("arrow-right", "s")} Son espace</a>'
+        head = (f'<div class="tbh"><span class="duo">{face("AD", "", 48)}<img class="ag" src="{B}{e["photo"]}" alt=""></span><div class="grow"><b>Mon tableau avec {e["prenom"]}, {e["role"]}</b><span class="xs mute3">Le travail de {e["prenom"]} pour vous, projet par projet</span></div>{espace}'
+                f'<a class="btn o sm tbed" href="#">{ic("pencil", "s")} <span>Modifier</span></a><a class="btn o sm" href="#" data-dup="{e["prenom"]}">{ic("copy-plus", "s")} Dupliquer</a><a class="btn o sm" href="#" data-toast="Tableau envoyé dans Telegram, sujet « Tableau de bord »">{TG} Envoyer dans Telegram</a><a class="btn p sm" href="#" data-open="share" data-shk="{k}">{ic("share-2", "s")} Partager</a></div>')
         add = (f'<article class="mw mwadd"><h4>{ic("plus", "s")} Ajouter un bloc</h4><p class="sm mute3">Les blocs de base viennent du travail de {e["prenom"]} : {GAB_BASE[k]}. Dites ce que vous voulez suivre en plus, {e["prenom"]} le construit sur mesure.</p>'
-               f'<form class="mwf" data-k="{k}"><input type="text" placeholder="Par exemple : {SUGG_W[k][0].lower()}" aria-label="Ce que vous voulez suivre"><button class="btn p sm" type="submit">Ajouter</button></form><div class="mws">{sg_}</div></article>')
+               f'<form class="mwf" data-k="{k}"><input type="text" placeholder="Par exemple : {SUGG_W[k][0].lower()}" aria-label="Ce que vous voulez suivre"><button class="btn p sm" type="submit">Ajouter</button></form><div class="mws">{sg_}</div><div class="fmts sm">{"".join(f'<label class="fmc"><input type="radio" name="fm-{k}"{" checked" if n == 0 else ""}>{ic(i_, "s")} {l}</label>' for n, (i_, l) in enumerate([("hash", "Chiffres clés"), ("chart-column", "Histogramme"), ("chart-pie", "Camembert"), ("chart-line", "Courbe"), ("table", "Tableau"), ("kanban", "Kanban"), ("calendar", "Calendrier"), ("align-left", "Texte"), ("list-checks", "Liste")]))}</div></article>')
     return f'{head}{filtres(k)}<section class="mwg2">{ws}{add}</section>'
 
 def page_tdb(brand):
-    mine = "".join(f'<a href="#" data-t="tb-{k}"{" class=on" if k == "djeneba" else ""}><img class="tav" src="{B}{EXPERTS[k]["photo"]}" alt=""> {EXPERTS[k]["prenom"]}</a>' for k in TDB_QUI)
-    shared = "".join(f'<a href="#" data-t="tb-{p[0]}" class="tsh"><img class="tav" src="{B}{qui(p[0])["photo"]}" alt=""> {qui(p[0])["prenom"]}<small>de {p[1].split()[0]}</small></a>' for p in TDB_PART)
-    tabs = f'<span class="tbg">Mes tableaux</span>{mine}<span class="tbg">{ic("users", "s")} Partagés avec moi <b class="num">{len(TDB_PART)}</b></span>{shared}'
+    duo = lambda h, x: f'<span class="duo sm">{face(h, "", 34)}<img class="ag" src="{B}{qui(x)["photo"]}" alt=""></span>'
+    mine = "".join(f'<a href="#" data-t="tb-{k}" data-g="mine"{" class=on" if k == "djeneba" else ""}>{duo("AD", k)}<span><b>{EXPERTS[k]["prenom"]}</b><small>{EXPERTS[k]["role"]}</small></span></a>' for k in TDB_QUI)
+    mine = mine.replace('<a href="#" data-t="tb-fatima"', f'<a href="#" data-t="tb-djeneba2" data-g="mine">{duo("AD", "djeneba")}<span><b>Djénéba</b><small>Projet Nouvelle ligne</small></span></a><a href="#" data-t="tb-fatima"', 1)
+    shared = "".join(f'<a href="#" data-t="tb-{p[0]}" data-g="shared" title="Partagé par {p[1]}">{duo(p[2], p[0])}<span><b>{qui(p[0])["prenom"]}</b><small>{qui(p[0])["role"]}</small></span>{"<i class=nw></i>" if n == 0 else ""}</a>' for n, p in enumerate(TDB_PART))
+    tabs = (f'<div class="tbsw"><button class="on" data-sw="mine">{ic("layout-dashboard", "s")} Mes tableaux <b class="num">{len(TDB_QUI)}</b></button><button data-sw="shared">{ic("users", "s")} Partagés avec moi <b class="num">{len(TDB_PART)}</b><i class="nw"></i></button></div>'
+            f'<nav class="tabs tbs3">{mine}{shared}</nav>'
+            f'<div class="tbnew" data-g="shared">{face(TDB_PART[0][2], "", 28)}<span><b>{TDB_PART[0][1]}</b> vous a partagé « {TDB_PART[0][5]} » il y a 2 h</span></div>')
     par = "".join(f'<div class="panel{" on" if k == "djeneba" else ""}" id="tb-{k}">{tdb_agent(k)}</div>' for k in TDB_QUI)
+    par += f'<div class="panel" id="tb-djeneba2" data-preset="usine">{tdb_agent("djeneba").replace("Mon tableau avec Djénéba, Chief of Staff", "Projet Nouvelle ligne de confiserie, avec Djénéba")}</div>'
     par += "".join(f'<div class="panel" id="tb-{p[0]}">{tdb_agent(p[0], p)}</div>' for p in TDB_PART)
-    corps = f"""<div class="hello"><div class="grow"><p class="date">Semaine du 28 septembre</p><h1>Tableau de bord</h1></div><a class="btn g" href="djeneba.html#discussion" title="Avec {EXPERTS['djeneba']['prenom']}, votre Chief of Staff">{ic("plus", "s")} Créer un tableau</a></div>
-<div data-tabs><nav class="tabs tbs tbs2" style="margin-top:14px">{tabs}</nav>
+    corps = f"""<div class="hello"><div class="grow"><p class="date">Semaine du 28 septembre</p><h1>Tableau de bord</h1></div><a class="btn g" href="#" data-open="newtdb">{ic("plus", "s")} Créer un tableau</a></div>
+<div data-tabs class="tbwrap">{tabs}
 {par}</div>"""
+    xs = "".join(f'<label class="nx"><input type="radio" name="nxe"{" checked" if k == "djeneba" else ""}><img src="{B}{qui(k)["photo"]}" alt=""><b>{qui(k)["prenom"]}</b><small>{qui(k)["role"]}</small></label>' for k in ("djeneba", "fatima", "koffi"))
+    pj = "".join(f'<option>{n}</option>' for _, n in list(PROJ.values())[:4])
+    corps += f"""<div class="modal" id="newtdb"><div class="ov" data-close></div><div class="pn shpn"><button class="ib x" data-close aria-label="Fermer">{ic("x")}</button>
+<h2>Créer un tableau</h2><p class="sm mute">L’expert le construit à partir de son travail, vous l’ajustez ensuite.</p>
+<h3 class="shh">Avec quel expert</h3><div class="nxs">{xs}</div>
+<h3 class="shh">De quoi doit-il parler</h3><textarea class="fi fta" style="width:100%" placeholder="Par exemple : l’avancement de la nouvelle ligne, avec les engagements, les rendez-vous et les blocages"></textarea>
+<div class="g2i" style="margin-top:10px"><label class="fl2"><span>Projet</span><select class="fi" style="width:100%"><option>Tous les projets</option>{pj}</select></label><label class="fl2"><span>Période</span><select class="fi" style="width:100%"><option>Cette semaine</option><option>Ce mois-ci</option><option>Ce trimestre</option></select></label></div>
+<h3 class="shh">Formats préférés</h3><div class="fmts">{"".join(f'<label class="fmc"><input type="checkbox"{" checked" if n < 3 else ""}>{ic(i_, "s")} {l}</label>' for n, (i_, l) in enumerate([("hash", "Chiffres clés"), ("chart-column", "Histogramme"), ("chart-pie", "Camembert"), ("chart-line", "Courbe"), ("table", "Tableau"), ("kanban", "Kanban"), ("calendar", "Calendrier"), ("align-left", "Texte"), ("list-checks", "Liste")]))}</div>
+<div class="row" style="justify-content:flex-end;gap:8px;margin-top:16px"><a class="btn o" href="#" data-close>Annuler</a><a class="btn p" href="#" data-close data-toast="Tableau en cours de création, il arrive dans Mes tableaux dans quelques minutes">{ic("sparkles", "s")} Générer le tableau</a></div></div></div>"""
     return page("tableau-de-bord", brand, "Tableau de bord", "<b>Tableau de bord</b>", corps, dock=True)
 
 
@@ -1072,6 +1166,7 @@ def x_cal_ancien(k):
 <div class="grid">{head}<div>{hours}</div>{cols}</div></div>"""
 
 USAGE = {"djeneba": (19, "5 h 40", "18 min", 86, "Lun 8 h"), "fatima": (21, "7 h 10", "42 min", 214, "Mar 10 h"), "koffi": (20, "6 h 25", "1 h 05", 132, "Jeu 9 h")}
+COMMS = {"djeneba": (14, "3 h 20", 96, 214, 12), "fatima": (6, "1 h 10", 58, 131, 4), "koffi": (3, "40 min", 22, 47, 5)}
 def x_analytique(k):
     e, d = EXPERTS[k], DASH[k]
     jours, hj, tmoy, conv, pic = USAGE[k]
@@ -1098,7 +1193,9 @@ def x_analytique(k):
                   ("Projets actifs", d["kpis"][3][1], "en cours", ""), ("En attente", d["kpis"][5][1], "de votre retour", "warn")])
     us = "".join(f'<div class="us"><span class="ic">{ic(i_, "s")}</span><b class="num">{v}</b><span>{l}</span></div>' for i_, v, l in
                  [("calendar-check", f"{jours} jours", "actifs sur 22 ouvrés"), ("clock", hj, "actives par jour en moyenne"), ("timer", tmoy, "pour produire un livrable"),
-                  ("messages-square", str(conv), "échanges avec l'équipe"), ("flame", pic, "le moment le plus chargé")])
+                  ("messages-square", str(conv), "échanges avec l'équipe"), ("flame", pic, "le moment le plus chargé"),
+                  ("phone", f"{COMMS[k][0]} appels", f"{COMMS[k][1]} au téléphone"), ("send", str(COMMS[k][2]), "emails envoyés"), ("inbox", str(COMMS[k][3]), "emails reçus et triés"),
+                  ("calendar-days", str(COMMS[k][4]), "rendez-vous suivis"), ("message-circle", "Telegram", "canal le plus utilisé")])
     return f"""<div class="h2x"><h2>Analytique</h2><span class="xs mute3">Ce que {e['prenom']} a produit, et comment l'équipe s'en sert</span></div>
 <div class="anf"><div class="seg an-per"><a>Semaine</a><a class="on">Mois</a><a>Trimestre</a></div><label class="anr">{ic("calendar", "s")}<input type="date" value="2026-09-01" aria-label="Du"><span>au</span><input type="date" value="2026-09-30" aria-label="Au"></label></div>
 <section class="an-imp"><div><small>Impact</small><b class="num">{str(jtr).replace(".", ",").replace(",0", "")} journée{"s" if jtr >= 2 else ""} de travail</b><span>rendues à l'équipe ce mois-ci, soit {jr} que vous n'avez pas passées à le faire.</span></div>
