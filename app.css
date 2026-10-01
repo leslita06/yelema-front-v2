@@ -2837,3 +2837,5 @@ label.chc:has(input:checked) .chk.off{display:none}
 .fmlk small{color:inherit!important;opacity:.8}
 @media (max-width:760px){.tbact .tbtpl span{display:none}.tbact .gsb>svg:last-child{display:none}.tbact{flex-wrap:wrap}}
 @media (max-width:760px){.tbact .btn>span,.tbact .dlm summary span{display:none!important}.tbact .btn,.tbact .dlm summary{padding:0 12px;min-width:44px}}
+html[data-mode="nuit"] .pby img,html[data-mode="nuit"] .pby2 img,html[data-mode="nuit"] img[src*="yelema_long"]{content:normal!important;filter:none!important}
+.chcs-mini .chc small:empty{display:none}

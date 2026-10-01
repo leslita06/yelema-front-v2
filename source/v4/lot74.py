@@ -35,9 +35,9 @@ def chan_logo(n, d):
     return TG if n == "Telegram" else (WEB_LOGO if n == "Web" else f'<img src="{FAV}{d}" alt="">')
 CH_ORDRE = ["Telegram", "Web", "Slack", "Microsoft Teams", "WhatsApp", "Email"]
 def canaux_strip():
-    t = chan_card("Web", WEB_LOGO, "Cet espace", True)
+    t = chan_card("Web", WEB_LOGO, "", True)
     for n, d, on, det, u, lib in CANAUX:
-        t += chan_card(n, chan_logo(n, d), "Activé" if on else "À activer", on)
+        t += chan_card(n, chan_logo(n, d), "", on)
     cards = sorted(re.findall(r'<div class="chc.*?</div>', t, flags=re.S), key=lambda c: next((i for i, x in enumerate(CH_ORDRE) if f"<b>{x}</b>" in c), 9))
     return f'<a class="chcs chcs-mini" href="admin-canaux.html">{"".join(cards)}</a>'
 
@@ -286,4 +286,4 @@ def _fix74(html):
         chan_card(x.group(2), TG if x.group(2) == "Telegram" else f'<img src="{x.group(1)}" alt="">', x.group(3), "checked" in x.group(0), sel=("radio", "onbc"))
         for x in re.finditer(r'<label><input type="radio" name="onbc"[^>]*><img src="([^"]+)" alt=""><b>([^<]+)</b><small>([^<]+)</small></label>', m.group(1))) + '</div>', html, count=1, flags=re.S)
     html = re.sub(r'<a href="\.\./(yelema|client)/admin-general\.html" class="on">', r'<a href="#" class="on" data-toast="Cet habillage est déjà actif">', html)
-    return _tdb76(_accueil74(_lien74(html)))
+    return _tdb76(_accueil74(_lien74(html))).replace('yelema_logo_final_long.svg', 'yelema_long.png')
