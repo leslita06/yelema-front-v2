@@ -275,3 +275,7 @@ document.querySelectorAll('.ml2').forEach(function(box){box.querySelectorAll('.m
   box.querySelectorAll('.mi').forEach(function(x){x.classList.toggle('on',x===a)});
   box.querySelectorAll('.mrd').forEach(function(r){r.classList.toggle('on',r.dataset.mr===a.dataset.mi)});
   if(innerWidth<=900){var r=box.querySelector('.mrd.on');if(r)r.scrollIntoView({behavior:'smooth',block:'nearest'})}})})});
+
+// v4.12 Suivi admin : période
+document.querySelectorAll('.an-per a').forEach(function(a){handled(a);a.addEventListener('click',function(e){e.preventDefault();
+  a.parentNode.querySelectorAll('a').forEach(function(x){x.classList.toggle('on',x===a)});toast('Chiffres : '+a.textContent.toLowerCase())})});

@@ -337,7 +337,7 @@ NOTIFS = [("Aujourd'hui", [("fatima", "circle-check", "Fatima attend votre accor
                             ("djeneba", "trending-down", "Ventes Sossa sous l'objectif", "6 % sous la cible cette semaine", "08:05", "tableau-de-bord.html", "Tableau de bord", True)]),
           ("Hier", [(None, "user-plus", "Nadège a rejoint Unifood", "Invitée par Aïcha Diabaté", "17:20", "admin-membres.html", "Voir", False),
                     ("fatima", "calendar", "Calendrier éditorial d'octobre prêt", "12 publications, à valider avant lundi", "16:02", "fatima.html#livrables", "Ouvrir", False),
-                    (None, "receipt", "Facture d'octobre payée", "500 000 F CFA par Jèko, Wave", "11:15", "admin-facturation.html", "Voir", False)])]
+                    (None, "receipt", "Facture d'octobre payée", "1 000 000 F CFA par Jèko, Wave", "11:15", "admin-facturation.html", "Voir", False)])]
 
 def page_notifs(brand):
     out = ""
@@ -1196,10 +1196,10 @@ def modal_jeko():
     opts = "".join(f'<label class="jm{" on" if i == 0 else ""}"><img src="{FAV}{d}" alt=""><span class="grow">{n}</span><i></i></label>' for i, (n, d) in enumerate(ms))
     return f"""<div class="modal" id="jeko"><div class="ov" data-close></div><div class="pn jkp"><button class="ib x" data-close aria-label="Fermer">{ic("x")}</button>
 <div class="jkh"><span class="jkl">jèko</span><span class="xs" style="opacity:.85">Paiement sécurisé</span></div>
-<div class="jkb"><p class="xs mute3">Facture de novembre, Yelema</p><div class="jka num">500 000 F CFA</div>
+<div class="jkb"><p class="xs mute3">Facture de novembre, Yelema</p><div class="jka num">1 000 000 F CFA</div>
 <b class="sm">Payer avec</b><div class="jms">{opts}</div>
 <div class="fl2"><span class="xs mute3">Numéro mobile money</span><span class="inp3">+225 07 00 00 00 00</span></div>
-<a class="btn p jgo" href="#">Payer 500 000 F CFA</a>
+<a class="btn p jgo" href="#">Payer 1 000 000 F CFA</a>
 <p class="xs mute3" style="text-align:center;margin-top:8px">Vous validez sur votre téléphone. Le reçu arrive par email.</p></div></div></div>"""
 
 SHCH = "".join(f'<a class="shc" href="#" data-toast="{t}"><img src="{FAV}{d}" alt="">{n}</a>' for n, d, t in
@@ -1223,29 +1223,54 @@ def modal_share():
 
 def adm_factu(brand):
     fac = "".join(f'<tr><td>{m_}</td><td class="num">{v}</td><td><span class="pill {s}">{l}</span></td><td><a class="link" href="#">{ic("download", "s")} PDF</a></td></tr>' for m_, v, s, l in
-                  [("Novembre 2026", "500 000", "ac", "À venir"), ("Octobre 2026", "500 000", "ok", "Payée par Jèko, Wave"), ("Septembre 2026", "1 300 000", "ok", "Payée par Jèko, Orange Money")])
+                  [("Novembre 2026", "1 000 000", "ac", "À venir"), ("Octobre 2026", "1 000 000", "ok", "Payée par Jèko, Wave"), ("Septembre 2026", "1 300 000", "ok", "Payée par Jèko, Orange Money")])
     pm = "".join(f'<div class="pm"><img src="{FAV}{d}" alt=""><span class="grow"><b>{n}</b><small>{x}</small></span>{t}</div>' for n, d, x, t in
                  [("Jèko, Wave", "wave.com", "+225 07 •• •• 00 00", '<span class="pill ok">Par défaut</span>'), ("Jèko, Orange Money", "orange.ci", "+225 05 •• •• 11 22", '<a class="link sm" href="#" data-toast="Moyen par défaut changé">Par défaut</a>'),
                   ("Carte Visa", "visa.com", "•••• 4242, expire 08/28", '<a class="link sm" href="#" data-toast="Moyen par défaut changé">Par défaut</a>'), ("Virement bancaire", "bceao.int", "Société Générale CI, RIB sur la facture", '<a class="link sm" href="#" data-toast="RIB copié">Copier le RIB</a>')])
     corps = f"""<div style="max-width:980px"><h1>Facturation</h1><p class="sub">Suivez votre formule, vos moyens de paiement et vos factures</p>
-<div class="fk3"><div class="fk"><span>Formule</span><b>Experts Yelema</b><small>3 experts, jusqu'à 50 membres</small></div><div class="fk"><span>Consommation du mois</span><b>126 livrables</b><small class="ok">sans dépassement</small></div><div class="fk"><span>Prochaine facture</span><b class="num">500 000 F CFA</b><small>le 1er novembre</small></div></div>
+<div class="fk3"><div class="fk"><span>Formule</span><b>Experts Yelema</b><small>6 experts actifs, jusqu'à 50 membres</small></div><div class="fk"><span>Consommation du mois</span><b>126 livrables</b><small class="ok">sans dépassement</small></div><div class="fk"><span>Prochaine facture</span><b class="num">1 000 000 F CFA</b><small>le 1er novembre</small></div></div>
 <div class="box" style="margin-top:14px"><div class="ch"><h2 style="font-size:16px;font-weight:650">Moyens de paiement</h2><a class="btn o sm" href="#" data-open="jeko">{ic("plus", "s")} Ajouter</a></div>{pm}</div>
 <div class="box" style="margin-top:14px"><div class="ch"><h2 style="font-size:16px;font-weight:650">Compte de facturation</h2><a class="btn o sm" href="#" data-toast="Modification ouverte">Modifier</a></div>
 {sg([("Raison sociale", "", '<span class="inp2">Unifood SA</span>'), ("Compte contribuable", "", '<span class="inp2">CI-ABJ-2009-B-1234</span>'), ("Factures envoyées à", "", '<span class="inp2">compta@unifood.info</span>')])}</div>
-{sg([("Prochaine facture", "Le 1er novembre", '<b class="num" style="font-size:22px">500 000 F CFA</b>'),
-     ("Experts", "Djénéba incluse, Fatima et Koffi", '<a class="btn o sm" href="admin-experts.html">Gérer</a>'),
+{sg([("Prochaine facture", "Le 1er novembre", '<b class="num" style="font-size:22px">1 000 000 F CFA</b>'),
+     ("Experts", "Djénéba incluse, plus 5 experts à 200 000 F CFA", '<a class="btn o sm" href="admin-experts.html">Gérer</a>'),
      ("Moyen de paiement", "Par Jèko : Wave, Orange Money, MTN, Moov ou carte", JEKO_BTN)])}
 <div class="box" style="margin-top:16px"><div class="ch"><h2 style="font-size:16px;font-weight:650">Factures</h2></div><table class="tbl"><tr><th>Mois</th><th>F CFA</th><th>État</th><th></th></tr>{fac}</table>
 <p class="xs mute3" style="margin-top:10px">Septembre comprend la mise en place, réglée une fois au démarrage.</p></div></div>"""
     return admin_page("admin-facturation", "Facturation", corps, brand)
 
+AN_SEM = [("S36", 31), ("S37", 48), ("S38", 57), ("S39", 66), ("S40", 74)]
+AN_TACHES = [("fatima", "Fatima", 66, 4), ("kouassi", "Kouassi", 56, 5), ("koffi", "Koffi", 48, 3), ("mamadou", "Mamadou", 40, 2), ("adjoua", "Adjoua", 36, 4), ("djeneba", "Djénéba", 30, 1)]
+AN_CX = [("Google Drive", "drive.google.com", 486), ("Gmail", "gmail.com", 412), ("Meta Business", "facebook.com", 208), ("Canva", "canva.com", 164),
+         ("Slack", "slack.com", 97), ("Microsoft Teams", "teams.microsoft.com", 63), ("Google Agenda", "calendar.google.com", 41), ("Sage", "sage.com", 0)]
+AN_FMT = [("PDF", 38), ("Excel", 27), ("Google Doc", 22), ("PNG", 24), ("PowerPoint", 9), ("Autres", 6)]
+AN_MEM = [("AD", "Aïcha Diabaté", "Marketing", 31, 64, "aujourd'hui"), ("FB", "Fanta Bakayoko", "Commercial", 18, 40, "aujourd'hui"), ("NT", "Nadège Touré", "Marketing", 9, 21, "aujourd'hui"),
+          ("MK", "Mariam Koné", "RH", 11, 19, "hier"), ("IS", "Ibrahim Sylla", "Finance", 8, 15, "hier"), ("YK", "Yao Kra", "Marketing", 6, 18, "hier"), ("SB", "Serge Bamba", "Direction", 3, 7, "mardi")]
+
 def adm_analytics(brand):
-    d = DASH["equipe"]
-    mem = "".join(f'<tr><td><div class="who">{face(i, c, 32)}<b>{n}</b></div></td><td class="num">{a}</td><td class="num">{b_}</td><td class="hide-m">{x}</td></tr>' for i, c, n, a, b_, x in
-                  [("AD", "#7A4E2D", "Aïcha Diabaté", 31, 64, "aujourd'hui"), ("NT", "#8A3B12", "Nadège Touré", 9, 21, "aujourd'hui"), ("YK", "#0F7B5F", "Yao Kra", 6, 18, "hier"), ("SB", "#2E4EC4", "Serge Bamba", 3, 7, "mardi")])
-    corps = f"""<div class="hello"><div class="grow"><h1>Suivi</h1><p class="sub">Par expert et par membre</p></div><div class="seg"><a>Semaine</a><a class="on">Mois</a><a>Trimestre</a></div><a class="btn g" href="#">{ic("download", "s")} Exporter en CSV</a></div>
-{b3.kpis(d)}<div class="g2">{b3.chart(d, ["fatima", "koffi", "djeneba"])}{b3.donut(d)}</div>
-<div class="box" style="margin-top:14px"><div class="ch"><h2 style="font-size:16px;font-weight:650">Par membre</h2></div><table class="tbl"><tr><th>Membre</th><th>Livrables reçus</th><th>Messages aux experts</th><th class="hide-m">Dernière connexion</th></tr>{mem}</table></div>"""
+    kp = "".join(f'<div class="an-k"><span>{l}</span><b class="num">{v}</b><small class="{c}">{d}</small></div>' for l, v, d, c in
+                 [("Coût des experts", "1 000 000 F", "par mois, 6 experts actifs", ""), ("Tâches terminées", "276", "+23 % par rapport au mois dernier", "up"),
+                  ("Livrables produits", "126", "+18 % par rapport au mois dernier", "up"), ("Membres actifs", "11", "sur 14 comptes ouverts", "")])
+    mx = max(v for _, v in AN_SEM)
+    bars = "".join(f'<div class="an-b{" on" if n == len(AN_SEM) - 1 else ""}"><em class="num">{v}</em><i style="height:{v / mx * 100:.0f}%"></i><span>{w}</span></div>' for n, (w, v) in enumerate(AN_SEM))
+    mt = max(a + b for _, _, a, b in AN_TACHES)
+    tx = "".join(f'<a class="an-r" href="{xh(k)}"><span class="an-n"><img src="{B}{k}.jpg" alt="">{n}</span><i><b style="width:{a / mt * 100:.0f}%"></b><u style="width:{b / mt * 100:.0f}%"></u></i><em class="num">{a + b}</em></a>' for k, n, a, b in AN_TACHES)
+    mc = max(v for *_, v in AN_CX)
+    cx = "".join(f'<div class="an-r{" off" if not v else ""}"><span class="an-n"><img class="lg" src="{FAV}{d}" alt="">{n}</span><i><b style="width:{v / mc * 100:.0f}%"></b></i><em class="num">{v if v else "non lié"}</em></div>' for n, d, v in AN_CX)
+    mf = max(v for _, v in AN_FMT)
+    fm = "".join(f'<div class="an-r"><span class="an-n">{n}</span><i><b style="width:{v / mf * 100:.0f}%"></b></i><em class="num">{v}</em></div>' for n, v in AN_FMT)
+    mem = "".join(f'<tr><td><a class="who" href="admin-membre.html">{face(i_, "", 34)}<span><b>{n}</b><br><span class="xs mute3">{sv}</span></span></a></td><td class="num">{a}</td><td class="num">{b_}</td><td class="hide-m">{x}</td></tr>' for i_, n, sv, a, b_, x in AN_MEM)
+    dl = "".join(f'<a class="an-dl" href="#" data-toast="Téléchargement : {f}.csv"><span class="ic">{ic("download", "s")}</span><span><b>{t}</b><small>{d}</small></span></a>' for t, d, f in
+                 [("Experts", "Coût, tâches terminées et en cours, livrables", "unifood-experts-octobre"), ("Membres", "Livrables reçus, messages, dernière connexion", "unifood-membres-octobre"),
+                  ("Connecteurs", "État et éléments consultés par les experts", "unifood-connecteurs-octobre"), ("Ressources et livrables", "Documents fournis, produits, partagés, formats", "unifood-livrables-octobre")])
+    corps = f"""<div class="hello"><div class="grow"><h1>Suivi</h1><p class="sub">Ce que vos experts font pour Unifood, et qui s'en sert</p></div><div class="seg an-per"><a>Semaine</a><a class="on">Mois</a><a>Trimestre</a></div></div>
+<div class="an-ks">{kp}</div>
+<div class="an-g"><section class="an-c"><header><h2>Tâches terminées</h2><span>par semaine, depuis l'arrivée des experts</span></header><div class="an-bars">{bars}</div></section>
+<section class="an-c"><header><h2>Tâches par expert</h2><span>terminées et en cours</span></header><div class="an-rs">{tx}</div><div class="an-lg"><span><i></i>Terminées</span><span><i class="lt"></i>En cours</span></div></section></div>
+<div class="an-g"><section class="an-c"><header><h2>Connecteurs</h2><span>éléments consultés par les experts</span></header><div class="an-rs">{cx}</div></section>
+<section class="an-c"><header><h2>Ressources et livrables</h2><span>ce mois-ci</span></header><div class="an-3"><div><b class="num">58</b><span>documents fournis</span></div><div><b class="num">126</b><span>livrables produits</span></div><div><b class="num">23</b><span>partagés hors d'Unifood</span></div></div><div class="an-rs">{fm}</div></section></div>
+<section class="an-c"><header><h2>Par membre</h2><span>ce mois-ci</span></header><table class="tbl"><tr><th>Membre</th><th>Livrables reçus</th><th>Messages aux experts</th><th class="hide-m">Dernière connexion</th></tr>{mem}</table></section>
+<section class="an-c"><header><h2>Télécharger les métriques</h2><span>mois en cours, au format CSV</span></header><div class="an-dls">{dl}</div></section>"""
     return admin_page("admin-analytics", "Suivi", corps, brand)
 
 def adm_profil(brand):
