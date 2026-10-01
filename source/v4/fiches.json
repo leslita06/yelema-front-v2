@@ -1,0 +1,1848 @@
+{
+ "kouassi": {
+  "nom": "Kouassi",
+  "role": "Commercial & Ventes",
+  "tl": "Il ne laisse jamais une opportunité refroidir.",
+  "mission": "Le développement commercial de bout en bout : trouver les bons prospects, les relancer au bon moment, préparer les devis et garder le pipeline vivant, du premier message à la signature.",
+  "action": "Un devis envoyé il y a 5 jours reste sans réponse. Kouassi relance avec un message personnalisé, propose un appel, et prévient le commercial que le prospect a rouvert le devis deux fois. L'affaire repart.",
+  "quotidien": [
+   "Qualifie les demandes entrantes (WhatsApp, e-mail, DM) et pose les bonnes questions",
+   "Relance les devis en attente avec le ton juste, sans harceler",
+   "Prend les rendez-vous et prépare les fiches commerciales",
+   "Signale au dirigeant les affaires chaudes et celles qui coincent"
+  ],
+  "besoins": [
+   "Catalogue et grille tarifaire",
+   "Liste des clients et des prospects",
+   "Historique des devis émis",
+   "Conditions de remise autorisées",
+   "Canaux par lesquels arrivent les demandes"
+  ],
+  "accord": [
+   "Envoi d'un devis ou d'un prix",
+   "Remise au-delà du barème",
+   "Engagement de délai auprès d'un client",
+   "Prise de contact avec un compte stratégique"
+  ],
+  "rituels": [
+   [
+    "Envoie le point de fin de journée",
+    "Chaque jour ouvré"
+   ],
+   [
+    "Envoie le rapport d'activité de la semaine",
+    "Chaque semaine"
+   ],
+   [
+    "Relance un livrable remis resté sans retour depuis trois jours",
+    "Deux fois par semaine"
+   ],
+   [
+    "Revient sur une question restée sans réponse depuis 48 heures",
+    "Chaque jour ouvré"
+   ],
+   [
+    "Vérifie que chacun de ses accès répond",
+    "Chaque jour"
+   ]
+  ],
+  "livrables": [
+   [
+    "Fiche client idéal",
+    "Le profil d'entreprise à viser en premier : secteur, taille, décideur, signes qui ne trompent pas."
+   ],
+   [
+    "Liste de 50 comptes cibles",
+    "Chaque compte qualifié, avec le nom du décideur, le bon canal et la raison de l'appeler maintenant."
+   ],
+   [
+    "Séquence de relance J0, J3, J7",
+    "Les messages prêts pour WhatsApp, e-mail et LinkedIn, personnalisés compte par compte."
+   ],
+   [
+    "Tri quotidien des demandes entrantes",
+    "Chaque message classé chaud, tiède ou froid, avec la réponse proposée et le rendez-vous à caler."
+   ],
+   [
+    "Pipeline noté de 0 à 100",
+    "Chaque affaire, son montant, son étape, sa note et sa prochaine action datée."
+   ],
+   [
+    "Grille de prix en F CFA",
+    "Vos prix comparés à ceux de la région UEMOA, avec la marge tenue à chaque palier."
+   ],
+   [
+    "Playbook des 20 objections",
+    "Les objections que vous entendez le plus, la réponse à chacune et ce qu'il vaut mieux éviter."
+   ],
+   [
+    "Note de négociation",
+    "La remise plafond, les contreparties à demander et le point où l'on se retire."
+   ],
+   [
+    "Point commercial du vendredi",
+    "Les affaires gagnées, perdues et bloquées de la semaine, et les trois priorités de la suivante."
+   ]
+  ],
+  "modeles": [
+   "Compte rendu de visite",
+   "Dossier de soumission",
+   "Fiche de conditions revendeur",
+   "Fiche de risque client",
+   "Plan de tournée",
+   "Point commercial hebdomadaire",
+   "Proposition commerciale et devis"
+  ],
+  "terrain": "Il vend sur les canaux d'ici : la relation se noue sur WhatsApp, le devis se règle souvent en mobile money, et un grand compte impose son propre circuit de bon de commande. Il sait à quel moment un dossier se règle en espèces, combien de relances tient un acheteur avant de se fermer, et quels circuits d'achat exigent une commande signée.",
+  "refs": [],
+  "outils": [
+   "WhatsApp",
+   "Gmail",
+   "LinkedIn",
+   "Google Sheets",
+   "Calendly",
+   "HubSpot"
+  ],
+  "canaux": [
+   "Telegram",
+   "WhatsApp",
+   "E-mail",
+   "Slack"
+  ],
+  "competences": [
+   [
+    "Client idéal (ICP)",
+    "Définit le profil d'entreprise à cibler en priorité à partir de votre activité."
+   ],
+   [
+    "Prospection B2B",
+    "Trouve et qualifie des profils d'entreprises correspondant à votre cible."
+   ],
+   [
+    "Séquences de relance",
+    "Rédige les messages d'approche J0/J3/J7 personnalisés sur WhatsApp, e-mail et LinkedIn."
+   ],
+   [
+    "Tri des demandes entrantes",
+    "Classe les messages par intention et température, répond et pousse au rendez-vous."
+   ],
+   [
+    "Signaux d'achat",
+    "Repère les signaux (recrutement, expansion, lancement) qui indiquent qu'un compte est prêt."
+   ],
+   [
+    "Scoring & suivi des leads",
+    "Note chaque piste de 0 à 100 et relance, sans laisser mourir une opportunité."
+   ],
+   [
+    "Pricing local (FCFA)",
+    "Recommande une grille de prix avec benchmark régional UEMOA, en FCFA et USD."
+   ],
+   [
+    "Playbook de vente",
+    "Construit l'argumentaire et le pitch, pour le B2B formel comme informel."
+   ],
+   [
+    "Analytics des ventes",
+    "Teste les messages et suit le tunnel de conversion étape par étape."
+   ],
+   [
+    "Négociation et remise",
+    "Cadre la remise acceptable, prépare les contreparties et tient la marge."
+   ]
+  ],
+  "pourquoi": "Une affaire se gagne au bon suivi, au bon moment. C'est exactement ce qu'un humain débordé laisse filer, et ce que Kouassi ne rate jamais."
+ },
+ "awa": {
+  "nom": "Awa",
+  "role": "Support & Relation client",
+  "tl": "Elle répond à vos clients, jour et nuit, sur WhatsApp.",
+  "mission": "Le guichet client de l'entreprise, ouvert 24h/24, qui absorbe les demandes entrantes, y répond, et n'en laisse aucune sans suite.",
+  "action": "Un client écrit à 22h « ma livraison n'est pas arrivée ». Awa retrouve la commande, explique le statut, propose un créneau de rappel, et laisse une note pour l'équipe du matin. Le client a une réponse tout de suite ; l'équipe garde le contrôle.",
+  "quotidien": [
+   "Répond aux messages clients sur Telegram et WhatsApp en quelques secondes, 24h/24",
+   "Retrouve une commande, une facture ou un historique sans faire attendre",
+   "Trie les demandes : ce qu'elle traite seule vs. ce qu'elle escalade",
+   "Détecte les clients mécontents ou silencieux et prévient un responsable"
+  ],
+  "besoins": [
+   "Catalogue et fiches produits",
+   "Historique des commandes",
+   "Politique de retour et de remboursement",
+   "Questions fréquentes déjà traitées",
+   "Règles d'escalade"
+  ],
+  "accord": [
+   "Geste commercial ou remboursement",
+   "Annulation d'une commande",
+   "Promesse de délai faite à un client",
+   "Message diffusé à toute la base client"
+  ],
+  "rituels": [
+   [
+    "Envoie le point de fin de journée",
+    "Chaque jour ouvré"
+   ],
+   [
+    "Envoie le rapport d'activité de la semaine",
+    "Chaque semaine"
+   ],
+   [
+    "Relance un livrable remis resté sans retour depuis trois jours",
+    "Deux fois par semaine"
+   ],
+   [
+    "Revient sur une question restée sans réponse depuis 48 heures",
+    "Chaque jour ouvré"
+   ],
+   [
+    "Vérifie que chacun de ses accès répond",
+    "Chaque jour"
+   ]
+  ],
+  "livrables": [
+   [
+    "Réponses clients du jour",
+    "Chaque demande reçue sur WhatsApp ou par e-mail traitée, les cas sensibles remontés."
+   ],
+   [
+    "Tri des demandes",
+    "Chaque ticket classé par sujet et par urgence, avec le délai de réponse tenu."
+   ],
+   [
+    "Réponses types validées",
+    "Les réponses aux vingt questions les plus fréquentes, dans le ton de votre maison."
+   ],
+   [
+    "Articles d'aide",
+    "Des pas à pas illustrés, publiés dans votre centre d'aide ou envoyés sur WhatsApp."
+   ],
+   [
+    "Parcours WhatsApp",
+    "Le menu d'accueil, les réponses automatiques et le passage à un humain quand il le faut."
+   ],
+   [
+    "Fiche de réclamation",
+    "Le problème, les faits, le geste commercial proposé et le délai promis au client."
+   ],
+   [
+    "Alerte client à risque",
+    "Les clients qui décrochent, avec la raison probable et l'action à mener cette semaine."
+   ],
+   [
+    "Note des causes récurrentes",
+    "Ce qui revient le plus dans les plaintes, et ce qu'il faut corriger à la source."
+   ],
+   [
+    "Bilan de satisfaction mensuel",
+    "Le score de satisfaction, son évolution et les verbatims qui l'expliquent."
+   ]
+  ],
+  "modeles": [
+   "Bilan de satisfaction",
+   "Engagement de service et chemin d'escalade",
+   "Fiche de prise en charge après-vente",
+   "Fiche de réclamation",
+   "Fiche réponse type",
+   "Note de causes récurrentes",
+   "Réponse au client"
+  ],
+  "terrain": "Elle répond là où les clients écrivent, retrouve un règlement mobile money à partir d'un simple numéro de transaction, et comprend le français d'ici comme les tournures du quotidien. Elle connaît les heures où le réseau sature, ce qu'un client accepte d'attendre, et la différence entre un incident d'opérateur et une panne de votre service.",
+  "refs": [],
+  "outils": [
+   "Telegram",
+   "WhatsApp",
+   "Gmail",
+   "Google Sheets",
+   "Notion",
+   "Zendesk"
+  ],
+  "canaux": [
+   "Telegram",
+   "WhatsApp",
+   "E-mail",
+   "Slack"
+  ],
+  "competences": [
+   [
+    "Tri des tickets",
+    "Classe chaque demande entrante par urgence, sentiment et sujet, et l'assigne au bon interlocuteur."
+   ],
+   [
+    "FAQ & articles d'aide",
+    "Repère les questions récurrentes et génère les réponses et articles d'aide prêts à publier."
+   ],
+   [
+    "Parcours WhatsApp",
+    "Conçoit les flux WhatsApp de bout en bout : accueil, KYC, paiement, FAQ, escalade."
+   ],
+   [
+    "Analyse de satisfaction (NPS)",
+    "Analyse les retours clients, distingue promoteurs et détracteurs, remonte les verbatims."
+   ],
+   [
+    "Score de santé client",
+    "Note chaque client selon usage, paiements et tickets pour repérer ceux à risque."
+   ],
+   [
+    "Suivi d'onboarding",
+    "Accompagne les nouveaux clients sur leurs 30 premiers jours et détecte les décrochages."
+   ],
+   [
+    "Rétention / anti-churn",
+    "Déclenche une séquence de sauvetage dès qu'un client montre des signes de départ."
+   ],
+   [
+    "Réponses types",
+    "Construit la base de réponses maison et l'enrichit à chaque nouveau cas."
+   ],
+   [
+    "Réclamation et geste commercial",
+    "Traite une réclamation, propose le geste adapté et trace ce qui a été accordé."
+   ],
+   [
+    "Engagement de délai",
+    "Annonce un délai tenable, prévient avant qu'il passe et fait remonter ce qui coince."
+   ]
+  ],
+  "pourquoi": "Vos clients écrivent sur WhatsApp, à toute heure. Sans réponse rapide, ils vont voir ailleurs. Awa ne dort jamais et parle leur langue."
+ },
+ "fatima": {
+  "nom": "Fatima",
+  "role": "Marketing & Contenu",
+  "tl": "Elle fait vivre votre marque, chaque semaine.",
+  "mission": "La présence de marque complète : stratégie, production et programmation des contenus, animation des réseaux et relation presse, dans votre voix.",
+  "action": "Pour le lancement d'une offre, Fatima propose un plan de 6 posts, rédige les textes, prépare les visuels, programme la semaine et livre une newsletter prête à valider. Le fondateur relit et publie en un clic.",
+  "quotidien": [
+   "Rédige posts, newsletters et messages dans le ton de la marque",
+   "Prépare les visuels et programme la semaine sur chaque réseau",
+   "Trie et répond aux commentaires et messages privés",
+   "Suit ce qui marche et ajuste le calendrier éditorial"
+  ],
+  "besoins": [
+   "Charte et éléments de marque",
+   "Accès aux comptes des réseaux",
+   "Offres et arguments à mettre en avant",
+   "Calendrier de vos temps forts",
+   "Photos et visuels disponibles"
+  ],
+  "accord": [
+   "Publication d'un post",
+   "Envoi d'une newsletter",
+   "Réponse publique à un commentaire sensible",
+   "Prise de parole auprès de la presse"
+  ],
+  "rituels": [
+   [
+    "Rappelle les échéances de production et de diffusion des campagnes",
+    "Chaque jour ouvré"
+   ],
+   [
+    "Produit le point de la semaine sur la présence de l'entreprise",
+    "Chaque semaine"
+   ],
+   [
+    "Fait la veille de la communication des concurrents",
+    "Chaque mois"
+   ],
+   [
+    "Produit le bilan marketing du mois pour la direction",
+    "Chaque mois"
+   ],
+   [
+    "Envoie le point de fin de journée",
+    "Chaque jour ouvré"
+   ]
+  ],
+  "livrables": [
+   [
+    "Plateforme de marque",
+    "Votre promesse, votre ton et vos messages clés, sur une page que toute l'équipe peut suivre."
+   ],
+   [
+    "Calendrier éditorial du mois",
+    "Chaque publication datée, par réseau, avec son sujet, son format et son objectif."
+   ],
+   [
+    "Posts et carrousels prêts à publier",
+    "Textes et visuels aux couleurs de la marque, livrés pour validation avant programmation."
+   ],
+   [
+    "Réponses aux commentaires et messages",
+    "Les réponses proposées chaque jour, et les cas sensibles signalés avant toute réponse."
+   ],
+   [
+    "Veille des tendances de la semaine",
+    "Ce qui circule dans votre secteur et chez vos concurrents, avec les idées à reprendre."
+   ],
+   [
+    "Newsletter mensuelle",
+    "Le sujet, le texte et la liste d'envoi, prêts à partir après votre accord."
+   ],
+   [
+    "Plan de campagne publicitaire",
+    "Le budget, les audiences, les visuels et les indicateurs à suivre, réseau par réseau."
+   ],
+   [
+    "Communiqué et liste presse",
+    "Le communiqué rédigé et les journalistes à contacter, avec l'angle pour chacun."
+   ],
+   [
+    "Rapport de performance mensuel",
+    "Portée, engagement et contacts obtenus par réseau, et ce qu'il faut changer le mois suivant."
+   ]
+  ],
+  "modeles": [
+   "Bilan de campagne",
+   "Calendrier éditorial",
+   "Communiqué de presse",
+   "Plan de campagne",
+   "Publication pour les réseaux",
+   "Script de spot radio ou télévision",
+   "Texte d'une page de site"
+  ],
+  "terrain": "Elle écrit pour un public d'ici : les temps forts de l'année ivoirienne, les codes de la conversation sur WhatsApp et Facebook, et des formats assez légers pour un forfait data. Elle connaît le prix d'une campagne sur les réseaux de la place, les heures où l'audience est réveillée, et les formats qui se partagent en statut plutôt qu'en publication.",
+  "refs": [],
+  "outils": [
+   "Instagram",
+   "Facebook",
+   "LinkedIn",
+   "WhatsApp",
+   "Buffer",
+   "Canva"
+  ],
+  "canaux": [
+   "Telegram",
+   "WhatsApp",
+   "E-mail",
+   "Slack"
+  ],
+  "competences": [
+   [
+    "Stratégie de marque",
+    "Positionnement, voix de marque et message : le socle de votre communication."
+   ],
+   [
+    "Calendrier éditorial",
+    "Planifie et produit les posts multi-réseaux (attirer / convertir / fidéliser)."
+   ],
+   [
+    "Visuels de marque (Canva)",
+    "Génère posts, carrousels et stories brandés, prêts à publier."
+   ],
+   [
+    "Programmation multi-canaux",
+    "Programme les publications au bon moment, au format natif de chaque plateforme."
+   ],
+   [
+    "Community management",
+    "Trie et répond aux commentaires et messages privés sur les réseaux."
+   ],
+   [
+    "Veille des tendances",
+    "Suit chaque semaine les tendances des réseaux par canal et par pays."
+   ],
+   [
+    "SEO",
+    "Mots-clés, briefs et suivi de positions pour être trouvé sur Google."
+   ],
+   [
+    "Publicité payante",
+    "Décide où, combien et comment investir avant la première campagne."
+   ],
+   [
+    "Relations presse",
+    "Sourcing de médias, communiqués et préparation des prises de parole."
+   ],
+   [
+    "Emailing & newsletters",
+    "Rédige relances et newsletters engageantes."
+   ]
+  ],
+  "pourquoi": "Une marque qui se tait disparaît. Fatima la fait vivre chaque semaine, sur tous vos canaux."
+ },
+ "fatou": {
+  "nom": "Fatou",
+  "role": "RH & Paie",
+  "tl": "Elle tient la paie sans faute et veille sur le quotidien de vos équipes.",
+  "mission": "L'administration RH du quotidien, conforme OHADA : paie, congés, contrats, questions des salariés, évaluations. De quoi libérer le temps humain.",
+  "action": "Un salarié demande son solde de congés et une attestation. Fatou répond avec le solde exact, génère l'attestation, la fait valider par la RH, et l'envoie, en dix minutes au lieu de deux jours.",
+  "quotidien": [
+   "Répond aux questions des salariés (congés, soldes, paie, documents)",
+   "Prépare les éléments de paie et vérifie les calculs UEMOA",
+   "Suit les échéances : fins de contrat, renouvellements, entretiens",
+   "Onboarde les nouveaux : parcours, documents, premiers repères"
+  ],
+  "besoins": [
+   "Contrats et avenants",
+   "Grille des salaires",
+   "Registre des congés",
+   "Numéros d'immatriculation sociale",
+   "Politiques internes existantes"
+  ],
+  "accord": [
+   "Envoi d'un bulletin ou d'une attestation",
+   "Notification adressée à un salarié",
+   "Déclaration sociale",
+   "Diffusion d'une politique RH"
+  ],
+  "rituels": [
+   [
+    "Lance la collecte des variables de paie du mois",
+    "Chaque mois"
+   ],
+   [
+    "Signale les échéances du personnel où il reste une action à mener",
+    "Chaque semaine"
+   ],
+   [
+    "Repère les dossiers du personnel incomplets et ce qui se répare",
+    "Chaque semaine"
+   ],
+   [
+    "Fait le point du jour sur les non-permanents",
+    "Chaque jour"
+   ],
+   [
+    "Envoie le point de fin de journée",
+    "Chaque jour ouvré"
+   ]
+  ],
+  "livrables": [
+   [
+    "Éléments de paie vérifiés",
+    "Heures, primes, absences et retenues contrôlés avant le calcul de la paie."
+   ],
+   [
+    "Simulation de paie UEMOA",
+    "Le brut, les cotisations CNPS, l'impôt et le net, salarié par salarié."
+   ],
+   [
+    "Contrat de travail conforme",
+    "CDD, CDI ou avenant rédigé selon le Code du travail ivoirien, prêt à signer."
+   ],
+   [
+    "Suivi des congés et absences",
+    "Les soldes à jour, les demandes en attente et les absences à justifier."
+   ],
+   [
+    "Plan d'intégration 30, 60, 90 jours",
+    "Le programme du nouvel arrivant, ses objectifs et ses points d'étape."
+   ],
+   [
+    "Réponses aux questions des salariés",
+    "Congés, bulletin, attestations : réponses claires, cas délicats remontés."
+   ],
+   [
+    "Campagne d'entretiens annuels",
+    "Les supports, le calendrier et la synthèse des objectifs fixés."
+   ],
+   [
+    "Dossier disciplinaire",
+    "Les faits qualifiés, la procédure à suivre et les courriers prêts."
+   ],
+   [
+    "Solde de tout compte",
+    "Le calcul de fin de contrat et la liste des documents à remettre."
+   ]
+  ],
+  "modeles": [
+   "Checklist de départ et solde de tout compte à préparer",
+   "Dossier d'embauche et fiche de formalités",
+   "Feuille de pointage et état de paiement des journaliers",
+   "Journal des variables et fiche de contrôle avant paiement",
+   "Note de qualification des faits et compte rendu d'entretien",
+   "Note de service et registre de diffusion",
+   "Support et compte rendu d'entretien annuel"
+  ],
+  "terrain": "Elle applique le barème réel : cotisations CNPS, impôts sur salaires de la DGI, code du travail ivoirien, et les pièces d'identité exigées dans un dossier salarié. Elle sait quand tombent les déclarations, ce qu'un contrôle regarde en premier, et comment se calcule un solde de tout compte quand le contrat s'arrête en cours de mois.",
+  "refs": [],
+  "outils": [
+   "Google Workspace",
+   "Notion",
+   "WhatsApp",
+   "Slack",
+   "Gmail",
+   "Google Sheets"
+  ],
+  "canaux": [
+   "Telegram",
+   "WhatsApp",
+   "E-mail",
+   "Slack"
+  ],
+  "competences": [
+   [
+    "Simulation de paie (UEMOA)",
+    "Calcule net, brut et charges sociales selon le barème UEMOA."
+   ],
+   [
+    "Politiques RH & OHADA",
+    "Rédige et met à jour les politiques RH conformes OHADA."
+   ],
+   [
+    "Congés & absences",
+    "Clarifie les droits, calcule les soldes, gère les absences (OHADA + droit local)."
+   ],
+   [
+    "Cas RH individuels",
+    "Guide les procédures sensibles : avertissement, mise à pied, rupture, conformes OHADA."
+   ],
+   [
+    "FAQ RH pour les salariés",
+    "Répond aux questions des salariés (congés, paie, frais) en langage simple."
+   ],
+   [
+    "Plan d'intégration 30/60/90",
+    "Construit le parcours d'onboarding par poste : objectifs, jalons, livrables."
+   ],
+   [
+    "Offboarding & solde de tout compte",
+    "Orchestre les départs et calcule le solde de tout compte OHADA."
+   ],
+   [
+    "Campagnes d'évaluation",
+    "Prépare les entretiens : objectifs SMART ou OKR, auto-évaluation et évaluation manager."
+   ],
+   [
+    "Tableau de bord RH",
+    "Effectifs, turnover, parité, coût par recrutement : les chiffres RH d'un coup d'œil."
+   ],
+   [
+    "Discipline et sanction",
+    "Prépare un entretien disciplinaire dans les formes, du rappel à l'écrit motivé."
+   ]
+  ],
+  "pourquoi": "La paie et l'OHADA sont un casse-tête chronophage. Fatou les maîtrise et fiabilise chaque échéance sociale."
+ },
+ "mamadou": {
+  "nom": "Mamadou",
+  "role": "Finance & Comptabilité",
+  "tl": "Il garde vos comptes clairs et vos dossiers bancables.",
+  "mission": "Le pilotage financier de l'entreprise : comptabilité OHADA, contrôle de gestion, business plan et prévisionnel. De quoi décider sur des chiffres justes et obtenir des financements.",
+  "action": "Avant un rendez-vous bancaire, Mamadou reconstitue le prévisionnel à 3 ans, prépare le plan de remboursement, repère les points faibles du dossier et livre un PDF propre. Le dirigeant arrive préparé.",
+  "quotidien": [
+   "Structure et tient la comptabilité selon le référentiel OHADA",
+   "Prépare les tableaux de trésorerie et de marge",
+   "Émet les factures, suit les relances clients et monte les dossiers de financement",
+   "Alerte le dirigeant dès qu'un chiffre sort des clous"
+  ],
+  "besoins": [
+   "Relevés bancaires et journaux",
+   "Factures d'achat et de vente",
+   "Grille des salaires",
+   "Échéancier fiscal et social",
+   "Historique des financements obtenus"
+  ],
+  "accord": [
+   "Transmission d'une liasse à un tiers",
+   "Dépôt d'une déclaration",
+   "Envoi d'un dossier à une banque",
+   "Écriture de régularisation"
+  ],
+  "rituels": [
+   [
+    "Rappelle les échéances fiscales et sociales",
+    "Chaque jour ouvré"
+   ],
+   [
+    "Produit le point de trésorerie avant les décaissements de la semaine",
+    "Chaque semaine"
+   ],
+   [
+    "Ouvre la clôture du mois et prépare la liasse",
+    "Chaque mois"
+   ],
+   [
+    "Prépare les relances clients à partir de la balance âgée",
+    "Chaque semaine"
+   ],
+   [
+    "Produit le suivi budgétaire du mois",
+    "Chaque mois"
+   ],
+   [
+    "Envoie le point de fin de journée",
+    "Chaque jour ouvré"
+   ]
+  ],
+  "livrables": [
+   [
+    "Saisie et balance SYSCOHADA",
+    "Vos pièces saisies, la balance et le grand livre à jour chaque mois."
+   ],
+   [
+    "Rapprochement bancaire",
+    "Chaque ligne de relevé pointée, et les écarts expliqués."
+   ],
+   [
+    "Clôture mensuelle",
+    "Le compte de résultat du mois et la note d'écart avec le budget."
+   ],
+   [
+    "Trésorerie à 13 semaines",
+    "Encaissements et décaissements prévus, semaine par semaine, avec les alertes."
+   ],
+   [
+    "Devis, factures et relances",
+    "Émis dans les délais, et les impayés relancés avec le bon ton."
+   ],
+   [
+    "Calendrier fiscal et social",
+    "Les déclarations DGI et CNPS du mois, préparées avant l'échéance."
+   ],
+   [
+    "Budget et suivi budgétaire",
+    "Le budget de l'année et l'écart constaté chaque mois, poste par poste."
+   ],
+   [
+    "Prévisionnel à trois ans",
+    "Compte de résultat, trésorerie et hypothèses, prêts pour un banquier."
+   ],
+   [
+    "Dossier pour la banque",
+    "États financiers, prévisionnel et note de présentation pour un crédit."
+   ]
+  ],
+  "modeles": [
+   "Budget et suivi budgétaire",
+   "Devis et facture",
+   "Dossier pour la banque",
+   "Liasse de reporting mensuel",
+   "Note financière d'arbitrage",
+   "Prévisionnel de trésorerie",
+   "Relance d'impayé"
+  ],
+  "terrain": "Il tient les comptes au référentiel SYSCOHADA révisé, connaît les échéances de la DGI, les taux de cotisation CNPS et ce qu'une banque de la zone UEMOA attend dans un dossier. Il connaît le calendrier fiscal de l'année, les pièces qu'un commissaire aux comptes réclame, et la façon dont une banque de la place lit un bilan avant d'accorder une ligne.",
+  "refs": [],
+  "outils": [
+   "Google Sheets",
+   "Excel",
+   "Sage",
+   "QuickBooks",
+   "Gmail",
+   "Banques"
+  ],
+  "canaux": [
+   "Telegram",
+   "WhatsApp",
+   "E-mail",
+   "Slack"
+  ],
+  "competences": [
+   [
+    "Comptabilité OHADA",
+    "Structure la comptabilité de l'entreprise selon le référentiel OHADA."
+   ],
+   [
+    "Audit & contrôle de gestion",
+    "Audit comptable et contrôle de gestion pour garder les comptes carrés."
+   ],
+   [
+    "Business plan",
+    "Construit le business plan (acquisition + revenus) pour un prêt bancaire ou une subvention."
+   ],
+   [
+    "Modélisation financière",
+    "Bâtit le prévisionnel et les projections à 3 ans."
+   ],
+   [
+    "Dimensionnement de marché",
+    "Chiffre la taille du marché visé, pour étayer un business plan devant une banque ou un bailleur."
+   ],
+   [
+    "Veille des prix",
+    "Suit les prix pratiqués dans votre secteur, pour situer vos marges."
+   ],
+   [
+    "Clôture mensuelle",
+    "Boucle le mois, rapprochements faits et écritures passées, avant le 10."
+   ],
+   [
+    "Trésorerie à 13 semaines",
+    "Projette la trésorerie semaine par semaine et signale le point bas à l'avance."
+   ],
+   [
+    "Rapprochement bancaire",
+    "Rapproche relevés bancaires, mobile money et caisse, et isole les suspens."
+   ],
+   [
+    "Calendrier fiscal et social",
+    "Tient les échéances DGI et CNPS de l'année et prévient avant chacune."
+   ]
+  ],
+  "pourquoi": "Peu d'entreprises d'ici ont une direction financière au complet. Mamadou structure les comptes, tient la trésorerie et monte les dossiers que la banque attend."
+ },
+ "ibrahim": {
+  "nom": "Ibrahim",
+  "role": "Juridique & Conformité",
+  "tl": "Il tient le juridique carré, pour le privé comme pour le public.",
+  "mission": "Le réflexe juridique du quotidien : contrats OHADA, revue de documents, conformité et veille réglementaire. De quoi agir vite sans se mettre en risque.",
+  "action": "Un partenaire envoie un contrat à signer. Ibrahim le relit, pointe deux clauses à risque, propose une reformulation, et attend la validation du dirigeant avant tout retour. Rien ne s'engage sans accord humain.",
+  "quotidien": [
+   "Rédige et relit les contrats commerciaux et de travail",
+   "Signale les risques dans un document entrant",
+   "Suit les échéances contractuelles et réglementaires",
+   "Prépare les pièces pour l'administration"
+  ],
+  "besoins": [
+   "Statuts et registre de la société",
+   "Contrats en cours",
+   "Modèles déjà utilisés dans l'entreprise",
+   "Liste des échéances contractuelles",
+   "Pays où vous opérez"
+  ],
+  "accord": [
+   "Envoi d'un contrat à un tiers",
+   "Signature ou paraphe",
+   "Dépôt d'une pièce auprès d'une administration",
+   "Position juridique communiquée à l'extérieur"
+  ],
+  "rituels": [
+   [
+    "Fait le point des échéances juridiques des quatre semaines à venir",
+    "Chaque semaine"
+   ],
+   [
+    "Suit les créances en recouvrement",
+    "Deux fois par semaine"
+   ],
+   [
+    "Signale ce qui change dans la réglementation qui touche l'entreprise",
+    "Chaque semaine"
+   ],
+   [
+    "Relit le portefeuille de contrats et signale ce qui a dérivé",
+    "Chaque mois"
+   ],
+   [
+    "Envoie le point de fin de journée",
+    "Chaque jour ouvré"
+   ]
+  ],
+  "livrables": [
+   [
+    "Contrat commercial OHADA",
+    "Rédigé ou relu, avec les clauses qui vous protègent et celles à négocier."
+   ],
+   [
+    "Note de risque sur un document reçu",
+    "Chaque clause dangereuse relevée, avec la modification à demander."
+   ],
+   [
+    "Tableau des échéances",
+    "Renouvellements, préavis et dates limites de tous vos contrats, relancés à temps."
+   ],
+   [
+    "Dossier de création de société",
+    "Statuts, pièces et étapes au guichet du CEPICI, dans l'ordre."
+   ],
+   [
+    "Registre de conformité des données",
+    "Les données personnelles que vous traitez et les démarches auprès de l'ARTCI."
+   ],
+   [
+    "Veille réglementaire",
+    "Les textes nouveaux qui touchent votre secteur, et ce qu'ils vous imposent."
+   ],
+   [
+    "Mise en demeure",
+    "Le dossier de créance et la lettre prête, avant tout recours judiciaire."
+   ],
+   [
+    "Dossier de dépôt de marque",
+    "La recherche d'antériorité et le dépôt auprès de l'OAPI."
+   ],
+   [
+    "Procès-verbal d'assemblée",
+    "Le projet de PV et le calendrier de vos obligations de société."
+   ]
+  ],
+  "modeles": [
+   "Calendrier des obligations et projet de procès-verbal",
+   "Carte des risques et des couvertures d'assurance",
+   "Dossier de créance et projet de mise en demeure",
+   "Fiche des signes et dossier de dépôt",
+   "Note de lecture et tableau des demandes de modification",
+   "Note de situation et dossier de preuves",
+   "Projet de contrat et note d'accompagnement"
+  ],
+  "terrain": "Il travaille sur le droit qui s'applique ici : actes uniformes OHADA, code du travail ivoirien, formalités du CEPICI et protection des données personnelles sous l'autorité de l'ARTCI. Il sait ce qu'un greffe exige pour une modification statutaire, ce qu'une clause vaut devant un juge ivoirien, et les délais réels d'une formalité au registre du commerce.",
+  "refs": [],
+  "outils": [
+   "DocuSign",
+   "Google Drive",
+   "Gmail",
+   "Notion",
+   "Google Sheets",
+   "Excel"
+  ],
+  "canaux": [
+   "Telegram",
+   "WhatsApp",
+   "E-mail",
+   "Slack"
+  ],
+  "competences": [
+   [
+    "Contrats commerciaux OHADA",
+    "Rédige les contrats commerciaux conformes OHADA."
+   ],
+   [
+    "Contrats de travail",
+    "Génère les contrats de travail (OHADA + droit local)."
+   ],
+   [
+    "Revue juridique",
+    "Relit les documents entrants et signale les risques."
+   ],
+   [
+    "Veille contractuelle",
+    "Surveille les échéances et clauses de vos contrats."
+   ],
+   [
+    "Conformité des données (DCP)",
+    "Met en conformité la protection des données personnelles."
+   ],
+   [
+    "Risques réglementaires",
+    "Cartographie les risques réglementaires par activité et par pays."
+   ],
+   [
+    "Veille réglementaire",
+    "Suit la réglementation (fintech UEMOA et secteurs régulés)."
+   ],
+   [
+    "Création de société",
+    "Accompagne l'incorporation en Côte d'Ivoire et à l'international."
+   ],
+   [
+    "Recouvrement amiable",
+    "Rédige la relance, puis la mise en demeure, avant que le dossier parte au contentieux."
+   ],
+   [
+    "Marque et signes distinctifs",
+    "Prépare le dépôt de marque et surveille les usages qui empiètent sur la vôtre."
+   ]
+  ],
+  "pourquoi": "Le conseil juridique coûte cher et l'à-peu-près se paie, surtout face à une administration. Ibrahim couvre le quotidien et sécurise chaque acte."
+ },
+ "salif": {
+  "nom": "Salif",
+  "role": "Opérations & Logistique",
+  "tl": "Il fait tourner les stocks, les achats et les livraisons du quotidien.",
+  "mission": "Le moteur logistique : achats et fournisseurs, réception et contrôle des marchandises, stocks et seuils d'alerte, livraisons. Pour que rien ne manque et que rien ne dorme en réserve.",
+  "action": "Lundi matin, Salif signale deux références passées sous le seuil, consulte trois fournisseurs, prépare les bons de commande et vérifie que la livraison de vendredi a bien quitté le port. Le dirigeant voit tout d'un coup d'œil.",
+  "quotidien": [
+   "Consulte les fournisseurs et les compare à conditions égales",
+   "Surveille les stocks et alerte avant la rupture",
+   "Contrôle les réceptions et signale les écarts de livraison",
+   "Produit les indicateurs clés de la semaine"
+  ],
+  "besoins": [
+   "Conditions d'achat et délais fournisseurs",
+   "État des stocks",
+   "Liste des fournisseurs",
+   "Modèles de bon de commande",
+   "Seuils d'alerte convenus"
+  ],
+  "accord": [
+   "Changement de fournisseur",
+   "Dérogation sur un seuil d'alerte",
+   "Commande passée à un fournisseur",
+   "Blocage d'une livraison"
+  ],
+  "rituels": [
+   [
+    "Signale les références qui vont manquer, avant la rupture",
+    "Chaque jour ouvré"
+   ],
+   [
+    "Sort les opérations d'entretien de la semaine et les retards",
+    "Chaque semaine"
+   ],
+   [
+    "Sort le stock qui dort et ce qui va périmer",
+    "Chaque mois"
+   ],
+   [
+    "Contrôle les réceptions du jour, tant qu'une réserve est possible",
+    "Chaque jour"
+   ],
+   [
+    "Envoie le point de fin de journée",
+    "Chaque jour ouvré"
+   ]
+  ],
+  "livrables": [
+   [
+    "État de stock avec seuils",
+    "Le stock de chaque article, ses seuils d'alerte et les commandes à passer."
+   ],
+   [
+    "Alerte rupture et invendus",
+    "Les articles qui vont manquer et ceux qui dorment, avec l'action proposée."
+   ],
+   [
+    "Comparatif de trois fournisseurs",
+    "Prix, délais, conditions et fiabilité, pour choisir sur des faits."
+   ],
+   [
+    "Bons de commande",
+    "Préparés à partir des seuils, prêts à envoyer après votre accord."
+   ],
+   [
+    "Plan de tournée de livraison",
+    "L'ordre des livraisons, le coût de la tournée et le coût par livraison."
+   ],
+   [
+    "Fiche de réception",
+    "Ce qui est arrivé, ce qui manque et les réserves à faire au fournisseur."
+   ],
+   [
+    "Suivi import et douane",
+    "Les étapes de chaque commande importée, les pièces et les frais à prévoir."
+   ],
+   [
+    "Inventaire tournant",
+    "Le planning des comptages et l'analyse des écarts trouvés."
+   ],
+   [
+    "Point d'exploitation hebdomadaire",
+    "Stocks, livraisons, fournisseurs et incidents de la semaine, sur une page."
+   ]
+  ],
+  "modeles": [
+   "Cahier de consultation et tableau comparatif des offres",
+   "Calcul du coût de tournée et du coût par livraison",
+   "Feuille de route et bordereau de livraison",
+   "Fiche de réception et procès-verbal de réserves",
+   "Inventaire des équipements et plan d'entretien",
+   "Mode opératoire et registre des procédures",
+   "Plan d'inventaire tournant et note d'analyse des écarts"
+  ],
+  "terrain": "Il règle ses fournisseurs en mobile money comme en virement, tient les formalités de douane et d'import, et anticipe les ruptures liées aux délais de dédouanement. Il connaît les délais réels entre le port et l'entrepôt, ce qu'un fournisseur accepte comme retard de règlement, et les pièces qui bloquent une sortie de marchandise.",
+  "refs": [],
+  "outils": [
+   "Google Sheets",
+   "Notion",
+   "WhatsApp",
+   "QuickBooks",
+   "Odoo",
+   "Gmail"
+  ],
+  "canaux": [
+   "Telegram",
+   "WhatsApp",
+   "E-mail",
+   "Slack"
+  ],
+  "competences": [
+   [
+    "Tournée de livraison",
+    "Organise les tournées et calcule le coût au kilomètre."
+   ],
+   [
+    "Rupture et invendu",
+    "Repère ce qui va manquer et ce qui dort en réserve, et dit quoi faire."
+   ],
+   [
+    "Suivi de stock",
+    "Surveille les stocks, alerte avant la rupture et calcule le réassort."
+   ],
+   [
+    "Approvisionnements",
+    "Suit les sources d'approvisionnement et les commandes fournisseurs."
+   ],
+   [
+    "Point d'exploitation",
+    "Fait chaque semaine le point sur les commandes, les stocks et les tâches en retard."
+   ],
+   [
+    "Suivi des tâches",
+    "Suit les tâches d'exploitation, relance ce qui traîne et rend le point au dirigeant (Notion + e-mail)."
+   ],
+   [
+    "Suivi fournisseurs",
+    "Tient la liste des fournisseurs, les commandes en cours et les échéances de règlement."
+   ],
+   [
+    "Import et douane",
+    "Suit un dossier d'import du connaissement à la sortie de marchandise."
+   ],
+   [
+    "Réception et contrôle",
+    "Contrôle les livraisons à l'arrivée et documente les écarts avec le fournisseur."
+   ],
+   [
+    "Inventaire tournant",
+    "Organise les comptages par zone pour garder un stock juste sans tout arrêter."
+   ]
+  ],
+  "pourquoi": "La trésorerie meurt des impayés et des ruptures de stock : les deux fuites que personne n'a le temps de surveiller. Salif veille en continu."
+ },
+ "nadia": {
+  "nom": "Nadia",
+  "role": "Data & Analytics",
+  "tl": "Elle transforme vos chiffres en décisions.",
+  "mission": "L'intelligence des données de l'entreprise : tableaux de bord, rapports, prévisions et scoring. De quoi piloter sur du concret plutôt qu'au feeling.",
+  "action": "Chaque lundi, Nadia envoie le tableau de bord de la semaine, met en avant les 3 alertes qui comptent et prévoit la trésorerie à 30 jours. Le comité de direction démarre sur des faits.",
+  "quotidien": [
+   "Met à jour les tableaux de bord depuis vos fichiers",
+   "Produit les rapports hebdo et mensuels automatiquement",
+   "Signale les écarts et les points de vente qui décrochent",
+   "Prépare des synthèses de réunion actionnables"
+  ],
+  "besoins": [
+   "Fichiers de ventes et de stocks",
+   "Liste des points de vente",
+   "Objectifs et budget de l'année",
+   "Relevés de paiement",
+   "Comptes rendus de réunion"
+  ],
+  "accord": [
+   "Diffusion d'un tableau de bord hors de l'entreprise",
+   "Partage d'une donnée client",
+   "Publication d'un chiffre",
+   "Alerte envoyée à toute l'équipe"
+  ],
+  "rituels": [
+   [
+    "Envoie le point de fin de journée",
+    "Chaque jour ouvré"
+   ],
+   [
+    "Envoie le rapport d'activité de la semaine",
+    "Chaque semaine"
+   ],
+   [
+    "Relance un livrable remis resté sans retour depuis trois jours",
+    "Deux fois par semaine"
+   ],
+   [
+    "Revient sur une question restée sans réponse depuis 48 heures",
+    "Chaque jour ouvré"
+   ],
+   [
+    "Vérifie que chacun de ses accès répond",
+    "Chaque jour"
+   ]
+  ],
+  "livrables": [
+   [
+    "Tableau de bord partageable",
+    "Vos indicateurs clés à jour, lisibles sur téléphone par toute la direction."
+   ],
+   [
+    "Rapport hebdomadaire",
+    "Ce qui a bougé cette semaine, pourquoi, et ce qu'il faut surveiller."
+   ],
+   [
+    "Rapport mensuel de direction",
+    "Les chiffres du mois comparés au budget et au mois précédent."
+   ],
+   [
+    "Prévision de la demande",
+    "Les ventes attendues par produit et par point de vente, pour commander juste."
+   ],
+   [
+    "Prévision de trésorerie",
+    "L'argent disponible dans les semaines à venir, selon plusieurs scénarios."
+   ],
+   [
+    "Classement des points de vente",
+    "Chaque site noté sur sa performance, avec les écarts à expliquer."
+   ],
+   [
+    "Segmentation des clients",
+    "Vos clients regroupés par comportement, et ce que chaque groupe rapporte."
+   ],
+   [
+    "Rapport de qualité des données",
+    "Les doublons, trous et incohérences trouvés, et comment les corriger."
+   ],
+   [
+    "Enquête et dépouillement",
+    "Le questionnaire, la collecte et l'analyse des réponses."
+   ]
+  ],
+  "modeles": [
+   "Fiche d'indicateur",
+   "Fiche et protocole de collecte",
+   "Note d'analyse",
+   "Rapport de qualité des données",
+   "Rapport mensuel de direction",
+   "Tableau de bord",
+   "État de rapprochement et note d'écarts"
+  ],
+  "terrain": "Elle lit les données telles qu'elles arrivent ici : relevés mobile money, ventes par point de vente, saisonnalité des campagnes agricoles et des grandes fêtes. Elle sait ce qu'un relevé d'opérateur contient vraiment, comment recoller des ventes saisies à la main, et quels écarts viennent d'un jour férié plutôt que d'une baisse d'activité.",
+  "refs": [],
+  "outils": [
+   "Google Sheets",
+   "Looker",
+   "Notion",
+   "Fireflies",
+   "Gmail",
+   "Excel"
+  ],
+  "canaux": [
+   "Telegram",
+   "WhatsApp",
+   "E-mail",
+   "Slack"
+  ],
+  "competences": [
+   [
+    "Tableaux de bord",
+    "Transforme vos Google Sheets en tableaux de bord clairs et partageables."
+   ],
+   [
+    "Rapports KPI",
+    "Produit les rapports hebdo, mensuels et trimestriels automatiquement."
+   ],
+   [
+    "Prévision de la demande",
+    "Prévoit la demande par produit pour ajuster les commandes."
+   ],
+   [
+    "Prévision de trésorerie",
+    "Projette les besoins de cash à J+7 / J+14 / J+30."
+   ],
+   [
+    "Scoring de performance",
+    "Note et classe vos points de vente ou distributeurs (haut / moyen / faible)."
+   ],
+   [
+    "Synthèse de réunions",
+    "Analyse les comptes-rendus et en extrait décisions et tâches."
+   ],
+   [
+    "Qualité de la donnée",
+    "Repère doublons, trous et valeurs aberrantes avant de publier un chiffre."
+   ],
+   [
+    "Segmentation et cohortes",
+    "Découpe vos clients par cohorte pour voir qui revient et qui décroche."
+   ],
+   [
+    "Questionnaire et dépouillement",
+    "Construit le questionnaire, collecte les réponses et rend le dépouillement."
+   ],
+   [
+    "Réel contre budget",
+    "Compare le réalisé au budget, poste par poste, et explique les écarts."
+   ]
+  ],
+  "pourquoi": "Les données existent mais dorment dans des fichiers. Nadia les fait parler et met le pilotage à portée de tous."
+ },
+ "adjoua": {
+  "nom": "Adjoua",
+  "role": "Recrutement",
+  "tl": "Elle trouve et évalue les bons profils.",
+  "mission": "Le recrutement de bout en bout : de la fiche de poste au sourcing, à l'évaluation et à la lettre d'offre. Pour embaucher juste et vite.",
+  "action": "Pour un poste de comptable, Adjoua rédige la fiche, source 15 profils, en présélectionne 5 notés, prépare le guide d'entretien et programme les rendez-vous. Le dirigeant n'a plus qu'à rencontrer les meilleurs.",
+  "quotidien": [
+   "Rédige les fiches de poste et diffuse les offres",
+   "Source et présélectionne les candidats",
+   "Prépare les entretiens et les grilles de notation",
+   "Suit chaque candidat dans le pipeline, relances comprises"
+  ],
+  "besoins": [
+   "Organigramme et postes ouverts",
+   "Fourchettes de rémunération",
+   "Critères de sélection",
+   "Comptes de diffusion des offres",
+   "Disponibilités des évaluateurs"
+  ],
+  "accord": [
+   "Publication d'une offre",
+   "Envoi d'un message à un candidat",
+   "Convocation à un entretien",
+   "Envoi d'une lettre d'offre"
+  ],
+  "rituels": [
+   [
+    "Fait le point sur le marché de l'emploi pour les postes ouverts",
+    "Chaque semaine"
+   ],
+   [
+    "Produit le point hebdomadaire du recrutement",
+    "Chaque semaine"
+   ],
+   [
+    "Repère les candidats et évaluateurs qui attendent, et prépare les messages",
+    "Chaque jour"
+   ],
+   [
+    "Envoie le point de fin de journée",
+    "Chaque jour ouvré"
+   ],
+   [
+    "Envoie le rapport d'activité de la semaine",
+    "Chaque semaine"
+   ]
+  ],
+  "livrables": [
+   [
+    "Fiche de poste prête à publier",
+    "Missions, profil, conditions et critères de sélection, dans le ton de votre maison."
+   ],
+   [
+    "Longue liste de 30 profils",
+    "Des candidats sourcés sur LinkedIn et les jobboards d'ici, avec la raison de chaque choix."
+   ],
+   [
+    "Liste courte notée",
+    "Les cinq meilleurs CV comparés à l'offre, critère par critère, avec leurs points à creuser."
+   ],
+   [
+    "Messages d'approche",
+    "Les premiers messages aux candidats, personnalisés, prêts pour WhatsApp, e-mail ou LinkedIn."
+   ],
+   [
+    "Guide d'entretien et grille notée",
+    "Les questions par compétence et une grille qui permet de comparer les candidats."
+   ],
+   [
+    "Compte rendu de prise de références",
+    "Ce que disent les anciens employeurs, question par question."
+   ],
+   [
+    "Benchmark de rémunération",
+    "Le salaire du marché pour ce poste à Abidjan, par niveau d'expérience."
+   ],
+   [
+    "Lettre d'offre",
+    "L'offre au candidat retenu, avec salaire, date de prise de poste et conditions."
+   ],
+   [
+    "Suivi du pipeline de recrutement",
+    "Chaque candidat, son étape, la prochaine action et le délai tenu."
+   ]
+  ],
+  "modeles": [
+   "Business case d'un recrutement",
+   "Compte rendu d'entretien",
+   "Fiche de poste",
+   "Guide d'entretien",
+   "Liste de candidats : longue liste et liste courte",
+   "Modèles de messages : recrutement"
+  ],
+  "terrain": "Elle source sur les canaux d'ici, de l'Agence Emploi Jeunes aux groupes métier sur WhatsApp et aux écoles d'Abidjan, et connaît les pièces exigées au moment de l'embauche. Elle sait ce qu'un poste se paie réellement selon l'expérience, et elle prépare un dossier complet, de la déclaration CNPS au contrat conforme au droit ivoirien.",
+  "refs": [],
+  "outils": [
+   "LinkedIn",
+   "Gmail",
+   "Google Sheets",
+   "Calendly",
+   "Notion",
+   "Zoom"
+  ],
+  "canaux": [
+   "Telegram",
+   "WhatsApp",
+   "E-mail",
+   "Slack"
+  ],
+  "competences": [
+   [
+    "Fiche de poste",
+    "Rédige des fiches de poste claires et attractives."
+   ],
+   [
+    "Sourcing candidats",
+    "Trouve des profils sur LinkedIn, ciblés par poste et localisation."
+   ],
+   [
+    "Matching CV ↔ offre",
+    "Note l'adéquation d'un CV ou profil LinkedIn à vos offres."
+   ],
+   [
+    "Messages d'approche",
+    "Rédige les messages d'approche et e-mails de recrutement personnalisés."
+   ],
+   [
+    "Guide d'entretien & scoring",
+    "Prépare l'entretien structuré et la grille de notation du candidat."
+   ],
+   [
+    "Business case candidat",
+    "Génère un exercice de mise en situation et le corrige."
+   ],
+   [
+    "Vérification de références",
+    "Structure et mène la prise de références."
+   ],
+   [
+    "Suivi du pipeline (ATS)",
+    "Suit chaque candidat étape par étape, relances et échéances."
+   ],
+   [
+    "Lettre d'offre",
+    "Rédige la lettre d'offre conforme OHADA, et passe la main à Ibrahim pour le contrat de travail."
+   ],
+   [
+    "Benchmark rémunération",
+    "Compare salaire et avantages au marché."
+   ]
+  ],
+  "pourquoi": "Recruter bien prend un temps fou et une erreur coûte cher. Adjoua fait le tri sérieux et accélère chaque étape."
+ },
+ "koffi": {
+  "nom": "Koffi",
+  "role": "Design & Brand",
+  "tl": "Il habille votre marque, du logo au site.",
+  "mission": "Le studio de design de la marque : identité, visuels, affiches, landing pages et vidéos. Pour une image pro et cohérente partout.",
+  "action": "Pour l'ouverture d'une boutique, Koffi produit l'affiche dans la charte, la décline en story, post et statut WhatsApp, vérifie la cohérence et livre le tout imprimable. La communication est prête en une heure.",
+  "quotidien": [
+   "Produit affiches, posts et visuels brandés à la demande",
+   "Tient la cohérence visuelle sur tous les supports",
+   "Décline une création en plusieurs formats (print, story, web)",
+   "Vérifie chaque visuel avant publication"
+  ],
+  "besoins": [
+   "Logo et fichiers sources",
+   "Charte de couleurs et polices",
+   "Photos de l'entreprise",
+   "Formats de sortie attendus",
+   "Exemples de ce que vous aimez"
+  ],
+  "accord": [
+   "Publication d'un visuel",
+   "Envoi d'un fichier à l'imprimeur",
+   "Modification du logo",
+   "Diffusion d'une création à un partenaire"
+  ],
+  "rituels": [
+   [
+    "Fait la veille de l'identité visuelle du secteur et des concurrents",
+    "Chaque mois"
+   ],
+   [
+    "Signale les productions dont la livraison approche",
+    "Chaque jour ouvré"
+   ],
+   [
+    "Produit le point des productions en cours",
+    "Chaque semaine"
+   ],
+   [
+    "Passe en revue les supports de l'entreprise et signale ce qui a dérivé",
+    "Chaque mois"
+   ],
+   [
+    "Envoie le point de fin de journée",
+    "Chaque jour ouvré"
+   ]
+  ],
+  "livrables": [
+   [
+    "Pistes de nom",
+    "Des noms vérifiés, disponibles en nom de domaine, avec le sens de chacun."
+   ],
+   [
+    "Charte graphique",
+    "Logo, couleurs, typographies et règles d'usage, sur un document partageable."
+   ],
+   [
+    "Affiches et flyers",
+    "Prêts pour l'imprimeur, aux bons formats, avec fonds perdus."
+   ],
+   [
+    "Posts, carrousels et stories",
+    "Aux couleurs de la marque, déclinés pour chaque réseau."
+   ],
+   [
+    "Déclinaisons d'un même visuel",
+    "Un visuel adapté en dix formats, du print au statut WhatsApp."
+   ],
+   [
+    "Maquette de page",
+    "La page d'accueil ou de vente dessinée, prête à être intégrée."
+   ],
+   [
+    "Site vitrine",
+    "Quelques pages simples, à votre image, mises en ligne."
+   ],
+   [
+    "Goodies et signalétique",
+    "T-shirts, kakémonos, enseignes : fichiers prêts pour le fournisseur."
+   ],
+   [
+    "Contrôle qualité visuel",
+    "Chaque support relu avant diffusion : couleurs, fautes, logo, lisibilité."
+   ]
+  ],
+  "modeles": [
+   "Brief créatif",
+   "Charte graphique",
+   "Dossier prêt pour impression",
+   "Jeu de déclinaisons",
+   "Note typographique",
+   "Plan de signalétique",
+   "Planche d'inspiration",
+   "Rapport d'audit d'interface",
+   "Rapport de contrôle visuel",
+   "Spécification d'écran",
+   "Système de design"
+  ],
+  "terrain": "Il produit pour les supports d'ici : kakemonos et bâches d'imprimeur local, affiches de point de vente, et des visuels qui restent lisibles sur un écran de téléphone d'entrée de gamme. Il compose avec les contraintes réelles, les formats que tient un imprimeur d'Abidjan et les codes qui font qu'une image circule en statut plutôt qu'en publication.",
+  "refs": [],
+  "outils": [
+   "Canva",
+   "Figma",
+   "Google Drive",
+   "Instagram",
+   "Gmail",
+   "Facebook"
+  ],
+  "canaux": [
+   "Telegram",
+   "WhatsApp",
+   "E-mail",
+   "Slack"
+  ],
+  "competences": [
+   [
+    "Recherche de nom",
+    "Propose des noms de marque et vérifie les domaines disponibles."
+   ],
+   [
+    "Charte de marque",
+    "Construit l'identité visuelle, du logo aux couleurs et typographies."
+   ],
+   [
+    "Visuels (Canva)",
+    "Produit posts, carrousels, stories et affiches brandés."
+   ],
+   [
+    "Maquette de page",
+    "Dessine et structure la page : hiérarchie, visuels, boutons. Le texte et le référencement viennent de Fatima."
+   ],
+   [
+    "Site vitrine",
+    "Maquette un site vitrine simple, page par page, prêt à être rédigé et mis en ligne."
+   ],
+   [
+    "Goodies & print",
+    "Prépare les goodies et supports print-ready."
+   ],
+   [
+    "Contrôle qualité visuel",
+    "Vérifie chaque visuel avant publication : charte et tabous."
+   ],
+   [
+    "Vidéo de marque",
+    "Génère des contenus vidéo courts brandés."
+   ],
+   [
+    "Système de design",
+    "Pose la bibliothèque de composants et de gabarits qui tient la marque dans la durée."
+   ],
+   [
+    "Fichiers prêts pour l'impression",
+    "Prépare les fichiers aux formats et aux fonds perdus que l'imprimeur attend."
+   ]
+  ],
+  "pourquoi": "Rares sont les entreprises qui ont un studio créatif sous la main, et une image bricolée décrédibilise. Koffi tient une marque nette et cohérente, partout."
+ },
+ "chiefofstaff": {
+  "nom": "Djénéba",
+  "role": "Chief of Staff & Direction",
+  "tl": "Bras droit du dirigeant : prépare ses réunions, filtre ses sollicitations, tient le relevé des décisions et suit les engagements pris.",
+  "mission": "Bras droit du dirigeant : elle prépare ses réunions, filtre ses sollicitations, tient le relevé des décisions et suit les engagements pris.",
+  "action": "Le dirigeant enchaîne cinq rendez-vous. Djénéba prépare un brief par\n         réunion avec l'historique et l'objectif, écarte trois sollicitations qui\n         pouvaient attendre, consigne les décisions prises et relance deux\n         engagements de la semaine précédente restés sans suite.",
+  "quotidien": [
+   "Prépare vos rendez-vous",
+   "Filtre et priorise ce qui arrive",
+   "Prend le relevé des décisions",
+   "Relance les engagements non tenus"
+  ],
+  "besoins": [
+   "Agenda du dirigeant",
+   "Historique emails & messages",
+   "Comptes rendus de réunions",
+   "Liste des interlocuteurs clés",
+   "Priorités du trimestre"
+  ],
+  "accord": [
+   "Envoi d'un message en votre nom",
+   "Acceptation ou refus d'un rendez-vous",
+   "Diffusion d'un relevé de décisions",
+   "Engagement pris auprès d'un tiers"
+  ],
+  "rituels": [
+   [
+    "Prépare la journée du dirigeant",
+    "Chaque jour ouvré"
+   ],
+   [
+    "Fait la veille du secteur de l'entreprise",
+    "Chaque semaine"
+   ],
+   [
+    "Trie la boîte mail de direction et prépare les réponses",
+    "Chaque jour ouvré"
+   ],
+   [
+    "Fait le point sur les engagements pris et prépare les relances",
+    "Deux fois par semaine"
+   ],
+   [
+    "Refait le tri de la boîte mail de direction à la mi-journée",
+    "Chaque jour ouvré"
+   ],
+   [
+    "Envoie le point de fin de journée",
+    "Chaque jour ouvré"
+   ]
+  ],
+  "livrables": [
+   [
+    "Brief de rendez-vous",
+    "Qui vous rencontrez, l'historique des échanges, l'objectif et les trois points à obtenir."
+   ],
+   [
+    "Ordre du jour et note de cadrage",
+    "Les sujets, le temps accordé à chacun et la décision attendue."
+   ],
+   [
+    "Relevé de décisions",
+    "Ce qui a été décidé, par qui, pour quand, envoyé le jour même."
+   ],
+   [
+    "Tableau des engagements",
+    "Chaque promesse faite en réunion, son responsable et son échéance, relancée à temps."
+   ],
+   [
+    "Tri de votre boîte",
+    "Les messages qui demandent votre décision, ceux qu'elle traite, ceux qui attendent."
+   ],
+   [
+    "Point hebdomadaire",
+    "Ce qui a avancé, ce qui bloque et ce qu'il vous revient de trancher."
+   ],
+   [
+    "Radar de la semaine",
+    "Les échéances, rendez-vous et sujets à préparer dans les sept jours qui viennent."
+   ],
+   [
+    "Pack de comité de direction",
+    "L'ordre du jour, les documents à lire et la synthèse de chaque dossier."
+   ],
+   [
+    "Préparation de déplacement",
+    "Le programme, les rendez-vous, les billets, l'hôtel et les contacts sur place."
+   ]
+  ],
+  "modeles": [
+   "Bloc de signature",
+   "Brief de réunion",
+   "Courrier officiel",
+   "Modèles de messages : direction",
+   "Relevé de décisions et synthèse de réunion",
+   "Tableau kanban",
+   "Tracker de tâches"
+  ],
+  "terrain": "Elle connaît le terrain administratif d'un dirigeant : le calendrier officiel ivoirien, les usages avec les guichets, et les circuits par lesquels passent les démarches d'une entreprise. Elle sait quelles pièces un guichet réclame vraiment, combien de temps une démarche prend en pratique, et à quel moment relancer pour que le dossier avance.",
+  "refs": [],
+  "outils": [
+   "Agenda",
+   "Gmail",
+   "WhatsApp",
+   "Notion",
+   "Google Drive",
+   "Slack"
+  ],
+  "canaux": [
+   "Telegram",
+   "WhatsApp",
+   "E-mail",
+   "Slack"
+  ],
+  "competences": [
+   [
+    "Brief de rendez-vous",
+    "Prépare chaque réunion avec contexte, historique et objectif de la rencontre."
+   ],
+   [
+    "Ordre du jour & note de cadrage",
+    "Rédige l'ordre du jour et la note de cadrage avant chaque réunion stratégique."
+   ],
+   [
+    "Relevé de décisions",
+    "Consigne les décisions prises après chaque réunion et les distribue aux parties concernées."
+   ],
+   [
+    "Suivi des engagements",
+    "Tient le tableau des engagements pris et relance automatiquement les retardataires."
+   ],
+   [
+    "Filtre & priorisation",
+    "Trie les sollicitations entrantes et ne remonte que ce qui mérite votre attention directe."
+   ],
+   [
+    "Point hebdomadaire",
+    "Produit chaque semaine un point synthétique sur ce qui est en attente ou en retard."
+   ]
+  ],
+  "pourquoi": "Un dirigeant fait tout : il vend, il recrute, il négocie et il rend\n       des comptes. Ce qui se perd en premier, ce sont les décisions prises en\n       réunion et les promesses faites à un tiers. Djénéba tient ce fil."
+ },
+ "alioune": {
+  "nom": "Alioune",
+  "role": "Investissement",
+  "tl": "Il instruit vos dossiers d'investissement, du sourcing au suivi de participation.",
+  "mission": "L'instruction des investissements de bout en bout : sourcing contre la thèse du fonds, lecture de la salle de données, audit du modèle, note au comité, valorisation et suivi de la participation.",
+  "action": "Un dossier Série A arrive pour le comité de vendredi. Alioune vérifie la thèse du fonds, inventorie la data room, repère deux chiffres de revenus qui se contredisent, prépare les questions au fondateur et livre la note de comité avec les scénarios de valorisation.",
+  "quotidien": [
+   "Note les dossiers contre la thèse réelle du fonds",
+   "Inventorie les pièces et signale les manques et incohérences",
+   "Audite les modèles financiers et prépare les questions à la direction",
+   "Suit les participations, la trésorerie et les alertes convenues"
+  ],
+  "besoins": [
+   "Thèse et critères du fonds",
+   "Accès aux salles de données",
+   "Historique des dossiers instruits",
+   "Modèle de note de comité",
+   "Calendrier du comité d'investissement"
+  ],
+  "accord": [
+   "Transmission d'un prix ou d'une offre",
+   "Contact d'un dirigeant ou co-investisseur",
+   "Diffusion d'une note de comité hors du fonds",
+   "Rejet définitif d'un dossier"
+  ],
+  "rituels": [
+   [
+    "Fait la veille des secteurs et des pays couverts par la thèse du fonds",
+    "Chaque semaine"
+   ],
+   [
+    "Produit le point hebdomadaire du pipeline",
+    "Chaque semaine"
+   ],
+   [
+    "Surveille les participations et déclenche les alertes convenues",
+    "Chaque jour ouvré"
+   ],
+   [
+    "Repère les dossiers bloqués et prépare les relances",
+    "Chaque semaine"
+   ],
+   [
+    "Prépare la séance de comité",
+    "Chaque semaine"
+   ],
+   [
+    "Envoie le point de fin de journée",
+    "Chaque jour ouvré"
+   ]
+  ],
+  "livrables": [
+   [
+    "Tri des dossiers entrants",
+    "Chaque dossier noté sur votre thèse, avec la décision proposée : creuser ou décliner."
+   ],
+   [
+    "Inventaire de salle de données",
+    "Les pièces reçues, celles qui manquent et les questions qu'elles soulèvent."
+   ],
+   [
+    "Liste de questions à la direction",
+    "Les points à éclaircir avant le comité, classés par importance."
+   ],
+   [
+    "Audit du modèle financier",
+    "Les hypothèses vérifiées une à une, les erreurs de formule et les scénarios à tester."
+   ],
+   [
+    "Note de vérification préalable",
+    "Juridique, financier, commercial : ce qui est confirmé et ce qui reste un risque."
+   ],
+   [
+    "Tableau de comparables",
+    "Les sociétés et opérations proches, avec leurs multiples de valorisation."
+   ],
+   [
+    "Note de comité d'investissement",
+    "La thèse, les risques, la valorisation proposée et la recommandation."
+   ],
+   [
+    "Contrôle KYC et anti-blanchiment",
+    "Les dirigeants et actionnaires vérifiés, avec les points d'alerte relevés."
+   ],
+   [
+    "Reporting trimestriel aux souscripteurs",
+    "La vie de chaque participation, ses chiffres clés et les alertes à suivre."
+   ]
+  ],
+  "modeles": [
+   "Analyse de plan d'affaires",
+   "Mémo d'investissement",
+   "Note de vérification préalable",
+   "Questions à la direction de l'entreprise",
+   "Relevé de comité d'investissement",
+   "Structure de salle de données"
+  ],
+  "terrain": "Il instruit dans le cadre de la région : droit OHADA, réglementation BCEAO pour les acteurs financiers, formalités du CEPICI et comparables des transactions de la zone UEMOA. Il sait ce qu'un fonds d'ici attend dans une data room, des états certifiés au registre du commerce, et ce qui retarde une opération au moment de la signature.",
+  "refs": [],
+  "outils": [
+   "Google Drive",
+   "Excel",
+   "DocuSign",
+   "Gmail",
+   "Slack",
+   "Notion"
+  ],
+  "canaux": [
+   "Telegram",
+   "WhatsApp",
+   "E-mail",
+   "Slack"
+  ],
+  "competences": [
+   [
+    "Tri des dossiers entrants",
+    "Note chaque dossier reçu contre la thèse d'investissement du fonds et priorise l'attention du comité."
+   ],
+   [
+    "Lecture de data room",
+    "Inventorie les pièces d'une salle de données et signale ce qui manque ou se contredit."
+   ],
+   [
+    "Due diligence",
+    "Mène la diligence commerciale, juridique et opérationnelle avant investissement."
+   ],
+   [
+    "Audit du modèle financier",
+    "Vérifie les hypothèses et la cohérence du modèle financier transmis par le fondateur."
+   ],
+   [
+    "Note de comité",
+    "Rédige la note de comité avec les écarts constatés, les scénarios et les points bloquants."
+   ],
+   [
+    "Valorisation & term sheet",
+    "Prépare la valorisation et les termes clés de l'offre à négocier."
+   ],
+   [
+    "KYC / AML",
+    "Réalise les vérifications d'identité et de conformité anti-blanchiment sur les parties prenantes."
+   ],
+   [
+    "Comparables",
+    "Recherche les transactions et valorisations comparables sur le secteur visé."
+   ],
+   [
+    "Suivi de participation",
+    "Suit la performance, la trésorerie et les alertes convenues après investissement."
+   ],
+   [
+    "Reporting souscripteurs",
+    "Prépare le reporting périodique destiné aux souscripteurs du fonds."
+   ]
+  ],
+  "pourquoi": "Peu de fonds ont une équipe dédiée à l'instruction. Alioune absorbe le travail répétitif de tri et de vérification, pour que l'équipe d'investissement concentre son temps sur le jugement et la relation avec les fondateurs."
+ }
+}
