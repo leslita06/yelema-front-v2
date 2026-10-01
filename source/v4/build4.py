@@ -2619,6 +2619,21 @@ def page_tdb(brand):
     h = h.replace('<label class="fl2 ntn">', bloc + '<label class="fl2 ntn">', 1)
     return h.replace('</main>', '</main>' + modal_savetpl(), 1)
 
+# partage : chaque tableau a son lien par défaut, toujours visible (vocal du 01/10, 22:50)
+def _lien74(html):
+    if 'id="share"' not in html or 'class="seg shs" data-sh' not in html:
+        return html
+    acc = "".join(f'<option value="{v}"{" selected" if v == "org" else ""}>{t}</option>' for v, t in [("org", "Membres de l’entreprise"), ("perso", "Personnes ajoutées seulement"), ("public", "Toute personne qui a le lien")])
+    blk = (f'<div class="tblk"><span class="tblki">{ic("link", "s")}</span><div class="grow"><b class="sm">Lien du tableau</b>'
+           f'<span class="ell tblku">yelema.ai/t/pilotage-de-la-direction</span></div><a class="btn p sm tblkc" href="#">{ic("copy", "s")} Copier le lien</a></div>'
+           f'<label class="tblka"><span class="xs mute3">Qui peut l’ouvrir</span><select class="fi tblks" aria-label="Qui peut ouvrir le lien">{acc}</select></label>'
+           f'<p class="xs mute3 tblkd">Les membres de l’entreprise l’ouvrent en lecture, après connexion.</p>')
+    html = re.sub(r'<div class="seg shs" data-sh>.*?</div>\s*<div class="shv on" id="sh-prive">', blk + '<h3 class="shh">Personnes ajoutées</h3><div class="shv on" id="sh-prive">', html, count=1, flags=re.S)
+    html = re.sub(r'<div class="shv" id="sh-public"><p class="xs mute3">Pour l’extérieur.*?</div></div>', '<div class="shv on" id="sh-public"><p class="shh" style="margin-top:14px">Si le lien est public</p><p class="xs mute3">Sans connexion, en lecture seule, avec la signature Powered by Yelema en bas de page.</p></div>', html, count=1, flags=re.S)
+    html = html.replace(f'<a class="btn p sm" href="#" data-open="share" data-shk=',
+                        f'<a class="btn o sm tbcl" href="#" aria-label="Copier le lien du tableau">{ic("link", "s")}</a><a class="btn p sm" href="#" data-open="share" data-shk=')
+    return html
+
 def _fix74(html):
     html = html.replace(f'<span class="composio">{ic("plug-zap", "s")} Fournis par Composio, plus de 3 000 outils</span>', f'<span class="composio">{ic("plug-zap", "s")} Plus de 3 000 outils disponibles</span>')
     html = html.replace(f'<span class="composio">{ic("plug-zap", "s")} Connecteurs fournis par Composio</span>', f'<span class="composio">{ic("plug-zap", "s")} Plus de 3 000 outils disponibles</span>')
@@ -2637,7 +2652,7 @@ def _fix74(html):
         chan_card(x.group(2), TG if x.group(2) == "Telegram" else f'<img src="{x.group(1)}" alt="">', x.group(3), "checked" in x.group(0), sel=("radio", "onbc"))
         for x in re.finditer(r'<label><input type="radio" name="onbc"[^>]*><img src="([^"]+)" alt=""><b>([^<]+)</b><small>([^<]+)</small></label>', m.group(1))) + '</div>', html, count=1, flags=re.S)
     html = re.sub(r'<a href="\.\./(yelema|client)/admin-general\.html" class="on">', r'<a href="#" class="on" data-toast="Cet habillage est déjà actif">', html)
-    return html
+    return _lien74(html)
 
 
 if __name__ == "__main__":

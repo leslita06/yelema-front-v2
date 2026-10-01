@@ -91,3 +91,17 @@
     if(c.classList.contains('tpv')){n.value='';return}n.value=c.querySelector('b').textContent.replace(/^Modèle : /,'');toast('Modèle appliqué : blocs et formats repris')})}
   document.querySelectorAll('#newtdb .tpc').forEach(bind);
 })();
+// lien par défaut de chaque tableau
+(function(){
+  function slug(t){return (t||'tableau').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')}
+  function url(el){var h=el&&el.closest('.tbh2,.tbh,.panel');h=h&&h.querySelector('h2');return 'yelema.ai/t/'+slug(h?h.textContent:'')}
+  function copy(u,btn){try{navigator.clipboard&&navigator.clipboard.writeText('https://'+u)}catch(_){}
+    toast('Lien copié : '+u);if(btn){btn.classList.add('ok');setTimeout(function(){btn.classList.remove('ok')},1600)}}
+  document.querySelectorAll('[data-shk]').forEach(function(a){a.addEventListener('click',function(){var u=document.querySelector('#share .tblku');if(u)u.textContent=url(a)})});
+  document.querySelectorAll('.tbcl').forEach(function(b){handled(b);b.addEventListener('click',function(e){e.preventDefault();e.stopImmediatePropagation();copy(url(b),null)},true)});
+  var c=document.querySelector('#share .tblkc');if(c){handled(c);c.addEventListener('click',function(e){e.preventDefault();e.stopImmediatePropagation();copy(document.querySelector('#share .tblku').textContent,c)},true)}
+  var s=document.querySelector('#share .tblks'),d=document.querySelector('#share .tblkd'),pub=document.getElementById('sh-public');
+  var T={org:'Les membres de l’entreprise l’ouvrent en lecture, après connexion.',perso:'Seules les personnes ajoutées ci-dessous l’ouvrent, avec leur droit.',public:'Toute personne qui a le lien l’ouvre en lecture, sans connexion.'};
+  function upd(){if(!s)return;d.textContent=T[s.value];if(pub)pub.hidden=s.value!=='public';document.querySelectorAll('#share .sg').forEach(function(g){g.hidden=s.value!=='public'})}
+  if(s){s.addEventListener('change',function(){upd();toast('Accès au lien mis à jour')});upd()}
+})();

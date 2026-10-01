@@ -2794,3 +2794,12 @@ label.chc:has(input:checked) .chk.off{display:none}
 .tplpn{max-width:560px}.rlc2{grid-template-columns:repeat(2,minmax(0,1fr))}
 .tplbl{margin-top:12px;padding:12px 14px;border-radius:14px;background:var(--soft);display:flex;flex-direction:column;gap:4px}.tplbc{font-size:13.5px;font-weight:600}
 @media (max-width:560px){.tpls{grid-template-columns:1fr}}
+/* lien par défaut de chaque tableau */
+.tblk{display:flex;align-items:center;gap:12px;margin-top:14px;padding:12px 14px;border-radius:16px;background:var(--tint);border:1px solid var(--line)}
+.tblki{width:38px;height:38px;border-radius:11px;background:var(--surface);display:grid;place-items:center;flex:none;color:var(--brand-ink)}
+.tblk .grow{min-width:0;display:flex;flex-direction:column;gap:2px}.tblku{font-size:13px;color:var(--ink-2);font-family:ui-monospace,Menlo,monospace}
+.tblk .btn.ok{background:var(--ok);border-color:var(--ok)}
+.tblka{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:10px}.tblka .fi{max-width:280px}
+.tblkd{margin-top:6px}
+.tbcl{width:40px;padding:0}
+@media (max-width:560px){.tblk{flex-wrap:wrap}.tblk .btn{width:100%}.tblka{flex-direction:column;align-items:stretch}.tblka .fi{max-width:none}}
