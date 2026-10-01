@@ -2339,3 +2339,19 @@ html[data-mode="nuit"] .lrn.a{background:#16362A}html[data-mode="nuit"] .lrn.d{b
 @media (max-width:900px){.tbnewb{display:none}.tbli{align-items:stretch}.tbli a{min-height:0}.tbnone{display:none}}
 html[data-mode="nuit"] .pby img{filter:none;opacity:1;content:url("img/yelema_logo_final_long_blanc.svg")}
 .invp2 .msl{position:static;width:100%;max-height:none;box-shadow:none;margin-top:6px}
+
+/* gélules flottantes du site (bandeaux .cta-fl), version fond clair */
+.gfloat i{position:absolute;display:block;border-radius:999px;
+  background:linear-gradient(120deg,color-mix(in srgb,var(--c4,#C5C4FF) 70%,transparent),color-mix(in srgb,var(--c1,#8D68FA) 16%,transparent));
+  box-shadow:0 0 74px color-mix(in srgb,var(--c4,#C5C4FF) 70%,transparent)}
+.gfloat i:nth-child(1){width:240px;height:54px;top:12%;right:-46px;transform:rotate(-18deg);opacity:.75;animation:flotte 11s ease-in-out infinite}
+.gfloat i:nth-child(2){width:156px;height:36px;bottom:16%;left:-34px;transform:rotate(13deg);opacity:.65;animation:flotte 14s ease-in-out infinite reverse}
+.gfloat i:nth-child(3){width:98px;height:23px;top:66%;right:18%;transform:rotate(-7deg);opacity:.5;animation:flotte 9s ease-in-out infinite}
+.gfloat i:nth-child(4){width:130px;height:30px;top:22%;left:12%;transform:rotate(9deg);opacity:.5;animation:flotte 12s ease-in-out infinite reverse}
+.gfloat i:nth-child(5){width:70px;height:17px;top:40%;right:30%;transform:rotate(-14deg);opacity:.4;animation:flotte 10s ease-in-out infinite}
+@keyframes flotte{0%,100%{translate:0 0}50%{translate:0 -20px}}
+html[data-mode="nuit"] .gfloat i{background:linear-gradient(120deg,rgba(255,255,255,.30),rgba(197,196,255,.10));box-shadow:0 0 74px rgba(255,255,255,.18)}
+@media (prefers-reduced-motion:reduce){.gfloat i{animation:none}}
+@media (max-width:900px){.gfloat i:nth-child(n+4){display:none}}
+[data-brand="client"] .gfloat i{background:linear-gradient(120deg,color-mix(in srgb,var(--tint-2) 90%,transparent),color-mix(in srgb,var(--brand) 14%,transparent));box-shadow:0 0 74px color-mix(in srgb,var(--tint-2) 80%,transparent)}
+.tbav>img.av{position:absolute;right:-5px;bottom:-5px;width:20px!important;height:20px!important;border:2px solid var(--surface);border-radius:50%}
