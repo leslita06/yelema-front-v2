@@ -647,3 +647,5 @@ img.av{border-radius:50%;object-position:50% 20%}
 .memfull .chat2{min-height:calc(100vh - 210px)!important;max-width:none}
 .memfull .chat2 .thread{padding:22px 28px;font-size:15.5px}
 .memfull .msg .bub{max-width:68ch}
+svg.tg,img.tg{width:18px;height:18px;flex:none;border-radius:50%}
+.ib.tgb{background:transparent}.ib.tgb svg.tg{width:36px;height:36px}

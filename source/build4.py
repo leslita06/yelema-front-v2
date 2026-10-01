@@ -18,6 +18,7 @@ from build3 import ic, EXPERTS, DASH, MOI, CLIENT, m
 
 OUT = os.path.join(ICI, "site")
 B = "../img/"
+TG = '<svg class="tg" viewBox="0 0 240 240" aria-hidden="true"><circle cx="120" cy="120" r="120" fill="#2AABEE"/><path fill="#fff" d="M54 117.4c35-15.2 58.3-25.3 70-30.2 33.3-13.9 40.2-16.3 44.7-16.4 1 0 3.2.2 4.7 1.4 1.2 1 1.5 2.3 1.7 3.3.2 1 .4 3.1.2 4.8-1.8 19-9.6 65.1-13.6 86.3-1.7 9-5 12-8.2 12.3-7 .6-12.3-4.6-19-9.1-10.6-6.9-16.5-11.2-26.8-18-11.9-7.8-4.2-12.1 2.6-19.1 1.8-1.8 32.6-29.9 33.2-32.4.1-.3.1-1.5-.6-2.1-.7-.6-1.7-.4-2.5-.2-1.1.2-17.8 11.3-50.2 33.1-4.7 3.3-9 4.9-12.9 4.8-4.2-.1-12.4-2.4-18.4-4.4-7.4-2.4-13.3-3.7-12.8-7.8.3-2.1 3.2-4.3 8.8-6.5z"/></svg>'
 FAV = "https://www.google.com/s2/favicons?sz=64&domain="
 
 PRO = {
@@ -243,7 +244,7 @@ def page_accueil(brand):
 
 def page_tdb(brand):
     d = DASH["equipe"]
-    corps = f"""<div class="hello"><div class="grow"><p class="date">Toute l'équipe, semaine du 28 septembre</p><h1>Mon tableau de bord</h1></div><a class="btn o hide-m" href="https://t.me/" target="_blank" rel="noopener">{ic("send", "s")} Aussi chaque matin dans Telegram</a><a class="btn g" href="djeneba.html#discussion">{ic("sparkles", "s")} Le modifier avec Djénéba</a></div>
+    corps = f"""<div class="hello"><div class="grow"><p class="date">Toute l'équipe, semaine du 28 septembre</p><h1>Mon tableau de bord</h1></div><a class="btn o hide-m" href="https://t.me/" target="_blank" rel="noopener">{TG} Aussi chaque matin dans Telegram</a><a class="btn g" href="djeneba.html#discussion">{ic("sparkles", "s")} Le modifier avec Djénéba</a></div>
 <div data-tabs><nav class="tabs" style="margin-top:14px"><a href="#" data-t="activite" class="on">{ic("layout-dashboard", "s")} Activité</a><a href="#" data-t="temps">{ic("calendar-check", "s")} Temps rendu</a></nav>
 <div class="panel on" id="activite">{b3.filtres(d)}{b3.kpis(d)}<div class="g2">{b3.chart(d, ["fatima", "koffi", "djeneba"])}{b3.donut(d)}</div>{b3.projets(d)}{b3.livrables(d, b3.ATTENTE_TEAM)}</div>
 <div class="panel" id="temps">{temps_rendu(d, ["fatima", "koffi", "djeneba"])}</div></div>"""
@@ -605,12 +606,12 @@ def x_canaux(k):
     rows = ""
     for n, d, on, det, u, lib in CANAUX:
         det2 = det.replace("@unifood", PRO[k]["mail"].split("@")[0] + "@unifood") if n == "Email" else (f"Sujet « {e['prenom']} » du groupe Unifood" if n == "Telegram" else det)
-        btn = (f'<a class="btn k sm" href="{u}" target="_blank" rel="noopener">{ic("external-link", "s")} {lib}</a>' if on and u.startswith("http")
+        btn = (f'<a class="btn k sm" href="{u}" target="_blank" rel="noopener">{TG if n == "Telegram" else f'<img class="tg" src="{FAV}{d}" alt="">'} {lib}</a>' if on and u.startswith("http")
                else (f'<a class="btn o sm" href="#" data-go="mail">{lib}</a>' if on else f'<a class="btn o sm" href="#" data-open="cz" data-app="{n}">{ic("plus", "s")} {lib}</a>'))
         rows += f'<div class="chrow"><img src="{FAV}{d}" alt=""><div class="grow"><b>{n}</b><span>{det2}</span></div>{f'<span class="sti on" title="Activé" aria-label="Activé">{ic("circle-check")}</span>' if on else f'<span class="sti" title="Non activé" aria-label="Non activé">{ic("circle-dashed")}</span>'}{btn}</div>'
     return f"""<div class="h2x"><h2>Où parler à {e['prenom']}</h2><span class="sm">Les messages arrivent aussi ici, dans Discussion</span></div>
 <div class="chlist">{rows}</div>
-<div class="gbox" style="margin-top:14px;display:flex;gap:12px;align-items:center"><span class="ib">{ic("layout-dashboard", "s")}</span><div class="grow"><b>Votre tableau de bord dans Telegram</b><div class="sm mute">Chaque matin à 8 h, Djénéba l'envoie dans le sujet « Tableau de bord ».</div></div><a class="btn k sm" href="https://t.me/" target="_blank" rel="noopener">{ic("send", "s")} Ouvrir dans Telegram</a></div>"""
+<div class="gbox" style="margin-top:14px;display:flex;gap:12px;align-items:center"><span class="ib tgb">{TG}</span><div class="grow"><b>Votre tableau de bord dans Telegram</b><div class="sm mute">Chaque matin à 8 h, Djénéba l'envoie dans le sujet « Tableau de bord ».</div></div><a class="btn k sm" href="https://t.me/" target="_blank" rel="noopener">{TG} Ouvrir dans Telegram</a></div>"""
 
 # ---------------------------------------------------------------- modales communes : appel, invitation, aperçu
 def modal_call():
@@ -687,7 +688,7 @@ def page_chat(brand):
     xa = lambda k: f'<a class="tbtn ico" href="#" data-call="{k}" aria-label="Appeler">{ic("phone", "s")}</a><a class="tbtn" href="{k}.html">{ic("arrow-up-right", "s")} Son espace</a>'
     th = lambda i, h, body, on=False: f'<div class="cth{" on" if on else ""}" id="c-{i}">{h}<div class="thread">{body}</div></div>'
     threads = (th("fatima", head("fatima", "Fatima", "Expert marketing et contenu, au travail", xa("fatima")), b3.FIL_FATIMA, True)
-               + th("general", head("general", "# Général", "14 membres et 3 experts", '<a class="tbtn" href="https://t.me/" target="_blank" rel="noopener">' + ic("send", "s") + ' Aussi dans Telegram</a>'), gen)
+               + th("general", head("general", "# Général", "14 membres et 3 experts", '<a class="tbtn" href="https://t.me/" target="_blank" rel="noopener">' + TG + ' Aussi dans Telegram</a>'), gen)
                + th("djeneba", head("djeneba", "Djénéba", "Chief of Staff", xa("djeneba")), b3.FIL_DJENEBA)
                + th("koffi", head("koffi", "Koffi", "Expert design", xa("koffi")), b3.FIL_KOFFI)
                + th("NT", head("NT", "Nadège Touré", "Chargée de communication, en ligne", ""), nad)
