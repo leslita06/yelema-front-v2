@@ -1460,3 +1460,33 @@ body.sbmini .sbt svg{transform:scaleX(-1)}
 .invp .opts.sv{grid-template-columns:repeat(3,1fr)}
 @media (max-width:900px){.fk3{grid-template-columns:1fr}.g2i{grid-template-columns:1fr}.tbtn.pr{display:none}}
 @media (max-width:900px){.rqp{width:100%}}
+
+/* ---------- v4.6 équipe en grandes cartes, recruter comme l'app */
+.pc2.eq .cov{position:absolute;inset:0;z-index:1}
+.pc2.eq .nm{z-index:2;pointer-events:none}.pc2.eq .nm a{pointer-events:auto}
+.pc2.eq .inteam{z-index:2}
+.inteam.live{color:#11643A}.inteam.live .dot{width:8px;height:8px;border-radius:50%;background:#1DB954}
+.eqb{display:flex;gap:8px;margin-top:12px}.eqb .rb{margin-top:0}.eqb .rb.tel{padding:10px 12px}
+.crew2{margin-top:14px}
+.crew2 .cw.grow2{aspect-ratio:480/854;border-radius:24px;padding:18px;justify-content:flex-end}
+.crew2 .cw.grow2 .gstk{flex:1;height:auto;min-height:0;margin-top:0}
+.crew2 .cw.grow2 .gstk img{height:92%}
+.hire .hsub{margin:6px 0 16px;max-width:620px;font-size:16px}
+@media (max-width:900px){.eqb .rb{padding:8px 10px;font-size:13px}.crew2 .cw.grow2{aspect-ratio:auto;min-height:340px}}
+.inteam.live{flex-direction:row!important;white-space:nowrap}.inteam.live .dot{display:inline-block!important;flex:none;margin:0!important;position:static!important}
+.crew2 .cw.grow2 .gstk{display:flex;align-items:center;justify-content:center;padding-left:14px}
+.crew2 .cw.grow2 .gstk img{width:78px!important;height:78px!important;border-radius:50%;object-fit:cover;object-position:50% 6%;margin:0 0 0 -14px;border:3px solid rgba(255,255,255,.9);background:#8E6FB0;filter:none;position:relative}
+.crew2 .cw.grow2 .gstk img:nth-child(3){width:96px!important;height:96px!important}
+.crew2 .cw.grow2 .gstk img{flex:none;min-width:78px;object-position:50% 20%}
+.crew2 .cw.grow2 .gstk img:nth-child(3){min-width:96px}
+.eqb{align-items:stretch}.eqb .rb{line-height:1.2}.eqb .rb.tel{justify-content:center}
+.crew2 .cw.grow2 .gstk img,.crew2 .cw.grow2 .gstk img:nth-child(3){width:68px!important;height:68px!important;min-width:68px}
+.gplus{flex:none;width:68px;height:68px;border-radius:50%;margin-left:-14px;display:grid;place-items:center;background:#fff;color:var(--brand);border:3px solid rgba(255,255,255,.9);position:relative}
+.gplus svg{width:26px;height:26px}
+.crew2 .cw.grow2 .gstk{padding-left:12px}
+.crew2 .cw.grow2 .gstk img,.crew2 .cw.grow2 .gstk img:nth-child(3),.gplus{width:58px!important;height:58px!important;min-width:58px;margin-left:-12px!important}
+.hire{text-align:left}.hire h1{font-size:40px}.hire .ask{margin-left:0;margin-right:auto;max-width:760px}
+.stt{white-space:nowrap;flex-direction:row!important}
+@media (max-width:900px){.hire h1{font-size:28px}}
+@media (max-width:900px){.crew2 .cw.grow2 .gstk img,.crew2 .cw.grow2 .gstk img:nth-child(3),.gplus{width:42px!important;height:42px!important;min-width:42px;margin-left:-10px!important}.gplus svg{width:18px;height:18px}.crew2 .cw.grow2 .gtx b{font-size:18px}.crew2 .cw.grow2 .rbtn{font-size:13px;padding:10px 8px;white-space:nowrap}}
+@media (max-width:900px){.crew2 .cw.grow2{aspect-ratio:480/854;min-height:0;padding:12px;gap:8px}.crew2 .cw.grow2 .gtx span{font-size:12.5px}}

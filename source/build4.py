@@ -167,13 +167,10 @@ def sidebar(actif, brand):
     org = "".join(f'<a class="it{" on" if actif == k or (k == "admin-membres" and actif == "admin-membre") else ""}" href="{k}.html">{ic(i, "s")} {l}</a>' for k, i, l in ORG_NAV)
     return f"""<aside class="sb">
   <div class="orgw"><a class="org" href="accueil.html"><img src="{B}{CLIENT['logo']}" alt="{CLIENT['nom']}"><div><b>{CLIENT['nom']}</b><span>Espace de travail</span></div></a><button class="sbt" aria-label="Replier le menu" title="Replier le menu">{ic("panel-left-close", "s")}</button></div>
-  <div class="lb">Mon espace</div>
   {nav}
   <div class="lb">Mon équipe</div>
   {team}
-  <div class="lb lborg">{ic("shield", "s")} Organisation <span class="adm2">Admin</span></div>
-  {org}
-  <div class="foot">
+  <div class="foot"><a class="it{" on" if actif.startswith("admin") else ""}" href="admin.html">{ic("settings", "s")} Administration</a>
   <a class="me{" on" if actif in ("profil", "admin-profil") else ""}" href="profil.html">{face("AD", "", 36)}<span class="grow"><b class="ell">Aïcha Diabaté</b><small class="ell">Admin, Unifood</small></span>{ic("chevrons-up-down", "s")}</a>
   <a class="pby" href="https://leslita06.github.io/yelema-site-preview/">Powered by <img src="{B}yelema_logo_final_long.svg" alt="Yelema"></a></div>
 </aside>"""
@@ -262,10 +259,17 @@ def carte(k):
 <div class="acts">{acts}</div>
 <div class="bar2"><a class="p" href="{k}.html#discussion">{ic("message-circle", "s")} Écrire</a><a class="ic tel" href="#" data-call="{k}" aria-label="Appeler {e['prenom']}">{ic("phone", "s")}</a></div></div>"""
 
+def carte_equipe(k):
+    e, fi = EXPERTS[k], fiche_de(k)
+    st = '<span class="inteam live">' + '<span class="dot"></span> En train de travailler</span>' if e["live"] else ""
+    return (f'<div class="pc2 eq"><a class="cov" href="{k}.html" aria-label="Ouvrir l\'espace de {e["prenom"]}"></a>{vid(k, e["prenom"])}{st}'
+            f'<span class="nm"><b>{e["prenom"]}</b><span class="rl">{esc(fi.get("role", e["role"]))}</span><span class="tl">{DESC[k]}</span>'
+            f'<span class="eqb"><a class="rb" href="{k}.html#discussion">{ic("message-circle", "s")} Écrire</a><a class="rb tel" href="#" data-call="{k}" aria-label="Appeler {e["prenom"]}">{ic("phone", "s")}</a></span></span></div>')
+
 def page_accueil(brand):
     fan = "".join(f'<img src="{B}{x}.jpg" alt="">' for x in ("salif", "kouassi", "adjoua", "mamadou", "nadia"))
-    team = "".join(carte(k) for k in ("djeneba", "fatima", "koffi"))
-    stack = "".join(f'<img src="{B}pied/{x}.jpg" alt="">' for x in ("kouassi", "adjoua", "mamadou", "nadia", "ibrahim"))
+    team = "".join(carte_equipe(k) for k in ("djeneba", "fatima", "koffi"))
+    stack = "".join(f'<img src="{B}{x}.jpg" alt="">' for x in ("adjoua", "mamadou", "nadia")) + f'<span class="gplus">{ic("plus")}</span>'
     team += (f'<a class="cw grow2" href="recruter.html"><div class="gstk">{stack}</div>'
              f'<div class="gtx"><b>Agrandir l\'équipe</b><span>Des spécialistes pour tous vos métiers</span></div><span class="rbtn">{ic("plus", "s")} Recruter un expert</span></a>')
     val = "".join(f'<div class="val"><span class="th {"poster" if th == "poster" else "doc"}" style="padding:0">{"" if th == "poster" else ic("file-text")}</span><span class="grow"><b class="ell">{t}</b><span class="xs mute3">{EXPERTS[k]["prenom"]}, {dep}</span></span><a class="btn p sm" href="{k}.html#discussion">Valider</a></div>'
@@ -280,7 +284,7 @@ def page_accueil(brand):
     corps = f"""<div class="hello"><div class="grow"><p class="date">Jeudi 1er octobre</p><h1>Bonjour Aïcha</h1></div></div>
 <div class="tick" data-tick><span class="yl-mini">{YELE_SVG}</span><div class="tw">{ti}</div><span class="tdots">{dots}</span><button class="tnx" aria-label="Notification suivante">{ic("chevron-right", "s")}</button></div>
 <div class="h2x" style="margin-top:22px"><h2>Mon équipe</h2></div>
-<section class="crew">{team}</section>
+<section class="pcs2 crew2">{team}</section>
 <div class="h2x" style="margin-top:34px"><h2>Experts à recruter</h2><a class="link" href="recruter.html">Tous les experts {FLECHE}</a></div>
 <section class="pcs2">{cards}</section>"""
     return page("accueil", brand, "Accueil", "<b>Accueil</b>", corps, dock=True)
@@ -736,12 +740,9 @@ def page_recruter(brand):
     kw = json.dumps([{"k": ph, "nom": nom, "role": fiche_de(ph)["role"].replace("&", "et"), "tl": fiche_de(ph)["tl"],
                       "kw": " ".join([met, fiche_de(ph)["role"], fiche_de(ph).get("mission", "")] + [c[0] for c in fiche_de(ph).get("competences", [])]).lower()}
                      for ph, nom, met, *_ in CATALOGUE], ensure_ascii=False).replace("'", "&#39;")
-    corps = f"""<div class="hire"><h1>Qui sera votre prochaine recrue&nbsp;?</h1>
+    corps = f"""<div class="hire"><h1>Qui sera votre prochaine recrue&nbsp;?</h1><p class="sub hsub">Décrivez votre besoin, ou parcourez les experts prêts à rejoindre votre équipe.</p>
 <form class="ask ask2" data-kw='{kw}'><span class="ic2">{ic("sparkles", "s")}</span><input type="text" placeholder="Décrivez le travail à confier, on vous propose le bon expert" aria-label="Décrivez le travail à confier"><button class="go2" type="submit" aria-label="Trouver l'expert">{ic("arrow-up")}</button></form>
-<div class="asug"><span>Relancer mes clients qui ne paient pas</span><span>Trier 200 CV pour un poste de commercial</span><span>Préparer mon dossier pour la banque</span></div>
-<div class="ares" hidden></div>
-<p class="or">ou choisissez un expert prêt à l'emploi</p></div>
-<div class="mine"><span class="sm mute" style="margin-right:4px">Déjà dans votre équipe :</span>{mine}</div>
+<div class="ares" hidden></div></div>
 <div class="filters" data-filter style="margin-top:16px"><div class="chips">{chips}</div></div>
 <section class="pcs2">{cards}</section>"""
     return page("recruter", brand, "Recruter", "<b>Recruter</b>", corps)
@@ -799,8 +800,8 @@ def page_memoire(brand):
 # ---------------------------------------------------------------- admin (réglages)
 ORG_NAV = [("admin", "layout-grid", "Vue d'ensemble"), ("admin-experts", "sparkles", "Experts"), ("admin-membres", "users", "Membres et droits"),
            ("admin-connecteurs", "plug", "Connecteurs"), ("admin-facturation", "receipt", "Facturation"), ("admin-general", "building-2", "Détails de l'entreprise")]
-ADM_NAV = [("Organisation", [("admin", "layout-grid", "Vue d'ensemble"), ("admin-general", "building-2", "Général"), ("admin-experts", "sparkles", "Experts"), ("admin-membres", "users", "Membres et droits"),
-                             ("admin-chat", "book-open", "Chat entreprise")]),
+ADM_NAV = [("Organisation", [("admin", "layout-grid", "Vue d'ensemble"), ("admin-general", "building-2", "Détails de l'entreprise"), ("admin-experts", "sparkles", "Experts"), ("admin-membres", "users", "Membres et droits"),
+                             ("admin-connecteurs", "plug", "Connecteurs"), ("admin-chat", "book-open", "Chat entreprise")]),
            ("Usage et facturation", [("admin-analytics", "chart-column", "Suivi"), ("admin-facturation", "receipt", "Facturation")]),
            ("Personnel", [("admin-profil", "user", "Mon profil")])]
 
@@ -808,11 +809,11 @@ def admin_page(actif, titre, corps, brand):
     nav = ""
     for g, its in ADM_NAV:
         nav += f'<div class="lb">{g}</div>' + "".join(f'<a class="it{" on" if k == actif else ""}" href="{k}.html">{ic(i, "s")} {l}</a>' for k, i, l in its)
-    snav = ""
+    snav = f'<nav class="snav"><div class="ttl">{ic("settings", "s")} Administration</div>{nav}</nav>'
     autre = "client" if brand == "yelema" else "yelema"
-    top = f"""<header class="top"><div class="crumb grow"><a href="admin.html">Organisation</a> {ic("chevron-right", "s")} <b>{titre}</b></div><a class="tbtn ico hide-m" href="../{autre}/{actif}.html" title="{"Couleurs Unifood" if brand == "yelema" else "Couleurs Yelema"}">{ic("palette", "s")}</a>
+    top = f"""<header class="top"><div class="crumb grow"><a href="admin.html">Administration</a> {ic("chevron-right", "s")} <b>{titre}</b></div><a class="tbtn ico hide-m" href="../{autre}/{actif}.html" title="{"Couleurs Unifood" if brand == "yelema" else "Couleurs Yelema"}">{ic("palette", "s")}</a>
 <a class="tbtn hide-m" href="#" data-open="inv">{ic("mail-plus", "s")} Inviter un membre</a><a class="tbtn pr" href="recruter.html">{ic("user-plus", "s")} Recruter un expert</a><button class="tbtn ico" data-pop="notifs" aria-label="Notifications">{ic("bell", "s")}<span class="bdg">4</span></button></header>"""
-    return (b3.head(titre, brand) + f'<div class="app">{sidebar(actif, brand)}<main style="min-width:0">{top}<div class="adm adm1">{snav}<div class="page"><div class="sform" style="max-width:1080px">{corps}</div></div></div></main></div>'
+    return (b3.head(titre, brand) + f'<div class="app">{sidebar(actif, brand)}<main style="min-width:0">{top}<div class="adm">{snav}<div class="page"><div class="sform" style="max-width:1080px">{corps}</div></div></div></main></div>'
             + pops() + yele() + modales() + fin())
 
 def sg(rows):
