@@ -1929,3 +1929,17 @@ html[data-mode="nuit"] .pby2{background:#F1F0F7;color:#4A4563;padding:6px 12px;b
 .cw.grow:hover .rbtn,.rbtn:hover{transform:none!important}
 .pc2,.pc2 .rb,.xcard,.pc{transition:background-color .15s,color .15s!important}
 .pc2:hover,.xcard:hover,.pc:hover{transform:none!important}
+
+/* v4.17.2 : la liste des tableaux devient un menu, le tableau prend toute la largeur */
+.tbl{grid-template-columns:minmax(0,1fr)!important;position:relative}
+.tbrail{display:none!important;position:absolute!important;top:-6px;right:0;z-index:var(--z-pop);width:min(340px,calc(100vw - 32px));max-height:min(70vh,560px)!important;overflow:auto;box-shadow:0 30px 60px -24px rgba(23,17,43,.4);padding:12px!important}
+.tbl.open .tbrail{display:flex!important;animation:popin .2s var(--ease)}
+.tbrail .tbli{flex-direction:column!important;overflow:visible!important}
+.tbrail .tbli .tbg{display:flex!important}
+.tbrail .tbli a{max-width:none!important;border:0!important;min-height:52px!important}
+.tbrail .tbnewb{display:flex!important}
+.tbswitch{gap:8px}
+.tbswitch b{font-size:12px;padding:1px 7px;border-radius:99px;background:var(--soft)}
+.tbswitch[aria-expanded="true"] svg:last-child{transform:rotate(180deg)}
+.hello{flex-wrap:wrap;gap:10px}
+@media (max-width:640px){.hello .tbswitch,.hello .btn.g{flex:1 1 auto;justify-content:center}}

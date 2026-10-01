@@ -945,7 +945,7 @@ def page_tdb(brand):
     par += f'<div class="panel" id="tb-djeneba2" data-preset="usine">{tdb_agent("djeneba", titre="Nouvelle ligne de confiserie")}</div>'
     par += "".join(f'<div class="panel" id="tb-{k}">{tdb_agent(k)}</div>' for k in ("fatima", "koffi"))
     par += "".join(f'<div class="panel" id="tb-{p[0]}">{tdb_agent(p[0], p)}</div>' for p in TDB_PART)
-    corps = f"""<div class="hello"><div class="grow"><p class="date">Semaine du 28 septembre</p><h1>Tableaux de bord</h1></div><a class="btn g" href="#" data-open="newtdb">{ic("plus", "s")} Créer un tableau</a></div>
+    corps = f"""<div class="hello"><div class="grow"><p class="date">Semaine du 28 septembre</p><h1>Tableaux de bord</h1></div><button class="btn o tbswitch" type="button" aria-expanded="false">{ic("layout-list", "s")} Tous les tableaux <b class="num">{len(MINE) + len(TDB_PART)}</b>{ic("chevron-down", "s")}</button><a class="btn g" href="#" data-open="newtdb">{ic("plus", "s")} Créer un tableau</a></div>
 <div data-tabs class="tbl">{rail}<div class="tbmain">{par}</div></div>"""
     xs = "".join(f'<label class="nx"><input type="radio" name="nxe"{" checked" if k == "djeneba" else ""}><img src="{B}{qui(k)["photo"]}" alt=""><b>{qui(k)["prenom"]}</b><small>{qui(k)["role"]}</small></label>' for k in ("djeneba", "fatima", "koffi"))
     pj = "".join(f'<option>{n}</option>' for _, n in list(PROJ.values())[:4])
