@@ -2449,20 +2449,20 @@ def adm_experts(brand):
     NOMS = {i: n for i, n, *_ in MEMBRES}
     rows = ""
     tot = 0
-    for k, n, r, sv, u, lv, p, on in ALL_EXPERTS:
+    for no, (k, n, r, sv, u, lv, p, on) in enumerate(ALL_EXPERTS, 1):
         ppl = "".join(f'<span class="mbx">{face(i, "", 26)}<span>{NOMS[i].split(" ")[0]}</span></span>' for i in UTIL[k])
         q = 2 if k == "kouassi" else 1
         pu = 0 if p == "incluse" else (200000 if not str(p)[0].isdigit() else int("".join(c for c in str(p) if c.isdigit())))
         t_ = pu * q if on else 0
         tot += t_
         f_ = lambda v: f"{v:,}".replace(",", " ") + " F"
-        rows += (f'<tr><td><a class="who" href="{xh(k)}"><img src="{B}{k}.jpg" alt=""><span><b>{n}</b><span class="xs mute3">{r}</span></span></a></td>'
+        rows += (f'<tr><td class="xno num">{no}</td><td><a class="who" href="{xh(k)}"><img src="{B}{k}.jpg" alt=""><span><b>{n}</b><span class="xs mute3">{r}</span></span></a></td>'
                  f'<td class="hide-m"><div class="mbs">{ppl}<a class="ib mba" href="#" data-open="inv" aria-label="Ajouter un membre">{ic("plus", "s")}</a></div></td>'
                  f'<td class="num">{q}</td><td class="num">{"Incluse" if p == "incluse" else f_(pu)}</td><td class="num"><b>{"Incluse" if p == "incluse" else (f_(t_) if on else "Pas facturé")}</b></td>'
-                 f'<td><button class="sw{"" if on else " off"} swx" data-nom="{n}" aria-label="En service"></button></td></tr>')
+                 f'<td><label class="xst {"on" if on else "pa"}">{ic("circle", "s")}<select aria-label="État de {n}" data-xst="{n}">' + "".join(f'<option value="{v}"{" selected" if v == ("on" if on else "pa") else ""}>{t}</option>' for v, t in [("on", "En service"), ("pa", "En pause"), ("st", "Arrêté")]) + '</select></label></td></tr>')
     corps = f"""<div class="hello"><div class="grow"><h1>Experts</h1><p class="sub">7 en service dont Kouassi en deux exemplaires, 1 en pause</p></div><a class="btn p" href="recruter.html">{ic("user-plus", "s")} Recruter un expert</a></div>
-<div class="box" style="margin-top:16px"><table class="tbl tbex2"><tr><th>Expert</th><th class="hide-m">Membres qui l'utilisent</th><th>Quantité</th><th>Prix unitaire</th><th>Total par mois</th><th>En service</th></tr>{rows}
-<tr class="tot"><td colspan="4"><b>Total par mois</b></td><td class="num"><b>{f"{tot:,}".replace(",", " ")} F CFA</b></td><td></td></tr></table></div>"""
+<div class="box" style="margin-top:16px"><table class="tbl tbex2"><tr><th class="xno">N°</th><th>Expert</th><th class="hide-m">Membres qui l'utilisent</th><th>Quantité</th><th>Prix unitaire</th><th>Total par mois</th><th>État</th></tr>{rows}
+<tr class="tot"><td colspan="5"><b>Total par mois</b></td><td class="num"><b>{f"{tot:,}".replace(",", " ")} F CFA</b></td><td></td></tr></table></div>"""
     return admin_page("admin-experts", "Experts", corps, brand)
 
 # modèles d'IA : clés posées, fournisseurs, modèles par expert, clés partagées
@@ -2486,21 +2486,31 @@ def adm_modeles(brand):
                  f'<div class="kpx"><small>Experts</small><span class="row" style="gap:0">{ex}</span></div><div class="kpa">{act}</div></div>')
     opt = lambda cur: "".join(f'<option{" selected" if m == cur else ""}>{m}</option>' for m in MODS) + '<option value="autre">Autre</option>'
     cur = {"djeneba": "Claude Sonnet", "fatima": "Claude Sonnet", "koffi": "Gemini 2.5 Pro", "kouassi": "Mistral Large", "adjoua": "Mistral Large", "mamadou": "Claude Opus", "awa": "Llama 4 Scout"}
-    xs = "".join(f'<tr><td><span class="who"><img src="{B}{k}.jpg" alt=""><span><b>{nm}</b><span class="xs mute3">{r}</span></span></span></td><td><select class="fi">{opt(cur.get(k, "Claude Sonnet"))}</select></td>'
+    xs = "".join(f'<tr><td><span class="who"><img src="{B}{k}.jpg" alt=""><span><b>{nm}</b><span class="xs mute3">{r}</span></span></span></td><td><span class="mdv"><b class="mdn">{cur.get(k, "Claude Sonnet")}</b><select class="fi mds" hidden aria-label="Modèle de {nm}">{opt(cur.get(k, "Claude Sonnet"))}</select><a class="btn o sm mde" href="#">{ic("pencil", "s")} Modifier</a></span></td>'
                  f'<td class="hide-m"><span class="xs mute3">{"Clé Anthropic de l’entreprise" if "Claude" in cur.get(k, "") else ("Clé Google de l’entreprise" if "Gemini" in cur.get(k, "") else "Fourni par Yelema")}</span></td></tr>' for k, nm, r, *_ in ALL_EXPERTS)
     exs = "".join(f'<label class="kxo"><input type="checkbox"{" checked" if k in ("djeneba", "fatima") else ""}><img src="{B}{k}.jpg" alt=""><span class="grow"><b>{nm}</b><small>{r}</small></span></label>' for k, nm, r, *_ in ALL_EXPERTS)
     mbs = "".join(f'<label class="kxo"><input type="checkbox"{" checked" if i in ("AD",) else ""}>{face(i, "", 32)}<span class="grow"><b>{n}</b><small>{po}</small></span></label>' for i, n, po, svc, r in MEMBRES[:6])
+    MCUR = [("AD", "Claude Sonnet", "Clé Anthropic de l’entreprise"), ("JA", "Claude Opus", "Clé Anthropic de l’entreprise"), ("SB", "Gemini 2.5 Pro", "Clé personnelle de Serge"),
+            ("NT", "Claude Sonnet", "Clé Anthropic de l’entreprise"), ("FB", "Mistral Large", "Fourni par Yelema"), ("YK", "Gemini 2.5 Flash", "Clé Google de l’entreprise")]
+    NOMS_ = {i: (n, po) for i, n, po, *_ in MEMBRES}
+    mrows = "".join(f'<tr><td><span class="who">{face(i, "", 32)}<span><b>{NOMS_.get(i, (i, ""))[0]}</b><span class="xs mute3">{NOMS_.get(i, (i, ""))[1]}</span></span></span></td>'
+                    f'<td><span class="mdv"><b class="mdn">{m}</b><select class="fi mds" hidden aria-label="Modèle">{opt(m)}</select><a class="btn o sm mde" href="#">{ic("pencil", "s")} Modifier</a></span></td>'
+                    f'<td class="hide-m"><span class="xs {"kpers" if "personnelle" in c else "mute3"}">{c}</span></td></tr>' for i, m, c in MCUR)
     pv = "".join(f"<option>{x}</option>" for x in ("Anthropic", "OpenAI", "Google", "Mistral AI", "Meta", "DeepSeek", "xAI", "Cohere")) + '<option value="autre">Autre</option>'
     corps = f"""<div class="hello"><div class="grow"><h1>Modèles d'IA</h1><p class="sub">Yelema fournit des modèles par défaut. Branchez aussi vos propres clés, puis choisissez quel expert utilise quel modèle.</p></div><a class="btn p" href="#" data-open="mkey">{ic("plus", "s")} Ajouter une clé</a></div>
 <h3 class="h3s">Fournisseurs et clés</h3><div class="kpvs">{rows}</div>
 <h3 class="h3s">Modèle par expert</h3><p class="sub">Chaque membre peut aussi choisir un autre modèle dans la discussion</p>
 <div class="box" style="margin-top:10px"><table class="tbl"><tr><th>Expert</th><th>Modèle par défaut</th><th class="hide-m">Clé utilisée</th></tr>{xs}</table></div>
+<h3 class="h3s">Modèle par membre</h3><p class="sub">Le modèle que chaque membre utilise par défaut dans ses discussions, et la clé qui paie</p>
+<div class="box" style="margin-top:10px"><table class="tbl"><tr><th>Membre</th><th>Modèle par défaut</th><th class="hide-m">Clé utilisée</th></tr>{mrows}</table></div>
 <div class="modal" id="mkey"><div class="ov" data-close></div><div class="pn shpn mkp"><button class="ib x" data-close aria-label="Fermer">{ic("x")}</button><h2>Ajouter une clé d’API</h2><p class="sm mute">La clé reste chiffrée. Vous la retirez à tout moment.</p>
 <div class="g2i"><label class="fl2"><span>Fournisseur</span><select class="fi mkpv">{pv}</select></label><label class="fl2"><span>Nom de la clé</span><input class="fi" placeholder="Par exemple : Clé marketing"></label></div>
+<div class="fl2"><span>Type de clé</span><div class="rlc rlc2"><label><input type="radio" name="kty" checked><span class="rli">{ic("building-2", "s")}</span><b>Clé de l’entreprise</b><small>Payée par l’entreprise, attribuée aux experts et aux membres</small></label><label><input type="radio" name="kty"><span class="rli">{ic("user-round", "s")}</span><b>Clé personnelle</b><small>Celle d’un membre, pour son propre usage</small></label></div></div>
+<label class="fl2"><span>Commentaire <small class="xs mute3">facultatif</small></span><input class="fi" style="width:100%" placeholder="Par exemple : budget marketing, plafond 50 $ par mois"></label>
 <label class="fl2"><span>Clé d’API</span><input class="fi" type="password" placeholder="sk-..." style="width:100%"></label>
 <label class="fl2"><span>Modèles autorisés</span><select class="fi">{opt("Claude Sonnet")}</select></label>
-<p class="tbfl" style="margin-top:12px">Experts qui l’utilisent</p><div class="kxs">{exs}</div>
-<p class="tbfl" style="margin-top:12px">Membres qui partagent cette clé <small>leur usage est compté sur la même clé</small></p><div class="kxs">{mbs}</div>
+<p class="tbfl" style="margin-top:12px">Attribuer la clé à des experts</p><div class="kxs">{exs}</div>
+<p class="tbfl" style="margin-top:12px">Attribuer la clé à des membres <small>leur usage est compté sur la même clé</small></p><div class="kxs">{mbs}</div>
 <div class="row" style="justify-content:flex-end;gap:8px;margin-top:14px"><a class="btn o" href="#" data-close>Annuler</a><a class="btn p" href="#" data-close data-toast="Clé enregistrée et vérifiée">Enregistrer la clé</a></div></div></div>"""
     return admin_page("admin-modeles", "Modèles d'IA", corps, brand)
 
@@ -2692,6 +2702,202 @@ def _fix74(html):
     return _tdb76(_accueil74(_lien74(html))).replace('yelema_logo_final_long.svg', 'yelema_long.png')
 
 
+
+# ---------- v4.23 lot 3 (vocaux du 01/10, 23:00 à 23:16)
+# connecteurs admin : attribuer aux experts en service et aux membres
+_modal_cxa_avant75 = modal_cxa
+def modal_cxa():
+    xs = "".join(f'<label class="cxo"><img src="{B}{k}.jpg" alt=""><span class="grow"><b>{n}</b><small>{r}</small></span><button class="sw swx{"" if k in ("djeneba", "fatima", "kouassi") else " off"}" data-nom="{n}" aria-label="Accès de {n}"></button></label>'
+                 for k, n, r, sv, u, lv, p, on in ALL_EXPERTS if on)
+    ms = "".join(f'<label class="cxo">{face(i, "", 36)}<span class="grow"><b>{n}</b><small>{po}</small></span><button class="sw swx{"" if i in ("AD", "NT") else " off"}" data-nom="{n}" aria-label="Accès de {n}"></button></label>'
+                 for i, n, po, *_ in MEMBRES[:8])
+    return f"""<div class="modal" id="cxa"><div class="ov" data-close></div><div class="pn shpn cxpn"><button class="ib x" data-close aria-label="Fermer">{ic("x")}</button>
+<h2>Attribuer <span class="czn">l’outil</span></h2><p class="sm mute">Donnez cet outil aux experts en service et aux membres qui en ont besoin.</p>
+<div class="seg cxt"><a class="on" data-cx="x">{ic("sparkles", "s")} Experts <em class="num">{len([1 for *_, on in ALL_EXPERTS if on])}</em></a><a data-cx="m">{ic("users", "s")} Membres <em class="num">{len(MEMBRES[:8])}</em></a></div>
+<div class="cxl on" data-cx="x">{xs}</div><div class="cxl" data-cx="m">{ms}</div>
+<div class="row" style="justify-content:flex-end;gap:8px;margin-top:12px"><a class="btn o" href="#" data-close>Annuler</a><a class="btn p" href="#" data-close data-toast="Attributions enregistrées">Enregistrer</a></div></div></div>"""
+
+def _cx75(html):
+    if '<th>Experts qui y ont accès</th>' not in html:
+        return html
+    html = html.replace('<th>Experts qui y ont accès</th>', '<th>Experts</th><th class="hide-m">Membres</th>', 1)
+    mb = [("AD", "NT"), ("AD", "JA", "SB"), ("AD", "SB"), ("AD", "NT", "YK"), ("AD", "NT"), ("FB", "KO"), ("JA",)]
+    n = [0]
+    def addm(m):
+        f = mb[n[0] % len(mb)]; n[0] += 1
+        return m.group(1) + '<td class="hide-m"><span class="row mbx2" style="gap:0">' + "".join(face(i, "", 26) for i in f) + '</span></td>' + m.group(2)
+    html = re.sub(r'(</span></td>)(<td><a class="btn o sm" href="#" data-open="cxa")', addm, html)
+    html = html.replace('>Choisir les experts</a>', f'>{ic("user-plus", "s")} Attribuer</a>')
+    return html
+
+# experts de l'équipe : on peut en reprendre un pour un autre collègue
+def _rec75(html):
+    html = re.sub(r'(<a class="pc2 mine2" data-m="[^"]*" href="([a-z]+)\.html">.*?)(<span class="rb">(?:(?!</span>).)*?</svg>\s*Ouvrir son espace</span>)',
+                  lambda m: m.group(1) + '<span class="rcrow">' + m.group(3) + f'<span class="rb rcag" role="button" tabindex="0" data-rcag="{m.group(2)}" title="Recruter à nouveau pour un collègue">{ic("user-plus", "s")} Pour un collègue</span></span>', html, flags=re.S)
+    cols = "".join(f'<option>{n}</option>' for i, n, *_ in MEMBRES[:10])
+    return html.replace('</main>', f"""</main><div class="modal" id="rcagm"><div class="ov" data-close></div><div class="pn shpn rcpn"><button class="ib x" data-close aria-label="Fermer">{ic("x")}</button>
+<div class="row" style="gap:12px;align-items:center"><img class="rcimg" src="" alt=""><div><h2 style="margin:0" class="rct">Recruter à nouveau</h2><p class="sm mute">Pour un collègue, avec son propre espace</p></div></div>
+<label class="fl2"><span>Pour qui</span><select class="fi rcwho">{cols}</select></label>
+<div class="rcpr"><span>Prix</span><b class="num">200 000 F CFA par mois</b><small>Facturé dès la mise en service, sans engagement</small></div>
+<div class="row" style="justify-content:flex-end;gap:8px;margin-top:14px"><a class="btn o" href="#" data-close>Annuler</a><a class="btn p rcgo" href="#">{ic("user-plus", "s")} Recruter</a></div></div></div>""", 1)
+
+# qui peut faire quoi : trois rôles bien distincts
+DROITS = [("Voir son tableau de bord", 1, 1, 1), ("Parler à ses experts", 1, 1, 1), ("Utiliser le chat entreprise", 1, 1, 1),
+          ("Créer et partager ses tableaux de bord", 1, 1, 1), ("Parler aux experts de toute son équipe", 1, 1, 0), ("Suivre l’activité de son équipe", 1, 1, 0),
+          ("Voir les tableaux de son équipe", 1, 1, 0), ("Attribuer un expert à un membre de son équipe", 1, 1, 0), ("Recruter un expert", 1, 0, 0),
+          ("Inviter des membres", 1, 0, 0), ("Gérer les connecteurs et les clés d’IA", 1, 0, 0), ("Voir la facturation", 1, 0, 0)]
+def _droits75(html):
+    m = re.search(r'<h2 style="font-size:16px;font-weight:650">Qui peut faire quoi</h2></div><table class="tbl">.*?</table>', html, flags=re.S)
+    if not m:
+        return html
+    ok = f'<span class="drok">{ic("check", "s")}</span>'
+    no = f'<span class="drno">{ic("minus", "s")}</span>'
+    rows = "".join(f'<tr><td>{t}</td>' + "".join(f'<td align="center">{ok if v else no}</td>' for v in vs) + '</tr>' for t, *vs in DROITS)
+    head = ('<tr><th></th>' + "".join(f'<th style="text-align:center"><span class="drh"><b>{r}</b><small>{d}</small></span></th>' for r, d in
+            [("Administrateur", "Tout l’espace"), ("Responsable", "Son service"), ("Membre", "Son travail")]) + '</tr>')
+    return html[:m.start()] + f'<h2 style="font-size:16px;font-weight:650">Qui peut faire quoi</h2></div><table class="tbl drt">{head}{rows}</table>' + html[m.end():]
+
+# invitation : un seul champ « Autre », email seulement, un email qui fait sérieux
+def _inv75(html):
+    if 'id="inv"' not in html:
+        return html
+    html = re.sub(r'<div class="fl2"><span>Envoyer l\'invitation par</span><div class="fmts">.*?</div></div>\n?', '', html, count=1, flags=re.S)
+    html = re.sub(r'<span class="phk">.*?</span></div></div>', '</div></div>', html, count=1, flags=re.S)
+    html = re.sub(r'<div class="lnk"><span class="ell">yelema\.ai/invite/[^<]*</span>.*?</a></div>', '', html, count=1, flags=re.S)
+    html = html.replace("Invitation envoyée par email et par Telegram.", "Invitation envoyée par email.")
+    html = html.replace("Envoyer l'invitation</a>", "Envoyer l'invitation par email</a>", 1)
+    html = html.replace('<span>Téléphone</span>', '<span>Téléphone <small class="xs mute3">facultatif, pour Telegram</small></span>', 1)
+    xs = "".join(f'<div class="ivx" data-ivx="{n}"><img src="{B}{k}.jpg" alt=""><span><b>{n}</b><small>{r}</small></span></div>' for k, n, r, *_ in ALL_EXPERTS)
+    mail = f"""<div class="ivm on" data-iv="mail"><div class="ivh"><span class="xs mute3">De : Yelema pour Unifood &lt;invitations@yelema.ai&gt;</span><span class="xs mute3">À : <span class="ivto">awa.kone@unifood.info</span></span><b>Aïcha Diabaté vous invite à rejoindre Unifood sur Yelema</b></div>
+<div class="ivb ivb2"><div class="ivtop"><img class="ivcl" src="{B}{CLIENT["logo"]}" alt="{CLIENT["nom"]}"><span class="ivx2">×</span><img class="ivl" src="{B}yelema_long.png" alt="Yelema"></div>
+<h3 class="ivt">Bonjour <span class="ivfn">Awa</span>, votre équipe vous attend</h3>
+<p><b>Aïcha Diabaté</b>, administratrice de l’espace Yelema d’<b>Unifood</b>, vous invite à rejoindre l’espace de travail de l’entreprise. Vous y travaillerez avec ces experts :</p>
+<div class="ivxs">{xs}</div>
+<a class="btn p ivcta" href="bienvenue.html">Rejoindre l’espace Unifood</a>
+<ol class="ivst"><li>Vous choisissez votre mot de passe</li><li>Vous rencontrez vos experts</li><li>Vous leur parlez ici, sur Telegram, Slack ou Teams</li></ol>
+<p class="xs mute3">Cette invitation est valable 7 jours. Vous ne connaissez pas Aïcha Diabaté ? Ignorez ce message, rien ne se passera.</p>
+<div class="ivfoot"><span>Powered by</span><img src="{B}yelema_long.png" alt="Yelema"></div></div></div>"""
+    if '<div class="seg ivs">' in html:
+        i = html.index('<div class="seg ivs">')
+        j = html.index('<div class="row" style="justify-content:flex-end;margin-top:12px"><a class="btn o" href="bienvenue.html">', i)
+        html = html[:i] + mail + html[j:]
+    return html
+
+# expert : son compte de travail remplacé par ses modèles d'IA (les canaux disent déjà le reste)
+XMOD = {"djeneba": ("Claude Sonnet", "Anthropic", "Clé Anthropic de l’entreprise"), "fatima": ("Claude Sonnet", "Anthropic", "Clé Anthropic de l’entreprise"),
+        "koffi": ("Gemini 2.5 Pro", "Google", "Clé Google de l’entreprise")}
+def _xmod75(html, k):
+    if k not in XMOD or 'Son compte de travail</h3>' not in html:
+        return html
+    a = html.index('Son compte de travail</h3>')
+    a = html.rfind('<div class="box">', 0, a)
+    depth, j = 0, a
+    for m in re.finditer(r'<(/?)div\b', html[a:]):
+        depth += -1 if m.group(1) else 1
+        if depth == 0:
+            j = a + html[a:].index('>', m.start()) + 1
+            break
+    md, pv, cle = XMOD[k]
+    dom = {"Anthropic": "anthropic.com", "Google": "gemini.google.com"}[pv]
+    alt = [("Claude Opus", "anthropic.com", "Pour les analyses longues"), ("Mistral Large", "mistral.ai", "Fourni par Yelema"), ("GPT-5", "openai.com", "Ajoutez une clé OpenAI")]
+    alts = "".join(f'<div class="ac2{" off" if "Ajoutez" in d else ""}"><img src="{FAV}{dd}" alt=""><span class="grow"><b>{n}</b><small>{d}</small></span>'
+                   + (f'<span class="sti on">{ic("circle-check")}</span>' if "Ajoutez" not in d else f'<a class="btn o sm" href="admin-modeles.html">{ic("plus", "s")} Clé</a>') + '</div>' for n, dd, d in alt)
+    box = (f'<div class="box"><h3 class="bt">{ic("cpu", "s")} Ses modèles d’IA</h3><p class="xs mute3" style="margin-bottom:8px">Le modèle qu’elle utilise par défaut, et ceux qu’on peut choisir dans la discussion.</p>'
+           f'<div class="ac2 xmd"><img src="{FAV}{dom}" alt=""><span class="grow"><b>{md} <em class="kst ok">Par défaut</em></b><small>{pv}, {cle}</small></span><a class="btn o sm" href="admin-modeles.html">{ic("pencil", "s")} Modifier</a></div>{alts}</div>')
+    return html[:a] + box + html[j:]
+
+# personnaliser Djénéba : prénom bien visible, tenue aux couleurs de l'entreprise, beaucoup de fonds
+FONDS = [("Lavande", "#C5C4FF"), ("Violet", "#8D68FA"), ("Indigo", "#301667"), ("Ciel", "#BFE3FF"), ("Menthe", "#BDECD6"), ("Sable", "#EBDCCB"),
+         ("Terracotta", "#E4765A"), ("Ocre", "#E9B44C"), ("Rose", "#F6C6D8"), ("Gris perle", "#E6E6EC"), ("Ardoise", "#4A5568"), ("Nuit", "#241C33")]
+PAL = [("#E00040", "Rouge Unifood"), ("#F8B400", "Jaune Unifood"), ("#5A1022", "Bordeaux Unifood")]
+def _pz75(html):
+    if 'id="pz"' not in html:
+        return html
+    html = html.replace('<div><p class="oq">Prénom</p><div class="nmf"><span class="v">Djénéba</span><a class="btn o" href="#">Suggérer</a></div><p class="xs mute3" style="margin-top:6px">Toute l\'équipe la verra sous ce prénom, ici, sur WhatsApp et dans ses emails.</p></div>',
+        f'<div class="pzn"><p class="oq">Son prénom <em class="pzn2">{ic("pencil", "s")} modifiable</em></p><label class="nmf nmf3">{ic("pencil", "s")}<input class="fi pzni" value="Djénéba" aria-label="Prénom de votre Chief of Staff"><a class="btn o sm pzsg" href="#">{ic("sparkles", "s")} Suggérer</a></label><p class="xs mute3" style="margin-top:6px">Toute l’équipe la verra sous ce prénom, ici, sur Telegram et dans ses emails.</p></div>', 1)
+    pal = "".join(f'<i style="background:{c}"></i>' for c, _ in PAL)
+    html = html.replace('<span class="">' + ic("briefcase", "s") + 'Tailleur</span></div></div>', '<span class="">' + ic("briefcase", "s") + f'Tailleur</span><span class="pzbr"><span class="pzpal">{pal}</span>Aux couleurs de l’entreprise</span></div></div>', 1) if ('<span class="">' + ic("briefcase", "s") + 'Tailleur</span></div></div>') in html else re.sub(r'(Tailleur</span>)(</div></div>)', r'\1' + f'<span class="pzbr"><span class="pzpal">{pal}</span>Aux couleurs de l’entreprise</span>' + r'\2', html, count=1)
+    sw = "".join(f'<button type="button" class="fsw{" on" if n == 0 else ""}" style="--c:{c}" data-fn="{t}" aria-label="{t}" title="{t}"></button>' for n, (t, c) in enumerate(FONDS))
+    pw = "".join(f'<button type="button" class="fsw" style="--c:{c}" data-fn="{t}" aria-label="{t}" title="{t}"></button>' for c, t in PAL)
+    fond = (f'<div><p class="oq">Fond <span class="fsl xs mute3">Lavande</span></p><div class="fnd"><p class="fndh">{ic("palette", "s")} Palette de l’entreprise <a class="link xs fauto" href="#">{ic("wand-sparkles", "s")} Choisir pour moi</a></p>'
+            f'<div class="fsws">{pw}<button type="button" class="fsw fgr" style="--c:linear-gradient(135deg,#E00040,#F8B400)" data-fn="Dégradé de l’entreprise" aria-label="Dégradé de l’entreprise" title="Dégradé de l’entreprise"></button></div>'
+            f'<p class="fndh">{ic("swatch-book", "s")} Toutes les couleurs</p><div class="fsws">{sw}<label class="fsw fcu" title="Couleur au choix">{ic("plus", "s")}<input type="color" value="#8D68FA" aria-label="Couleur au choix"></label></div></div></div>')
+    html = re.sub(r'<div><p class="oq">Fond</p><div class="opts">.*?</div></div>', fond, html, count=1, flags=re.S)
+    return html
+
+# analytique admin : comparaison au mois passé, semaines du mois passé en couleur, plus d'indicateurs, rétention
+def _an75(html):
+    if '<h2>Coût par semaine</h2>' not in html:
+        return html
+    prev = [("S33", "281 k", 86), ("S34", "281 k", 86), ("S35", "290 k", 89), ("S36", "302 k", 93)]
+    pb = "".join(f'<div class="an-b prv"><em class="num">{v}</em><i style="height:{h}%"></i><span>{w}</span></div>' for w, v, h in prev)
+    html = html.replace('<h2>Coût par semaine</h2><span>F CFA, au prorata des jours</span></header><div class="an-bars">',
+                        '<h2>Coût par semaine</h2><span>F CFA, au prorata des jours</span></header><div class="anlg"><span><i class="prv"></i>Mois passé</span><span><i></i>Ce mois-ci</span></div><div class="an-bars an-bars8">' + pb, 1)
+    html = html.replace('<small>par mois, 6 exemplaires facturés</small>', '<small>par mois, 6 exemplaires facturés</small><em class="dlt down">↑ 200 000 F vs août</em>', 1)
+    html = html.replace('<small class="up">de travail ce mois-ci</small>', '<small class="up">de travail ce mois-ci</small><em class="dlt up">↑ 9 journées vs août</em>', 1)
+    html = html.replace('<div class="an-k"><span>Livrables produits</span><b class="num">126</b><small class="up">+18 % par rapport au mois dernier</small></div></div>',
+                        '<div class="an-k"><span>Livrables produits</span><b class="num">126</b><small class="up">+18 % par rapport au mois dernier</small></div>'
+                        '<div class="an-k"><span>Délai moyen d’une tâche</span><b class="num">2 h 40</b><small class="up">−35 min par rapport au mois dernier</small></div>'
+                        '<div class="an-k"><span>Livrables validés du premier coup</span><b class="num">81 %</b><small class="up">+6 points par rapport au mois dernier</small></div></div>', 1)
+    html = html.replace('<div class="an-k"><span>Experts par membre</span><b class="num">1,8</b><small>en moyenne</small></div></div>',
+                        '<div class="an-k"><span>Experts par membre</span><b class="num">1,8</b><small>en moyenne</small><em class="dlt up">↑ 0,3 vs août</em></div>'
+                        '<div class="an-k"><span>Rétention des membres</span><b class="num">92 %</b><small>actifs ce mois-ci et le mois passé</small><span class="anret"><span><b class="num">79 %</b> chaque semaine</span><span><b class="num">92 %</b> chaque mois</span></span></div></div>', 1)
+    html = html.replace('<small class="">sur 14 comptes ouverts</small></div>', '<small class="">sur 14 comptes ouverts</small><em class="dlt up">↑ 2 vs août</em></div>', 1)
+    html = html.replace('<small>sur 20 proposés</small></div>', '<small>sur 20 proposés</small><em class="dlt up">↑ 1 vs août</em></div>', 1)
+    return html
+
+# mot de passe : erreur, oubli, lien reçu, nouveau mot de passe, confirmation, lien expiré
+def _mdp75(html):
+    if 'data-reset' in html and 'data-st="3"' in html:
+        a = "<a class=\"btn o\" href=\"#\" data-next=\"3\">J'ai cliqué sur le lien</a><a class=\"link\" href=\"#\" data-toast=\"Nouveau lien envoyé\" style=\"margin-top:12px;display:inline-block\">Renvoyer le lien</a></div>"
+        b = (f'<div class="mdtip">{ic("info", "s")}<span>Rien reçu ? Regardez dans les courriers indésirables, ou vérifiez l’adresse.</span></div>'
+             f'<div class="mdbt"><a class="btn p" href="https://mail.google.com" target="_blank" rel="noopener">{ic("mail", "s")} Ouvrir ma boîte mail</a><a class="btn o" href="#" data-next="3">{ic("mouse-pointer-click", "s")} J’ai cliqué sur le lien</a></div>'
+             f'<p class="sm mute mdrs">Pas de lien ? <a class="link mdre" href="#">Renvoyer le lien</a> <span class="mdcd"></span></p><p class="sm"><a class="link" href="#" data-next="1">Changer d’adresse</a></p></div>')
+        html = html.replace(a, b, 1)
+        a = '<label class="mdf"><span>Confirmer</span><span class="mdi"><input type="password" placeholder="Saisissez-le à nouveau"></span></label>'
+        b = (f'<ul class="mdrl"><li data-r="len">{ic("check", "s")} 8 caractères au moins</li><li data-r="maj">{ic("check", "s")} Une majuscule</li><li data-r="num">{ic("check", "s")} Un chiffre</li></ul><span class="mdsb"><i></i></span>'
+             f'<label class="mdf"><span>Confirmer</span><span class="mdi"><input type="password" placeholder="Saisissez-le à nouveau" class="mdc2"></span></label><p class="mderr" hidden>{ic("circle-alert", "s")} Les deux mots de passe ne sont pas identiques.</p>')
+        html = html.replace(a, b, 1)
+        html = html.replace('<button class="btn p auok" type="submit">Enregistrer et me connecter', '<button class="btn p auok mdsave" type="submit" disabled>Enregistrer le mot de passe', 1)
+        extra = (f'<div class="aust" data-st="4" hidden><span class="aubig okb">{ic("circle-check")}</span><h2>Mot de passe changé</h2><p class="sub">C’est fait. Par sécurité, vous êtes déconnectée de vos autres appareils. Un email de confirmation vient de partir.</p>'
+                 f'<a class="btn p" href="connexion.html">Se connecter {ic("arrow-right", "s")}</a></div>'
+                 f'<div class="aust" data-st="5" hidden><span class="aubig kob">{ic("clock-alert")}</span><h2>Ce lien a expiré</h2><p class="sub">Un lien de réinitialisation reste valable 30 minutes et ne sert qu’une fois. Demandez-en un nouveau.</p>'
+                 f'<a class="btn p" href="#" data-next="1">Recevoir un nouveau lien {ic("arrow-right", "s")}</a><p class="xs mute3" style="margin-top:14px"><a class="link" href="#" data-next="3">Voir l’écran du nouveau mot de passe</a></p></div>')
+        i = html.index('data-st="3"'); j = html.index('</form></div>', i) + len('</form></div>')
+        html = html[:j] + extra + html[j:]
+    if 'data-login' in html:
+        html = html.replace('<form class="auf" data-login>', f'<div class="auerr" hidden>{ic("circle-alert", "s")}<span class="auet"><b>Mot de passe incorrect.</b> Il vous reste <b class="aun">2</b> essais avant un blocage de 15 minutes.</span></div><form class="auf" data-login>', 1)
+        html = html.replace('<p class="xs mute3 aunote">', '<p class="xs mute3 audemo">Pour voir l’erreur, modifiez le mot de passe puis connectez-vous.</p><p class="xs mute3 aunote">', 1)
+    return html
+
+def _nopause75(html):
+    # pause et arrêt d'un expert : réservés à l'admin (vocal 44543)
+    P = re.escape(ic("pause", "s"))
+    html = re.sub(r'<div class="adv" style="margin-top:14px"><div><span class="ic">' + P + r'</span>.*?Retirer</a></div></div>', '', html, flags=re.S)
+    html = re.sub(r'<div><span class="ic">' + P + r'</span><div class="grow"><b>Mettre en pause</b>.*?</a></div>\s*', '', html, flags=re.S)
+    html = re.sub(r'<div class="danger"><span class="ic">' + re.escape(ic("user-minus", "s")) + r'</span>.*?Retirer</a></div>', '', html, flags=re.S)
+    html = re.sub(r'<a class="btn o sm" href="#" data-toast="[^"]*est en pause">' + re.escape(ic("pause", "s")) + r' Pause</a>', '', html)
+    html = re.sub(r'<a class="sq pause" href="#" aria-label="Mettre en pause">.*?</a>', '', html, flags=re.S)
+    html = re.sub(r'<a class="btn g" href="#">' + re.escape(ic("pause", "s")) + r' Mettre en pause</a>', '', html)
+    return html
+
+def _fix75(html):
+    html = html.replace(ic("layout-dashboard", "s"), ic("chart-column", "s")).replace(ic("layout-dashboard"), ic("chart-column"))
+    html = html.replace("Point du jour envoyé sur WhatsApp", "Point du jour envoyé sur Telegram").replace("Je vous préviens sur WhatsApp", "Je vous préviens sur Telegram").replace("point du jour envoyé sur whatsapp", "point du jour envoyé sur Telegram")
+    html = html.replace('<a class="rmore" href="#" data-go="drive">Voir plus</a>', '<a class="rmore" href="#" data-go="livrables">Voir plus</a>')
+    html = _mdp75(_an75(_cx75(_droits75(_inv75(_pz75(html))))))
+    if 'id="admin-' not in html and 'class="adm' not in html:
+        html = _nopause75(html)
+    if 'Qui sera votre prochaine recrue' in html:
+        html = _rec75(html)
+    m = re.search(r'<body[^>]*data-x="([a-z]+)"', html)
+    for k in XMOD:
+        if f'<h1>{EXPERTS[k]["prenom"] if k in EXPERTS else k}</h1>' in html and 'id="profil"' in html:
+            html = _xmod75(html, k)
+            break
+    return html
+
+
 if __name__ == "__main__":
     os.makedirs(os.path.join(OUT, "img"), exist_ok=True)
     for f in glob.glob(os.path.join(ICI, "..", "v3", "site", "img", "*")):
@@ -2715,7 +2921,7 @@ if __name__ == "__main__":
         for c in CATALOGUE:
             pages["recrue-" + c[0]] = page_recrue(c[0], brand)
         for n, html in pages.items():
-            html = _fix74(_nav_fix(html.replace('href="ecran.html"', 'href="fatima.html#direct"')))
+            html = _fix75(_fix74(_nav_fix(html.replace('href="ecran.html"', 'href="fatima.html#direct"'))))
             open(os.path.join(d, n + ".html"), "w", encoding="utf-8").write(html)
         print("ok", brand, len(pages), "pages")
     open(os.path.join(OUT, "plan.html"), "w", encoding="utf-8").write(page_choix())

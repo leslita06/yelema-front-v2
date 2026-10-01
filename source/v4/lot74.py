@@ -46,20 +46,20 @@ def adm_experts(brand):
     NOMS = {i: n for i, n, *_ in MEMBRES}
     rows = ""
     tot = 0
-    for k, n, r, sv, u, lv, p, on in ALL_EXPERTS:
+    for no, (k, n, r, sv, u, lv, p, on) in enumerate(ALL_EXPERTS, 1):
         ppl = "".join(f'<span class="mbx">{face(i, "", 26)}<span>{NOMS[i].split(" ")[0]}</span></span>' for i in UTIL[k])
         q = 2 if k == "kouassi" else 1
         pu = 0 if p == "incluse" else (200000 if not str(p)[0].isdigit() else int("".join(c for c in str(p) if c.isdigit())))
         t_ = pu * q if on else 0
         tot += t_
         f_ = lambda v: f"{v:,}".replace(",", " ") + " F"
-        rows += (f'<tr><td><a class="who" href="{xh(k)}"><img src="{B}{k}.jpg" alt=""><span><b>{n}</b><span class="xs mute3">{r}</span></span></a></td>'
+        rows += (f'<tr><td class="xno num">{no}</td><td><a class="who" href="{xh(k)}"><img src="{B}{k}.jpg" alt=""><span><b>{n}</b><span class="xs mute3">{r}</span></span></a></td>'
                  f'<td class="hide-m"><div class="mbs">{ppl}<a class="ib mba" href="#" data-open="inv" aria-label="Ajouter un membre">{ic("plus", "s")}</a></div></td>'
                  f'<td class="num">{q}</td><td class="num">{"Incluse" if p == "incluse" else f_(pu)}</td><td class="num"><b>{"Incluse" if p == "incluse" else (f_(t_) if on else "Pas facturé")}</b></td>'
-                 f'<td><button class="sw{"" if on else " off"} swx" data-nom="{n}" aria-label="En service"></button></td></tr>')
+                 f'<td><label class="xst {"on" if on else "pa"}">{ic("circle", "s")}<select aria-label="État de {n}" data-xst="{n}">' + "".join(f'<option value="{v}"{" selected" if v == ("on" if on else "pa") else ""}>{t}</option>' for v, t in [("on", "En service"), ("pa", "En pause"), ("st", "Arrêté")]) + '</select></label></td></tr>')
     corps = f"""<div class="hello"><div class="grow"><h1>Experts</h1><p class="sub">7 en service dont Kouassi en deux exemplaires, 1 en pause</p></div><a class="btn p" href="recruter.html">{ic("user-plus", "s")} Recruter un expert</a></div>
-<div class="box" style="margin-top:16px"><table class="tbl tbex2"><tr><th>Expert</th><th class="hide-m">Membres qui l'utilisent</th><th>Quantité</th><th>Prix unitaire</th><th>Total par mois</th><th>En service</th></tr>{rows}
-<tr class="tot"><td colspan="4"><b>Total par mois</b></td><td class="num"><b>{f"{tot:,}".replace(",", " ")} F CFA</b></td><td></td></tr></table></div>"""
+<div class="box" style="margin-top:16px"><table class="tbl tbex2"><tr><th class="xno">N°</th><th>Expert</th><th class="hide-m">Membres qui l'utilisent</th><th>Quantité</th><th>Prix unitaire</th><th>Total par mois</th><th>État</th></tr>{rows}
+<tr class="tot"><td colspan="5"><b>Total par mois</b></td><td class="num"><b>{f"{tot:,}".replace(",", " ")} F CFA</b></td><td></td></tr></table></div>"""
     return admin_page("admin-experts", "Experts", corps, brand)
 
 # modèles d'IA : clés posées, fournisseurs, modèles par expert, clés partagées
@@ -83,21 +83,31 @@ def adm_modeles(brand):
                  f'<div class="kpx"><small>Experts</small><span class="row" style="gap:0">{ex}</span></div><div class="kpa">{act}</div></div>')
     opt = lambda cur: "".join(f'<option{" selected" if m == cur else ""}>{m}</option>' for m in MODS) + '<option value="autre">Autre</option>'
     cur = {"djeneba": "Claude Sonnet", "fatima": "Claude Sonnet", "koffi": "Gemini 2.5 Pro", "kouassi": "Mistral Large", "adjoua": "Mistral Large", "mamadou": "Claude Opus", "awa": "Llama 4 Scout"}
-    xs = "".join(f'<tr><td><span class="who"><img src="{B}{k}.jpg" alt=""><span><b>{nm}</b><span class="xs mute3">{r}</span></span></span></td><td><select class="fi">{opt(cur.get(k, "Claude Sonnet"))}</select></td>'
+    xs = "".join(f'<tr><td><span class="who"><img src="{B}{k}.jpg" alt=""><span><b>{nm}</b><span class="xs mute3">{r}</span></span></span></td><td><span class="mdv"><b class="mdn">{cur.get(k, "Claude Sonnet")}</b><select class="fi mds" hidden aria-label="Modèle de {nm}">{opt(cur.get(k, "Claude Sonnet"))}</select><a class="btn o sm mde" href="#">{ic("pencil", "s")} Modifier</a></span></td>'
                  f'<td class="hide-m"><span class="xs mute3">{"Clé Anthropic de l’entreprise" if "Claude" in cur.get(k, "") else ("Clé Google de l’entreprise" if "Gemini" in cur.get(k, "") else "Fourni par Yelema")}</span></td></tr>' for k, nm, r, *_ in ALL_EXPERTS)
     exs = "".join(f'<label class="kxo"><input type="checkbox"{" checked" if k in ("djeneba", "fatima") else ""}><img src="{B}{k}.jpg" alt=""><span class="grow"><b>{nm}</b><small>{r}</small></span></label>' for k, nm, r, *_ in ALL_EXPERTS)
     mbs = "".join(f'<label class="kxo"><input type="checkbox"{" checked" if i in ("AD",) else ""}>{face(i, "", 32)}<span class="grow"><b>{n}</b><small>{po}</small></span></label>' for i, n, po, svc, r in MEMBRES[:6])
+    MCUR = [("AD", "Claude Sonnet", "Clé Anthropic de l’entreprise"), ("JA", "Claude Opus", "Clé Anthropic de l’entreprise"), ("SB", "Gemini 2.5 Pro", "Clé personnelle de Serge"),
+            ("NT", "Claude Sonnet", "Clé Anthropic de l’entreprise"), ("FB", "Mistral Large", "Fourni par Yelema"), ("YK", "Gemini 2.5 Flash", "Clé Google de l’entreprise")]
+    NOMS_ = {i: (n, po) for i, n, po, *_ in MEMBRES}
+    mrows = "".join(f'<tr><td><span class="who">{face(i, "", 32)}<span><b>{NOMS_.get(i, (i, ""))[0]}</b><span class="xs mute3">{NOMS_.get(i, (i, ""))[1]}</span></span></span></td>'
+                    f'<td><span class="mdv"><b class="mdn">{m}</b><select class="fi mds" hidden aria-label="Modèle">{opt(m)}</select><a class="btn o sm mde" href="#">{ic("pencil", "s")} Modifier</a></span></td>'
+                    f'<td class="hide-m"><span class="xs {"kpers" if "personnelle" in c else "mute3"}">{c}</span></td></tr>' for i, m, c in MCUR)
     pv = "".join(f"<option>{x}</option>" for x in ("Anthropic", "OpenAI", "Google", "Mistral AI", "Meta", "DeepSeek", "xAI", "Cohere")) + '<option value="autre">Autre</option>'
     corps = f"""<div class="hello"><div class="grow"><h1>Modèles d'IA</h1><p class="sub">Yelema fournit des modèles par défaut. Branchez aussi vos propres clés, puis choisissez quel expert utilise quel modèle.</p></div><a class="btn p" href="#" data-open="mkey">{ic("plus", "s")} Ajouter une clé</a></div>
 <h3 class="h3s">Fournisseurs et clés</h3><div class="kpvs">{rows}</div>
 <h3 class="h3s">Modèle par expert</h3><p class="sub">Chaque membre peut aussi choisir un autre modèle dans la discussion</p>
 <div class="box" style="margin-top:10px"><table class="tbl"><tr><th>Expert</th><th>Modèle par défaut</th><th class="hide-m">Clé utilisée</th></tr>{xs}</table></div>
+<h3 class="h3s">Modèle par membre</h3><p class="sub">Le modèle que chaque membre utilise par défaut dans ses discussions, et la clé qui paie</p>
+<div class="box" style="margin-top:10px"><table class="tbl"><tr><th>Membre</th><th>Modèle par défaut</th><th class="hide-m">Clé utilisée</th></tr>{mrows}</table></div>
 <div class="modal" id="mkey"><div class="ov" data-close></div><div class="pn shpn mkp"><button class="ib x" data-close aria-label="Fermer">{ic("x")}</button><h2>Ajouter une clé d’API</h2><p class="sm mute">La clé reste chiffrée. Vous la retirez à tout moment.</p>
 <div class="g2i"><label class="fl2"><span>Fournisseur</span><select class="fi mkpv">{pv}</select></label><label class="fl2"><span>Nom de la clé</span><input class="fi" placeholder="Par exemple : Clé marketing"></label></div>
+<div class="fl2"><span>Type de clé</span><div class="rlc rlc2"><label><input type="radio" name="kty" checked><span class="rli">{ic("building-2", "s")}</span><b>Clé de l’entreprise</b><small>Payée par l’entreprise, attribuée aux experts et aux membres</small></label><label><input type="radio" name="kty"><span class="rli">{ic("user-round", "s")}</span><b>Clé personnelle</b><small>Celle d’un membre, pour son propre usage</small></label></div></div>
+<label class="fl2"><span>Commentaire <small class="xs mute3">facultatif</small></span><input class="fi" style="width:100%" placeholder="Par exemple : budget marketing, plafond 50 $ par mois"></label>
 <label class="fl2"><span>Clé d’API</span><input class="fi" type="password" placeholder="sk-..." style="width:100%"></label>
 <label class="fl2"><span>Modèles autorisés</span><select class="fi">{opt("Claude Sonnet")}</select></label>
-<p class="tbfl" style="margin-top:12px">Experts qui l’utilisent</p><div class="kxs">{exs}</div>
-<p class="tbfl" style="margin-top:12px">Membres qui partagent cette clé <small>leur usage est compté sur la même clé</small></p><div class="kxs">{mbs}</div>
+<p class="tbfl" style="margin-top:12px">Attribuer la clé à des experts</p><div class="kxs">{exs}</div>
+<p class="tbfl" style="margin-top:12px">Attribuer la clé à des membres <small>leur usage est compté sur la même clé</small></p><div class="kxs">{mbs}</div>
 <div class="row" style="justify-content:flex-end;gap:8px;margin-top:14px"><a class="btn o" href="#" data-close>Annuler</a><a class="btn p" href="#" data-close data-toast="Clé enregistrée et vérifiée">Enregistrer la clé</a></div></div></div>"""
     return admin_page("admin-modeles", "Modèles d'IA", corps, brand)
 

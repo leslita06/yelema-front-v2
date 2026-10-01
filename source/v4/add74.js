@@ -9,7 +9,7 @@
 
   // ---------- listes déroulantes : « Autre » ouvre un champ libre
   document.querySelectorAll('select').forEach(function(s){
-    if(![].some.call(s.options,function(o){return o.value==='autre'||o.text==='Autre'}))return;
+    if(s.classList.contains('isv')||![].some.call(s.options,function(o){return o.value==='autre'||o.text==='Autre'}))return;
     var f=document.createElement('input');f.className='fi selx';f.placeholder='Précisez';f.hidden=true;f.style.marginTop='6px';s.after(f);
     s.addEventListener('change',function(){var o=s.options[s.selectedIndex];var on=o&&(o.value==='autre'||o.text==='Autre');f.hidden=!on;if(on)f.focus()})});
 
