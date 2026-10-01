@@ -427,51 +427,96 @@ def codir_widgets():
 
 PROJ = {"usine": ("factory", "Nouvelle ligne de confiserie, Yopougon"), "sossa": ("megaphone", "Promo Sossa de la rentrée"),
         "mint": ("sparkles", "Super Mint, édition limitée"), "nord": ("map-pin", "Équipe commerciale Nord")}
-TDB_QUI = ["djeneba", "fatima", "koffi", "adjoua"]
-TDB_EXT = {"adjoua": {"prenom": "Adjoua", "role": "Recrutement", "photo": "adjoua.jpg", "live": False, "service": "Service RH, partagé avec vous"}}
+TDB_EXT = {"adjoua": {"prenom": "Adjoua", "role": "Recrutement", "photo": "adjoua.jpg", "live": False, "service": "Service RH"},
+           "kouassi": {"prenom": "Kouassi", "role": "Ventes", "photo": "kouassi.jpg", "live": False, "service": "Service commercial"}}
+TDB_QUI = ["djeneba", "fatima", "koffi"]
+# Tableaux que des collègues ont partagés avec Aïcha : (expert, qui partage, initiales, droit, expiration)
+TDB_PART = [("adjoua", "Fanta Bakayoko", "FB", "Lecture", "15/10/2026", "Pipeline des commerciaux du Nord"),
+            ("kouassi", "Kader Ouattara", "KO", "Édition", "31/10/2026", "Ventes de la rentrée par zone")]
 
-# Un widget : (type, titre tiré d'un gabarit de livrable, projets, données). Les chiffres valent pour semaine / mois / trimestre.
+# Un widget : (type, titre, projets, données)
 TDB = {
  "djeneba": [
-  ("count", "Relevés de décisions", ["usine", "sossa", "mint"], {"v": (6, 23, 61), "unit": "relevés envoyés le jour même", "by": [("usine", 3), ("sossa", 2), ("mint", 1)],
-    "fait": "Comité du 24 septembre sur la ligne de confiserie : 6 décisions, chacune avec un responsable et une date."}),
-  ("split", "Tableau des engagements", ["usine", "sossa", "mint", "nord"], {"parts": [("Tenus", 29, "ok"), ("En cours", 6, "mid"), ("En retard", 3, "late")],
-    "items": [("Devis de la machine d'emballage", "Serge Bamba, prévu le 30/09", "usine"), ("Budget média Super Mint", "Fanta Bakayoko, prévu le 27/09", "mint"), ("Contrat du fournisseur de cacao", "Jean-Marc Aka, prévu le 29/09", "usine")]}),
-  ("list", "Briefs de rendez-vous", ["usine", "nord"], {"items": [("Banque Atlantique, financement de la ligne", "Jeudi 2 octobre, 10 h", "usine"), ("Mairie de Yopougon, permis d'extension", "Vendredi 3 octobre, 9 h", "usine"), ("Distributeur de Korhogo", "Lundi 6 octobre, 15 h", "nord")]}),
-  ("count", "Packs de comité de direction", ["usine", "sossa"], {"v": (1, 4, 12), "unit": "packs préparés", "by": [("usine", 1)], "fait": "Pack du comité de demain : ordre du jour, 4 dossiers résumés, 2 décisions attendues."}),
+  ("agenda", "Rendez-vous à venir", ["usine", "nord", "sossa"], {"items": [
+     ("Jeu 2 oct", "10:00", "Banque Atlantique, financement de la ligne", "Jean-Marc Aka, Serge Bamba", "ok", "Brief prêt", "usine"),
+     ("Jeu 2 oct", "15:30", "Point promo Sossa avec l'agence", "Aïcha Diabaté, Nadège Touré", "ok", "Brief prêt", "sossa"),
+     ("Ven 3 oct", "09:00", "Mairie de Yopougon, permis d'extension", "Jean-Marc Aka", "mid", "Brief en cours", "usine"),
+     ("Lun 6 oct", "15:00", "Distributeur de Korhogo", "Fanta Bakayoko", "mid", "Brief en cours", "nord")]}),
+  ("eng", "Tableau des engagements", ["usine", "sossa", "mint", "nord"], {"items": [
+     ("Envoyer le devis de la machine d'emballage", "SB", "Serge Bamba", "30/09", "late", "En retard", "usine"),
+     ("Valider le budget média Super Mint", "FB", "Fanta Bakayoko", "03/10", "mid", "En cours", "mint"),
+     ("Signer le contrat du fournisseur de cacao", "JA", "Jean-Marc Aka", "06/10", "mid", "En cours", "usine"),
+     ("Partager les ventes Sossa par boutique", "AD", "Aïcha Diabaté", "29/09", "ok", "Tenu", "sossa"),
+     ("Recruter deux commerciaux à Korhogo", "FB", "Fanta Bakayoko", "15/10", "mid", "En cours", "nord")],
+     "parts": [("Tenus", 29, "ok"), ("En cours", 6, "mid"), ("En retard", 3, "late")]}),
+  ("cr", "Comptes rendus", ["usine", "sossa", "mint"], {"items": [
+     ("Comité de direction", "Lun 29 sept", 6, 4, "usine"), ("Revue de la promo Sossa", "Ven 26 sept", 3, 5, "sossa"),
+     ("Lancement Super Mint", "Jeu 25 sept", 4, 2, "mint"), ("Visite du site d'extension", "Mar 23 sept", 2, 3, "usine")]}),
   ("week", "Point hebdomadaire", ["usine", "sossa", "mint", "nord"], {"cols": [("Avancé", ["Choix du site d'extension validé", "Promo Sossa lancée dans 420 boutiques"]), ("Bloque", ["Devis machine d'emballage en attente"]), ("À trancher", ["Date d'inauguration de la ligne"])]}),
+  ("solli", "Sollicitations triées", ["usine", "sossa", "nord"], {"v": (42, 9, 33), "items": [
+     ("Demande d'interview, Fraternité Matin", "Remontée : à vous de décider", "usine"), ("Invitation au salon de l'agroalimentaire", "Remontée : date à confirmer", "sossa"),
+     ("Relance d'un fournisseur d'emballage", "Traitée : renvoyée à Serge", "usine")]}),
  ],
  "fatima": [
-  ("cal", "Calendrier éditorial d'octobre", ["sossa", "mint", "usine"], {"done": 9, "total": 24, "by": [("Facebook", 10), ("Instagram", 8), ("LinkedIn", 4), ("WhatsApp", 2)]}),
-  ("count", "Posts et carrousels prêts à publier", ["sossa", "mint"], {"v": (18, 62, 170), "unit": "posts livrés", "by": [("sossa", 11), ("mint", 7)], "fait": "Carrousel « Le goûter de la rentrée » : 5 visuels, publié mardi sur Facebook et Instagram."}),
-  ("camp", "Plan de campagne publicitaire", ["sossa"], {"rows": [("Budget engagé", "1,2 M F CFA"), ("Contacts obtenus", "412"), ("Coût par contact", "2 900 F CFA")], "fait": "Campagne Sossa rentrée sur Facebook et Instagram, ciblage Abidjan et Bouaké."}),
-  ("count", "Réponses aux commentaires et messages", ["sossa", "mint"], {"v": (146, 590, 1720), "unit": "réponses proposées", "by": [("sossa", 98), ("mint", 48)], "fait": "3 cas sensibles signalés avant réponse, dont une réclamation sur un paquet abîmé."}),
-  ("list", "Communiqué et liste presse", ["usine"], {"items": [("Communiqué : inauguration de la nouvelle ligne", "Brouillon prêt, attend votre accord", "usine"), ("Liste presse économie", "18 journalistes, angle emploi local", "usine")]}),
+  ("edcal", "Calendrier éditorial", ["sossa", "mint", "usine"], {"days": [
+     ("Lun 29", [("fb", "Carrousel goûter de la rentrée", "pub", "sossa"), ("ig", "Story jeu concours", "pub", "sossa")]),
+     ("Mar 30", [("li", "Article : 200 emplois à Yopougon", "pub", "usine")]),
+     ("Mer 1", [("fb", "Vidéo recette Super Mint", "pub", "mint"), ("tt", "Défi Super Mint", "prog", "mint")]),
+     ("Jeu 2", [("ig", "Réel coulisses de l'usine", "prog", "usine")]),
+     ("Ven 3", [("fb", "Post gagnants du concours", "val", "sossa"), ("li", "Offre d'emploi chef d'équipe", "prog", "usine")]),
+     ("Sam 4", [("ig", "Carrousel goûter du week-end", "val", "sossa")]),
+     ("Dim 5", [])]}),
+  ("posts", "Posts publiés", ["sossa", "mint", "usine"], {"items": [
+     ("flyer-sossa.jpg", "Carrousel « Le goûter de la rentrée »", "fb", "Facebook, lun 29", "18 400", "1 240", "6,7 %", "sossa"),
+     ("flyer-supermint.jpg", "Vidéo recette Super Mint", "fb", "Facebook, mer 1", "9 800", "610", "6,2 %", "mint"),
+     ("flyer-sossa.jpg", "Story jeu concours", "ig", "Instagram, lun 29", "6 300", "870", "13,8 %", "sossa"),
+     ("", "Article : 200 emplois à Yopougon", "li", "LinkedIn, mar 30", "4 100", "320", "7,8 %", "usine")]}),
+  ("rs", "Rapport réseaux sociaux", ["sossa", "mint", "usine"], {"rows": [
+     ("fb", "Facebook", "48 200", "+1 120", "64 300", "5,9 %"), ("ig", "Instagram", "21 700", "+860", "31 900", "8,1 %"),
+     ("li", "LinkedIn", "6 900", "+240", "9 400", "6,4 %"), ("tt", "TikTok", "12 300", "+2 050", "41 200", "9,7 %")]}),
+  ("blog", "Blog", ["usine", "mint"], {"v": ("3", "5 840", "2 min 40"), "items": [
+     ("Comment on fabrique un biscuit Sossa", "2 910 lectures", "usine"), ("Super Mint : l'histoire d'une recette", "1 980 lectures", "mint"), ("Nos 200 nouveaux emplois", "950 lectures", "usine")]}),
+  ("lvr", "Rapport par livrable", ["sossa", "mint"], {"items": [
+     ("Campagne Sossa rentrée", "1,2 M F CFA engagés, 412 contacts, 2 900 F CFA par contact", "Rapport prêt", "sossa"),
+     ("Jeu concours Instagram", "1 870 participations, 640 nouveaux abonnés", "Rapport prêt", "sossa"),
+     ("Lancement Super Mint", "Portée 78 000, 3 cas sensibles traités", "En cours", "mint")]}),
  ],
  "koffi": [
-  ("count", "Affiches et flyers", ["sossa", "usine", "mint"], {"v": (9, 27, 64), "unit": "fichiers prêts pour l'imprimeur", "by": [("sossa", 5), ("mint", 3), ("usine", 1)], "fait": "Affiche A2 « Promo rentrée » imprimée en 600 exemplaires pour les points de vente."}),
+  ("kanban", "Créations en cours", ["sossa", "mint", "usine"], {"cols": [
+     ("Brief reçu", [("Kakémono salon agroalimentaire", "sossa")]),
+     ("En création", [("Packaging Super Mint 250 g", "mint"), ("Signalétique de la nouvelle ligne", "usine")]),
+     ("En attente de BAT", [("Affiche A2 gagnants du concours", "sossa"), ("T-shirts de l'inauguration", "usine")]),
+     ("Livré", [("Flyer goûter de la rentrée", "sossa"), ("Visuel Super Mint, 10 formats", "mint")])]}),
+  ("bat", "Visuels à valider", ["sossa", "usine"], {"items": [("flyer-sossa.jpg", "Affiche A2 gagnants du concours", "Pour l'imprimeur, 600 exemplaires", "sossa"), ("flyer-supermint.jpg", "T-shirts de l'inauguration", "Recto verso, 120 pièces", "usine")]}),
+  ("lvr", "Rapport par livrable", ["sossa", "mint", "usine"], {"items": [
+     ("Flyer goûter de la rentrée", "600 imprimés, 3 formats, validé du premier coup", "Livré", "sossa"),
+     ("Visuel Super Mint", "10 déclinaisons, du kakémono au statut WhatsApp", "Livré", "mint"),
+     ("Signalétique de la ligne", "12 panneaux, 2 corrections demandées", "En cours", "usine")]}),
   ("count", "Déclinaisons d'un même visuel", ["mint", "sossa"], {"v": (34, 120, 300), "unit": "formats déclinés", "by": [("mint", 20), ("sossa", 14)], "fait": "Visuel Super Mint décliné en 10 formats, du kakémono au statut WhatsApp."}),
-  ("list", "Goodies et signalétique", ["usine"], {"items": [("Signalétique de la nouvelle ligne", "12 panneaux, fichiers chez le fournisseur", "usine"), ("T-shirts de l'équipe d'inauguration", "BAT validé par Serge", "usine")]}),
-  ("split", "Contrôle qualité visuel", ["sossa", "mint", "usine"], {"parts": [("Validés du premier coup", 27, "ok"), ("Corrigés", 4, "mid")],
-    "items": [("Flyer Sossa : prix barré illisible", "Corrigé avant impression", "sossa"), ("Kakémono Super Mint : logo trop petit", "Corrigé", "mint")]}),
   ("prog", "Charte graphique", ["mint"], {"pct": 80, "steps": [("Logo et couleurs", True), ("Typographies", True), ("Règles d'usage", True), ("Exemples d'application", False)], "fait": "Charte Super Mint v2, à valider avec Yao avant le 10 octobre."}),
  ],
  "adjoua": [
-  ("funnel", "Suivi du pipeline de recrutement", ["nord", "usine"], {"steps": [("Sourcés", 64), ("Contactés", 31), ("Entretiens", 9), ("Offres", 2), ("Embauchés", 1)], "fait": "5 commerciaux terrain pour Korhogo et 2 chefs d'équipe pour la nouvelle ligne."}),
-  ("list", "Fiches de poste prêtes à publier", ["nord", "usine"], {"items": [("Commercial terrain, Korhogo", "Publiée, 41 candidatures", "nord"), ("Chef d'équipe ligne confiserie", "Publiée, 23 candidatures", "usine"), ("Technicien de maintenance", "Attend votre accord", "usine")]}),
-  ("count", "Longue liste de profils sourcés", ["nord", "usine"], {"v": (22, 64, 150), "unit": "profils sourcés", "by": [("nord", 40), ("usine", 24)], "fait": "Sourcés sur LinkedIn, Emploi.ci et le vivier interne, avec la raison de chaque choix."}),
-  ("count", "Listes courtes notées", ["nord", "usine"], {"v": (2, 3, 8), "unit": "listes envoyées", "by": [("nord", 2), ("usine", 1)], "fait": "Les 5 meilleurs commerciaux notés critère par critère, envoyés à Fanta Bakayoko."}),
-  ("camp", "Benchmark de rémunération", ["nord"], {"rows": [("Commercial terrain junior", "220 000 F CFA"), ("Commercial confirmé", "350 000 F CFA"), ("Chef d'équipe", "450 000 F CFA")], "fait": "Salaires du marché à Abidjan et Korhogo, par niveau d'expérience."}),
+  ("funnel", "Pipeline de recrutement", ["nord", "usine"], {"steps": [("Sourcés", 64), ("Contactés", 31), ("Entretiens", 9), ("Offres", 2), ("Embauchés", 1)], "fait": "5 commerciaux terrain pour Korhogo et 2 chefs d'équipe pour la nouvelle ligne."}),
+  ("list", "Fiches de poste publiées", ["nord", "usine"], {"items": [("Commercial terrain, Korhogo", "Publiée, 41 candidatures", "nord"), ("Chef d'équipe ligne confiserie", "Publiée, 23 candidatures", "usine"), ("Technicien de maintenance", "Attend votre accord", "usine")]}),
+  ("count", "Profils sourcés", ["nord", "usine"], {"v": (22, 64, 150), "unit": "profils sourcés", "by": [("nord", 40), ("usine", 24)], "fait": "Sourcés sur LinkedIn, Emploi.ci et le vivier interne, avec la raison de chaque choix."}),
+ ],
+ "kouassi": [
+  ("count", "Commandes des boutiques", ["sossa", "nord"], {"v": (312, 1240, 3600), "unit": "commandes prises", "by": [("sossa", 210), ("nord", 102)], "fait": "Relance automatique des boutiques sans commande depuis 10 jours : 38 ont recommandé."}),
+  ("list", "Comptes à relancer", ["nord", "sossa"], {"items": [("Supermarché Prosuma, Korhogo", "Pas de commande depuis 14 jours", "nord"), ("Grossiste Adjamé Liberté", "Facture en attente", "sossa")]}),
+  ("funnel", "Prospects distributeurs", ["nord"], {"steps": [("Repérés", 40), ("Contactés", 22), ("Rendez-vous", 7), ("Signés", 2)], "fait": "Deux distributeurs signés à Korhogo et Ferkessédougou."}),
  ],
 }
-GAB_BASE = {"djeneba": "Brief de rendez-vous, relevé de décisions, tableau des engagements, point hebdomadaire",
-            "fatima": "Calendrier éditorial, posts et carrousels, campagnes, réponses aux commentaires",
-            "koffi": "Affiches et flyers, déclinaisons, signalétique, contrôle qualité",
-            "adjoua": "Pipeline, fiches de poste, profils sourcés, listes courtes"}
-SUGG_W = {"djeneba": ["Suivi des déplacements du DG", "Courriers en attente de signature", "Radar de la semaine"],
+GAB_BASE = {"djeneba": "rendez-vous, comptes rendus, engagements, point hebdomadaire, sollicitations",
+            "fatima": "calendrier éditorial, posts, réseaux sociaux, blog, rapports",
+            "koffi": "créations en cours, visuels à valider, rapports, déclinaisons, charte",
+            "adjoua": "pipeline, fiches de poste, profils sourcés", "kouassi": "commandes, relances, prospects"}
+SUGG_W = {"djeneba": ["Déplacements du directeur général", "Courriers à signer", "Radar de la semaine"],
           "fatima": ["Avis clients Google", "Newsletter mensuelle", "Veille des concurrents"],
-          "koffi": ["Visuels en attente de BAT", "Site vitrine", "Pistes de nom"],
-          "adjoua": ["Délai moyen de recrutement", "Prises de références", "Lettres d'offre envoyées"]}
+          "koffi": ["Bibliothèque des visuels", "Commandes chez l'imprimeur", "Pistes de nom"],
+          "adjoua": ["Délai moyen de recrutement"], "kouassi": ["Ventes par commercial"]}
+RSI = {"fb": ("facebook.com", "Facebook"), "ig": ("instagram.com", "Instagram"), "li": ("linkedin.com", "LinkedIn"), "tt": ("tiktok.com", "TikTok")}
+def rsi(c, s=18):
+    return f'<img class="rsi" src="{FAV}{RSI[c][0]}" alt="{RSI[c][1]}" title="{RSI[c][1]}" style="width:{s}px;height:{s}px">'
 
 def qui(k):
     return EXPERTS.get(k) or TDB_EXT[k]
@@ -514,13 +559,54 @@ def wbody(t, d):
         mx = d["steps"][0][1]
         fs = "".join(f'<div class="wfn"><span>{n}</span><i><b style="width:{max(4, round(v / mx * 100))}%"></b></i><em class="num">{v}</em></div>' for n, v in d["steps"])
         return f'{fs}<p class="wfait">{ic("check", "s")} {d["fait"]}</p>'
+    if t == "agenda":
+        it = "".join(f'<li class="ag" data-p="{p}"><span class="agt"><b>{h}</b><small>{j}</small></span><span class="grow"><b>{a}</b><small>{qu}</small></span>'
+                     f'<a href="#" class="pill {c}" data-toast="Ouverture du brief : {a}">{ic("file-text", "s")} {st}</a></li>' for j, h, a, qu, c, st, p in d["items"])
+        return f'<ul class="wag">{it}</ul><a class="wlink" href="calendrier.html">{ic("calendar", "s")} Tout l’agenda</a>'
+    if t == "eng":
+        tot = sum(v for _, v, _ in d["parts"])
+        bar = "".join(f'<i class="{c}" style="width:{v / tot * 100:.1f}%"></i>' for _, v, c in d["parts"])
+        lg = "".join(f'<span><i class="{c}"></i>{n} <b class="num">{v}</b></span>' for n, v, c in d["parts"])
+        rows = "".join(f'<tr data-p="{p}"><td><b>{a}</b></td><td><span class="who">{face(i, "", 24)} {n}</span></td><td class="num">{dt}</td><td><span class="pill {c}">{st}</span></td></tr>' for a, i, n, dt, c, st, p in d["items"])
+        return (f'<div class="wsplit">{bar}</div><div class="wleg">{lg}</div><div class="wtw"><table class="wtab"><thead><tr><th>Engagement</th><th>Responsable</th><th>Échéance</th><th>État</th></tr></thead><tbody>{rows}</tbody></table></div>'
+                f'<a class="wlink" href="#" data-toast="Relance envoyée aux responsables en retard">{ic("bell-ring", "s")} Relancer les retards</a>')
+    if t == "cr":
+        it = "".join(f'<li data-p="{p}"><span class="ic">{ic("notebook-text", "s")}</span><span class="grow"><b>{a}</b><small>{dt}, {nd} décisions, {ne} engagements</small></span>'
+                     f'<a href="#" class="ib" aria-label="Lire le compte rendu" data-toast="Ouverture du compte rendu : {a}">{ic("arrow-up-right", "s")}</a></li>' for a, dt, nd, ne, p in d["items"])
+        return f'<ul class="wcr">{it}</ul>'
+    if t == "solli":
+        r, m_, tr = d["v"]
+        it = "".join(f'<li data-p="{p}"><b>{a}</b><span>{b_}</span></li>' for a, b_, p in d["items"])
+        return (f'<div class="wtri"><div><b class="num">{r}</b><span>reçues</span></div><div class="up"><b class="num">{m_}</b><span>remontées</span></div><div><b class="num">{tr}</b><span>traitées sans vous</span></div></div>'
+                f'<ul class="witems">{it}</ul>')
+    if t == "edcal":
+        lab = {"e-pub": "Publié", "e-prog": "Programmé", "e-val": "À valider"}
+        days = "".join(f'<div class="edd"><h5>{j}</h5>' + ("".join(f'<a href="#" class="edp e-{s}" data-p="{p}" data-toast="{a} : {lab["e-" + s]}">{rsi(c, 14)}<span>{a}</span></a>' for c, a, s, p in ps) or '<span class="edv">Rien de prévu</span>') + '</div>' for j, ps in d["days"])
+        lg = "".join(f'<span><i class="{s}"></i>{l}</span>' for s, l in lab.items())
+        return f'<div class="edc">{days}</div><div class="edl">{lg}<a class="wlink" href="#" data-toast="Calendrier d’octobre ouvert">{ic("calendar-range", "s")} Voir le mois</a></div>'
+    if t == "posts":
+        th = lambda im: f'<img src="{B}{im}" alt="">' if im else f'<span class="psi">{ic("file-text", "s")}</span>'
+        rows = "".join(f'<tr data-p="{p}"><td><span class="pst">{th(im)}<span><b>{a}</b><small>{rsi(c, 12)} {q}</small></span></span></td><td class="num">{v}</td><td class="num">{n}</td><td class="num"><b>{e}</b></td></tr>'
+                       for im, a, c, q, v, n, e, p in d["items"])
+        return f'<div class="wtw"><table class="wtab"><thead><tr><th>Post</th><th>Vues</th><th>Réactions</th><th>Engagement</th></tr></thead><tbody>{rows}</tbody></table></div>'
+    if t == "rs":
+        rows = "".join(f'<tr><td><span class="who">{rsi(c)} {n}</span></td><td class="num">{ab}</td><td class="num up">{gn}</td><td class="num">{po}</td><td class="num"><b>{en}</b></td></tr>' for c, n, ab, gn, po, en in d["rows"])
+        return (f'<div class="wtw"><table class="wtab"><thead><tr><th>Réseau</th><th>Abonnés</th><th>Gagnés</th><th>Portée</th><th>Engagement</th></tr></thead><tbody>{rows}</tbody></table></div>'
+                f'<div class="row" style="gap:8px;margin-top:10px;flex-wrap:wrap"><a class="btn o sm" href="#" data-toast="Rapport de la semaine en PDF">{ic("download", "s")} Rapport de la semaine</a><a class="btn o sm" href="#" data-toast="Rapport du mois en PDF">{ic("download", "s")} Rapport du mois</a></div>')
+    if t == "blog":
+        a_, l_, tl = d["v"]
+        it = "".join(f'<li data-p="{p}"><b>{a}</b><span>{b_}</span></li>' for a, b_, p in d["items"])
+        return (f'<div class="wtri"><div><b class="num">{a_}</b><span>articles ce mois-ci</span></div><div><b class="num">{l_}</b><span>lectures</span></div><div><b class="num">{tl}</b><span>de lecture moyenne</span></div></div><ul class="witems">{it}</ul>')
+    if t == "lvr":
+        it = "".join(f'<li data-p="{p}"><span class="grow"><b>{a}</b><small>{b_}</small></span><a href="#" class="pill {"ok" if s in ("Rapport prêt", "Livré") else "mid"}" data-toast="Ouverture : {a}">{s}</a></li>' for a, b_, s, p in d["items"])
+        return f'<ul class="wcr">{it}</ul>'
+    if t == "kanban":
+        cols = "".join(f'<div class="wkb"><h5>{h} <span class="cnt">{len(xs)}</span></h5>' + "".join(f'<a href="#" class="wkc" data-p="{p}" data-toast="Ouverture : {x}">{x}{ptag(p)}</a>' for x, p in xs) + '</div>' for h, xs in d["cols"])
+        return f'<div class="wkbs">{cols}</div>'
+    if t == "bat":
+        it = "".join(f'<div class="wbat" data-p="{p}"><img src="{B}{im}" alt=""><span class="grow"><b>{a}</b><small>{b_}</small></span><span class="row" style="gap:6px"><a href="#" class="btn o sm" data-toast="Demande de retouche envoyée à Koffi">Retoucher</a><a href="#" class="btn p sm" data-toast="BAT validé, envoyé à l’imprimeur">Valider</a></span></div>' for im, a, b_, p in d["items"])
+        return f'<div class="wbats">{it}</div>'
     return ""
-
-def wcard(k, t, titre, projs, d, wide=False):
-    tags = "".join(ptag(p) for p in projs[:2]) + (f'<span class="ptag more">+{len(projs) - 2}</span>' if len(projs) > 2 else "")
-    return (f'<article class="mw{" wide" if wide else ""}" data-ps="{" ".join(projs)}" data-ty="{titre}"><header><span class="mwg">{ic("layout-template", "s")} Gabarit</span><h4>{titre}</h4>'
-            f'<span class="mwac"><button class="ib mwe" aria-label="Modifier ce widget" data-toast="{qui(k)["prenom"]} vous propose de modifier ce widget : période, projets, mesure">{ic("pencil", "s")}</button><button class="ib mwx" aria-label="Retirer ce widget" data-toast="Widget retiré de votre tableau de bord">{ic("x", "s")}</button></span></header>'
-            f'{wbody(t, d)}<footer>{tags}</footer></article>')
 
 def filtres(k=None):
     pr = '<span class="chip on" data-fp="">Tous les projets</span>' + "".join(f'<span class="chip" data-fp="{p}">{ic(i, "s")} {n}</span>' for p, (i, n) in PROJ.items())
@@ -530,42 +616,45 @@ def filtres(k=None):
         ty = '<label class="tdty"><span class="xs mute3">Type de livrable</span><select><option value="">Tous</option>' + "".join(f'<option>{w[1]}</option>' for w in TDB[k]) + '</select></label>'
     return f'<div class="tdf"><div class="chips tdp">{pr}</div><div class="row tdr">{per}{ty}</div></div>'
 
-def tdb_agent(k):
+WIDE = ("eng", "edcal", "posts", "rs", "kanban")
+FULL = ("edcal", "kanban")
+def wcard(k, t, titre, projs, d, wide=False):
+    tags = "".join(ptag(p) for p in projs[:2]) + (f'<span class="ptag more">+{len(projs) - 2}</span>' if len(projs) > 2 else "")
+    return (f'<article class="mw{" wide" if wide or t in WIDE else ""}{" full" if t in FULL else ""}" data-ps="{" ".join(projs)}" data-ty="{titre}"><header><h4>{titre}</h4>'
+            f'<span class="mwac"><button class="ib mwe" aria-label="Modifier ce bloc" data-toast="{qui(k)["prenom"]} vous propose de modifier ce bloc : période, projets, mesure">{ic("pencil", "s")}</button>'
+            f'<button class="ib mwh" aria-label="Masquer ce bloc dans les partages" title="Masquer dans les partages">{ic("eye", "s")}</button>'
+            f'<button class="ib mwx" aria-label="Retirer ce bloc" data-toast="Bloc retiré de votre tableau de bord">{ic("x", "s")}</button></span></header>'
+            f'{wbody(t, d)}<footer>{tags}<span class="mwhid">{ic("eye-off", "s")} Masqué dans les partages</span></footer></article>')
+
+def tdb_agent(k, part=None):
     e = qui(k)
     ws = "".join(wcard(k, *w) for w in TDB[k])
     sg_ = "".join(f'<span data-sw="{x}">{ic("plus", "s")} {x}</span>' for x in SUGG_W[k])
-    espace = (f'<a class="btn o sm" href="{k}.html">{ic("arrow-right", "s")} Son espace</a><a class="btn o sm" href="{k}.html#analytique">{ic("chart-column", "s")} Analytique</a>' if k in EXPERTS
-              else f'<span class="pill" style="background:var(--soft-2)">{TDB_EXT[k]["service"]}</span>')
-    add = (f'<article class="mw mwadd"><h4>{ic("plus", "s")} Ajouter un widget</h4><p class="sm mute3">Les widgets de base suivent les gabarits de {e["prenom"]} : {GAB_BASE[k]}. Dites ce que vous voulez suivre en plus, {e["prenom"]} l\'ajoute à partir de son travail.</p>'
-           f'<form class="mwf" data-k="{k}"><input type="text" placeholder="Par exemple : {SUGG_W[k][0].lower()}" aria-label="Ce que vous voulez suivre"><button class="btn p sm" type="submit">Ajouter</button></form><div class="mws">{sg_}</div></article>')
-    return (f'<div class="tbh"><img src="{B}{e["photo"]}" alt=""><div class="grow"><b>Tableau de bord de {e["prenom"]}, {e["role"]}</b><span class="xs mute3">Construit sur ses compétences et ses gabarits de livrables</span></div>{espace}<a class="btn o sm" href="#" data-open="share">{ic("share-2", "s")} Partager</a></div>'
-            f'{filtres(k)}<section class="mwg2">{ws}{add}</section>')
-
-def tdb_codir():
-    out = ""
-    for k in TDB_QUI:
-        e = qui(k)
-        w1, w2 = TDB[k][0], TDB[k][1]
-        out += (f'<section class="cdx" data-ps="{" ".join(sorted(set(w1[2] + w2[2])))}"><div class="cdxh"><img src="{B}{e["photo"]}" alt=""><b>{e["prenom"]}</b><span>{e["role"]}</span>'
-                f'<a class="wgo" href="#" data-tab="tb-{k}">Tout son tableau de bord {FLECHE}</a></div><div class="cdxg">{wcard(k, *w1)}{wcard(k, *w2)}</div></section>')
-    return f'<p class="sm mute" style="margin:2px 0 12px">Vue Codir : les deux widgets clés de chaque expert, par projet. Filtrez par projet ou par période.</p>{filtres()}{out}'
+    if part:
+        _, par_, ini, droit, exp, titre = part
+        head = (f'<div class="tbh tbsh"><img src="{B}{e["photo"]}" alt=""><div class="grow"><b>{titre}</b><span class="xs mute3">Tableau de {e["prenom"]}, {e["role"]}</span></div>'
+                f'<span class="shby">{face(ini, "", 28)}<span><b>Partagé par {par_}</b><small>{ic("pencil" if droit == "Édition" else "eye", "s")} {droit}, jusqu’au {exp}</small></span></span>'
+                f'<a class="btn o sm" href="#" data-toast="Tableau ajouté à vos tableaux">{ic("copy", "s")} Copier dans mes tableaux</a></div>')
+        add = ""
+    else:
+        espace = f'<a class="btn o sm" href="{k}.html">{ic("arrow-right", "s")} Son espace</a><a class="btn o sm" href="{k}.html#analytique">{ic("chart-column", "s")} Analytique</a>'
+        head = (f'<div class="tbh"><img src="{B}{e["photo"]}" alt=""><div class="grow"><b>Tableau de bord de {e["prenom"]}, {e["role"]}</b><span class="xs mute3">Son travail, projet par projet. {e["prenom"]} propose les blocs, vous les modifiez.</span></div>{espace}'
+                f'<a class="btn o sm" href="https://t.me/" target="_blank" rel="noopener">{TG} Telegram</a><a class="btn p sm" href="#" data-open="share" data-shk="{k}">{ic("share-2", "s")} Partager</a></div>')
+        add = (f'<article class="mw mwadd"><h4>{ic("plus", "s")} Ajouter un bloc</h4><p class="sm mute3">Les blocs de base viennent du travail de {e["prenom"]} : {GAB_BASE[k]}. Dites ce que vous voulez suivre en plus, {e["prenom"]} le construit sur mesure.</p>'
+               f'<form class="mwf" data-k="{k}"><input type="text" placeholder="Par exemple : {SUGG_W[k][0].lower()}" aria-label="Ce que vous voulez suivre"><button class="btn p sm" type="submit">Ajouter</button></form><div class="mws">{sg_}</div></article>')
+    return f'{head}{filtres(k)}<section class="mwg2">{ws}{add}</section>'
 
 def page_tdb(brand):
-    d = DASH["equipe"]
-    tabs = f'<a href="#" data-t="codir" class="on"><span class="cdr">{"".join(f'<img src="{B}{EXPERTS[x]["photo"]}" alt="">' for x in ("djeneba", "fatima", "koffi"))}</span> Codir</a>' + "".join(
-        f'<a href="#" data-t="tb-{k}"><img class="tav" src="{B}{EXPERTS[k]["photo"]}" alt=""> {EXPERTS[k]["prenom"]}</a>' for k in ("djeneba", "fatima", "koffi"))
-    tabs = tabs.replace(f'<a href="#" data-t="tb-koffi"><img class="tav" src="{B}{EXPERTS["koffi"]["photo"]}" alt=""> Koffi</a>', f'<a href="#" data-t="tb-koffi"><img class="tav" src="{B}{EXPERTS["koffi"]["photo"]}" alt=""> Koffi</a><a href="#" data-t="tb-adjoua"><img class="tav" src="{B}adjoua.jpg" alt=""> Adjoua</a>')
-    par = "".join(f'<div class="panel" id="tb-{k}">{tdb_agent(k)}</div>' for k in TDB_QUI)
-    for k in ():
-        dk = DASH[k]; e = EXPERTS[k]
-        att = [a for a in b3.ATTENTE_TEAM if a[0] == k]
-        par += (f'<div class="panel" id="tb-{k}"><div class="tbh"><img src="{B}{e["photo"]}" alt=""><div class="grow"><b>{e["prenom"]}, {e["role"]}</b><span class="xs mute3">Pour Aïcha Diabaté et son équipe</span></div><a class="btn o sm" href="{k}.html">{ic("arrow-right", "s")} Son espace</a></div>'
-                f'{b3.kpis(dk)}<div class="g2">{b3.chart(dk, [k])}{donut4(dk)}</div>{projets4(dk)}{livr4(dk, att)}</div>')
-    corps = f"""<div class="hello"><div class="grow"><p class="date">Semaine du 28 septembre</p><h1>Tableau de bord</h1></div><a class="btn o hide-m" href="https://t.me/" target="_blank" rel="noopener">{TG} Recevoir dans Telegram</a><a class="btn o" href="#" data-open="share">{ic("share-2", "s")} Partager</a><a class="btn g" href="djeneba.html#discussion" title="Avec {EXPERTS['djeneba']['prenom']}, votre Chief of Staff">{ic("pencil", "s")} Modifier votre tableau de bord</a></div>
-<div data-tabs><nav class="tabs tbs" style="margin-top:14px">{tabs}</nav>
-<div class="panel on" id="codir">{tdb_codir()}</div>
+    mine = "".join(f'<a href="#" data-t="tb-{k}"{" class=on" if k == "djeneba" else ""}><img class="tav" src="{B}{EXPERTS[k]["photo"]}" alt=""> {EXPERTS[k]["prenom"]}</a>' for k in TDB_QUI)
+    shared = "".join(f'<a href="#" data-t="tb-{p[0]}" class="tsh"><img class="tav" src="{B}{qui(p[0])["photo"]}" alt=""> {qui(p[0])["prenom"]}<small>de {p[1].split()[0]}</small></a>' for p in TDB_PART)
+    tabs = f'<span class="tbg">Mes tableaux</span>{mine}<span class="tbg">{ic("users", "s")} Partagés avec moi <b class="num">{len(TDB_PART)}</b></span>{shared}'
+    par = "".join(f'<div class="panel{" on" if k == "djeneba" else ""}" id="tb-{k}">{tdb_agent(k)}</div>' for k in TDB_QUI)
+    par += "".join(f'<div class="panel" id="tb-{p[0]}">{tdb_agent(p[0], p)}</div>' for p in TDB_PART)
+    corps = f"""<div class="hello"><div class="grow"><p class="date">Semaine du 28 septembre</p><h1>Tableau de bord</h1></div><a class="btn g" href="djeneba.html#discussion" title="Avec {EXPERTS['djeneba']['prenom']}, votre Chief of Staff">{ic("plus", "s")} Créer un tableau</a></div>
+<div data-tabs><nav class="tabs tbs tbs2" style="margin-top:14px">{tabs}</nav>
 {par}</div>"""
     return page("tableau-de-bord", brand, "Tableau de bord", "<b>Tableau de bord</b>", corps, dock=True)
+
 
 # ---------------------------------------------------------------- espace d'un expert
 def x_profil(k):
@@ -1301,22 +1390,23 @@ def modal_jeko():
 <p class="xs mute3" style="text-align:center;margin-top:8px">Vous validez sur votre téléphone. Le reçu arrive par email.</p></div></div></div>"""
 
 SHCH = "".join(f'<a class="shc" href="#" data-toast="{t}"><img src="{FAV}{d}" alt="">{n}</a>' for n, d, t in
-               [("E-mail", "gmail.com", "Envoyé par e-mail"), ("Telegram", "telegram.org", "Envoyé dans Telegram"), ("WhatsApp", "whatsapp.com", "Envoyé sur WhatsApp")])
+               [("Telegram", "telegram.org", "Envoyé dans Telegram"), ("Slack", "slack.com", "Envoyé dans Slack"), ("Teams", "teams.microsoft.com", "Envoyé dans Teams"), ("WhatsApp", "whatsapp.com", "Envoyé sur WhatsApp"), ("E-mail", "gmail.com", "Envoyé par e-mail")])
 def modal_share():
-    ppl = "".join(f'<div class="shp">{face(i, "", 32)}<span class="grow"><b class="sm">{n}</b><span class="xs mute3">{r}</span></span><span class="pill" style="background:var(--soft-2)">{d}</span></div>'
-                  for i, n, r, d in [("JA", "Jean-Marc Aka", "Directeur général", "Lecture"), ("SB", "Serge Bamba", "Directeur administratif", "Lecture"), ("IS", "Ibrahim Sylla", "Contrôleur financier", "Lecture")])
+    ppl = "".join(f'<div class="shp">{face(i, "", 32)}<span class="grow"><b class="sm">{n}</b><span class="xs mute3">{r}</span></span><select class="fi shr" aria-label="Droit de {n}"><option{" selected" if d == "Lecture" else ""}>Lecture</option><option{" selected" if d == "Édition" else ""}>Édition</option></select><button class="ib shx" aria-label="Retirer {n}" data-toast="{n} n’a plus accès">{ic("x", "s")}</button></div>'
+                  for i, n, r, d in [("JA", "Jean-Marc Aka", "Directeur général", "Lecture"), ("SB", "Serge Bamba", "Directeur administratif", "Édition")])
+    blocs = "".join(f'<label class="shb"><input type="checkbox" checked> {w[1]}</label>' for w in TDB["djeneba"])
     return f"""<div class="modal" id="share"><div class="ov" data-close></div><div class="pn shpn"><button class="ib x" data-close aria-label="Fermer">{ic("x")}</button>
-<h2>Partager le tableau de bord</h2><p class="sm mute">Vue Codir, semaine du 28 septembre</p>
-<div class="seg shs" data-sh><a class="on" href="#" data-v="prive">{ic("lock", "s")} Version privée</a><a href="#" data-v="public">{ic("globe", "s")} Version publique</a></div>
-<div class="shv on" id="sh-prive"><p class="xs mute3">Pour vos collaborateurs. Tous les chiffres, mis à jour en direct.</p>
-<div class="inp3 row" style="gap:8px">{ic("search", "s")} <span class="mute3">Ajouter un membre par son nom</span></div>{ppl}
-<b class="sm" style="margin-top:6px">Ou envoyer à quelqu'un</b><div class="shch">{SHCH}</div></div>
-<div class="shv" id="sh-public"><p class="xs mute3">Pour l'extérieur : un client, un investisseur, un partenaire. Lecture seule, sans connexion.</p>
-<div class="sg"><div><div class="grow"><b>Masquer les montants</b><span class="d">Factures, coûts et prix des experts</span></div><span class="sw"></span></div>
-<div><div class="grow"><b>Masquer les noms des membres</b><span class="d">Remplacés par leur service</span></div><span class="sw"></span></div>
-<div><div class="grow"><b>Expire</b><span class="d">Le lien ne s'ouvre plus après</span></div><span class="inp2">dans 30 jours</span></div></div>
-<label class="shmask"><b class="sm">Ce que vous voulez masquer</b><textarea rows="2" placeholder="Ex. : le projet Packaging, les chiffres de Super Mint"></textarea><span class="xs mute3">Votre Chief of Staff retire ces éléments avant de créer le lien.</span></label>
-<div class="lnk"><span class="ell">yelema.ai/p/unifood-codir-7Hk2</span><a class="btn o sm" href="#" data-toast="Lien copié">{ic("copy", "s")} Copier</a></div><div class="shch">{SHCH}</div></div>
+<h2>Partager le tableau de bord</h2><p class="sm mute">Tableau de Djénéba, semaine du 28 septembre</p>
+<div class="seg shs" data-sh><a class="on" href="#" data-v="prive">{ic("users", "s")} À des personnes</a><a href="#" data-v="public">{ic("link", "s")} Par un lien</a></div>
+<div class="shv on" id="sh-prive"><label class="shadd">{ic("search", "s")}<input type="text" placeholder="Ajouter un membre par son nom ou son email" aria-label="Ajouter un membre"><select class="fi" aria-label="Droit"><option>Lecture</option><option>Édition</option></select><button class="btn p sm" type="button" data-toast="Invitation envoyée">Inviter</button></label>
+{ppl}</div>
+<div class="shv" id="sh-public"><p class="xs mute3">Pour l’extérieur : un client, un investisseur, un partenaire. Sans connexion, en lecture seule.</p>
+<div class="lnk"><span class="ell">yelema.ai/p/tdb-djeneba-7Hk2</span><a class="btn o sm" href="#" data-toast="Lien copié">{ic("copy", "s")} Copier</a></div></div>
+<h3 class="shh">Ce que voient les autres</h3><div class="shbs">{blocs}</div>
+<div class="sg"><div><div class="grow"><b>Masquer les montants</b><span class="d">Budgets, coûts et prix</span></div><button class="sw swx off" data-nom="Montants masqués" aria-label="Masquer les montants"></button></div>
+<div><div class="grow"><b>Masquer les noms des membres</b><span class="d">Remplacés par leur service</span></div><button class="sw swx off" data-nom="Noms masqués" aria-label="Masquer les noms"></button></div>
+<div><div class="grow"><b>Expire le</b><span class="d">90 jours au maximum, renouvelable</span></div><div class="ctl"><select class="fi shexp" aria-label="Durée"><option>Dans 7 jours</option><option selected>Dans 30 jours</option><option>Dans 90 jours</option><option value="d">Date au choix</option></select><input class="fi shdt" type="date" min="2026-10-02" max="2026-12-30" value="2026-10-31" aria-label="Date d’expiration" hidden></div></div></div>
+<h3 class="shh">Envoyer</h3><div class="shch">{SHCH}</div>
 <div class="row" style="justify-content:flex-end;gap:8px;margin-top:16px"><a class="btn o" href="#" data-close>Annuler</a><a class="btn p" href="#" data-close data-toast="Tableau de bord partagé">Partager</a></div></div></div>"""
 
 
