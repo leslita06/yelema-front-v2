@@ -894,6 +894,8 @@ TB_ASK = {"djeneba": ["Quels engagements risquent de glisser ?", "Le temps du DG
           "koffi": ["Les créations en attente de validation", "Le délai moyen d'un BAT", "Les commandes chez l'imprimeur"],
           "adjoua": ["Quel est le meilleur canal de recrutement ?", "Le délai moyen par poste", "Les candidats en attente de réponse"],
           "kouassi": ["Les clients à relancer cette semaine", "Le chiffre d'affaires par zone", "Les ruptures de stock"]}
+SIG_SPEC = {"djeneba": "spécialisée en direction et coordination", "fatima": "spécialisée en marketing et contenu", "koffi": "spécialisé en design et création",
+            "adjoua": "spécialisée en recrutement", "kouassi": "spécialisé en ventes"}
 def dl_menu(nom):
     return (f'<details class="dlm"><summary class="btn o sm">{ic("download", "s")} <span>Télécharger</span></summary><div class="dlml">'
             f'<a href="#" data-toast="Google Slides créé dans votre Drive : {nom}"><img src="{FAV}slides.google.com" alt=""><span><b>Google Slides</b><small>Modifiable, une page par bloc</small></span></a>'
@@ -923,7 +925,7 @@ def tdb_agent(k, part=None, titre=None):
                 f'<a class="btn o sm" href="#" data-dup="{titre}">{ic("copy-plus", "s")} Dupliquer</a>{dl_menu(titre)}'
                 f'<a class="btn p sm" href="#" data-open="share" data-shk="{k}">{ic("share-2", "s")} Partager</a></div></div>')
         bar = tb_editbar(k)
-    sig = (f'<a class="tbsig" href="https://leslita06.github.io/yelema-site-preview/" target="_blank" rel="noopener"><span>Tableau préparé par {e["prenom"]}, Expert Yelema</span>'
+    sig = (f'<a class="tbsig" href="https://leslita06.github.io/yelema-site-preview/" target="_blank" rel="noopener"><span>Tableau préparé par {e["prenom"]}, Expert IA Yelema {SIG_SPEC.get(k, "")}</span>'
            f'<span class="pby2">Powered by <img src="../img/yelema_logo_final_long.svg" alt="Yelema"></span></a>')
     return f'{head}{bar}{filtres(k)}<section class="mwg2">{ws}</section>{sig}'
 
