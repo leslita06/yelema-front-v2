@@ -100,12 +100,20 @@
     if(h){var n=pn.querySelector('.tbn');if(n)n.textContent=h.textContent.trim()}})});
 
 
-  // ---------- 7. tableau de bord : la personne d'abord, l'expert en petit
-  $$('.tbby').forEach(function(t){var im=t.querySelector('img');var tx=t.textContent.trim().replace(/^Tenu par\s*/,'');var parts=tx.split(', ');var who=parts.shift()||'';var maj=parts.filter(function(x){return /^mis à jour/.test(x)}).join(', ');var role=parts.filter(function(x){return !/^mis à jour/.test(x)}).join(', ');
-    var w=document.createElement('span');w.className='tbby2';
-    w.innerHTML='<span class="tbav"><img src="../img/aicha.jpg" alt=""><img class="tbxa" src="'+(im?im.getAttribute('src'):'')+'" alt=""></span><span class="tbbt"><b>Aïcha Diabaté</b><span>avec '+esc(who)+(role?', '+esc(role):'')+'</span>'+(maj?'<small>'+esc(maj.charAt(0).toUpperCase()+maj.slice(1))+'</small>':'')+'</span>';
+  // ---------- 7. tableau de bord : les personnes en grand, l'expert en rond plus petit
+  var AI=['Aïcha Diabaté','aicha'],FA=['Fanta Bakayoko','m_women_16'],KA=['Kader Ouattara','m_men_59'];
+  var EXP={djeneba:['Djénéba','Chief of Staff'],djeneba2:['Djénéba','Chief of Staff'],fatima:['Fatima','Marketing et contenu'],koffi:['Koffi','Design'],adjoua:['Adjoua','Recrutement'],kouassi:['Kouassi','Ventes']};
+  var HUM={adjoua:[FA],kouassi:[KA,FA]};
+  $$('.panel[id^="tb-"]').forEach(function(pn){var t=pn.querySelector('.tbh2 .tbby');if(!t)return;
+    var k=pn.id.replace(/^tb-/,'').replace(/-copie$/,'');var e=EXP[k];if(!e)return;var ek=k.replace(/2$/,'');
+    var hs=HUM[k]||[AI];var tx=t.textContent.replace(/\s+/g,' ').trim();var sub;
+    if(t.classList.contains('tbcp'))sub=tx;else if(HUM[k]){var m=tx.match(/(lecture|édition) jusqu’au (\S+)/);sub='Partagé avec vous'+(m?', en '+m[1]+' jusqu’au '+m[2]:'')}else{var m2=tx.match(/mis à jour.*$/);sub=m2?m2[0].charAt(0).toUpperCase()+m2[0].slice(1):''}
+    var names=hs.map(function(h){return h[0]}).join(' et ');
+    var w=document.createElement('div');w.className='tbppl';
+    var av=HUM[k]?hs.concat([AI]):hs;
+    w.innerHTML='<span class="tbpav">'+av.map(function(h){return '<img class="tbph" src="../img/'+h[1]+'.jpg" alt="'+esc(h[0])+'" title="'+esc(h[0])+'">'}).join('')+'<img class="tbpx" src="../img/'+ek+'.jpg" alt="'+esc(e[0])+'" title="'+esc(e[0])+', Expert"></span><span class="tbbt"><b>'+esc(names)+'</b><span>avec '+esc(e[0])+', '+esc(e[1])+'</span>'+(sub?'<small>'+esc(sub)+'</small>':'')+'</span>';
     t.replaceWith(w)});
-  $$('.tbsig>span:first-child').forEach(function(s){s.textContent=s.textContent.replace(/^Tableau préparé par /,'Tableau tenu par Aïcha Diabaté avec ')});
+  $$('.tbsig>span:first-child').forEach(function(s){var pn=s.closest('.panel');var k=pn?pn.id.replace(/^tb-/,'').replace(/-copie$/,''):'';var hs=(HUM[k]||[AI]).map(function(h){return h[0]}).join(' et ');s.textContent=s.textContent.replace(/^Tableau préparé par /,'Tableau tenu par '+hs+' avec ')});
 
   // ---------- 6. chat entreprise (Nouvelle conversation) : Agrandir / Réduire
   var g=$('.gpt'),gh=$('.gpt .ghead');
@@ -114,4 +122,40 @@
     b.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();set(!g.classList.contains('gwide'))});
     var w='';try{w=localStorage.getItem('gWide')||''}catch(_){}set(!!w);
     document.addEventListener('keydown',function(e){if(e.key==='Escape'&&g.classList.contains('gwide')&&!$('.modal.on'))set(false)})}
+})();
+// v4.26 suite : langue, listes déroulantes modernes, menu d'état des experts
+(function(){
+  function $$(s,r){return [].slice.call((r||document).querySelectorAll(s))}
+  var CK='<svg class="i s" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>';
+  var CH='<svg class="i s" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>';
+  // ---------- langue : une langue par défaut + l'option des deux
+  $$('select[aria-label="Langue"]').forEach(function(s){
+    var two=/et English/.test(s.value),def=/^English/.test(s.value)?'en':'fr';
+    var w=document.createElement('div');w.className='lgw';
+    w.innerHTML='<div class="lgseg" role="radiogroup" aria-label="Langue par défaut"><a href="#" data-l="fr" role="radio">Français</a><a href="#" data-l="en" role="radio">English</a></div>'+
+      '<label class="lgtw"><button type="button" class="lgsw" role="switch" aria-checked="false" aria-label="Répondre aussi dans l’autre langue"><i></i></button><span>Répond aussi en <b class="lgo">English</b> si on lui écrit dans cette langue</span></label>';
+    s.style.display='none';s.insertAdjacentElement('afterend',w);
+    var sw=w.querySelector('.lgsw');[sw].concat($$('.lgseg a',w)).forEach(handled);
+    function sync(){$$('.lgseg a',w).forEach(function(a){var on=a.dataset.l===def;a.classList.toggle('on',on);a.setAttribute('aria-checked',on)});
+      sw.classList.toggle('on',two);sw.setAttribute('aria-checked',two);w.querySelector('.lgo').textContent=def==='fr'?'English':'français';
+      s.value=two?'Français et English':(def==='fr'?'Français':'English')}
+    $$('.lgseg a',w).forEach(function(a){a.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();if(def===a.dataset.l)return;def=a.dataset.l;sync();toast('Langue par défaut : '+a.textContent)})});
+    sw.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();two=!two;sync();toast(two?'Répond dans les deux langues':'Une seule langue')});
+    sync()});
+  // ---------- listes déroulantes : composant maison à la place du select natif
+  var open=null;function closeAll(){if(open){open.classList.remove('on');open.querySelector('.csb').setAttribute('aria-expanded','false');open=null}}
+  document.addEventListener('click',function(e){if(open&&!open.contains(e.target))closeAll()});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')closeAll()});
+  $$('select.fi').forEach(function(s){
+    if(s.style.display==='none'||s.closest('table,.gsadd,.gsa,.tdf')||s.multiple)return;
+    var w=document.createElement('div');w.className='csel';
+    var b=document.createElement('button');b.type='button';b.className='csb';b.setAttribute('aria-haspopup','listbox');b.setAttribute('aria-expanded','false');if(s.getAttribute('aria-label'))b.setAttribute('aria-label',s.getAttribute('aria-label'));
+    var l=document.createElement('div');l.className='csl';l.setAttribute('role','listbox');
+    w.appendChild(b);w.appendChild(l);s.insertAdjacentElement('afterend',w);s.style.display='none';w.prepend(s);handled(b);
+    function lab(){var o=s.options[s.selectedIndex];b.innerHTML='<span>'+(o?o.text:'')+'</span>'+CH}
+    function fill(){l.innerHTML='';[].forEach.call(s.options,function(o,i){var a=document.createElement('a');a.href='#';a.className='cso'+(i===s.selectedIndex?' on':'');a.setAttribute('role','option');a.innerHTML='<span>'+o.text+'</span>'+CK;handled(a);
+      a.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();s.selectedIndex=i;s.dispatchEvent(new Event('change',{bubbles:true}));lab();closeAll()});l.appendChild(a)})}
+    b.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();var was=w.classList.contains('on');closeAll();if(!was){fill();w.classList.add('on');b.setAttribute('aria-expanded','true');open=w;
+      var r=b.getBoundingClientRect();w.classList.toggle('up',window.innerHeight-r.bottom<260&&r.top>260)}});
+    s.addEventListener('change',lab);lab()});
 })();
