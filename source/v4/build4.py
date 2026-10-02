@@ -2881,10 +2881,32 @@ def _nopause75(html):
     html = re.sub(r'<a class="btn g" href="#">' + re.escape(ic("pause", "s")) + r' Mettre en pause</a>', '', html)
     return html
 
+def _plan75(html):
+    a = '<a class="o" href="yelema/chat.html">'
+    if a in html and 'accueil-premier-jour' not in html:
+        html = html.replace(a, '<a class="o" href="yelema/accueil-premier-jour.html"><div><b>Accueil, premier jour</b><p class="sm mute">Avant le premier travail des experts : le bloc En ce moment à vide</p></div></a>' + a, 1)
+    return html
+
+def _now75(html):
+    # accueil, état du premier jour : aucun expert n'a encore travaillé (vocal 44607)
+    m = re.search(r'<div class="nowbox">.*?</time></a></div>', html, flags=re.S)
+    if not m:
+        return html
+    sug = [("djeneba", "Djénéba", "Faites le point de ma semaine", "list-checks"),
+           ("fatima", "Fatima", "Préparez 3 posts pour notre prochaine promo", "megaphone"),
+           ("koffi", "Koffi", "Déclinez notre logo en visuel pour les réseaux", "palette")]
+    li = "".join(f'<a class="nwg" href="{k}.html"><img src="{B}{k}.jpg" alt=""><span class="grow"><b>{n}</b><span>« {t} »</span></span>{ic("arrow-right", "s")}</a>' for k, n, t, _ in sug)
+    vide = (f'<div class="nowempty"><div class="nwh"><span class="nwi">{ic("sparkles", "s")}</span><div><b>Rien en cours pour l’instant</b>'
+            f'<p>Dès qu’un expert commence une tâche, vous la suivez ici en direct. Sa dernière livraison s’affiche juste en dessous.</p></div></div>'
+            f'<p class="nwk">Confiez-leur une première mission</p><div class="nwgs">{li}</div></div>')
+    return html[:m.end()] + vide + html[m.end():]
+
 def _fix75(html):
     html = html.replace(ic("layout-dashboard", "s"), ic("chart-column", "s")).replace(ic("layout-dashboard"), ic("chart-column"))
     html = html.replace("Point du jour envoyé sur WhatsApp", "Point du jour envoyé sur Telegram").replace("Je vous préviens sur WhatsApp", "Je vous préviens sur Telegram").replace("point du jour envoyé sur whatsapp", "point du jour envoyé sur Telegram")
+    html = html.replace("Yao l'a reçu sur WhatsApp", "Yao l'a reçu sur Telegram").replace("Lu votre brief WhatsApp", "Lu votre brief Telegram")
     html = html.replace('<a class="rmore" href="#" data-go="drive">Voir plus</a>', '<a class="rmore" href="#" data-go="livrables">Voir plus</a>')
+    html = _plan75(_now75(html))
     html = _mdp75(_an75(_cx75(_droits75(_inv75(_pz75(html))))))
     if 'id="admin-' not in html and 'class="adm' not in html:
         html = _nopause75(html)

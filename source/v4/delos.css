@@ -2489,3 +2489,40 @@ td:has(>.xst){min-width:150px;white-space:nowrap}
 .adm .box table td,.adm .box table th{white-space:nowrap}
 .adm .box table td:first-child,.adm .box table th:first-child{position:sticky;left:0;background:var(--surface);z-index:1}
 }
+/* logo exact du site sur fond sombre : posé sur une pastille claire, jamais passé en blanc */
+.aulogo img{background:#fff!important;padding:7px 12px!important;border-radius:12px!important;height:46px!important;box-sizing:border-box}
+/* agrandir le chat */
+#discussion .chat2{position:relative}
+.chwide{position:absolute;top:12px;right:12px;z-index:3;display:inline-flex;align-items:center;gap:6px;height:34px;padding:0 12px;border-radius:99px;border:1px solid var(--line);background:var(--surface);color:var(--ink);font:inherit;font-size:13px;font-weight:600;cursor:pointer;box-shadow:0 2px 8px rgba(48,22,103,.08)}
+.chwide:hover{background:var(--soft)}
+body.chat-wide .xmain{grid-column:1/-1}
+body.chat-wide aside.xcol,body.chat-wide #discussion .rail{display:none!important}
+body.chat-wide .xp>.xp,body.chat-wide .xp .xp{grid-template-columns:minmax(0,1fr)!important}
+body.chat-wide #discussion .dgrid{grid-template-columns:minmax(0,1fr)!important}
+body.chat-wide #discussion .chat2{max-width:none}
+@media (max-width:760px){.chwide{display:none}}
+/* voix compacte */
+.vxbox .vxs{gap:6px}
+.vxbox .vx{padding:5px 10px 5px 5px;gap:10px;border-radius:12px}
+.vxbox .vx .pl{width:30px;height:30px}
+.vxbox .vx b{font-size:13.5px}
+.vxbox .vx small{display:none}
+.vxbox .vxf{margin-bottom:8px}
+.vxbox .vx[hidden],.vxbox .vx.off{display:none!important}
+/* En ce moment, état du premier jour */
+body:not([data-etat="vide"]) .nowempty{display:none}
+body[data-etat="vide"] .nowbox{display:none}
+.nowempty{border:1px solid var(--line);border-radius:18px;background:var(--surface);padding:18px}
+.nwh{display:flex;gap:12px;align-items:flex-start}
+.nwi{flex:none;width:40px;height:40px;border-radius:12px;display:grid;place-items:center;background:var(--soft);color:var(--brand)}
+.nwh b{display:block;font-size:15.5px}.nwh p{margin:2px 0 0;font-size:13.5px;color:var(--ink-2);max-width:60ch}
+.nwk{margin:16px 0 8px;font-size:12.5px;font-weight:650;color:var(--ink-3)}
+.nwgs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.nwg{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:14px;border:1px solid var(--line);color:var(--ink);text-decoration:none;min-height:44px}
+.nwg:hover{background:var(--soft);border-color:var(--brand)}
+.nwg img{width:36px;height:36px;border-radius:50%;object-fit:cover;object-position:top;flex:none}
+.nwg b{display:block;font-size:13.5px}.nwg span span{font-size:12.5px;color:var(--ink-2);line-height:1.3}
+.nwg>svg{flex:none;color:var(--ink-3)}
+@media (max-width:900px){.nwgs{grid-template-columns:1fr}}
+body[data-etat="vide"] .inteam.live,body[data-etat="vide"] .mslive{display:none!important}
+body[data-etat="vide"] .sb .st.on,body[data-etat="vide"] .av .on{background:var(--ink-4,#B8B5C9)!important}
