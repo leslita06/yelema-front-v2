@@ -3244,3 +3244,77 @@ body.chat-wide #discussion{max-width:none!important}
 .v30-crmg svg{width:13px;height:13px}
 @media (max-width:560px){.v30-crm{flex-wrap:wrap;gap:12px}.v30-crmg{flex-basis:100%}}
 #mcomp .pn>h2,#v30-madd .pn>h2{padding-right:48px}
+
+/* v4.32 : un seul Drive, analytique standard, plusieurs clés par fournisseur, Powered by dans le partage */
+[hidden]{display:none!important}
+/* 1. Drive : Tout / Livrables / Documents */
+.v31-scope{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 18px}
+.v31-scope .chip{cursor:pointer;height:36px;padding:0 14px;font-size:14px}
+.v31-scope .chip em{margin-left:2px}
+.v31-scope .chip:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
+.v31-sec+.v31-sec{margin-top:26px}
+.v31-sh{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin:0 0 10px}
+.v31-sh h3{margin:0;font-size:16px;font-weight:700}
+.v31-sh .xs svg{width:13px;height:13px;vertical-align:-2px}
+.v31-one .v31-sh h3{font-size:15px}
+/* 2. analytique standard */
+.v31-k4{grid-template-columns:repeat(4,minmax(0,1fr))!important}
+.v31-k4 .an-k small{font-size:12.5px;font-weight:600;color:var(--ink-3)}
+.v31-k4 .an-k small.up{color:#11643A}
+html[data-mode="nuit"] .v31-k4 .an-k small.up{color:#7FD9A8}
+.v31-ch .an-n img{width:18px;height:18px;border-radius:5px;flex:none;object-fit:contain}
+.v31-off{opacity:.6}
+.v31-nb{font-style:normal;font-size:12px;font-weight:600;color:var(--ink-3);white-space:nowrap;justify-self:end}
+.v31-cn .an-r{grid-template-columns:minmax(100px,130px) minmax(0,1fr) 78px!important}
+.v31-cn .an-r em{text-align:right}
+.v31-tp{margin-top:16px}
+@media (max-width:900px){.v31-k4{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
+/* 3. plusieurs clés par fournisseur */
+.v31-kn{font-size:12px;font-weight:600;color:var(--ink-3)}
+.v31-keys{grid-column:1/-1;display:flex;flex-direction:column;gap:8px;margin-top:4px;padding-top:14px;border-top:1px solid var(--line)}
+.v31-kh{margin:0;font-size:13px;font-weight:650;color:var(--ink-3)}
+.v31-k{display:grid;grid-template-columns:36px minmax(0,1fr) minmax(150px,220px) auto;gap:12px;align-items:center;padding:10px 12px;border-radius:14px;background:var(--soft);border:1px solid transparent}
+.v31-k.v31-on{background:var(--surface);border-color:color-mix(in oklab,var(--ok) 45%,var(--line))}
+.v31-k.v31-out{background:color-mix(in oklab,var(--ko-pale) 55%,var(--surface))}
+.v31-ki{display:grid;place-items:center;width:36px;height:36px;border-radius:10px;background:var(--surface);color:var(--ink-3)}
+.v31-ki svg{width:16px;height:16px}
+.v31-on .v31-ki{background:var(--ok-pale);color:var(--ok)}
+.v31-out .v31-ki{background:var(--ko-pale);color:var(--ko)}
+.v31-km{display:flex;flex-direction:column;gap:4px;min-width:0}
+.v31-km small{font-size:12px;color:var(--ink-3)}
+.v31-km .kcle{align-self:flex-start}
+.v31-kt{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.v31-ks{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:650;padding:3px 9px;border-radius:99px}
+.v31-ks svg{width:13px;height:13px}
+.v31-ks.act{background:var(--ok-pale);color:var(--ok)}
+.v31-ks.out{background:var(--ko-pale);color:var(--ko)}
+.v31-ks.dis{background:var(--tint);color:var(--brand-ink)}
+.v31-kc{display:flex;flex-direction:column;gap:6px;min-width:0;font-size:12.5px;color:var(--ink-2)}
+.v31-bar{display:block;height:6px;border-radius:99px;background:color-mix(in oklab,var(--ink-3) 18%,transparent);overflow:hidden}
+.v31-bar b{display:block;height:100%;border-radius:inherit;background:var(--ok)}
+.v31-out .v31-kcl{color:var(--ko);font-weight:600}
+.v31-ka{justify-self:end}
+.v31-ka .btn{min-height:36px;white-space:nowrap}
+.v31-kon{display:inline-flex;align-items:center;gap:5px;font-size:13px;font-weight:650;color:var(--ok);white-space:nowrap}
+.v31-kon svg{width:15px;height:15px}
+.v31-kno{display:flex;align-items:flex-start;gap:8px;margin:4px 0 0;font-size:12.5px;color:var(--ink-3);line-height:1.4}
+.v31-kno svg{width:14px;height:14px;flex:none;margin-top:2px}
+.v31-new{animation:v31in 1s cubic-bezier(.22,1,.36,1)}
+@keyframes v31in{from{box-shadow:0 0 0 4px color-mix(in oklab,var(--ok) 35%,transparent)}to{box-shadow:0 0 0 0 transparent}}
+@media (prefers-reduced-motion:reduce){.v31-new{animation:none}}
+@media (max-width:760px){.v31-k{grid-template-columns:36px minmax(0,1fr)}.v31-kc,.v31-ka{grid-column:2}.v31-ka{justify-self:start}}
+.v31-swp{max-width:480px}
+.v31-swd{display:flex;align-items:center;gap:12px;margin-top:14px;padding:12px;border-radius:14px;background:var(--soft)}
+.v31-swd .grow{display:flex;flex-direction:column;gap:2px;min-width:0}
+.v31-swd small{font-family:ui-monospace,Menlo,monospace;font-size:12.5px;color:var(--ink-3)}
+.v31-swc{color:var(--ok);font-weight:650;text-align:right}
+html[data-mode="nuit"] .v31-ks.act,html[data-mode="nuit"] .v31-kon,html[data-mode="nuit"] .v31-swc{color:#7FD9A8}
+html[data-mode="nuit"] .v31-ks.out,html[data-mode="nuit"] .v31-out .v31-kcl{color:#FFAA8C}
+/* 4. partage d'un tableau : signature visible */
+.v31-pby{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:16px;padding:10px 14px;border-radius:12px;background:var(--soft);font-size:12.5px;color:var(--ink-3)}
+.v31-pby .pby2 img{height:18px}
+
+/* v4.33 : clés d'IA et connecteurs attribués aux experts seulement (la colonne Membres associés disparaît) */
+.kpv{grid-template-columns:48px minmax(0,1fr) 170px 150px!important}
+.kpv .kpxm{display:none!important}
+@media (max-width:760px){.kpv{grid-template-columns:48px minmax(0,1fr)!important}}

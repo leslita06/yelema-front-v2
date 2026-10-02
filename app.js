@@ -1163,3 +1163,66 @@ document.querySelectorAll('[data-perm]').forEach(function(b){var ok=b.querySelec
   $$('.v30-sw').forEach(function(w){handled(w);w.addEventListener('click',function(e){stop(e);var on=!w.classList.contains('on');w.classList.toggle('on',on);w.setAttribute('aria-checked',on);
     var r=w.closest('.v30-cra');if(r)r.classList.toggle('off',!on);toast(on?'Alerte activée sous 20 %':'Alerte désactivée')})});
 })();
+
+/* v4.32 : un seul Drive (Livrables = Drive filtré), bascule de clé d’IA, Powered by Yelema dans le partage d’un tableau */
+(function(){
+  function $(s,r){return (r||document).querySelector(s)}function $$(s,r){return [].slice.call((r||document).querySelectorAll(s))}
+  function svg(p){return '<svg class="i s" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'+p+'</svg>'}
+  var CHK=svg('<circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/>'),SWAP=svg('<path d="m16 3 4 4-4 4"/><path d="M20 7H4"/><path d="m8 21-4-4 4-4"/><path d="M4 17h16"/>');
+
+  // ---------- 1. Drive unique : Tout / Livrables / Documents
+  var dv=$('#drive .v31-scope')&&$('#drive');
+  if(dv){
+    var box=dv.closest('[data-tabs]')||document,chips=$$('.v31-scope .chip',dv),secs=$$('.v31-sec',dv);
+    var lnkD=$('.xnav a[data-t="drive"]',box),lnkL=$('.xnav a[data-t="livrables"]',box);
+    var scope=function(v){
+      chips.forEach(function(c){var on=c.dataset.v31s===v;c.classList.toggle('on',on);c.setAttribute('aria-selected',on?'true':'false')});
+      secs.forEach(function(x){x.hidden=!!v&&x.dataset.v31sec!==v});
+      dv.classList.toggle('v31-one',!!v);
+      if(!dv.classList.contains('on'))return;
+      if(lnkD)lnkD.classList.toggle('on',v!=='liv');if(lnkL)lnkL.classList.toggle('on',v==='liv')};
+    var openDrive=function(v){if(lnkD)lnkD.click();scope(v);history.replaceState(null,'',v==='liv'?'#livrables':'#drive');window.scrollTo({top:0,behavior:'smooth'})};
+    chips.forEach(function(c){
+      c.addEventListener('click',function(){scope(c.dataset.v31s);history.replaceState(null,'',c.dataset.v31s==='liv'?'#livrables':'#drive')});
+      c.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();c.click()}})});
+    // l’entrée Livrables du menu ouvre le Drive filtré (avant le gestionnaire d’onglets)
+    document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('a[data-t="livrables"]');if(!a)return;
+      e.preventDefault();e.stopImmediatePropagation();openDrive('liv')},true);
+    // Drive du menu : tout ; « Voir plus » des documents récents : livrables
+    document.addEventListener('click',function(e){var t=e.target.closest&&e.target.closest('a[data-t="drive"],[data-go="drive"]');if(!t)return;
+      scope(t.dataset.v31s||'');if(t.dataset.v31s==='liv')history.replaceState(null,'','#livrables')});
+    scope('');
+    if(location.hash==='#livrables')openDrive('liv');
+  }
+
+  // ---------- 3. plusieurs clés par fournisseur : bascule manuelle, avec confirmation
+  var keys=$('.v31-keys'),md=$('#v31-swk');
+  if(keys&&md){
+    var card=keys.closest('.kpv'),cur=$('.v31-cur',card),target=null;
+    keys.addEventListener('click',function(e){var b=e.target.closest('.v31-swb');if(!b)return;e.preventDefault();e.stopPropagation();
+      target=b.closest('[data-v31k]');var n=target.dataset.v31n;
+      $('.v31-swn',md).textContent=n;$('.v31-swn2',md).textContent=n;$('.v31-swm',md).textContent=target.dataset.v31m;
+      $('.v31-swc',md).textContent=($('.v31-kcl',target)||{}).textContent||'';md.classList.add('on')});
+    $('.v31-swgo',md).addEventListener('click',function(e){e.preventDefault();e.stopPropagation();if(!target){md.classList.remove('on');return}
+      var old=$('.v31-on',keys);
+      if(old){old.classList.remove('v31-on');old.dataset.v31k='dis';
+        $('.v31-ks',old).outerHTML='<span class="v31-ks dis">Disponible</span>';
+        $('.v31-ka',old).innerHTML='<a class="btn o sm v31-swb" href="#" data-h="1">'+SWAP+' Basculer sur cette clé</a>'}
+      target.classList.add('v31-on','v31-new');target.dataset.v31k='act';
+      $('.v31-ks',target).outerHTML='<span class="v31-ks act" title="Clé utilisée en ce moment">'+CHK+' Clé active</span>';
+      $('.v31-ka',target).innerHTML='<span class="v31-kon">'+CHK+' En service</span>';
+      if(cur)cur.textContent=target.dataset.v31m;
+      var t=target;setTimeout(function(){t.classList.remove('v31-new')},1200);
+      md.classList.remove('on');toast(target.dataset.v31n+' active pour Anthropic');target=null});
+  }
+
+  // ---------- 4. partage d’un tableau : la signature Powered by Yelema se voit dans la fenêtre
+  if($('.panel[id^="tb-"]')){
+    var sign=function(){$$('#share .gsf').forEach(function(f){if(f.previousElementSibling&&f.previousElementSibling.classList.contains('v31-pby'))return;
+      var d=document.createElement('div');d.className='v31-pby';
+      d.innerHTML='<span>Le lien ouvre le tableau avec la signature</span><span class="pby2">Powered by <img src="../img/yelema_long.png" alt="Yelema"></span>';
+      f.parentNode.insertBefore(d,f)})};
+    sign();
+    document.addEventListener('click',function(e){if(e.target.closest&&e.target.closest('[data-open="share"]'))setTimeout(sign,0)});
+  }
+})();
