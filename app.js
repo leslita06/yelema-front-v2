@@ -1059,3 +1059,50 @@ document.querySelectorAll('[data-perm]').forEach(function(b){var ok=b.querySelec
       var r=b.getBoundingClientRect();w.classList.toggle('up',window.innerHeight-r.bottom<260&&r.top>260)}});
     s.addEventListener('change',lab);lab()});
 })();
+
+/* v4.29 : les boutons Télécharger téléchargent un vrai fichier (retour d'Andréa, 02/10) */
+(function(){
+  var RE=/t[ée]l[ée]charg/i;
+  function nomPropre(n){return (n||'livrable').replace(/[\\/:*?"<>|]+/g,' ').replace(/\s+/g,' ').trim()}
+  function envoyer(blob,nom){var u=URL.createObjectURL(blob),a=document.createElement('a');a.href=u;a.download=nom;document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(u);a.remove()},1500)}
+  function latin1(s){var b=new Uint8Array(s.length);for(var i=0;i<s.length;i++){var c=s.charCodeAt(i);b[i]=c===8217?39:(c<256?c:63)}return b}
+  function pdfEsc(s){return s.replace(/[\\()]/g,'\\$&')}
+  function pdf(titre){
+    var lignes=[['F2',26,titre],['F1',13,'Livrable de votre expert Yelema'],['F1',11,'Fichier d’exemple du prototype. Dans l’application, c’est le vrai livrable.']];
+    var y=760,flux='BT 0.188 0.086 0.404 rg ';lignes.forEach(function(l,i){flux+='/'+l[0]+' '+l[1]+' Tf 1 0 0 1 56 '+y+' Tm ('+pdfEsc(l[2])+') Tj ';y-=i?22:40});flux+='ET';
+    var o=['<< /Type /Catalog /Pages 2 0 R >>','<< /Type /Pages /Kids [3 0 R] /Count 1 >>','<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 5 0 R /F2 6 0 R >> >> /Contents 4 0 R >>','<< /Length '+flux.length+' >>\nstream\n'+flux+'\nendstream','<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>','<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>'];
+    var s='%PDF-1.4\n',pos=[];o.forEach(function(x,i){pos.push(s.length);s+=(i+1)+' 0 obj\n'+x+'\nendobj\n'});
+    var xr=s.length;s+='xref\n0 '+(o.length+1)+'\n0000000000 65535 f \n';pos.forEach(function(p){s+=('000000000'+p).slice(-10)+' 00000 n \n'});
+    s+='trailer\n<< /Size '+(o.length+1)+' /Root 1 0 R >>\nstartxref\n'+xr+'\n%%EOF';
+    return new Blob([latin1(s)],{type:'application/pdf'})}
+  function image(titre,type,cb){
+    var c=document.createElement('canvas');c.width=1600;c.height=1000;var x=c.getContext('2d');
+    var g=x.createLinearGradient(0,0,1600,1000);g.addColorStop(0,'#301667');g.addColorStop(1,'#8D68FA');x.fillStyle=g;x.fillRect(0,0,1600,1000);
+    x.fillStyle='#fff';x.font='700 68px system-ui,sans-serif';var mots=titre.split(' '),l='',y=440;
+    mots.forEach(function(m){if(x.measureText(l+m).width>1380){x.fillText(l,110,y);l='';y+=84}l+=m+' '});x.fillText(l,110,y);
+    x.font='400 32px system-ui,sans-serif';x.fillStyle='#E0E1FF';x.fillText('Livrable de votre expert Yelema',110,y+80);
+    c.toBlob(cb,type,0.92)}
+  function svg(titre){return new Blob(['<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="750"><rect width="1200" height="750" fill="#301667"/><text x="80" y="380" font-family="sans-serif" font-size="56" font-weight="700" fill="#fff">'+titre.replace(/[<&]/g,' ')+'</text></svg>'],{type:'image/svg+xml'})}
+  function csv(titre){return new Blob(['﻿Élément;Valeur;Commentaire\nIndicateur 1;128;en hausse\nIndicateur 2;76;stable\nIndicateur 3;42;à surveiller\n;;\n'+titre.replace(/;/g,',')+';;exemple du prototype Yelema\n'],{type:'text/csv;charset=utf-8'})}
+  function modele(ext,nom){fetch('../img/demo/modele.'+ext).then(function(r){if(!r.ok)throw 0;return r.blob()}).then(function(b){envoyer(b,nom)}).catch(function(){envoyer(pdf(nom),nom.replace(/\.[^.]+$/,'.pdf'))})}
+  function telecharger(nom){
+    var m=/\.([a-z0-9]+)$/i.exec(nom),ext=m?m[1].toLowerCase():'pdf',titre=nomPropre(nom.replace(/\.[^.]+$/,''));
+    if(!m)nom=titre+'.pdf';
+    if(ext==='pdf')envoyer(pdf(titre),nom);
+    else if(ext==='png'||ext==='jpg'||ext==='jpeg')image(titre,ext==='png'?'image/png':'image/jpeg',function(b){envoyer(b,nom)});
+    else if(ext==='svg')envoyer(svg(titre),nom);
+    else if(ext==='csv')envoyer(csv(titre),nom);
+    else if(/^(pptx|xlsx|docx|zip)$/.test(ext))modele(ext,nom);
+    else envoyer(pdf(titre),titre+'.pdf')}
+  function depuisContexte(a){
+    var d=a.closest('dialog,.dlg,.modal,[role=dialog]')||a.closest('.card,.lv,.dv,li')||document,im=d.querySelector('.dprev img'),h=(d.querySelector('h2,h3,b,.ell')||{}).textContent;
+    var titre=nomPropre(h||document.title.split('·')[0]);
+    if(im&&im.getAttribute('src')){var src=im.getAttribute('src'),ext=(/\.([a-z0-9]+)(\?|$)/i.exec(src)||[,'jpg'])[1];
+      fetch(src).then(function(r){return r.blob()}).then(function(b){envoyer(b,titre+'.'+ext)}).catch(function(){telecharger(titre+'.pdf')});return}
+    telecharger(titre+'.pdf')}
+  document.addEventListener('click',function(e){
+    var a=e.target.closest&&e.target.closest('[data-toast]');if(!a)return;var t=a.getAttribute('data-toast')||'';if(!RE.test(t))return;
+    e.preventDefault();e.stopImmediatePropagation();
+    var m=/:\s*(.+\.[a-z0-9]{2,5})\s*$/i.exec(t);if(m)telecharger(m[1].trim());else depuisContexte(a);
+    toast(m?'Téléchargé : '+m[1].trim():'Téléchargement terminé')},true);
+})();
