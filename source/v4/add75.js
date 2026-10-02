@@ -33,12 +33,13 @@
   $$('.pzsg').forEach(function(b){handled(b);b.addEventListener('click',function(e){e.preventDefault();var i=$('.pzni');if(i){i.value=NOMS[ni++%NOMS.length];i.focus();toast('Suggestion : '+i.value)}})});
   // ---------- activité : période et export CSV
   $$('.modal[id^="act-"] .pn').forEach(function(pn){var all=$('.actall',pn);if(!all)return;var nm=($('h2',pn)||{}).textContent||'Activité';
-    var bar=document.createElement('div');bar.className='actbar';bar.innerHTML='<div class="seg actp"><a class="on" data-ap="all">Tout</a><a data-ap="0">Aujourd’hui</a><a data-ap="1">Cette semaine</a><a data-ap="2">Ce mois-ci</a></div><a class="btn o sm actcsv" href="#">Exporter en CSV</a>';
+    var bar=document.createElement('div');bar.className='actbar';bar.innerHTML='<div class="seg actp"><a data-ap="0">Aujourd’hui</a><a class="on" data-ap="1">Cette semaine</a><a data-ap="2">Ce mois-ci</a></div><a class="actcsv" href="#" title="Exporter la période en CSV"><svg class="i s" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg><span>CSV</span></a>';
     all.before(bar);var hs=$$('.acth',all);
     $$('.actp a',bar).forEach(function(a){handled(a);a.addEventListener('click',function(e){e.preventDefault();$$('.actp a',bar).forEach(function(x){x.classList.toggle('on',x===a)});
       hs.forEach(function(h,i){var on=a.dataset.ap==='all'||(a.dataset.ap==='0'&&i===0)||(a.dataset.ap==='1'&&i<3)||a.dataset.ap==='2';h.hidden=!on;var u=h.nextElementSibling;if(u)u.hidden=!on})})});
+    (function(){var d=$('.actp a.on',bar);hs.forEach(function(h,i){var on=i<3;h.hidden=!on;var u=h.nextElementSibling;if(u)u.hidden=!on})})();
     var c=$('.actcsv',bar);handled(c);c.addEventListener('click',function(e){e.preventDefault();var rows=[['Jour','Tâche','Heure ou état']];
-      hs.forEach(function(h){var u=h.nextElementSibling;if(!u)return;$$('li',u).forEach(function(li){rows.push([h.textContent.trim(),($('.grow',li)||li).textContent.trim(),($('time',li)||{}).textContent||''])})});
+      hs.forEach(function(h){var u=h.nextElementSibling;if(!u||h.hidden)return;$$('li',u).forEach(function(li){rows.push([h.textContent.trim(),($('.grow',li)||li).textContent.trim(),($('time',li)||{}).textContent||''])})});
       var csv=rows.map(function(r){return r.map(function(x){return '"'+String(x).replace(/"/g,'""')+'"'}).join(';')}).join('\n');
       try{var bl=new Blob(['﻿'+csv],{type:'text/csv'}),u=URL.createObjectURL(bl),d=document.createElement('a');d.href=u;d.download=nm.toLowerCase().replace(/[^a-zà-ÿ0-9]+/gi,'-')+'.csv';document.body.appendChild(d);d.click();d.remove()}catch(_){}
       toast('Export CSV téléchargé : '+(rows.length-1)+' tâches')})});

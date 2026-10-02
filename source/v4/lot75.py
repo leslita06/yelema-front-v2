@@ -58,11 +58,9 @@ def _inv75(html):
     if 'id="inv"' not in html:
         return html
     html = re.sub(r'<div class="fl2"><span>Envoyer l\'invitation par</span><div class="fmts">.*?</div></div>\n?', '', html, count=1, flags=re.S)
-    html = re.sub(r'<span class="phk">.*?</span></div></div>', '</div></div>', html, count=1, flags=re.S)
     html = re.sub(r'<div class="lnk"><span class="ell">yelema\.ai/invite/[^<]*</span>.*?</a></div>', '', html, count=1, flags=re.S)
     html = html.replace("Invitation envoyée par email et par Telegram.", "Invitation envoyée par email.")
     html = html.replace("Envoyer l'invitation</a>", "Envoyer l'invitation par email</a>", 1)
-    html = html.replace('<span>Téléphone</span>', '<span>Téléphone <small class="xs mute3">facultatif, pour Telegram</small></span>', 1)
     xs = "".join(f'<div class="ivx" data-ivx="{n}"><img src="{B}{k}.jpg" alt=""><span><b>{n}</b><small>{r}</small></span></div>' for k, n, r, *_ in ALL_EXPERTS)
     mail = f"""<div class="ivm on" data-iv="mail"><div class="ivh"><span class="xs mute3">De : Yelema pour Unifood &lt;invitations@yelema.ai&gt;</span><span class="xs mute3">À : <span class="ivto">awa.kone@unifood.info</span></span><b>Aïcha Diabaté vous invite à rejoindre Unifood sur Yelema</b></div>
 <div class="ivb ivb2"><div class="ivtop"><img class="ivcl" src="{B}{CLIENT["logo"]}" alt="{CLIENT["nom"]}"><span class="ivx2">×</span><img class="ivl" src="{B}yelema_long.png" alt="Yelema"></div>
