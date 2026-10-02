@@ -1896,7 +1896,7 @@ html[data-mode="nuit"] .lrn.a{background:#16362A}html[data-mode="nuit"] .lrn.d{b
 .editing .mw>footer .ptag{display:inline-flex}
 .tbmain .mw>footer:not(:has(.mwhid:not([hidden]))){min-height:0}
 @media (max-width:900px){.tbnewb{display:none}.tbli{align-items:stretch}.tbli a{min-height:0}.tbnone{display:none}}
-html[data-mode="nuit"] .pby img{filter:none;opacity:1;content:url("img/yelema_logo_final_long_blanc.svg")}
+html[data-mode="nuit"] .pby img{filter:none;opacity:1;content:url("img/yelema_long.png")}
 .invp2 .msl{position:static;width:100%;max-height:none;box-shadow:none;margin-top:6px}
 
 /* gélules flottantes du site (bandeaux .cta-fl), version fond clair */
@@ -1917,7 +1917,7 @@ html[data-mode="nuit"] .gfloat i{background:linear-gradient(120deg,rgba(255,255,
 .tbsig{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:18px;padding:14px 18px;border-radius:16px;background:var(--surface);font-size:12.5px;color:var(--ink-3)}
 .pby2{display:inline-flex;align-items:center;gap:8px;font-weight:600}
 .pby2 img{height:20px;width:auto}
-html[data-mode="nuit"] .pby2 img{content:url("img/yelema_logo_final_long_blanc.svg")}
+html[data-mode="nuit"] .pby2 img{content:url("img/yelema_long.png")}
 .dlsig{font-size:11.5px;color:var(--ink-3);padding:6px 10px 4px;border-top:1px solid var(--line);margin-top:4px}
 .tbmain .mw>footer{border-top:0;padding-top:0}.tbmain .mw:not(.hid)>footer:not(:has(.ptag:not([style*="none"]))){display:none}.editing .mw>footer{display:flex!important}
 /* le logo Yelema ne change jamais : en sombre il garde ses couleurs sur une pastille claire */
