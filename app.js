@@ -1106,3 +1106,60 @@ document.querySelectorAll('[data-perm]').forEach(function(b){var ok=b.querySelec
     var m=/:\s*(.+\.[a-z0-9]{2,5})\s*$/i.exec(t);if(m)telecharger(m[1].trim());else depuisContexte(a);
     toast(m?'Téléchargé : '+m[1].trim():'Téléchargement terminé')},true);
 })();
+
+// v4.30 : réglages de l'expert en lecture seule, façon de répondre en listes, ajout de modèle, mail par demande à l'expert, Telegram, crédits IA
+(function(){
+  function $(s,r){return (r||document).querySelector(s)}function $$(s,r){return [].slice.call((r||document).querySelectorAll(s))}
+  function esc(t){return String(t).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+  function stop(e){e.preventDefault();e.stopImmediatePropagation()}
+  var CK='<svg class="i s" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>';
+
+  // ---------- 2. façon de répondre : chaque liste pilote le segment d'origine (et donc l'aperçu)
+  $$('select.v30-rs').forEach(function(s){
+    s.addEventListener('change',function(){var box=s.closest('.pfrep');if(!box)return;
+      var a=box.querySelector('[data-pk="'+s.dataset.v30pk+'"] a[data-v="'+s.value+'"]');if(a&&!a.classList.contains('on'))a.click();
+      toast((s.getAttribute('aria-label')||'Réglage')+' : '+s.options[s.selectedIndex].text)})});
+
+  // ---------- 1. routines en lecture seule
+  $$('.v30-swro').forEach(function(w){handled(w);w.addEventListener('click',function(e){stop(e);toast('Les routines sont gérées par votre administrateur')},true)});
+
+  // ---------- 4. mail : demander à l'expert de répondre
+  $$('.v30-ask').forEach(function(box){var b=$('.v30-askb',box),f=$('.v30-askf',box),ok=$('.v30-askok',box),ta=$('textarea',f),c=$('.v30-askc',box),g=$('.v30-askg',box);
+    [b,c,g].forEach(handled);
+    b.addEventListener('click',function(e){stop(e);b.hidden=true;f.hidden=false;ok.hidden=true;ta.focus()});
+    c.addEventListener('click',function(e){stop(e);f.hidden=true;b.hidden=false});
+    g.addEventListener('click',function(e){stop(e);var nm=box.dataset.v30nm;f.hidden=true;ok.hidden=false;ta.value='';toast(nm+' prépare '+box.dataset.v30what)})});
+  var mc=document.getElementById('mcomp'),go=mc&&$('.v30-mcgo',mc);
+  if(go){var nm=go.dataset.v30nm;handled(go);
+    $$('[data-open="mcomp"]').forEach(function(b){b.addEventListener('click',function(){var h=$('h2',mc);if(h)h.textContent='Demander un email à '+nm})});
+    go.addEventListener('click',function(e){stop(e);var t=$('textarea',mc);if(t&&!t.value.trim()){toast('Dites à '+nm+' ce que l’email doit dire');t.focus();return}
+      mc.classList.remove('on');if(t)t.value='';toast(nm+' rédige l’email, vous le relirez avant l’envoi')})}
+
+  // ---------- 7. message envoyé depuis Telegram
+  $$('.v30-tg').forEach(function(t){handled(t);t.addEventListener('click',function(e){e.stopPropagation();toast('Envoyé depuis Telegram')});
+    t.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();toast('Envoyé depuis Telegram')}})});
+
+  // ---------- 3. admin : ajouter un modèle
+  var md=document.getElementById('v30-madd');
+  if(md){var MODS={Anthropic:['Claude Sonnet','Claude Opus','Claude Haiku'],OpenAI:['GPT-5','GPT-5 mini','GPT-4.1'],Google:['Gemini 2.5 Pro','Gemini 2.5 Flash'],Mistral:['Mistral Large','Mistral Medium']};
+    var DOM={Anthropic:'anthropic.com',OpenAI:'openai.com',Google:'gemini.google.com',Mistral:'mistral.ai'};
+    var PH={Anthropic:'sk-ant-...',OpenAI:'sk-...',Google:'AIza...',Mistral:'Votre clé Mistral'};
+    var pv=$('.v30-pv',md),ms=$('.v30-md',md),k=$('.v30-k',md),eye=$('.v30-eye',md),sv=$('.v30-msave',md);
+    pv.addEventListener('change',function(){ms.innerHTML=MODS[pv.value].map(function(m){return '<option>'+esc(m)+'</option>'}).join('');ms.selectedIndex=0;ms.dispatchEvent(new Event('change',{bubbles:true}));k.placeholder=PH[pv.value]});
+    handled(eye);eye.addEventListener('click',function(e){stop(e);var sh=k.type==='password';k.type=sh?'text':'password';eye.classList.toggle('on',sh);eye.setAttribute('aria-label',sh?'Masquer la clé':'Afficher la clé')});
+    $$('[data-open="v30-madd"]').forEach(function(b){b.addEventListener('click',function(){k.value='';k.type='password';eye.classList.remove('on');setTimeout(function(){k.focus()},50)})});
+    handled(sv);sv.addEventListener('click',function(e){stop(e);var v=k.value.trim();if(v.length<8){toast('Collez la clé d’API du fournisseur');k.focus();return}
+      var p=pv.value,m=ms.value,list=$('.kpvs');if(!list)return;
+      $$('.kpv',list).forEach(function(r){var b=$('b',r);if(b&&b.textContent.replace(' AI','')===p&&$('.kst.no',r))r.remove()});
+      var row=document.createElement('div');row.className='kpv v30-new';
+      row.innerHTML='<span class="kpl"><img src="https://www.google.com/s2/favicons?sz=64&domain='+DOM[p]+'" alt=""></span><div class="kpm"><div class="row" style="gap:8px;flex-wrap:wrap"><b>'+esc(p)+'</b><span class="kst ok">'+CK+' Clé active</span><span class="v30-nb">Nouveau</span></div>'+
+        '<span class="kcle num">'+esc(v.slice(0,4))+'••••'+esc(v.slice(-3))+'</span><small>Ajouté par vous à l’instant</small><span class="kmods"><i>'+esc(m)+'</i></span></div>'+
+        '<div class="kpx"><small>Experts associés</small><span class="row" style="gap:0"><span class="xs mute3">À attribuer</span></span></div><div class="kpx kpxm"><small>Membres associés</small><span class="row" style="gap:0"><span class="xs mute3">Aucun</span></span></div>'+
+        '<div class="kpa"><a class="btn o sm" href="#">Attribuer</a></div>';
+      list.insertBefore(row,list.firstChild);var at=$('.kpa a',row);handled(at);at.addEventListener('click',function(ev){stop(ev);var mk=document.getElementById('mkey');if(mk)mk.classList.add('on')});
+      md.classList.remove('on');k.value='';row.scrollIntoView({block:'center',behavior:'smooth'});toast(m+' est branché : vos experts peuvent l’utiliser')})}
+
+  // ---------- 8. crédits IA : alerte
+  $$('.v30-sw').forEach(function(w){handled(w);w.addEventListener('click',function(e){stop(e);var on=!w.classList.contains('on');w.classList.toggle('on',on);w.setAttribute('aria-checked',on);
+    var r=w.closest('.v30-cra');if(r)r.classList.toggle('off',!on);toast(on?'Alerte activée sous 20 %':'Alerte désactivée')})});
+})();

@@ -3142,3 +3142,105 @@ td:has(>.xsw){min-width:200px}
 @media (max-width:760px){.chcs-x{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
 .ctl>.csel{width:300px;max-width:100%}
 body.chat-wide #discussion{max-width:none!important}
+
+/* v4.30 : réglages en lecture seule, façon de répondre, ajout de modèle, mail par demande, Telegram, crédits IA */
+[hidden]{display:none!important}
+/* 1. mention « Géré par votre administrateur » */
+.v30-ro{display:flex;align-items:center;flex-wrap:wrap;gap:6px 8px;margin:12px 0 0;padding:9px 12px;border-radius:12px;background:var(--soft);font-size:13px;color:var(--ink-3);line-height:1.35}
+.v30-ro>svg{width:14px;height:14px;flex:none;color:var(--ink-3)}
+.v30-ro span{flex:1 1 auto;min-width:0}
+.v30-ro a{display:inline-flex;align-items:center;gap:4px;font-weight:650;color:var(--brand-ink);text-decoration:none;white-space:nowrap;min-height:28px}
+.v30-ro a svg{width:13px;height:13px}
+.v30-ro a:hover{text-decoration:underline}
+.h3s+.sub+.v30-ro{margin:6px 0 12px}
+.v30-czro .czp>.v30-ro{margin:0 0 12px}
+.v30-czro .cz2 .row:last-child{min-height:28px}
+.v30-swro{opacity:.55;cursor:not-allowed}
+.v30-mcp{display:block;margin-top:10px}
+/* 2. façon de répondre en listes */
+.v30-rp{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px 20px;margin:6px 0 18px}
+.v30-rf{display:flex;flex-direction:column;gap:7px;min-width:0}
+.v30-rf>span:first-child{font-size:13px;font-weight:600;color:var(--ink-3)}
+.v30-rf .csel{min-width:0}
+@media (max-width:1100px){.v30-rp{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:560px){.v30-rp{grid-template-columns:1fr;gap:14px}}
+/* 4. mail : demander à l'expert */
+.v30-ask{margin-top:auto;padding-top:14px;display:flex;flex-direction:column;gap:10px;align-items:flex-start}
+.v30-askf{width:100%;display:flex;flex-direction:column;gap:8px}
+.v30-askf textarea{width:100%;min-height:64px;resize:vertical}
+.v30-askr{display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap}
+.v30-askok{display:inline-flex;align-items:center;gap:6px;margin:0;padding:7px 12px;border-radius:99px;background:var(--ok-pale);color:var(--ok);font-size:13px;font-weight:650}
+.v30-askok svg{width:14px;height:14px}
+.v30-mcf{justify-content:flex-end;gap:8px;margin-top:14px;flex-wrap:wrap}
+/* 5. séparateur avant Fiche de poste */
+.v30-sep{height:1px;background:var(--line);margin:12px 10px 6px}
+@media (max-width:900px){.xcol .xnav .v30-sep{display:none}}
+/* 6. source de l'analytique */
+.v30-src{display:flex;align-items:center;gap:6px;margin:-4px 2px 16px;font-size:12.5px;color:var(--ink-3)}
+.v30-src svg{width:13px;height:13px;flex:none}
+/* 7. message venu de Telegram */
+.v30-tg{position:relative;display:inline-flex;align-items:center;vertical-align:-3px;margin-left:6px;cursor:default;border-radius:50%}
+.v30-tg img{width:14px;height:14px;border-radius:50%;display:block}
+.v30-tg::after{content:attr(data-tip);position:absolute;right:-6px;bottom:calc(100% + 6px);white-space:nowrap;padding:5px 9px;border-radius:8px;background:var(--ink);color:var(--surface);font-size:11.5px;font-weight:600;opacity:0;pointer-events:none;transform:translateY(3px);transition:opacity .15s,transform .15s;z-index:5}
+.v30-tg:hover::after,.v30-tg:focus-visible::after{opacity:1;transform:none}
+/* 3. ajout de modèle */
+.v30-hb{display:flex;gap:8px;flex-wrap:wrap}
+.v30-key{display:flex;gap:8px;align-items:center}
+.v30-key .fi{flex:1;min-width:0;width:100%}
+.v30-eye{width:42px;height:42px;flex:none;border:1px solid var(--line);border-radius:12px;background:var(--surface);color:var(--ink-3);display:grid;place-items:center;cursor:pointer}
+.v30-eye.on{color:var(--brand-ink);border-color:var(--brand)}
+.v30-mpn .g2i{margin-top:6px}
+.v30-nb{font-size:11.5px;font-weight:700;padding:2px 8px;border-radius:99px;background:var(--accent-pale);color:var(--accent-ink)}
+.kpv.v30-new{animation:v30in .9s cubic-bezier(.22,1,.36,1);border-color:color-mix(in oklab,var(--brand) 35%,var(--line))}
+@keyframes v30in{from{opacity:0;transform:translateY(-6px);box-shadow:0 0 0 4px var(--soft-2)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.kpv.v30-new{animation:none}}
+@media (max-width:560px){.shpn .g2i:has(.v30-pv){grid-template-columns:1fr}}
+/* 8. crédits IA (admin) */
+.v30-cr{margin-top:18px;padding:18px}
+.v30-crh{display:flex;align-items:flex-start;gap:12px;margin-bottom:14px}
+.v30-crh h2{font-size:17px;font-weight:650;margin:0 0 2px}
+.v30-crh .link{display:inline-flex;align-items:center;gap:4px;white-space:nowrap}
+.v30-crh .link svg{width:13px;height:13px}
+.v30-crb{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:18px 28px;align-items:center}
+.v30-crg{display:flex;align-items:center;gap:18px}
+.v30-ring{--v30p:68;width:118px;height:118px;flex:none;border-radius:50%;background:conic-gradient(var(--brand) calc(var(--v30p)*1%),var(--soft-2) 0);display:grid;place-items:center}
+.v30-ring>span{width:calc(100% - 22px);height:calc(100% - 22px);border-radius:50%;background:var(--surface);display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1.1}
+.v30-ring b{font-size:24px;font-weight:700;color:var(--ink)}
+.v30-ring small{font-size:12px;color:var(--ink-3);margin-top:2px}
+.v30-crt{display:flex;flex-direction:column;gap:3px;min-width:0}
+.v30-crt b{font-size:20px;font-weight:700;color:var(--ink)}
+.v30-crt span{font-size:14px;color:var(--ink-2)}
+.v30-crt small{font-size:12.5px;color:var(--ink-3);margin-top:4px;line-height:1.4}
+.v30-crx{display:flex;flex-direction:column;gap:10px;min-width:0}
+.v30-crl{font-size:13px;font-weight:600;color:var(--ink-3)}
+.v30-cx{display:grid;grid-template-columns:30px 76px minmax(0,1fr) 62px;gap:10px;align-items:center;font-size:14px}
+.v30-cx img{width:30px;height:30px;border-radius:50%;object-fit:cover;object-position:top}
+.v30-cxn{font-weight:600;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.v30-cx i,.v30-bar{display:block;height:8px;border-radius:99px;background:var(--soft-2);overflow:hidden}
+.v30-cx i b,.v30-bar b{display:block;height:100%;border-radius:99px;background:var(--c1)}
+.v30-cx em{font-style:normal;text-align:right;color:var(--ink-2);font-weight:600}
+.v30-cra{display:flex;align-items:center;gap:12px;margin-top:16px;padding-top:14px;border-top:1px solid var(--line)}
+.v30-cra .grow{display:flex;flex-direction:column;gap:2px;min-width:0}
+.v30-cra b{font-size:14.5px;color:var(--ink)}
+.v30-cra small{font-size:12.5px;color:var(--ink-3)}
+.v30-cra.off small{opacity:.6}
+.v30-cri{width:36px;height:36px;border-radius:11px;background:var(--soft);display:grid;place-items:center;color:var(--brand-ink);flex:none}
+.v30-sw{width:44px;height:26px;border-radius:99px;border:0;background:var(--line);position:relative;flex:none;cursor:pointer;padding:0;transition:background .2s}
+.v30-sw i{position:absolute;top:4px;left:4px;width:18px;height:18px;border-radius:50%;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.2);transition:transform .2s cubic-bezier(.22,1,.36,1)}
+.v30-sw.on{background:var(--brand)}.v30-sw.on i{transform:translateX(18px)}
+@media (max-width:900px){.v30-crb{grid-template-columns:1fr}}
+@media (max-width:560px){.v30-ring{width:96px;height:96px}.v30-ring b{font-size:20px}.v30-crt b{font-size:18px}.v30-cx{grid-template-columns:28px 64px minmax(0,1fr) 56px;gap:8px;font-size:13.5px}.v30-crh{flex-wrap:wrap}}
+/* jauge compacte (facturation) */
+.v30-crm{display:flex;align-items:center;gap:16px;margin-top:14px;padding:14px 18px;text-decoration:none;color:inherit;transition:border-color .15s}
+.v30-crm:hover{border-color:color-mix(in oklab,var(--brand) 35%,var(--line))}
+.v30-crm .grow{display:flex;flex-direction:column;gap:3px;min-width:0}
+.v30-crm .grow>b{font-size:15px;color:var(--ink)}
+.v30-crm .grow>span{font-size:13px;color:var(--ink-2)}
+.v30-crm .v30-bar{margin-top:6px;max-width:420px}
+.v30-ring.v30-rsm{width:54px;height:54px}
+.v30-ring.v30-rsm>span{width:calc(100% - 12px);height:calc(100% - 12px)}
+.v30-ring.v30-rsm b{font-size:13px}
+.v30-crmg{display:inline-flex;align-items:center;gap:4px;font-size:13px;font-weight:650;color:var(--brand-ink);white-space:nowrap}
+.v30-crmg svg{width:13px;height:13px}
+@media (max-width:560px){.v30-crm{flex-wrap:wrap;gap:12px}.v30-crmg{flex-basis:100%}}
+#mcomp .pn>h2,#v30-madd .pn>h2{padding-right:48px}
