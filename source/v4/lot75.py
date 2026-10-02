@@ -203,7 +203,10 @@ def _fix75(html):
     html = html.replace("Yao l'a reçu sur WhatsApp", "Yao l'a reçu sur Telegram").replace("Lu votre brief WhatsApp", "Lu votre brief Telegram")
     html = html.replace('<a class="rmore" href="#" data-go="drive">Voir plus</a>', '<a class="rmore" href="#" data-go="livrables">Voir plus</a>')
     html = _plan75(_now75(html))
-    html = html.replace('<div class="seg vxf"><a class="on" data-vg="">Toutes</a>', '<div class="seg vxf">')  # vocal 44629 : Féminines / Masculines seulement
+    html = html.replace('<div class="seg vxf"><a class="on" data-vg="">Toutes</a>', '<div class="seg vxf">')
+    t = re.search(r'<title>([^<]*)', html)
+    if t and any(n in t.group(1) for n in ("Koffi", "Kouassi", "Mamadou", "Ibrahim")) and '<span class="vx on" data-g="féminine"' in html:
+        html = html.replace('<span class="vx on" data-g="féminine"', '<span class="vx" data-g="féminine"', 1).replace('<span class="vx" data-g="masculine"', '<span class="vx on" data-g="masculine"', 1)  # vocal 44629 : Féminines / Masculines seulement
     html = _mdp75(_an75(_cx75(_droits75(_inv75(_pz75(html))))))
     if 'id="admin-' not in html and 'class="adm' not in html:
         html = _nopause75(html)
