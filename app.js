@@ -481,6 +481,11 @@ document.querySelectorAll('form[data-onb]').forEach(function(f){var b=f.querySel
   w.querySelectorAll('.tbli a').forEach(function(a){a.addEventListener('click',function(){setTimeout(function(){set(false);window.scrollTo({top:0,behavior:'smooth'})},0)})});
   w.querySelectorAll('.tbnewb').forEach(function(a){a.addEventListener('click',function(){set(false)})});
 })();
+// v4.28 : lien d'un tableau = <entreprise>.yelema.ai/<personne>/<tableau>
+window.tbSlug=function(t){return (t||'tableau').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/\(copie\)/,'copie').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')};
+window.tbUrl=function(el){var p=el&&el.closest?el.closest('.panel'):null;var id=p?p.id.replace(/^tb-/,'').replace(/-copie$/,''):'';
+  var own={adjoua:'fanta-bakayoko',kouassi:'kader-ouattara'}[id]||'aicha-diabate';var h=p&&p.querySelector('h2');
+  return 'unifood.yelema.ai/'+own+'/'+window.tbSlug(h?h.textContent:'')};
 
 // v4.18 navigation mobile, filtres sur une ligne, composeur des tableaux, duplication, dates en français, états en cours
 (function(){
@@ -714,7 +719,7 @@ document.querySelectorAll('[data-perm]').forEach(function(b){var ok=b.querySelec
 // lien par défaut de chaque tableau
 (function(){
   function slug(t){return (t||'tableau').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')}
-  function url(el){var h=el&&el.closest('.tbh2,.tbh,.panel');h=h&&h.querySelector('h2');return 'yelema.ai/t/'+slug(h?h.textContent:'')}
+  function url(el){var h=el&&el.closest('.tbh2,.tbh,.panel');h=h&&h.querySelector('h2');return window.tbUrl(el)}
   function copy(u,btn){try{navigator.clipboard&&navigator.clipboard.writeText('https://'+u)}catch(_){}
     toast('Lien copié : '+u);if(btn){btn.classList.add('ok');setTimeout(function(){btn.classList.remove('ok')},1600)}}
   document.querySelectorAll('[data-shk]').forEach(function(a){a.addEventListener('click',function(){var u=document.querySelector('#share .tblku');if(u)u.textContent=url(a)})});
@@ -834,7 +839,7 @@ document.querySelectorAll('[data-perm]').forEach(function(b){var ok=b.querySelec
   LNK='<svg class="i s" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>';
   function slug(t){return t.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/\(copie\)/,'copie').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')}
   document.querySelectorAll('.tbh2').forEach(function(h){var act=h.querySelector('.tbact');if(!act||h.nextElementSibling&&h.nextElementSibling.classList.contains('tblv1'))return;
-    var t=(h.querySelector('h2')||{}).textContent||'tableau',u='yelema.ai/t/'+slug(t);
+    var t=(h.querySelector('h2')||{}).textContent||'tableau',u=window.tbUrl(h);
     var row=document.createElement('div');row.className='tblv1';
     row.innerHTML='<a class="tbweb" href="#" title="Ouvrir le lien web du tableau"><span class="tbwi">'+LNK+'</span><span class="tbwt"><b>Lien web</b><span class="ell">'+u+'</span></span><span class="tbwa">'+ARW+'</span></a>';
     var gs=act.querySelector('.gsb');if(gs)row.appendChild(gs);
@@ -952,7 +957,7 @@ document.querySelectorAll('[data-perm]').forEach(function(b){var ok=b.querySelec
   $$('#share .pn').forEach(function(pn){
     var sub=(pn.querySelector('h2+p')||{}).textContent||'';
     var title=sub.split(',')[0]||'le tableau';
-    var urlEl=pn.querySelector('.tblku');var url=urlEl?urlEl.textContent:'yelema.ai/t/tableau';
+    var urlEl=pn.querySelector('.tblku');var url=window.tbUrl(document.querySelector('.panel.on h2'))||'';
     var sg=pn.querySelector('.sg');var ch=pn.querySelector('.shch');
     var rows='<div class="gsp own"><img src="../img/aicha.jpg" alt=""><span class="grow"><b>Aïcha Diabaté <small>(vous)</small></b><small>aicha.diabate@unifood.info</small></span><span class="gsr0">Propriétaire</span></div>'+
       PEOPLE.slice(0,2).map(function(x,i){return '<div class="gsp"><img src="../img/'+x[2]+'.jpg" alt=""><span class="grow"><b>'+esc(x[0])+'</b><small>'+esc(x[1])+'</small></span><select class="gsr" aria-label="Accès de '+esc(x[0])+'">'+opts(i?'e':'l')+'</select></div>'}).join('');
@@ -992,7 +997,7 @@ document.querySelectorAll('[data-perm]').forEach(function(b){var ok=b.querySelec
   // titre et lien suivent le tableau ouvert
   $$('[data-open="share"]').forEach(function(a){a.addEventListener('click',function(){
     var panel=a.closest('.panel'),h=panel&&panel.querySelector('h1,h2,.tbt');var pn=$('#share .pn');if(!pn)return;
-    if(h){var n=pn.querySelector('.tbn');if(n)n.textContent=h.textContent.trim()}})});
+    if(h){var n=pn.querySelector('.tbn');if(n)n.textContent=h.textContent.trim()}var uu=pn.querySelector('.tblku');if(uu)uu.textContent=window.tbUrl(a)})});
 
 
   // ---------- 7. tableau de bord : les personnes en grand, l'expert en rond plus petit

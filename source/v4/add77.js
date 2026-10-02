@@ -57,7 +57,7 @@
   $$('#share .pn').forEach(function(pn){
     var sub=(pn.querySelector('h2+p')||{}).textContent||'';
     var title=sub.split(',')[0]||'le tableau';
-    var urlEl=pn.querySelector('.tblku');var url=urlEl?urlEl.textContent:'yelema.ai/t/tableau';
+    var urlEl=pn.querySelector('.tblku');var url=window.tbUrl(document.querySelector('.panel.on h2'))||'';
     var sg=pn.querySelector('.sg');var ch=pn.querySelector('.shch');
     var rows='<div class="gsp own"><img src="../img/aicha.jpg" alt=""><span class="grow"><b>Aïcha Diabaté <small>(vous)</small></b><small>aicha.diabate@unifood.info</small></span><span class="gsr0">Propriétaire</span></div>'+
       PEOPLE.slice(0,2).map(function(x,i){return '<div class="gsp"><img src="../img/'+x[2]+'.jpg" alt=""><span class="grow"><b>'+esc(x[0])+'</b><small>'+esc(x[1])+'</small></span><select class="gsr" aria-label="Accès de '+esc(x[0])+'">'+opts(i?'e':'l')+'</select></div>'}).join('');
@@ -97,7 +97,7 @@
   // titre et lien suivent le tableau ouvert
   $$('[data-open="share"]').forEach(function(a){a.addEventListener('click',function(){
     var panel=a.closest('.panel'),h=panel&&panel.querySelector('h1,h2,.tbt');var pn=$('#share .pn');if(!pn)return;
-    if(h){var n=pn.querySelector('.tbn');if(n)n.textContent=h.textContent.trim()}})});
+    if(h){var n=pn.querySelector('.tbn');if(n)n.textContent=h.textContent.trim()}var uu=pn.querySelector('.tblku');if(uu)uu.textContent=window.tbUrl(a)})});
 
 
   // ---------- 7. tableau de bord : les personnes en grand, l'expert en rond plus petit
