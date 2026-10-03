@@ -1131,7 +1131,7 @@ document.querySelectorAll('[data-perm]').forEach(function(b){var ok=b.querySelec
     g.addEventListener('click',function(e){stop(e);var nm=box.dataset.v30nm;f.hidden=true;ok.hidden=false;ta.value='';toast(nm+' prépare '+box.dataset.v30what)})});
   var mc=document.getElementById('mcomp'),go=mc&&$('.v30-mcgo',mc);
   if(go){var nm=go.dataset.v30nm;handled(go);
-    $$('[data-open="mcomp"]').forEach(function(b){b.addEventListener('click',function(){var h=$('h2',mc);if(h)h.textContent='Demander un email à '+nm})});
+    $$('[data-open="mcomp"]').forEach(function(b){b.addEventListener('click',function(){var h=$('h2',mc);if(h)h.textContent='Rédiger un email à '+nm})});
     go.addEventListener('click',function(e){stop(e);var t=$('textarea',mc);if(t&&!t.value.trim()){toast('Dites à '+nm+' ce que l’email doit dire');t.focus();return}
       mc.classList.remove('on');if(t)t.value='';toast(nm+' rédige l’email, vous le relirez avant l’envoi')})}
 
@@ -1430,7 +1430,7 @@ document.querySelectorAll('[data-perm]').forEach(function(b){var ok=b.querySelec
     function freq(r){var dt=new Date(r.d+'T12:00'),z=' ('+r.z+')';
       z=r.z&&r.z!=='Abidjan'?', heure de '+r.z:'';
       if(r.f==='day')return 'Chaque jour à '+r.h+z;if(r.f==='week'){var dd=(r.days&&r.days.length?r.days:[dt.getDay()]).map(function(k){return JOURS[k]});return 'Chaque '+(dd.length>1?dd.slice(0,-1).join(', ')+' et '+dd[dd.length-1]:dd[0])+' à '+r.h+z}
-      if(r.f==='month')return 'Chaque mois, le '+(dt.getDate()===1?'1er':dt.getDate())+' à '+r.h+z;return 'Une fois, le '+dt.getDate()+' '+MOIS[dt.getMonth()]+' à '+r.h+z}
+      if(r.f==='month')return 'Chaque mois, le '+(dt.getDate()===1?'1er':dt.getDate())+' à '+r.h+z;return 'Ponctuel, le '+dt.getDate()+' '+MOIS[dt.getMonth()]+' à '+r.h+z}
     function next(r){var p=r.h.split(':'),n=new Date(r.d+'T'+r.h+':00');
       if(r.f==='day'){n=new Date(NOW);n.setHours(+p[0],+p[1],0,0);if(n<=NOW)n.setDate(n.getDate()+1)}
       else if(r.f==='week'){var wd=new Date(r.d+'T12:00').getDay();n=new Date(NOW);n.setHours(+p[0],+p[1],0,0);while(n.getDay()!==wd||n<=NOW)n.setDate(n.getDate()+1)}
@@ -2251,10 +2251,18 @@ document.querySelectorAll('[data-perm]').forEach(function(b){var ok=b.querySelec
     if(cvb)cvb.addEventListener('click',function(){setTimeout(onItem,40)})});
 
   // ================= 13. composeur unique (retours du 03/10, 08:18 et 08:22) : trombone, champ, choix du modèle, un seul bouton rond (micro, puis Envoyer)
-  // Clés d’IA (retour du 03/10, 08:41) : Yelema ne fournit pas de modèle, le client branche ses clés ; la pastille du chat liste les modèles des fournisseurs branchés
+  // Clés et connexions (retour du 03/10, 08:41) : Yelema ne fournit pas de modèle, le client branche ses clés ; la pastille du chat liste les modèles des fournisseurs branchés
   var PROV={Anthropic:{d:'anthropic.com',p:'sk-ant-',m:['Claude Sonnet','Claude Opus','Claude Haiku']},OpenAI:{d:'openai.com',p:'sk-',m:['GPT-5','GPT-5 mini']},
     Google:{d:'gemini.google.com',p:'AIza',m:['Gemini 2.5 Pro','Gemini 2.5 Flash']},Mistral:{d:'mistral.ai',p:'',m:['Mistral Large','Mistral Small']},
-    OpenRouter:{d:'openrouter.ai',p:'sk-or-',m:['Llama 4 Maverick','DeepSeek V3','Qwen 3']}};
+    OpenRouter:{d:'openrouter.ai',p:'sk-or-',m:['Llama 4 Maverick','DeepSeek V3','Qwen 3']},
+    DeepSeek:{d:'deepseek.com',p:'sk-',m:['DeepSeek V3','DeepSeek R1']},'xAI (Grok)':{d:'x.ai',p:'xai-',m:['Grok 4','Grok 4 mini']},
+    'Meta Llama':{d:'llama.com',p:'',m:['Llama 4 Maverick','Llama 4 Scout']},Cohere:{d:'cohere.com',p:'',m:['Command A','Command R+']},
+    Groq:{d:'groq.com',p:'gsk_',m:['Llama 4 sur Groq','Qwen 3 sur Groq']},'Together AI':{d:'together.ai',p:'',m:['Llama 4 Maverick','DeepSeek V3']},
+    Fireworks:{d:'fireworks.ai',p:'fw_',m:['Llama 4 Maverick','Qwen 3']},Perplexity:{d:'perplexity.ai',p:'pplx-',m:['Sonar Pro','Sonar']},
+    'Azure OpenAI':{d:'azure.microsoft.com',p:'',m:['GPT-5 sur Azure']},'AWS Bedrock':{d:'aws.amazon.com',p:'',m:['Claude sur Bedrock','Llama sur Bedrock']},
+    'Google Vertex AI':{d:'cloud.google.com',p:'',m:['Gemini sur Vertex','Claude sur Vertex']},'Hugging Face':{d:'huggingface.co',p:'hf_',m:['Modèle Hugging Face']},
+    'Moonshot (Kimi)':{d:'moonshot.ai',p:'sk-',m:['Kimi K2']},'Alibaba Qwen':{d:'qwen.ai',p:'sk-',m:['Qwen 3 Max','Qwen 3']},
+    'Compatible OpenAI':{d:'openai.com',p:'',m:['Modèle compatible OpenAI'],u:1},'Ollama, modèle local':{d:'ollama.com',p:'',m:['Modèle local'],u:1,nok:1}};
   var AIK0=[{p:'Anthropic',k:'sk-ant-••••4f2a',by:'Aïcha Diabaté',def:1},{p:'OpenAI',k:'sk-••••9c1e',by:'Aïcha Diabaté'},{p:'Mistral',k:'••••b7d3',by:'Nadège Touré'}];
   function aikGet(){var v=ls('v36-aik');if(v){try{var a=JSON.parse(v);if(Array.isArray(a))return a}catch(_){}}return AIK0.map(function(x){return Object.assign({},x)})}
   function aikSet(a){ls('v36-aik',JSON.stringify(a))}
@@ -2439,15 +2447,25 @@ document.querySelectorAll('[data-perm]').forEach(function(b){var ok=b.querySelec
               TK.appendChild(r);menuCell(r,'key');r.classList.add('v36-flash');say('Clé « '+v+' » créée','ok')}}});
           $('#v36-m .v36-kcp').addEventListener('click',function(ev){stop(ev);try{var _p=navigator.clipboard&&navigator.clipboard.writeText(key);if(_p&&_p.catch)_p.catch(function(){})}catch(_){}ev.currentTarget.innerHTML=IC.check+' Copiée';say('Clé copiée dans le presse-papiers','ok')})},700)}},b:{l:'Annuler'}})});
     // Ajouter un serveur MCP : nom, adresse, jeton, test de connexion
-    bM.addEventListener('click',function(e){stop(e);var tested=0;modal({ic:SRV,tone:'info',t:'Ajouter un serveur MCP',p:'Il donne à '+NOM[EX]+' les outils de vos logiciels internes.',
-      body:'<label class="v36-fl"><span>Nom</span><input class="fi v36-in v36-sn" type="text" maxlength="60" placeholder="Par exemple : stock Unifood"></label><label class="v36-fl"><span>Adresse du serveur</span><input class="fi v36-su2" type="url" placeholder="https://…/mcp"></label>'+
-        '<label class="v36-fl"><span>Jeton <small>facultatif</small></span><input class="fi v36-st" type="password" autocomplete="off"></label><p class="v36-stt" aria-live="polite"></p>',
-      a:{l:'Tester la connexion',fn:function(b){var n=$('#v36-m .v36-sn').value.trim(),u=$('#v36-m .v36-su2').value.trim(),o=$('#v36-m .v36-stt');
+    // point 97 h : nom, adresse, authentification, test de connexion, outils détectés
+    bM.addEventListener('click',function(e){stop(e);var tested=0,TOOLS=['lire_stock','chercher_produit','lister_commandes','créer_commande','mettre_à_jour_prix','exporter_inventaire','alertes_rupture','fiche_fournisseur'];
+      modal({ic:SRV,tone:'info',t:'Ajouter un serveur MCP',p:'Il donne à '+NOM[EX]+' les outils de vos logiciels internes.',
+      body:'<div class="v38-mcp"><label class="v36-fl"><span>Nom</span><input class="fi v36-in v36-sn" type="text" maxlength="60" placeholder="Par exemple : stock Unifood"></label>'+
+        '<label class="v36-fl"><span>Adresse du serveur</span><input class="fi v36-su2" type="url" placeholder="https://mcp.unifood.info/stock"></label>'+
+        '<div class="v36-fl"><span>Authentification</span><div class="seg v38-mca" role="radiogroup" aria-label="Authentification"><a href="#" data-h="1" data-a="none">Aucune</a><a href="#" class="on" data-h="1" data-a="bearer">Jeton</a><a href="#" data-h="1" data-a="hdr">En-têtes</a><a href="#" data-h="1" data-a="oauth">OAuth</a></div></div>'+
+        '<div class="v38-mcz" data-a="bearer"><label class="v36-fl"><span>Jeton d’accès</span><input class="fi v36-st" type="password" autocomplete="off" placeholder="Bearer …"></label></div>'+
+        '<div class="v38-mcz" data-a="hdr" hidden><div class="v38-mch"><input class="fi" placeholder="Nom de l’en-tête, ex. X-Api-Key"><input class="fi" type="password" placeholder="Valeur"></div><a href="#" class="link sm v38-mchadd" data-h="1">+ Ajouter un en-tête</a></div>'+
+        '<div class="v38-mcz" data-a="oauth" hidden><p class="v38-aih">Vous serez redirigé vers la page de connexion du logiciel, puis ramené ici.</p></div>'+
+        '<div class="v38-mct" aria-live="polite"></div></div>',
+      a:{l:'Tester la connexion',fn:function(b){var n=$('#v36-m .v36-sn').value.trim(),u=$('#v36-m .v36-su2').value.trim(),o=$('#v36-m .v38-mct');
         if(!n){say('Donnez un nom au serveur','warn');$('#v36-m .v36-sn').focus();return}if(!/^https?:\/\/\S+\.\S+/.test(u)){say('Entrez une adresse qui commence par https://','warn');$('#v36-m .v36-su2').focus();return}
-        if(!tested){busy(b,'Test en cours…');setTimeout(function(){unbusy(b);tested=4+Math.floor(Math.random()*6);o.innerHTML='<span class="v36-ok2">'+IC.check+' Connexion réussie : '+tested+' outils trouvés.</span>';b.textContent='Ajouter'},1100);return}
-        closeModal();var r=document.createElement('div');r.className='v35-r';r.setAttribute('role','row');r.dataset.by=ME.n;
-        r.innerHTML='<b role="cell" class="v35-nm">'+esc(n)+'</b><span role="cell" data-l="Adresse"><span class="v35-k"><code>'+esc(u.replace(/^https?:\/\//,''))+'</code></span></span><span role="cell" class="v35-m" data-l="Outils">'+tested+' outils</span><span role="cell" class="v35-m" data-l="Dernier appel">jamais</span><span role="cell" class="v35-ok"><i></i>Actif</span>';
-        TM.appendChild(r);menuCell(r,'mcp');r.classList.add('v36-flash');say('Serveur « '+n+' » ajouté, '+tested+' outils','ok')}},b:{l:'Annuler'}})});
+        if(!tested){busy(b,'Test en cours…');setTimeout(function(){unbusy(b);tested=TOOLS.length-Math.floor(Math.random()*3);
+            o.innerHTML='<p class="v36-ok2">'+IC.check+' Connexion réussie : '+tested+' outils détectés</p><div class="v38-mctl">'+TOOLS.slice(0,tested).map(function(t){return '<label><input type="checkbox" checked> <code>'+t+'</code></label>'}).join('')+'</div><p class="v38-aih">Décochez les outils que '+NOM[EX]+' ne doit pas utiliser.</p>';b.textContent='Ajouter le serveur'},1100);return}
+        var k=$$('#v36-m .v38-mctl input:checked').length;closeModal();var r=document.createElement('div');r.className='v35-r';r.setAttribute('role','row');r.dataset.by=ME.n;
+        r.innerHTML='<b role="cell" class="v35-nm">'+esc(n)+'</b><span role="cell" data-l="Adresse"><span class="v35-k"><code>'+esc(u.replace(/^https?:\/\//,''))+'</code></span></span><span role="cell" class="v35-m" data-l="Outils">'+k+' outils</span><span role="cell" class="v35-m" data-l="Dernier appel">jamais</span><span role="cell" class="v35-ok"><i></i>Actif</span>';
+        TM.appendChild(r);menuCell(r,'mcp');r.classList.add('v36-flash');say('Serveur « '+n+' » ajouté, '+k+' outils','ok')}},b:{l:'Annuler'}});
+      var M=$('#v36-m');M.addEventListener('click',function(ev){var x=ev.target.closest('.v38-mca a');if(x){stop(ev);$$('.v38-mca a',M).forEach(function(y){y.classList.toggle('on',y===x)});$$('.v38-mcz',M).forEach(function(z){z.hidden=z.dataset.a!==x.dataset.a});return}
+        var h=ev.target.closest('.v38-mchadd');if(h){stop(ev);var d=document.createElement('div');d.className='v38-mch';d.innerHTML='<input class="fi" placeholder="Nom de l’en-tête"><input class="fi" type="password" placeholder="Valeur">';h.parentNode.insertBefore(d,h)}})});
   }
 
   // ================= 18. Agenda d’un expert : Jour, Semaine, Mois, précédent, suivant, Aujourd’hui (même segment que l’Analytique)
@@ -2531,7 +2549,7 @@ document.querySelectorAll('[data-perm]').forEach(function(b){var ok=b.querySelec
       '<h3><label for="v36-rc">Que doit faire '+NM+' ?</label></h3><textarea id="v36-rc" class="v36-rc" rows="4" placeholder="Dites-le simplement, comme à une collègue"></textarea>'+
       '<div class="v36-rtx">'+EXR.map(function(x){return '<button type="button" data-h="1">'+esc(x)+'</button>'}).join('')+'</div>'+
       '<button type="button" class="v36-rtai" data-h="1">'+svg('<path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3Z"/>')+' Aide-moi à l’écrire</button></section>'+
-      '<section><h3>Quand ?</h3><div class="seg v36-rtq" role="group" aria-label="Fréquence"><a href="#" data-h="1" data-f="once">Une fois</a><a href="#" data-h="1" data-f="day">Chaque jour</a><a href="#" data-h="1" data-f="week">Chaque semaine</a><a href="#" data-h="1" data-f="month">Chaque mois</a></div>'+
+      '<section><h3>Quand ?</h3><div class="seg v36-rtq" role="group" aria-label="Fréquence"><a href="#" data-h="1" data-f="day">Chaque jour</a><a href="#" data-h="1" data-f="week">Chaque semaine</a><a href="#" data-h="1" data-f="month">Chaque mois</a><a href="#" data-h="1" data-f="once">Ponctuel</a></div>'+
       '<div class="v36-rtd" role="group" aria-label="Jours de la semaine">'+JL.map(function(j,i){return '<button type="button" data-h="1" data-j="'+i+'" aria-label="'+JLONG[i]+'" aria-pressed="false">'+j+'</button>'}).join('')+'</div>'+
       '<div class="v36-rtm2"><span>Le</span><div class="v36-dd" data-k="dom"></div><span>du mois</span></div><label class="v36-rtdt"><span>Date</span><input type="date" class="fi" value="2026-10-05" min="2026-10-01"></label>'+
       '<div class="v36-rtrow"><span>À</span><div class="v36-dd" data-k="h"></div><div class="v36-dd v36-ddz" data-k="z"></div></div><p class="v36-rtsum" aria-live="polite"></p></section>'+
@@ -2558,7 +2576,7 @@ document.querySelectorAll('[data-perm]').forEach(function(b){var ok=b.querySelec
     var dl=function(n){return JLONG[(n.getDay()+6)%7]+' '+(n.getDate()===1?'1er':n.getDate())+' '+MN[n.getMonth()]};
     sum=function(){var z=ZONES.filter(function(x){return x[0]===R.z})[0],zl=z?z[1].replace(/^Heure/,'heure').replace(/ \(.*\)$/,''):'',t;
       var ds=R.days.slice().sort().map(function(i){return JLONG[i]});
-      if(R.f==='once')t='Une fois, le '+dl(new Date(R.date+'T12:00'))+' à '+R.h;else if(R.f==='day')t='Chaque jour à '+R.h;
+      if(R.f==='once')t='Ponctuel, le '+dl(new Date(R.date+'T12:00'))+' à '+R.h;else if(R.f==='day')t='Chaque jour à '+R.h;
       else if(R.f==='week')t=ds.length?'Chaque '+(ds.length>1?ds.slice(0,-1).join(', ')+' et '+ds[ds.length-1]:ds[0])+' à '+R.h:'Choisissez au moins un jour';else t='Chaque mois, le '+(R.dom===1?'1er':R.dom)+' à '+R.h;
       var n=nextRun();$('.v36-rtsum',F).innerHTML=esc(t)+(R.f==='week'&&!ds.length?'.':', '+esc(zl)+'.')+(n?' <b>Prochain passage : '+esc(dl(n))+'.</b>':'');
       $$('.v36-rtq a',F).forEach(function(a){var on=a.dataset.f===R.f;a.classList.toggle('on',on);a.setAttribute('aria-pressed',on)});
@@ -2625,7 +2643,7 @@ document.querySelectorAll('[data-perm]').forEach(function(b){var ok=b.querySelec
       '404':function(){location.href='404.html'},'erreur':function(){location.href='erreur.html'}};
     CAT.addEventListener('click',function(e){var b=e.target.closest('[data-v36]');if(!b)return;stop(e);var k=b.dataset.v36;if(T[k])T[k]();else if(CASES[k])CASES[k].run()});
   }
-  // ================= 24. Clés d’IA (Leslie, 03/10 08:41) : une ligne par fournisseur, une clé par défaut, bascule de secours
+  // ================= 24. Clés et connexions (Leslie, 03/10 08:41) : une ligne par fournisseur, une clé par défaut, bascule de secours
   var KEYI2=svg('<path d="m15.5 7.5 2.3 2.3a1 1 0 0 0 1.4 0l2.1-2.1a1 1 0 0 0 0-1.4L19 4"/><path d="m21 2-9.6 9.6"/><circle cx="7.5" cy="15.5" r="5.5"/>');
   $$('.v36-aik').forEach(function(S){var L=$('.v36-ail',S),FB=$('.v36-aifb',S),ADD=$('.v36-aiadd',S);if(!L)return;
     function mine(x){return x.by===ME.n}
@@ -2644,8 +2662,10 @@ document.querySelectorAll('[data-perm]').forEach(function(b){var ok=b.querySelec
     document.addEventListener('click',function(e){if(!e.target.closest('.v36-aik .v36-rm'))closeM()});
     function keyStep(p,rep){var P=PROV[p];
       modal({ic:'<img class="v36-aimg" src="https://www.google.com/s2/favicons?sz=64&domain='+P.d+'" alt="">',tone:'info',t:(rep?'Remplacer la clé ':'Clé ')+p,p:'Collez la clé d’API créée dans votre compte '+p+'.',
-        body:'<label class="v36-fl"><span>Clé d’API</span><input class="fi v36-in" type="password" autocomplete="off" spellcheck="false" placeholder="'+(P.p?P.p+'…':'Collez la clé')+'"></label><p class="v36-fe" aria-live="polite"></p>',
+        body:(P.u?'<label class="v36-fl"><span>Lien de l’API du fournisseur</span><input class="fi v38-aiu" type="url" placeholder="'+(P.nok?'http://localhost:11434/v1':'https://…/v1')+'"></label><p class="v38-aih">Donné par votre fournisseur, commence par https://</p>':'')+
+          (P.nok?'<input class="v36-in" type="hidden" value="local-sans-cle-0000">':'<label class="v36-fl"><span>Clé d’API</span><input class="fi v36-in" type="password" autocomplete="off" spellcheck="false" placeholder="'+(P.p?P.p+'…':'Collez la clé')+'"></label>')+'<p class="v36-fe" aria-live="polite"></p>',
         a:{l:rep?'Remplacer':'Ajouter',fn:function(b){var i=$('#v36-m .v36-in'),v=i.value.trim(),er=$('#v36-m .v36-fe');
+          var uu=$('#v36-m .v38-aiu');if(uu&&!/^https?:\/\/\S+/.test(uu.value.trim())){er.textContent='Indiquez le lien de l’API, il commence par https://';uu.focus();return}
           if(v.length<12){er.textContent='Cette clé est trop courte. Copiez-la en entier depuis '+p+'.';i.focus();return}er.textContent='';busy(b,'Vérification…');
           setTimeout(function(){var a=aikGet(),m=(P.p&&v.indexOf(P.p)===0?P.p:'')+'••••'+v.slice(-4),x=a.filter(function(z){return z.p===p})[0];
             if(x){x.k=m;x.by=ME.n}else a.push({p:p,k:m,by:ME.n,def:a.length?0:1});aikSet(a);closeModal();draw(p);V36.mdlRead();
@@ -2653,8 +2673,9 @@ document.querySelectorAll('[data-perm]').forEach(function(b){var ok=b.querySelec
       setTimeout(function(){var i=$('#v36-m .v36-in');if(i)i.addEventListener('keydown',function(ev){if(ev.key==='Enter'){ev.preventDefault();$('#v36-m .v36-mb1').click()}})},60)}
     if(ADD)ADD.addEventListener('click',function(e){stop(e);var a=aikGet(),has={};a.forEach(function(x){has[x.p]=1});
       modal({ic:KEYI2,tone:'info',t:'Ajouter une clé',p:'Choisissez le fournisseur, puis collez la clé.',
-        body:'<div class="v36-aipv" role="list">'+Object.keys(PROV).map(function(p){return '<button type="button" class="v36-aipo" role="listitem" data-h="1" data-p="'+p+'"'+(has[p]?' aria-disabled="true"':'')+'><img src="https://www.google.com/s2/favicons?sz=64&domain='+PROV[p].d+'" alt=""><b>'+p+'</b>'+(has[p]?'<small>Déjà branchée</small>':'')+'</button>'}).join('')+'</div>',
+        body:'<label class="v36-fl v38-aiq"><input class="fi" type="search" placeholder="Chercher un fournisseur" aria-label="Chercher un fournisseur"></label><div class="v36-aipv" role="list">'+Object.keys(PROV).map(function(p){return '<button type="button" class="v36-aipo" role="listitem" data-h="1" data-p="'+p+'"'+(has[p]?' aria-disabled="true"':'')+'><img src="https://www.google.com/s2/favicons?sz=64&domain='+PROV[p].d+'" alt=""><b>'+p+'</b>'+(has[p]?'<small>Déjà branchée</small>':'')+'</button>'}).join('')+'</div>',
         b:{l:'Annuler'}});
+      var aq=$('#v36-m .v38-aiq input');if(aq)aq.addEventListener('input',function(){var q=aq.value.trim().toLowerCase();$$('#v36-m .v36-aipo').forEach(function(o){o.hidden=!!q&&o.dataset.p.toLowerCase().indexOf(q)<0})});
       $('#v36-m .v36-aipv').addEventListener('click',function(ev){var o=ev.target.closest('.v36-aipo');if(!o)return;stop(ev);
         if(o.getAttribute('aria-disabled')){say('Une clé '+o.dataset.p+' est déjà branchée : passez par ⋯ puis Remplacer la clé','info');return}keyStep(o.dataset.p)})});
     S.addEventListener('click',function(e){var t=e.target;
@@ -2918,20 +2939,19 @@ document.querySelectorAll('[data-perm]').forEach(function(b){var ok=b.querySelec
       a:{l:'Refuser',fn:function(){var m=$('#v36-m .v38-mot'),a=dems();a.forEach(function(x){if(x.id===d.id){x.st='ko';x.motif=m?m.value.trim():'';x.dt=now()}});demSet(a);V.close();
         say('Demande refusée, '+d.m.split(' ')[0]+' est prévenu'+(/a$|e$/.test(d.m.split(' ')[0])?'e':''),'ok');renderAdm();badge()}},b:{l:'Annuler'}})}
   var SEC=null;
-  function card(d){var c=CAT[d.e]||[d.e,'',0];
-    return '<article class="v38-dq" data-id="'+d.id+'"><span class="v38-dqp"><img src="../img/vid/'+d.e+'.webp" alt="" onerror="this.src=\'../img/'+d.e+'.jpg\'"></span>'+
-      '<div class="v38-dqb"><div class="v38-dqh"><b>'+esc(c[0])+'</b><span class="v38-dqm">'+esc(c[1])+'</span></div>'+
-      '<div class="v38-dqw"><img src="../img/'+d.mp+'.jpg" alt=""><span><b>'+esc(d.m)+'</b> demande '+esc(c[0])+'</span><time>'+esc(d.t)+'</time></div>'+
-      (d.msg?'<p class="v38-dqmsg">« '+esc(d.msg)+' »</p>':'')+
-      '<div class="v38-dqf"><span class="v38-dqpx"><b class="num">'+PRIX+'</b> par mois</span><span class="v38-dqa"><button type="button" class="btn o v38-ko" data-h="1">Refuser</button><button type="button" class="btn p v38-ok" data-h="1">'+IC.check+' Approuver et payer</button></span></div></div></article>'}
+  function card(d){var c=CAT[d.e]||[d.e,'',0],me=d.m.split(' ')[0];
+    return '<tr class="v38-dq" data-id="'+d.id+'"><td><span class="v38-tw"><img src="../img/'+d.mp+'.jpg" alt=""><b>'+esc(d.m)+'</b></span></td>'+
+      '<td><span class="v38-tw"><img src="../img/'+d.e+'.jpg" alt=""><span><b>'+esc(c[0])+'</b><small>'+esc(c[1])+'</small></span></span>'+(d.msg?'<small class="v38-dqmsg">« '+esc(d.msg)+' »</small>':'')+'</td>'+
+      '<td>Pour '+esc(me)+'</td><td class="num">'+esc(d.t)+'</td>'+
+      '<td class="v38-dqa"><button type="button" class="btn o sm v38-ko" data-h="1">Refuser</button><button type="button" class="btn p sm v38-ok" data-h="1">Approuver</button></td></tr>'}
   function hist(d){var c=CAT[d.e]||[d.e];return '<li class="v38-dh"><img src="../img/'+d.mp+'.jpg" alt=""><span class="grow"><b>'+esc(c[0])+'</b> pour '+esc(d.m)+(d.motif?'<small>Motif : '+esc(d.motif)+'</small>':'')+'</span>'+
     '<span class="v38-st '+(d.st==='ok'?'ok':'ko')+'">'+(d.st==='ok'?IC.ok+' Approuvée':IC.x+' Refusée')+'</span><time>'+esc(d.dt||d.t)+'</time></li>'}
   function renderAdm(){if(!SEC)return;var a=dems(),p=a.filter(function(d){return d.st==='att'}),h=a.filter(function(d){return d.st!=='att'});
     $('.v38-dqn',SEC).textContent=p.length;$('.v38-dqn',SEC).hidden=!p.length;
-    $('.v38-dql',SEC).innerHTML=p.length?p.map(card).join(''):'<div class="v38-empty">'+IC.users+'<b>Aucune demande en attente</b><span>Quand un membre demande un expert, sa demande arrive ici et dans vos notifications.</span></div>';
+    $('.v38-dql',SEC).innerHTML=p.length?'<table class="tbl v38-dqt"><thead><tr><th>Demandeur</th><th>Expert demandé</th><th>Pour qui</th><th>Date</th><th><span class="v38-sr">Actions</span></th></tr></thead><tbody>'+p.map(card).join('')+'</tbody></table>':'<div class="v38-empty">'+IC.users+'<b>Aucune demande en attente</b><span>Quand un membre demande un expert, sa demande arrive ici et dans vos notifications.</span></div>';
     $('.v38-dhl',SEC).innerHTML=h.length?h.map(hist).join(''):'<li class="v38-dh mute3">Aucune demande traitée pour l’instant.</li>'}
-  if(page==='admin-experts'){var hl=$('.sform .hello');if(hl){SEC=document.createElement('section');SEC.className='box v38-dem';SEC.id='demandes';
-      SEC.innerHTML='<div class="ch"><h2>Demandes de recrutement <span class="v38-dqn"></span></h2><span class="xs mute3">Les membres demandent, vous décidez</span></div><div class="v38-dql"></div>'+
+  if(page==='admin-experts'){var hl=($('.tbex2')||{}).closest?$('.tbex2').closest('.box'):$('.sform .hello');if(hl){SEC=document.createElement('section');SEC.className='box v38-dem';SEC.id='demandes';
+      SEC.innerHTML='<div class="ch"><h2>Demandes de recrutement <span class="v38-dqn"></span></h2><span class="xs mute3">Approuver ouvre le paiement, avec votre moyen par défaut</span></div><div class="v38-dql"></div>'+
         '<details class="v38-dhw"><summary>Demandes traitées</summary><ul class="v38-dhl"></ul></details>';
       hl.insertAdjacentElement('afterend',SEC);renderAdm();
       SEC.addEventListener('click',function(e){var b=e.target.closest('.v38-ok,.v38-ko');if(!b)return;stop(e);var id=b.closest('.v38-dq').dataset.id,d=dems().filter(function(x){return x.id===id})[0];if(!d)return;
@@ -2984,9 +3004,10 @@ document.querySelectorAll('[data-perm]').forEach(function(b){var ok=b.querySelec
   function moySet(a){ls(MK,JSON.stringify(a))}
   function defMoyen(){var a=moyens(),d=a.filter(function(x){return x.def})[0]||a[0];return d?d.n+', '+d.d:'Aucun moyen enregistré'}
   if(page==='admin-facturation'){
-    var fk=$('.fxk:not(.fxn)');if(fk&&!$('.v38-plan',fk)){fk.classList.add('v38-plan');fk.innerHTML='<small>Formule</small><b>Team</b>'+
-      '<div class="v38-plus"><span class="grow"><b>Yelema Plus</b><small>En option</small></span><button type="button" class="btn o sm v38-plusb" data-h="1">'+IC.plus+' Ajouter</button></div>';
-      $('.v38-plusb',fk).addEventListener('click',function(e){stop(e);say('Demande envoyée : l’équipe Yelema vous présente Yelema Plus avant tout ajout','ok')})}
+    // point 99 : un seul bandeau, formule + prochaine facture, sans offre Yelema Plus
+    var x3=$('.fx3');if(x3&&!$('.v38-fxb',x3)){x3.classList.add('v38-fxb');x3.innerHTML='<div class="v38-fxbi"><small>Formule</small><b>Team</b><span>6 experts en service, jusqu’à 50 membres</span></div>'+
+      '<div class="v38-fxbi"><small>Prochaine facture</small><b class="num">1 300 000 F CFA</b><span>le 01/11/2026, '+esc(defMoyen())+'</span></div>'+
+      '<button type="button" class="btn p v38-paynow" data-h="1">'+IC.card+' Payer maintenant</button>'}
     $$('.sform p').forEach(function(p){if(/est en pause : elle n.est pas factur/.test(p.textContent))p.remove()});
     var pay=$('#payer');if(pay&&!$('#v38-moyens')){var S=document.createElement('section');S.className='box v38-moys';S.id='v38-moyens';pay.parentNode.parentNode.insertBefore(S,pay.parentNode.nextSibling);
       var LOGO={'Wave':'<img src="https://www.google.com/s2/favicons?sz=64&domain=wave.com" alt="">','Carte bancaire':IC.card,'Orange Money':'<b>OM</b>','MTN MoMo':'<b>MTN</b>','Moov Money':'<b>moov</b>','Djamo':'<b>djamo</b>'};
@@ -3012,18 +3033,18 @@ document.querySelectorAll('[data-perm]').forEach(function(b){var ok=b.querySelec
         var o2=$('.v38-mmu',S);if(o2)o2.remove()});
       document.addEventListener('click',function(e){var o=$('.v38-mmu',S);if(o&&!e.target.closest('.v38-mm'))o.remove()})}}
 
-  // ================= 5. Yélé animé (point 80) : vidéo VP9 transparente chargée après la page ; repli sur l’ancienne bouille
+  // ================= 5. Yélé animé (points 80, 91) : WebP animé transparent, lu par tous les navigateurs (iPhone compris)
   var RM=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var CANW=(function(){try{var v=document.createElement('video');return !!v.canPlayType&&v.canPlayType('video/webm; codecs="vp9"')!==''&&!/^((?!chrome|android).)*safari/i.test(navigator.userAgent)}catch(e){return false}})();
-  function yele(){if(!CANW)return;$$('svg.yele').forEach(function(s){if(s._v38)return;s._v38=1;var w=document.createElement('span');w.className='v38-yw'+(s.classList.contains('big')?' big':'');
-      var v=document.createElement('video');v.className='v38-yv';v.muted=true;v.loop=!RM;v.playsInline=true;v.setAttribute('playsinline','');v.setAttribute('aria-hidden','true');v.preload=RM?'auto':'none';v.src='../img/yele/yele_smile.webm';
-      s.parentNode.insertBefore(w,s);w.appendChild(s);w.appendChild(v);
-      v.addEventListener('loadeddata',function(){w.classList.add('ok');if(RM)try{v.pause();v.currentTime=0}catch(_){}});v.addEventListener('error',function(){w.classList.remove('ok')});
-      if(!RM){var p=v.play();if(p&&p.catch)p.catch(function(){})}else v.load()})}
-  function laugh(){if(RM||!CANW)return;$$('#yele .v38-yv').forEach(function(v){if(v._l)return;v._l=1;v.loop=false;v.src='../img/yele/yele_laugh.webm';var p=v.play();if(p&&p.catch)p.catch(function(){});
-      v.onended=function(){v.onended=null;v.loop=true;v.src='../img/yele/yele_smile.webm';var q=v.play();if(q&&q.catch)q.catch(function(){});v._l=0}})}
+  // point 104 b : dans « Besoin d’aide ? », les trois billes de Myriel qui s’interchangent doucement ; le visage WebP reste dans le panneau
+  function orbs(){$$('.ybtn svg.yele').forEach(function(s){if(s._v38)return;s._v38=1;var w=document.createElement('span');w.className='v38-orbs';w.setAttribute('aria-hidden','true');w.innerHTML='<i></i><i></i><i></i>';s.parentNode.insertBefore(w,s);s.style.display='none'})}
+  orbs();
+  function yele(){$$('svg.yele').forEach(function(s){if(s._v38)return;s._v38=1;var w=document.createElement('span');w.className='v38-yw ok'+(s.classList.contains('big')?' big':'');
+      var im=document.createElement('img');im.className='v38-yv';im.alt='';im.setAttribute('aria-hidden','true');im.decoding='async';im.src='../img/yele/yele_smile.webp';
+      s.parentNode.insertBefore(w,s);w.appendChild(s);w.appendChild(im);s.style.display='none'})}
+  var LT=0;function laugh(){if(RM)return;clearTimeout(LT);$$('#yele .v38-yv').forEach(function(im){im.src='../img/yele/yele_laugh.webp'});
+    LT=setTimeout(function(){$$('#yele .v38-yv').forEach(function(im){im.src='../img/yele/yele_smile.webp'})},4000)}
   V.yeleLaugh=laugh;
-  if(document.readyState==='complete')setTimeout(yele,300);else window.addEventListener('load',function(){setTimeout(yele,300)});
+  yele();
   var YP=$('#yele');if(YP)new MutationObserver(function(){if(YP.classList.contains('on'))laugh()}).observe(YP,{attributes:true,attributeFilter:['class']});
 
   // ================= 6. catalogue des états : tout « Déclencher » que rien n'a pris en charge montre un état réel (spinner puis confirmation)
@@ -3045,22 +3066,31 @@ document.querySelectorAll('[data-perm]').forEach(function(b){var ok=b.querySelec
     var n=0;$$('.v38-tc[data-x]',team).forEach(function(c){var on=EX.indexOf(c.dataset.x)>-1;c.hidden=!on;if(on)n++});
     var cnt=$('.v38-cnt');if(cnt)cnt.textContent='('+n+')';
     if(ask){$$('.who img',ask).forEach(function(im){var k=(im.getAttribute('src')||'').split('/').pop().replace('.jpg','');im.hidden=EX.indexOf(k)<0});if(!n)ask.hidden=true}
-    var ad=$('.v38-add .v38-adda');if(ad&&MEMBRE){ad.textContent='Demander un expert';ad.setAttribute('href',ad.dataset.v38m)}})();
+  })();
 
-  // ================= 8. Apparence dans le menu « ⋯ » du compte (point 83) : Couleurs et Éclairage quittent la barre du haut
-  (function(){var mx=$$('#modes .mdx');if(!mx.length&&!$('#eclair'))return;
-    var th=mx.map(function(a){var cl=/\/client\//.test(a.getAttribute('href'));return '<a class="'+(a.classList.contains('on')?'on':'')+'" href="'+a.getAttribute('href')+'" data-h="1">'+(cl?'Entreprise':'Yelema')+'</a>'}).join('');
-    var ap=[['clair','Clair'],['sombre','Sombre'],['auto','Auto']].map(function(x){return '<a href="#" data-ap="'+x[0]+'" data-h="1">'+x[1]+'</a>'}).join('');
-    var html='<div class="v38-apx"><p class="v38-aph">Apparence</p><div class="v38-apr"><span>Thème</span><div class="v38-seg v38-th">'+th+'</div></div>'+
-      '<div class="v38-apr"><span>Éclairage</span><div class="v38-seg apseg v38-aps">'+ap+'</div></div></div>';
+  // ================= 8. menu du compte (points 83, 95) : deux comptes de démo, plus d'outils de test, Contacter Yélé, Apparence en vignettes
+  (function(){var mx=$$('#modes .mdx');
+    var SW={yelema:['#301667','#8D68FA','#E4765A'],client:['#E00040','#F8B400','#5A1022']};
+    var th=mx.map(function(a){var cl=/\/client\//.test(a.getAttribute('href'));return '<a class="v38-tile v38-tht'+(a.classList.contains('on')?' on':'')+'" href="'+a.getAttribute('href')+'" data-h="1"><span class="v38-sws">'+SW[cl?'client':'yelema'].map(function(c){return '<i style="background:'+c+'"></i>'}).join('')+'</span><span>'+(cl?'Entreprise':'Yelema')+'</span></a>'}).join('');
+    var ap=[['clair','Clair'],['sombre','Sombre'],['auto','Auto']].map(function(x){return '<a class="v38-tile" href="#" data-ap="'+x[0]+'" data-h="1"><span class="v38-prv '+x[0]+'"><i></i><i></i><i></i></span><span>'+x[1]+'</span></a>'}).join('');
+    var html='<div class="v38-apx"><p class="v38-aph">'+svg('<circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/>')+' Apparence</p>'+
+      '<div class="v38-seg apseg v38-aps">'+ap+'</div>'+(th?'<div class="v38-seg v38-th">'+th+'</div>':'')+'</div>';
     function put(m,before){if($('.v38-apx',m))return;var d=document.createElement('div');d.innerHTML=html;var x=d.firstChild;if(before)m.insertBefore(x,before);else m.appendChild(x)}
-    $$('.acm').forEach(function(m){put(m,$('.acsep',m))});
-    $$('#sh-moi .mspn').forEach(function(m){put(m,$('.msi[href^="connexion"]',m)||$('.pby',m))});
+    function clean(m){$$('[data-v33v="membre0"], .v33-pz, .v35-lz, .v36-sim',m).forEach(function(x){x.remove()});
+      var l=$('.v33-vwl',m);if(l)l.textContent='Changer de compte';
+      $$('.v33-vw',m).forEach(function(a){var k=a.dataset.v33v,im=k==='admin'?'aicha':'m_women_36',t=k==='admin'?['Aïcha Diabaté','Admin']:['Nadège Touré','Membre'];
+        a.innerHTML='<img src="../img/'+im+'.jpg" alt=""><span class="grow"><b>'+t[0]+'</b><small>'+t[1]+'</small></span>'+(a.classList.contains('on')?IC.check:'');a.classList.add('v38-acc')});
+      $$('[data-yele]',m).forEach(function(a){a.innerHTML='<img class="v38-yf" src="../img/yele/yele_smile.webp" alt=""> Contacter Yélé'})}
+    $$('.acm').forEach(function(m){clean(m);$$('.acx[href="profil.html"], .acx[href="notifications.html"], .acx[href^="admin-membres"]:not(.v33-vw)',m).forEach(function(a){if(!a.querySelector('.adav'))a.remove()});put(m,$('.acsep',m))});
+    $$('#sh-moi .mspn').forEach(function(m){clean(m);put(m,$('.msi[href^="connexion"]',m)||$('.pby',m))});
     var cur;try{cur=localStorage.getItem('yap')||'clair'}catch(_){cur='clair'}
     $$('.v38-aps a').forEach(function(a){a.classList.toggle('on',a.dataset.ap===cur)});
     document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('.v38-aps a');if(!a)return;e.preventDefault();e.stopPropagation();
-      var o=$('#eclair .apo[data-ap="'+a.dataset.ap+'"]');if(o)o.click()},true);
-    document.documentElement.classList.add('v38-noap')})();
+      var o=$('#eclair .apo[data-ap="'+a.dataset.ap+'"]');if(o)o.click();$$('.v38-aps a').forEach(function(x){x.classList.toggle('on',x.dataset.ap===a.dataset.ap)})},true);
+    document.documentElement.classList.add('v38-noap');
+    // connexion : deux comptes de démo, Aïcha (admin) ou Nadège (membre)
+    var LF=$('[data-login]');if(LF)window.addEventListener('submit',function(e){if(e.target!==LF)return;var em=($('input[type=email]',LF)||{}).value||'';em=em.trim().toLowerCase();
+      if(/^nadege\.toure@unifood\.info$/.test(em))ls('v33-vue','membre');else if(/^aicha\.diabate@unifood\.info$/.test(em))ls('v33-vue','admin')},true)})();
 
   // ================= 9. menu latéral (point 84) : statut mot + forme sous le prénom de chaque expert
   $$('.sb a.mt').forEach(function(a){var i=$('.p i',a),sm=$('small',a);if(!i||!sm||a._v38)return;a._v38=1;var w=!i.classList.contains('idle');
@@ -3082,4 +3112,223 @@ document.querySelectorAll('[data-perm]').forEach(function(b){var ok=b.querySelec
     $$('#discussion .rail .lvnow .lvtt').forEach(function(t){if($('.v38-lvp',t.parentNode))return;var x=document.createElement('span');x.className='v38-lvp';x.innerHTML='<span class="v38-pbar"><i style="width:'+ACT.p+'%"></i></span>'+ACT.p+' %, '+ACT.r;t.parentNode.insertBefore(x,t.nextSibling)});
     $$('#discussion .thread .typing').forEach(function(t){var tm=t.parentNode.querySelector('time');if(tm)tm.textContent=full});
     $$('#discussion .rail .doing').forEach(function(d){var dot=$('.dot',d);d.textContent=' '+full;if(dot)d.insertBefore(dot,d.firstChild)})})();
+
+  // ================= 11. tableaux de bord (point 89) : liste des tableaux en colonne repliable, état retenu
+  (function(){var x=$('.tbx'),r=x&&$('.tbrail',x);if(!r)return;
+    var C='<rect width="18" height="18" x="3" y="3" rx="2"/><path d="M9 3v18"/>',CL=svg(C+'<path d="m16 15-3-3 3-3"/>'),OP=svg(C+'<path d="m14 9 3 3-3 3"/>');
+    var b=document.createElement('button');b.type='button';b.className='v38-tbt';b.dataset.h='1';r.insertBefore(b,r.firstChild);
+    function set(m){document.documentElement.classList.toggle('v38-tbmini',m);b.innerHTML=m?OP:CL;var l=m?'Afficher la liste des tableaux':'Masquer la liste des tableaux';b.setAttribute('aria-label',l);b.title=l;b.setAttribute('aria-expanded',m?'false':'true')}
+    set(ls('v38-tbr')==='1');
+    b.addEventListener('click',function(e){stop(e);var m=!document.documentElement.classList.contains('v38-tbmini');ls('v38-tbr',m?'1':'0');set(m);try{window.dispatchEvent(new Event('resize'))}catch(_){}});
+    $$('.tbli a[data-t]',r).forEach(function(a){var t=$('b',a);if(t&&!a.title)a.title=t.textContent})})();
+
+  // ================= 12. période « Personnalisée » (point 90) : calendrier Du / Au partagé par tous les filtres à dates
+  (function(){$$('.tdper, .an-per').forEach(function(sg){if($('.v38-pers',sg))return;var box=sg.closest('.fdp')||sg.parentNode,rb=$('.anr .rngb',box);if(!rb)return;
+      var a=document.createElement('a');a.className='v38-pers';a.dataset.per='perso';a.dataset.h='1';a.textContent='Personnalisée';sg.appendChild(a);
+      var anr=rb.closest('.anr');anr.classList.add('v38-anrh');var h=box.querySelector('.fdh');if(h)h.hidden=true;
+      a.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();rb.click();
+        setTimeout(function(){var g=$('.rgc.on');if(!g||innerWidth<=760)return;var rc=a.getBoundingClientRect(),w=g.offsetWidth,hh=g.offsetHeight;
+          g.style.left=Math.max(12,Math.min(rc.left,innerWidth-w-12))+'px';g.style.top=(rc.bottom+hh+12<innerHeight?rc.bottom+8:Math.max(12,rc.top-hh-8))+'px'},0)});
+      $$('a',sg).forEach(function(o){if(o!==a)o.addEventListener('click',function(){a.classList.remove('on')})})});
+    document.addEventListener('change',function(e){var i=e.target;if(!i.matches||!i.matches('.v38-anrh input[type=date]'))return;var anr=i.closest('.anr'),box=anr.closest('.fdp')||anr.parentNode,sg=$('.tdper, .an-per',box),
+        lab=($('.rngb span',anr)||{}).textContent||'';if(!sg)return;
+      $$('a',sg).forEach(function(o){o.classList.toggle('on',o.classList.contains('v38-pers'))});
+      var d=anr.closest('.fdd');if(d){var l=$('.fdl',d);if(l)l.textContent=lab;d.classList.add('on');setTimeout(function(){d.removeAttribute('open')},0)}
+      var pn=anr.closest('.panel')||document;$$('.mw, .v36-an, .an-k',pn).forEach(function(w){w.classList.remove('v38-rcl');void w.offsetWidth;w.classList.add('v38-rcl')});
+      say('Période du '+lab+' : les blocs sont recalculés','ok')});})();
+
+  // ================= 13. tableau de Djénéba (point 85) : cartes à onglets, une action par ligne envoyée à Djénéba
+  document.addEventListener('click',function(e){var t=e.target.closest&&e.target.closest('[data-v38tab]');if(t){stop(e);var w=t.closest('.v38-mw'),i=+t.dataset.v38tab;
+      $$('[data-v38tab]',w).forEach(function(x){var on=x===t;x.classList.toggle('on',on);x.setAttribute('aria-selected',on?'true':'false')});$$('.v38-tp',w).forEach(function(p,j){p.hidden=j!==i;p.classList.toggle('on',j===i)});return}
+    var a=e.target.closest&&e.target.closest('[data-v38do]');if(!a)return;stop(e);if(a._v38d)return;a._v38d=1;
+    if(V.busy)V.busy(a,'Envoi…');setTimeout(function(){if(V.unbusy)V.unbusy(a);a.classList.add('done');a.innerHTML=IC.check+' Demandé à Djénéba';say('Djénéba s’en occupe : '+a.dataset.v38do.charAt(0).toLowerCase()+a.dataset.v38do.slice(1)+'. Elle vous confirme dans la discussion.','ok')},700)},true);
+
+  // ================= 14. Analytique de l'expert (point 49) : une icône par carte, plus de carte « Documents », Conversations et Messages définis
+  (function(){var A=$('#analytique');if(!A)return;
+    var M={'Temps de travail moyen':'<circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>','Temps de travail total':'<path d="M5 22h14M5 2h14M17 22v-4.172a2 2 0 0 0-.586-1.414L12 12l-4.414 4.414A2 2 0 0 0 7 17.828V22M7 2v4.172a2 2 0 0 0 .586 1.414L12 12l4.414-4.414A2 2 0 0 0 17 6.172V2"/>',
+      'Temps gagné estimé':'<path d="M16 7h6v6"/><path d="m22 7-8.5 8.5-5-5L2 17"/>','Délai moyen de réponse':'<path d="M10 2h4M12 14l3-3"/><circle cx="12" cy="14" r="8"/>',
+      'Conversations':'<path d="M14 9a2 2 0 0 1-2 2H6l-4 4V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2z"/><path d="M18 9h2a2 2 0 0 1 2 2v11l-4-4h-6a2 2 0 0 1-2-2v-1"/>','Messages':'<path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/>',
+      'Appels':'<path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384"/>',
+      'Emails':'<rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>','Compétences utilisées':'<path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/>',
+      'Routines actives':'<path d="m17 2 4 4-4 4"/><path d="M3 11v-1a4 4 0 0 1 4-4h14"/><path d="m7 22-4-4 4-4"/><path d="M21 13v1a4 4 0 0 1-4 4H3"/>','Livrables':'<path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/>'};
+    var SUB={'Conversations':'fils de discussion ouverts, web et Telegram','Messages':'messages échangés dans ces conversations'};
+    $$('.an-k, .v36-k',A).forEach(function(k){var sp=k.querySelector(':scope>span');if(!sp)return;var l=sp.textContent.trim();
+      if(l==='Documents'){k.remove();return}if(M[l]&&!$('svg',k)&&!$('.v38-kic',k)){var i=document.createElement('span');i.className='v38-kic';i.innerHTML=svg(M[l]);k.insertBefore(i,k.firstChild)}
+      if(SUB[l]){var sm=k.querySelector(':scope>small');if(sm)sm.textContent=SUB[l]}})})();
+
+  // ================= 15. Nouveau rendez-vous (point 51) : commentaire, invités membres ou adresses email
+  (function(){var mm=$('#v33-meet');if(!mm||$('.v38-gw',mm))return;var inv=$('.v33-mi',mm),vis=$('.v33-vis',mm);if(!inv||!vis)return;
+    var P=[['Aïcha Diabaté','aicha'],['Nadège Touré','m_women_36'],['Yao Kra','m_men_53'],['Serge Bamba','m_men_80'],['Fanta Bakayoko','m_women_16'],['Jean-Marc Aka','m_men_83'],['Kader Ouattara','m_men_59'],['Mariam Koné','m_women_44']];
+    var w=document.createElement('div');w.className='v38-gw';w.innerHTML='<div class="v38-gps"></div><div class="v38-gin"><input type="text" class="fi" placeholder="Ajouter un membre ou une adresse email" aria-label="Ajouter un invité" autocomplete="off"><div class="v38-gsg" role="listbox" hidden></div></div><small class="v38-gh">Les invités hors de l’espace reçoivent l’invitation par email.</small>';
+    inv.parentNode.appendChild(w);var cm=document.createElement('label');cm.className='fl2 v38-cm';cm.innerHTML='<span>Commentaire <small class="mute3">facultatif</small></span><textarea class="fi" rows="3" placeholder="Ex. : ordre du jour, lien du document"></textarea>';vis.closest('.fl2').parentNode.insertBefore(cm,vis.closest('.fl2'));
+    var inp=$('input',w),sg=$('.v38-gsg',w),ps=$('.v38-gps',w);
+    function pill(n,img,mail){if($$('.v38-gp',ps).some(function(x){return x.dataset.v===n}))return;var p=document.createElement('span');p.className='v38-gp'+(mail?' mail':'');p.dataset.v=n;
+      p.innerHTML=(mail?svg('<rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>'):'<img src="../img/'+img+'.jpg" alt="">')+'<span>'+esc(n)+'</span><button type="button" data-h="1" aria-label="Retirer '+esc(n)+'">'+IC.x+'</button>';ps.appendChild(p)}
+    function sug(){var q=inp.value.trim().toLowerCase();var L=P.filter(function(x){return !q||x[0].toLowerCase().indexOf(q)>-1}).slice(0,5);
+      var h=L.map(function(x){return '<button type="button" role="option" data-h="1" data-n="'+esc(x[0])+'" data-i="'+x[1]+'"><img src="../img/'+x[1]+'.jpg" alt="">'+esc(x[0])+'</button>'}).join('');
+      if(/^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i.test(q))h='<button type="button" role="option" data-h="1" data-m="'+esc(inp.value.trim())+'">'+svg('<rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>')+'Inviter '+esc(inp.value.trim())+'</button>'+h;
+      sg.innerHTML=h;sg.hidden=!h}
+    inp.addEventListener('focus',sug);inp.addEventListener('input',sug);
+    inp.addEventListener('keydown',function(e){if(e.key!=='Enter')return;e.preventDefault();var v=inp.value.trim();if(/^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i.test(v)){pill(v,null,1);inp.value='';sg.hidden=true}else if(v)say('Adresse email incomplète : '+v,'warn')});
+    sg.addEventListener('mousedown',function(e){e.preventDefault()});
+    sg.addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;stop(e);if(b.dataset.m)pill(b.dataset.m,null,1);else pill(b.dataset.n,b.dataset.i);inp.value='';sg.hidden=true;inp.focus()});
+    inp.addEventListener('blur',function(){setTimeout(function(){sg.hidden=true},120)});
+    ps.addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;stop(e);b.closest('.v38-gp').remove()});
+    var ok=$('.v33-mok',mm);if(ok)ok.addEventListener('click',function(){var ext=$$('.v38-gp.mail',ps).length;if(ext)setTimeout(function(){say(ext+' invitation'+(ext>1?'s envoyées':' envoyée')+' par email','ok')},900);
+      setTimeout(function(){ps.innerHTML='';$('textarea',cm).value=''},400)})})();
+
+  // ================= 16. appel avec un expert (point 37) : écran plein écran, l'expert parle, sous-titres, résumé dans la discussion
+  (function(){var EXP={djeneba:['Djénéba','Chief of Staff',1,'Bonjour Aïcha. Point du jour : deux rendez-vous ce matin, le brief Banque Atlantique est prêt, et le devis de la machine d’emballage est toujours bloqué chez Serge.','C’est noté. Je relance Serge maintenant et je vous mets la réponse dans notre discussion avant midi.'],
+      fatima:['Fatima','Marketing et contenu',1,'Bonjour Aïcha. Les trois posts de la promo Sossa sont presque prêts. Le post Facebook a déjà 1 200 vues, je finis la version Instagram.','Très bien. Je mets le prix en plus gros sur les trois visuels et je vous les envoie pour validation dans dix minutes.'],
+      koffi:['Koffi','Design et marque',0,'Bonjour Aïcha. Le packaging Super Mint v2 est livré. Je prépare maintenant les déclinaisons pour les affiches A2 de la rentrée.','D’accord. Je vous propose deux pistes de couleur d’ici ce soir, dans la charte Super Mint.']};
+    var USR='Parfait. Tu peux me l’envoyer dès que c’est prêt ?';
+    var ov,tm=[],tick,t0,muted=false;function T(f,ms){tm.push(setTimeout(f,ms))}
+    function clear(){tm.forEach(clearTimeout);tm=[];clearInterval(tick)}
+    function open(k){var x=EXP[k];if(!x)return false;clear();if(!ov){ov=document.createElement('div');ov.className='v38-call';ov.setAttribute('role','dialog');ov.setAttribute('aria-modal','true');document.body.appendChild(ov)}
+      ov.setAttribute('aria-label','Appel avec '+x[0]);
+      ov.innerHTML='<div class="v38-chd"><div><b>'+x[0]+'</b><span>'+x[1]+'</span></div><span class="v38-ctm num">00:00</span></div>'+
+        '<div class="v38-cst"><div class="v38-cfig"><span class="v38-halo" aria-hidden="true"></span><video class="v38-cv" muted playsinline loop preload="auto" poster="../img/vid/'+k+'.webp" src="../img/vid/'+k+'.mp4" aria-hidden="true"></video></div>'+
+        '<div class="v38-cstate" aria-live="polite"><span class="v38-wv" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span><b class="v38-cl">Appel de '+x[0]+'…</b></div>'+
+        '<div class="v38-csub"><p></p><button type="button" class="v38-cst2" data-h="1">Masquer les sous-titres</button></div></div>'+
+        '<div class="v38-me"><img src="../img/'+(ME.p||'aicha')+'.jpg" alt=""><span class="v38-lvl" aria-hidden="true"><i></i></span><small>Vous</small></div>'+
+        '<div class="v38-cbs"><button type="button" class="v38-cb" data-c="mic" data-h="1" aria-label="Couper le micro" aria-pressed="false">'+svg('<path d="M12 19v3"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><rect x="9" y="2" width="6" height="13" rx="3"/>')+'</button>'+
+        '<button type="button" class="v38-cb" data-c="hp" data-h="1" aria-label="Haut-parleur" aria-pressed="true">'+svg('<path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z"/><path d="M16 9a5 5 0 0 1 0 6"/><path d="M19.364 18.364a9 9 0 0 0 0-12.728"/>')+'</button>'+
+        '<button type="button" class="v38-cb" data-c="scr" data-h="1" aria-label="Voir son écran">'+svg('<rect width="20" height="14" x="2" y="3" rx="2"/><path d="M8 21h8M12 17v4"/>')+'</button>'+
+        '<button type="button" class="v38-cb end" data-c="end" data-h="1" aria-label="Raccrocher">'+svg('<path d="M10.1 13.9a14 14 0 0 0 3.732 2.668 1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 .244.473"/><path d="m22 2-20 20"/>')+'</button></div>';
+      ov.dataset.k=k;ov.className='v38-call on';document.body.classList.add('v38-incall');var v=$('.v38-cv',ov);try{v.pause()}catch(_){}
+      t0=Date.now();tick=setInterval(function(){var s2=Math.floor((Date.now()-t0)/1000);$('.v38-ctm',ov).textContent=('0'+Math.floor(s2/60)).slice(-2)+':'+('0'+s2%60).slice(-2)},1000);
+      function state(st,l){ov.classList.remove('talk','listen','think','user');if(st)ov.classList.add(st);$('.v38-cl',ov).textContent=l;
+        if(st==='talk'&&!RM){var p=v.play();if(p&&p.catch)p.catch(function(){})}else{try{v.pause()}catch(_){}}}
+      function say2(txt,who,ms){var p=$('.v38-csub p',ov),w=txt.split(' '),i=0,step=Math.max(60,Math.floor(ms/w.length));p.innerHTML=(who?'<b>'+who+' : </b>':'')+'<span></span>';var sp=$('span',p);
+        (function n(){if(i>=w.length)return;sp.textContent+=(i?' ':'')+w[i++];T(n,step)})()}
+      $('.v38-cb[data-c="end"]',ov).focus();
+      T(function(){state('talk',x[0]+' parle…');say2(x[3],x[0],6000)},2000);
+      T(function(){state('listen','À vous. '+x[0]+' vous écoute')},8200);
+      T(function(){state('user',x[0]+' vous écoute');say2(USR,'Vous',2200)},9400);
+      T(function(){state('think',x[0]+' réfléchit…')},12000);
+      T(function(){state('talk',x[0]+' parle…');say2(x[4],x[0],5000)},13200);
+      T(function(){state('listen',x[0]+' vous écoute')},18600);
+      return true}
+    function end(){if(!ov||!ov.classList.contains('on'))return;var k=ov.dataset.k,x=EXP[k],d=$('.v38-ctm',ov).textContent;clear();ov.classList.remove('on');document.body.classList.remove('v38-incall');try{$('.v38-cv',ov).pause()}catch(_){}
+      var th=$('#discussion .thread');var pts=k==='djeneba'?['Deux rendez-vous ce matin, brief Banque Atlantique prêt','Devis de la machine d’emballage bloqué chez Serge','Relance de Serge, réponse avant midi']:k==='fatima'?['Posts de la promo Sossa presque prêts, 1 200 vues sur Facebook','Prix en plus gros sur les trois visuels','Envoi pour validation dans dix minutes']:['Packaging Super Mint v2 livré','Déclinaisons pour les affiches A2','Deux pistes de couleur d’ici ce soir'];
+      var html='<div class="bub v38-csum"><b>Résumé de l’appel, '+d+'</b><ul>'+pts.map(function(p){return '<li>'+esc(p)+'</li>'}).join('')+'</ul><span class="v38-cact">'+IC.check+' Action créée : '+esc(pts[2])+'</span></div><time>à l’instant</time>';
+      if(th&&page===k){var m=document.createElement('div');m.className='msg lui';m.innerHTML=html;th.appendChild(m);try{m.scrollIntoView({block:'nearest'})}catch(_){}}
+      else ls('v38-csum-'+k,html);
+      say('Appel terminé ('+d+'). Le résumé est dans votre discussion avec '+x[0]+'.','ok')}
+    if(EXP[page]){var sv=ls('v38-csum-'+page),th0=$('#discussion .thread');if(sv&&th0){var m0=document.createElement('div');m0.className='msg lui';m0.innerHTML=sv;th0.appendChild(m0);ls('v38-csum-'+page,null)}}
+    window.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('[data-call]');if(b&&EXP[b.dataset.call]){e.preventDefault();e.stopPropagation();e.stopImmediatePropagation();open(b.dataset.call);return}
+      if(!ov||!ov.classList.contains('on'))return;var c=e.target.closest('.v38-cb, .v38-cst2');if(!c)return;stop(e);
+      if(c.classList.contains('v38-cst2')){var on=ov.classList.toggle('nosub');c.textContent=on?'Afficher les sous-titres':'Masquer les sous-titres';return}
+      var k2=c.dataset.c;if(k2==='end'){end();return}
+      if(k2==='mic'){muted=!muted;c.classList.toggle('off',muted);c.setAttribute('aria-pressed',muted?'true':'false');c.setAttribute('aria-label',muted?'Activer le micro':'Couper le micro');ov.classList.toggle('muted',muted);say(muted?'Micro coupé':'Micro activé','info');return}
+      if(k2==='hp'){var o2=c.getAttribute('aria-pressed')==='true';c.setAttribute('aria-pressed',o2?'false':'true');c.classList.toggle('off',o2);say(o2?'Haut-parleur coupé':'Haut-parleur activé','info');return}
+      if(k2==='scr'){var k3=ov.dataset.k;end();location.href=k3+'.html#direct'}},true);
+    document.addEventListener('keydown',function(e){if(e.key==='Escape'&&ov&&ov.classList.contains('on'))end()})})();
+
+  // ================= 17. Agenda d'un expert (point 50) : plus de bandeau Rendez-vous au-dessus du calendrier
+  $$('#calendrier .v36-rdv').forEach(function(x){x.remove()});
+
+  // ================= 18. « Demander à mon équipe » (points 92 b, 104, 106) : grande carte de Myriel en haut de l'accueil, qui envoie vraiment
+  (function(){var C=$('.v38-cmp');if(C){var F=$('form',C),I=$('.v38-aski',C),B=$('.v38-askm',C),fi=$('.v38-askc input',C),FL=$('.v38-files',C),files=[];
+      var NMS={djeneba:'Djénéba',fatima:'Fatima',koffi:'Koffi'},EXL={admin:['djeneba','fatima','koffi'],membre:['fatima','koffi'],membre0:[]}[VUE]||['djeneba','fatima','koffi'];
+      $$('.v38-to',C).forEach(function(t){t.hidden=EXL.indexOf(t.dataset.x)<0});$$('.v38-idea',C).forEach(function(t){t.hidden=EXL.indexOf(t.dataset.x)<0});
+      var first=$('.v38-to:not([hidden]) input',C);if(first)first.checked=true;if(!EXL.length)C.hidden=true;
+      function to(){var r=$('.v38-to input:checked',C);return r?r.value:EXL[0]}
+      function upd(){B.disabled=!I.value.trim()&&!files.length;I.placeholder='Que voulez-vous confier à '+(NMS[to()]||'votre équipe')+' ?'}
+      function grow(){I.style.height='auto';I.style.height=Math.min(I.scrollHeight,200)+'px'}
+      I.addEventListener('input',function(){upd();grow()});C.addEventListener('change',function(e){if(e.target.name==='v38to')upd()});upd();
+      I.addEventListener('keydown',function(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();if(!B.disabled)F.requestSubmit?F.requestSubmit():B.click()}});
+      fi.addEventListener('change',function(){[].forEach.call(fi.files||[],function(x){files.push(x.name)});FL.hidden=!files.length;FL.innerHTML=files.map(function(n,i){return '<li>'+esc(n)+'<button type="button" data-h="1" data-i="'+i+'" aria-label="Retirer '+esc(n)+'">'+IC.x+'</button></li>'}).join('');upd()});
+      FL.addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;stop(e);files.splice(+b.dataset.i,1);fi.dispatchEvent(new Event('change'))});
+      $('.v38-askv',C).addEventListener('click',function(e){stop(e);say('Parlez, je vous écoute. Le message part dès que vous relâchez.','info')});
+      $$('.v38-idea',C).forEach(function(b){b.addEventListener('click',function(e){stop(e);var r=$('.v38-to[data-x="'+b.dataset.x+'"] input',C);if(r)r.checked=true;I.value=b.textContent;upd();grow();I.focus()})});
+      F.addEventListener('submit',function(e){e.preventDefault();e.stopPropagation();var t=I.value.trim();if(!t&&!files.length)return;
+        try{sessionStorage.setItem('v38-ask',JSON.stringify({t:t,a:files.join(', ')}))}catch(_){}location.href=to()+'.html#discussion'},true);
+      document.body.classList.add('v38-nodock')}
+    var th=$('#discussion .thread'),q=null;try{q=JSON.parse(sessionStorage.getItem('v38-ask')||'null')}catch(_){}
+    if(th&&q&&{djeneba:1,fatima:1,koffi:1}[page]){try{sessionStorage.removeItem('v38-ask')}catch(_){}
+      var nm={djeneba:'Djénéba',fatima:'Fatima',koffi:'Koffi'}[page];
+      var m=document.createElement('div');m.className='msg moi';m.innerHTML='<div class="bub">'+esc(q.t||'')+(q.a?'<span class="v38-att">'+esc(q.a)+'</span>':'')+'</div><time>à l’instant</time>';m._v36=1;th.appendChild(m);
+      var w=document.createElement('div');w.className='msg lui';w.innerHTML='<span class="typing"><i></i><i></i><i></i></span><time>'+nm+' écrit…</time>';th.appendChild(w);
+      setTimeout(function(){try{m.scrollIntoView({block:'center'})}catch(_){}},300);
+      setTimeout(function(){w.innerHTML='<div class="bub">Bien reçu. '+(page==='djeneba'?'Je m’en occupe et je répartis avec l’équipe si besoin. ':'Je m’y mets tout de suite. ')+'Je vous tiens au courant ici.</div><time>à l’instant</time>'},1800)}})();
+
+  // ================= 19. Recruter (point 94) : la carte ouvre la fiche, pastille « Déjà recruté(e) », admin peut assigner à un nouveau membre
+  (function(){var FEMX={djeneba:1,fatima:1,koffi:0};
+    $$('.pc2.mine2').forEach(function(c){var k=(c.getAttribute('href')||'').replace(/^recrue-|\.html$/g,'');$$('.rb',c).forEach(function(r){if(/Voir sa fiche|Ouvrir son espace/.test(r.textContent))r.remove()});
+      var it=$('.inteam',c);if(it&&!it._v38){it._v38=1;it.innerHTML=IC.check+' Déjà recruté'+(FEMX[k]?'e':'')}});
+    if(MEMBRE)return;
+    $$('.asg').forEach(function(g){if($('.v38-nm',g))return;var b=document.createElement('span');b.className='as v38-nm';b.dataset.h='1';b.setAttribute('role','button');b.tabIndex=0;b.innerHTML=IC.plus+' Un nouveau membre';g.appendChild(b)});
+    document.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('.v38-nm');if(!b)return;stop(e);if(!V.modal)return;
+      var who=(document.querySelector('.rqbox h3')||{}).textContent||'';who=who.replace(/^Recruter\s+/,'');
+      V.modal({ic:IC.user,tone:'info',t:'Inviter un nouveau membre',p:'Il ou elle reçoit une invitation par email'+(who?', puis '+who+' lui est assigné'+(/a$/.test(who)?'e':'')+' dès son arrivée':'')+'.',
+        body:'<div class="v38-nmf"><label class="fl2"><span>Prénom et nom</span><input class="fi v38-nmn" placeholder="Awa Koné"></label><label class="fl2"><span>Adresse email</span><input class="fi v38-nme" type="email" placeholder="prenom.nom@entreprise.com"></label></div>',
+        a:{l:'Inviter et assigner',fn:function(){var n=$('#v36-m .v38-nmn').value.trim(),m=$('#v36-m .v38-nme').value.trim();if(!n||!/^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i.test(m)){say('Indiquez un nom et une adresse email valide','warn');return}
+          var p=document.createElement('span');p.className='as on v38-as';p.dataset.who=n;p.innerHTML=IC.user+' '+esc(n);b.parentNode.insertBefore(p,b);V.close();say('Invitation envoyée à '+n+(who?'. '+who+' lui sera assigné'+(/a$/.test(who)?'e':'')+'.':''),'ok')}},b:{l:'Annuler'}})},true)})();
+
+  // ================= 20. page profil (points 56, 96) : édition au clic, carte par carte ; vue membre = Nadège
+  (function(){var P=$('.v38-pf');if(!P)return;
+    if(MEMBRE){var h=$('.v38-pfh',P);$('img',h).src='../img/'+ME.p+'.jpg';$('h1',h).textContent=ME.n;var r=$('.v38-pfrole',h);if(r)r.textContent='Membre';
+      var em=ME.f.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'')+'.'+(ME.n.split(' ')[1]||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'')+'@unifood.info';
+      var e2=$('.v38-pfem',h);if(e2)e2.lastChild.textContent=' '+em;var m=$('.v38-pfm',h);if(m)m.textContent=(VUE==='membre'?'Chargée de communication, service Marketing':'Acheteur, service Opérations');
+      var ex={membre:['fatima','koffi'],membre0:[]}[VUE]||[];$$('.v38-pfx2',P).forEach(function(a){a.hidden=ex.indexOf((a.getAttribute('href')||'').replace('.html',''))<0});
+      var r0=$('.v38-pfr[data-k="email"]',P);if(r0){$('.v',r0).textContent=em;$('input',r0).value=em}}
+    P.addEventListener('click',function(e){var c=e.target.closest('.v38-pfc');if(!c)return;
+      if(e.target.closest('.v38-pfe')){stop(e);c.classList.add('ed');var i=$('input',c);if(i)i.focus();return}
+      if(e.target.closest('.v38-pfx')){stop(e);c.classList.remove('ed');$$('.v38-pfr',c).forEach(function(r){var i=$('input',r);if(i)i.value=i.defaultValue});return}
+      if(e.target.closest('.v38-pfs')){stop(e);$$('.v38-pfr',c).forEach(function(r){var i=$('input',r),v=$('.v',r);if(!i||!v)return;i.defaultValue=i.value;var ex=$('.v38-pfa',v);v.textContent=i.value+' ';if(ex)v.appendChild(ex)});c.classList.remove('ed');say('Profil enregistré','ok');return}
+      if(e.target.closest('.v38-pfall')){stop(e);V.modal&&V.modal({ic:IC.x,tone:'warn',t:'Se déconnecter partout ?',p:'Vos autres appareils (iPhone) devront se reconnecter. Cet ordinateur reste connecté.',a:{l:'Se déconnecter partout',fn:function(){V.close();var d=$$('.v38-pfd',P);if(d[1])d[1].remove();say('Déconnecté de vos autres appareils','ok')}},b:{l:'Annuler'}});return}
+      if(e.target.closest('.v38-pfph')){stop(e);var f=document.createElement('input');f.type='file';f.accept='image/*';f.onchange=function(){var x=f.files&&f.files[0];if(!x)return;var u=URL.createObjectURL(x);$('.v38-pfp img',P).src=u;say('Photo mise à jour','ok')};f.click()}})})();
+
+  // ================= 21. fenêtre de paiement (point 99, bug) : hauteur fixe, le détail suit le moyen choisi
+  (function(){if(page!=='admin-facturation'||!V.modal)return;
+    var MM=[['Wave','wave.com','mm'],['Orange Money','<b>OM</b>','mm','#FF7900'],['MTN MoMo','<b>MTN</b>','mm','#FFCB05'],['Moov Money','<b>moov</b>','mm','#0B4EA2'],['Djamo','<b>djamo</b>','card','#111'],['Carte bancaire','','card','#1A1F71'],['Dépôt ou virement','','bank','#5B5BD6']];
+    function logo(m){if(m[1]==='wave.com')return '<span class="v38-pl" style="background:#1DC8F2"><img src="https://www.google.com/s2/favicons?sz=64&domain=wave.com" alt=""></span>';return '<span class="v38-pl" style="background:'+(m[3]||'#5B5BD6')+'">'+(m[1]||(m[2]==='bank'?svg('<path d="M3 22h18M6 18v-7M10 18v-7M14 18v-7M18 18v-7M12 2l9 5H3z"/>'):IC.card))+'</span>'}
+    function open(){var d=(moyens().filter(function(x){return x.def})[0]||{n:'Wave',d:''}),cur=d.n;
+      var body='<div class="v38-pm"><div class="v38-pml" role="radiogroup" aria-label="Moyen de paiement">'+MM.map(function(m){return '<button type="button" role="radio" data-h="1" class="v38-pmo'+(m[0]===cur?' on':'')+'" aria-checked="'+(m[0]===cur)+'" data-m="'+m[0]+'">'+logo(m)+'<span>'+m[0]+'</span></button>'}).join('')+'</div><div class="v38-pmd"></div></div>';
+      V.modal({ic:IC.card,tone:'info',t:'Payer 1 300 000 F CFA',p:'Facture du 01/11/2026, formule Team.',body:body,a:{l:'Payer',fn:function(b){var m=$('#v36-m .v38-pmo.on'),k=m&&m.dataset.m,t=MM.filter(function(x){return x[0]===k})[0];
+          if(t&&t[2]==='mm'){var i=$('#v36-m .v38-pmn');if(!i||i.value.replace(/\D/g,'').length<10){say('Indiquez votre numéro '+k+' (10 chiffres)','warn');if(i)i.focus();return}}
+          if(t&&t[2]==='bank'){var r=$('#v36-m .v38-pmr');if(!r||!r.files||!r.files.length){say('Joignez le bordereau de votre dépôt ou virement','warn');return}}
+          if(t&&t[2]==='card'){var c=$('#v36-m .v38-pmc');if(!c||c.value.replace(/\D/g,'').length<16){say('Indiquez le numéro de carte (16 chiffres)','warn');if(c)c.focus();return}}
+          if(V.busy)V.busy(b,'Paiement…');setTimeout(function(){if(V.unbusy)V.unbusy(b);V.close();say(t&&t[2]==='bank'?'Bordereau reçu : la facture passe en Payée dès réception du virement':'Paiement envoyé : validez-le sur votre téléphone, le reçu arrive par email','ok')},1000)}},b:{l:'Annuler'}});
+      draw(cur)}
+    function draw(k){var Z=$('#v36-m .v38-pmd');if(!Z)return;var t=MM.filter(function(x){return x[0]===k})[0]||MM[0];
+      if(t[2]==='mm')Z.innerHTML='<label class="fl2"><span>Numéro '+esc(t[0])+'</span><input class="fi v38-pmn" type="tel" inputmode="numeric" placeholder="07 00 00 00 00" value="'+(t[0]==='Wave'?'07 08 45 12 12':'')+'"></label><p class="v38-pmh">Vous recevez une demande de validation sur ce numéro.</p>';
+      else if(t[2]==='card')Z.innerHTML='<label class="fl2"><span>Numéro de carte</span><input class="fi v38-pmc" inputmode="numeric" placeholder="1234 5678 9012 3456" value="4242 4242 4242 4242"></label><div class="g2i"><label class="fl2"><span>Expiration</span><input class="fi" placeholder="MM/AA" value="12/28"></label><label class="fl2"><span>Code</span><input class="fi" inputmode="numeric" placeholder="123"></label></div>';
+      else Z.innerHTML='<div class="v38-rib"><p><span>Bénéficiaire</span><b>Mstudio SAS, Yelema</b></p><p><span>Banque</span><b>Société Générale Côte d’Ivoire</b></p><p><span>IBAN</span><b class="num">CI93 CI00 8010 0000 0000 0000 0123</b></p><p><span>Référence</span><b class="num">INV-2026-11-0003</b></p></div>'+
+        '<label class="v38-pmu"><input type="file" class="v38-pmr" accept="image/*,.pdf" hidden>'+svg('<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m17 8-5-5-5 5"/><path d="M12 3v12"/>')+'<span>Joindre le bordereau (photo ou PDF)</span></label>';
+      var r=$('#v36-m .v38-pmr');if(r)r.addEventListener('change',function(){var sp=r.parentNode.querySelector('span');if(r.files&&r.files[0])sp.textContent='Bordereau joint : '+r.files[0].name})}
+    document.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('.v38-paynow, a[href="#payer"]');if(b){stop(e);open();return}
+      var o=e.target.closest&&e.target.closest('#v36-m .v38-pmo');if(o){stop(e);$$('#v36-m .v38-pmo').forEach(function(x){var on=x===o;x.classList.toggle('on',on);x.setAttribute('aria-checked',on)});draw(o.dataset.m)}},true)})();
+
+  // ================= 22. Yélé (point 101) : raccourci « Créer une routine »
+  document.addEventListener('click',function(e){var sp=e.target.closest&&e.target.closest('#yele .sugg span');if(!sp||sp.textContent.trim()!=='Créer une routine')return;stop(e);
+    var nb=$('[data-open="v33-rtm"]');if(nb&&V.routines){V.routines();setTimeout(function(){nb.click()},150);var y=$('#yele');if(y)y.classList.remove('on');return}
+    var to=(VUE==='admin'?'djeneba':'fatima');location.href=to+'.html?onglet=routines&nouvelle=1'},true);
+  if(Q.get('nouvelle')==='1'){setTimeout(function(){var nb=$('[data-open="v33-rtm"]');if(nb)nb.click()},400)}
+
+  // ================= 23. Yélé (point 103) : raccourci « Créer un tableau »
+  document.addEventListener('click',function(e){var sp=e.target.closest&&e.target.closest('#yele .sugg span');if(!sp||sp.textContent.trim()!=='Créer un tableau')return;stop(e);
+    var nb=$('[data-open="newtdb"]');if(nb){var y=$('#yele');if(y)y.classList.remove('on');nb.click();return}location.href='tableau-de-bord.html?nouveau=1'},true);
+  if(page==='tableau-de-bord'&&Q.get('nouveau')==='1'){setTimeout(function(){var nb=$('[data-open="newtdb"]');if(nb)nb.click()},400)}
+
+  // ================= 24. connexion d'un outil (point 97 h, modèle Composio) : permissions détaillées avant de connecter
+  (function(){var Z=$('#cz');if(!Z)return;var go=$('.czgo',Z),cs=$('.czs',Z);if(!go)return;
+    var R={'Gmail':['Emails','Brouillons','Libellés'],'Google Drive':['Fichiers','Dossiers','Partages'],'Google Agenda':['Événements','Invitations'],'Notion':['Pages','Bases de données'],'HubSpot':['Contacts','Entreprises','Transactions'],'Slack':['Messages','Canaux'],'Canva':['Designs','Dossiers']};
+    var box=document.createElement('div');box.className='v38-perm';if(cs)cs.parentNode.insertBefore(box,cs);else go.parentNode.insertBefore(box,go);
+    function fill(){var n=($('.czn',Z)||{}).textContent||'',L=R[n]||['Données','Fichiers'];
+      box.innerHTML='<p class="v38-permh">Ce que vos experts pourront faire dans '+esc(n)+'</p><div class="v38-pt"><span></span><span>Lire</span><span>Modifier</span></div>'+
+        L.map(function(r,i){return '<div class="v38-pt"><b>'+esc(r)+'</b><label><input type="checkbox" checked aria-label="Lire : '+esc(r)+'"></label><label><input type="checkbox"'+(i===0?' checked':'')+' aria-label="Modifier : '+esc(r)+'"></label></div>'}).join('')+
+        '<p class="v38-aih">Modifiable à tout moment dans Connecteurs.</p>'}
+    new MutationObserver(function(){if(Z.classList.contains('on'))fill()}).observe(Z,{attributes:true,attributeFilter:['class']});
+    if(cs)cs.innerHTML='<span>'+IC.check+' Partagé avec les experts que vous choisissez</span>'})();
+  // ================= 25. Version A / Version B (point 105) : A = maquette de Myriel (site/version-a/), B = la nôtre ; choix retenu
+  (function(){var X={djeneba:1,fatima:1,koffi:1}[page];if(page!=='accueil'&&!X)return;
+    var base=/\/client\//.test(location.pathname)?'client':'yelema',h=X?'equipe-'+page:'accueil',A='../version-a/index.html#'+h;
+    if(ls('v39-ver')==='A'){ls('v39-base',base);location.replace(A);return}
+    function put(){if($('.v39-ver'))return;var top=$('.top');if(!top)return;var d=document.createElement('div');d.className='v39-ver';d.setAttribute('role','group');d.setAttribute('aria-label','Version de la page');
+      d.innerHTML='<button type="button" data-h="1" data-v="A" aria-pressed="false" title="Version A, proposition de Myriel"><span class="v39-l">Version </span>A</button><button type="button" data-h="1" data-v="B" class="on" aria-pressed="true" title="Version B, la version actuelle"><span class="v39-l">Version </span>B</button>';
+      var ref=$('[data-pop="ping"]',top)||$('[data-pop="notifs"]',top);if(ref)top.insertBefore(d,ref);else top.appendChild(d);
+      d.addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;stop(e);if(b.dataset.v==='B')return;ls('v39-ver','A');ls('v39-base',base);location.href=A})}
+    put();setTimeout(put,0)})();
 })();
