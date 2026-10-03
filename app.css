@@ -5104,10 +5104,163 @@ body.v38-nodock .dock{display:none!important}
 @media (prefers-reduced-motion:reduce){.v38-orbs,.v38-orbs i{animation:none}}
 /* v4.39 */
 /* point 90 : le filtre de période avec « Personnalisée » ne déborde plus en 390 */
-@media (max-width:760px){.seg.an-per,.seg.tdper{max-width:100%;overflow-x:auto;scrollbar-width:none;flex-wrap:nowrap}.seg.an-per::-webkit-scrollbar,.seg.tdper::-webkit-scrollbar{display:none}.seg.an-per a,.seg.tdper a{flex:none}}
-/* point 105 : bascule Version A / Version B, discrète, en haut à droite */
+@media (max-width:760px){.seg.rps,.seg.an-per,.seg.tdper{max-width:100%;overflow-x:auto;scrollbar-width:none;flex-wrap:nowrap}.seg.an-per::-webkit-scrollbar,.seg.tdper::-webkit-scrollbar{display:none}.seg.an-per a,.seg.tdper a,.seg.rps a{flex:none}}
+/* points 107 j / 108 a : composeur unique, modèle à gauche, micro + bouton Envoyer */
+.v39-comp .v36-sb.v39-hsb{position:absolute!important;width:1px!important;height:1px!important;min-width:0;opacity:0;pointer-events:none;overflow:hidden;clip-path:inset(50%)}
+.v39-comp .v36-llm{flex:none}
+.v39-mic{flex:none;display:grid;place-items:center;width:44px;height:44px;border-radius:50%;border:0;background:var(--tint);color:var(--brand-ink);cursor:pointer}
+.v39-mic svg{width:19px;height:19px}.v39-mic.rec{background:var(--ko);color:#fff;animation:v36p 1s infinite}
+.v39-send{flex:none;display:inline-flex;align-items:center;gap:8px;height:44px;padding:0 16px;border:0;border-radius:12px;background:var(--brand);color:var(--on-brand,#fff);font:600 14px/1 var(--f-ui,inherit);cursor:pointer;white-space:nowrap}
+.v39-send svg{width:16px;height:16px}.v39-send[aria-disabled="true"]{opacity:.45}
+.v39-send:focus-visible,.v39-mic:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
+@media (max-width:760px){.v39-comp .v36-llb span{display:none}.v39-send{padding:0 12px}.v39-send span{display:none}.v39-send{width:44px;justify-content:center;border-radius:50%}}
+/* point 107 i : « Déjà recruté(e) » au format du bouton de recrutement, sans action */
+.pc2 .rb.v39-rbd{background:var(--soft)!important;color:var(--ok,#1F8A4C)!important;border-color:transparent!important;cursor:default}
+/* point 108 c : période personnalisée du Résumé */
+.v39-rpop{position:absolute;right:0;top:100%;z-index:30;display:flex;align-items:flex-end;gap:12px;flex-wrap:wrap;margin-top:8px;padding:16px;border:1px solid var(--line);border-radius:16px;background:var(--surface);box-shadow:0 12px 32px rgba(20,10,60,.14)}
+.v39-rpop[hidden]{display:none!important}
+.v39-rpop label{display:flex;flex-direction:column;gap:4px;font-size:12px;color:var(--ink-3)}.v39-rpop input{height:44px;min-width:150px}
+.v39-rpop .btn{height:44px}
+@media (max-width:760px){.v39-rpop{left:0;right:0}.v39-rpop label{flex:1 1 120px}.v39-rpop input{min-width:0;width:100%}}
+/* point 108 e : Cc, Cci et pièces jointes dans Rédiger un email */
+.v39-ccl{display:flex;gap:16px;margin:-4px 0 4px}.v39-ccl[hidden],.v39-cc[hidden]{display:none!important}
+.v39-ccl .link{min-height:32px;background:none;border:0;padding:0;color:var(--brand-ink);font-weight:600;cursor:pointer}
+.v39-att{display:flex;flex-direction:column;gap:8px;margin:4px 0 12px}
+.v39-attl{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px}.v39-attl[hidden]{display:none}
+.v39-attl li{display:inline-flex;align-items:center;gap:6px;max-width:100%;height:36px;padding:0 4px 0 10px;border:1px solid var(--line);border-radius:10px;background:var(--soft);font-size:13px}
+.v39-attl li svg{width:16px;height:16px;flex:none}.v39-attl li .ell{max-width:200px}
+.v39-attl button{display:grid;place-items:center;width:28px;height:28px;border:0;background:none;border-radius:8px;cursor:pointer;color:var(--ink-3)}
+.v39-attb{align-self:flex-start;display:inline-flex;align-items:center;gap:8px;height:44px;padding:0 14px;border:1px dashed var(--line);border-radius:12px;cursor:pointer;color:var(--ink-2);font-size:14px}
+.v39-attb svg{width:18px;height:18px}
+.v38-cmp .v38-askm[aria-disabled="true"]{opacity:.45}
+/* point 109 c : Yélé animé (WebP) dans « Besoin d’aide ? », sur fond blanc */
+.ybtn .v39-yb{display:block;width:44px;height:44px;flex:none;object-fit:contain;transform:scale(1.25);pointer-events:none}
+.ybtn:has(.v39-yb){background:#fff!important;color:#1A1033!important}
+/* point 109 l : bascule Version A / B de la page d'un expert, discrète, en haut à droite */
 .v39-ver{display:inline-flex;align-items:center;gap:2px;padding:3px;margin:0 8px 0 4px;border:1px solid var(--line);border-radius:999px;background:var(--surface);flex:none}
 .v39-ver button{height:30px;min-width:30px;padding:0 10px;border:0;border-radius:999px;background:transparent;color:var(--ink-3);font:500 12px/1 var(--f-ui,inherit);cursor:pointer;white-space:nowrap}
 .v39-ver button.on{background:var(--tint);color:var(--brand-ink);font-weight:600}
 .v39-ver button:focus-visible{outline:2px solid var(--brand);outline-offset:1px}
 @media (max-width:760px){.v39-ver{margin:0 4px}.v39-ver .v39-l{display:none}.v39-ver button{padding:0 8px;height:28px}}
+.v39-vav{display:none}
+/* Version A : en-tête compact (photo, nom, métier, statut, Écrire, Appeler), onglets horizontaux, contenu pleine largeur */
+html.v39-va .xp{display:block!important}
+html.v39-va .xcol{position:static!important;width:auto!important;max-width:none!important;height:auto!important;padding:0!important;border:0!important;background:none!important;overflow:visible!important;display:flex!important;flex-direction:column;gap:12px;margin-bottom:16px}
+html.v39-va .xcol .pcard{display:flex!important;align-items:center;gap:16px;width:auto!important;height:auto!important;min-height:0!important;aspect-ratio:auto!important;padding:4px 0!important;background:none!important;box-shadow:none!important;border-radius:0!important;overflow:visible!important}
+html.v39-va .xcol .pcard>img:not(.v39-vav),html.v39-va .xcol .pcard>video,html.v39-va .xcol .pcard .pen{display:none!important}
+html.v39-va .xcol .pcard::before,html.v39-va .xcol .pcard::after{display:none!important}
+html.v39-va .v39-vav{display:block;width:72px;height:72px;border-radius:16px;object-fit:cover;flex:none}
+html.v39-va .xcol .pcard .st{position:static!important;order:3;margin-left:auto}
+html.v39-va .xcol .pcard .nm{position:static!important;flex:1 1 auto;min-width:0;padding:0!important;background:none!important;color:var(--ink)!important}
+html.v39-va .xcol .pcard .nm *{color:inherit}
+html.v39-va .xcol .pcard .nm b,html.v39-va .xcol .pcard .nm h2,html.v39-va .xcol .pcard .nm .n{font:700 clamp(26px,3vw,32px)/1.05 var(--f-num,inherit);letter-spacing:-.03em}
+html.v39-va .xcol .pcard .nm small,html.v39-va .xcol .pcard .nm .mt{color:var(--ink-3)!important;text-transform:none!important;letter-spacing:0!important;font-size:14px}
+html.v39-va .xcol .pcard .cta{position:static!important;order:4;width:auto!important;display:flex;gap:8px;padding:0!important;background:none!important}
+html.v39-va .xcol .pcard .cta>*{background:var(--surface)!important;color:var(--ink)!important;border:1px solid var(--line)!important;backdrop-filter:none!important}
+html.v39-va .xcol .pcard .cta .v38-wr2{background:var(--brand)!important;color:var(--on-brand,#fff)!important;border-color:transparent!important}
+html.v39-va .xcol .xmail{display:none!important}
+html.v39-va .xnav{display:flex!important;flex-direction:row!important;flex-wrap:nowrap;gap:4px;width:auto!important;height:auto!important;overflow-x:auto;scrollbar-width:none;border-bottom:1px solid var(--line);padding:0!important;margin:0!important;background:none!important;box-shadow:none!important}
+html.v39-va .xnav::-webkit-scrollbar{display:none}
+html.v39-va .xnav>a{flex:none;width:auto!important;height:44px;padding:0 14px!important;border-radius:0!important;background:none!important;border-bottom:2px solid transparent;margin-bottom:-1px;font-weight:500;color:var(--ink-3)}
+html.v39-va .xnav>a.on{color:var(--ink);font-weight:600;border-bottom-color:var(--brand)}
+html.v39-va .xnav>a svg{display:none}
+html.v39-va .xnav .lb,html.v39-va .xnav .v30-sep{width:1px!important;height:20px;margin:12px 6px!important;padding:0!important;overflow:hidden;font-size:0;background:var(--line);flex:none}
+html.v39-va .xmain{width:auto!important;max-width:none!important;margin:0!important}
+@media (max-width:760px){html.v39-va .xcol .pcard{flex-wrap:wrap}html.v39-va .v39-vav{width:56px;height:56px}html.v39-va .xcol .pcard .st{order:5;margin-left:0}html.v39-va .xcol .pcard .cta{order:6;width:100%!important}}
+/* Version A, ajustements après capture */
+html.v39-va .xp,html.v39-va .xmain{min-width:0!important;max-width:100%!important}
+html.v39-va .xcol{padding:20px 40px 0 32px!important;box-sizing:border-box;width:100%!important}
+html.v39-va .xcol .pcard{border:0!important;width:100%!important;max-width:100%!important;flex-wrap:nowrap}
+html.v39-va .xcol .pcard img.v39-vav{position:static!important;inset:auto!important;display:block!important;width:72px!important;height:72px!important;border-radius:16px!important;object-fit:cover!important;object-position:center top;transform:none!important;filter:none!important}
+html.v39-va .xcol .pcard .nm{font:700 32px/1.05 var(--f-num,inherit)!important;letter-spacing:-.03em;display:flex;flex-direction:column;gap:4px;text-shadow:none!important}
+html.v39-va .xcol .pcard .nm>span{display:block;font:400 14px/1.4 var(--f-ui,inherit)!important;letter-spacing:0!important;text-transform:none!important;color:var(--ink-3)!important;opacity:1!important}
+html.v39-va .xcol .pcard .v38-pact{display:flex;align-items:center;gap:8px;font:500 13px/1.3 var(--f-ui,inherit)!important;letter-spacing:0;color:var(--ink-2)!important;max-width:520px;margin-top:4px}
+html.v39-va .xcol .pcard .v38-pact .ell{flex:0 1 auto;min-width:0}html.v39-va .xcol .pcard .v38-pact .v38-pbar{flex:0 0 120px;background:var(--soft)!important}
+html.v39-va .xcol .pcard .v38-pact small{flex:none;color:var(--ink-3)!important}
+html.v39-va .xcol .pcard .cta{flex:none;align-items:center}
+html.v39-va .xcol .pcard .cta>a{display:inline-flex!important;align-items:center;justify-content:center;gap:8px;width:auto!important;min-width:44px;height:44px!important;padding:0 16px!important;border-radius:12px!important;flex:none!important;font:600 14px/1 var(--f-ui,inherit)!important}
+html.v39-va .xcol .pcard .cta>a.sq{width:44px!important;padding:0!important}
+html.v39-va .xcol .pcard .cta>a svg{width:18px;height:18px}
+@media (max-width:760px){html.v39-va .xcol{padding:12px 16px 0!important}html.v39-va .xcol .pcard{flex-wrap:wrap}html.v39-va .xcol .pcard img.v39-vav{width:56px!important;height:56px!important}
+  html.v39-va .xcol .pcard .nm{font-size:24px!important;flex:1 1 0}html.v39-va .xcol .pcard .v38-pact{flex-wrap:wrap}
+  html.v39-va .xcol .pcard .cta{width:100%!important}html.v39-va .xcol .pcard .cta>a{flex:1 1 0!important}html.v39-va .xcol .pcard .cta>a.sq{flex:none!important}
+  html.v39-va .xnav{margin:0 -16px!important;padding:0 16px!important}}
+html.v39-va .xcol>*{min-width:0;max-width:100%}
+@media (max-width:760px){html.v39-va .xcol>.xnav{width:calc(100% + 32px)!important;max-width:calc(100% + 32px)!important}}
+html.v39-va .xcol .pcard .v38-pact{flex-direction:row!important;align-items:center!important;height:auto!important}
+html.v39-va .xcol .pcard .v38-pact .v38-pbar{display:block;height:6px!important;width:120px!important;flex:0 0 120px!important;border-radius:3px;overflow:hidden}
+html.v39-va .xcol .pcard .v38-pact .v38-pbar i{display:block;height:100%;background:var(--brand)}
+@media (max-width:760px){html.v39-va .xcol .pcard .v38-pact{flex-wrap:wrap!important}}
+/* point 107 f : champ de recherche de la liste des tableaux */
+.tbrail .tbq{display:flex!important;align-items:center;gap:8px;height:40px;padding:0 12px!important;border:1px solid var(--line)!important;border-radius:12px!important;background:var(--surface)!important;box-sizing:border-box}
+.tbrail .tbq::before{content:"";flex:none;width:16px;height:16px;background:currentColor;opacity:.55;-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.3-4.3'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.3-4.3'/%3E%3C/svg%3E") center/contain no-repeat}
+.tbrail .tbq svg{display:none!important}
+.tbrail .tbq input{flex:1 1 auto;min-width:0;height:100%;border:0!important;outline:0;background:none!important;padding:0!important;font:inherit;font-size:14px;box-shadow:none!important}
+.tbrail .tbq:focus-within{border-color:var(--brand)!important;box-shadow:0 0 0 3px var(--tint)}
+/* point 107 h : plus de barre « Demander à mon équipe » flottante (chaque écran a son chat) */
+.dock{display:none!important}
+/* point 107 j : chat entreprise, zone d'écriture plus grande (champ au-dessus, outils dessous) */
+.gin2.v39-comp{width:min(100%,760px)!important;max-width:760px!important;height:auto!important;padding:12px!important;border-radius:20px!important}
+.gin2.v39-comp .v36-cr{display:flex!important;flex-wrap:wrap;align-items:center;gap:8px;width:100%}
+.gin2.v39-comp .v36-cr .v33-in{order:-1;flex:1 1 100%!important;width:100%!important;min-height:64px;height:auto;padding:6px 4px!important;font-size:16px!important;border:0!important;background:none!important}
+.gin2.v39-comp .v39-mic{margin-left:auto}
+/* point 108 d : la carte Livrables seule sur sa ligne devient un bandeau fin pleine largeur */
+#analytique .an-ks:has(>.an-k:only-child){display:block!important}
+#analytique .an-ks>.an-k:only-child{display:flex!important;flex-direction:row!important;align-items:center;gap:16px;min-height:72px;padding:12px 20px!important;width:auto!important}
+#analytique .an-ks>.an-k:only-child>span:not(.v38-kic){font-weight:600;color:var(--ink-2)}
+#analytique .an-ks>.an-k:only-child>b{margin-left:auto;font-size:28px!important;line-height:1}
+#analytique .an-ks>.an-k:only-child>small{margin:0!important}
+/* point 109 d : cartes du profil à la même hauteur deux à deux */
+.v38-pfg{align-items:stretch!important}
+/* point 109 f : rappel des demandes de recrutement sur la Vue d'ensemble */
+.v38-dov.v39-dov{display:flex;align-items:center;gap:16px;flex-wrap:wrap;text-decoration:none;color:var(--ink)}
+.v39-dovl{display:flex!important;flex-wrap:wrap;gap:8px;margin-top:8px}
+.v39-dovp{display:inline-flex;align-items:center;gap:6px;height:36px;padding:0 12px 0 4px;border-radius:999px;background:var(--soft);font-size:13px;font-weight:500;color:var(--ink-2)}
+.v39-dovp img{width:28px;height:28px;border-radius:50%;object-fit:cover}.v39-dovp svg{width:14px;height:14px;color:var(--ink-3)}
+.v39-dovp img+svg+img{margin-left:2px}
+.v39-dovgo{display:inline-flex;align-items:center;gap:8px;height:44px;padding:0 16px;border-radius:12px;background:var(--brand);color:var(--on-brand,#fff);font-weight:600;font-size:14px;white-space:nowrap;margin-left:auto}
+.v39-dovgo svg{width:16px;height:16px}
+@media (max-width:760px){.v39-dovgo{width:100%;justify-content:center;margin-left:0}}
+/* point 109 g : approuver une demande = photo de l'expert et phrase claire */
+.v39-apx{display:flex;align-items:center;gap:16px;padding:16px;border-radius:16px;background:var(--soft);margin-bottom:16px}
+.v39-apx img{width:72px;height:72px;border-radius:50%;object-fit:cover;flex:none}
+.v39-apx p{margin:0 0 4px;font-size:15px;line-height:1.45;color:var(--ink)}.v39-apx small{color:var(--ink-3);font-size:13px}
+.v39-apm,.v39-apm .v38-pmo{width:100%!important;max-width:none!important;box-sizing:border-box}
+#v36-m .v36-pn:has(.v39-apx) p:empty{display:none}
+/* point 109 i : fenêtre de paiement toujours dans l'écran (1440 et 390), seul le détail défile */
+#v36-m .v36-pn:has(.v38-pm){max-height:calc(100dvh - 32px);overflow:auto;overscroll-behavior:contain}
+#v36-m .v38-pmd{max-height:min(240px,32dvh);overflow:auto}
+@media (max-width:760px){#v36-m .v36-pn:has(.v38-pm){max-height:calc(100dvh - 16px)}#v36-m .v38-pml[role="radiogroup"]{grid-template-columns:1fr 1fr}}
+/* point 107 c : tuile « Ajouter un expert » mieux remplie : bloc centré plus grand, bouton aligné en bas comme « Écrire » */
+.v38-tc.v38-add{display:flex!important;flex-direction:column;align-items:center!important;justify-content:flex-start!important;gap:20px!important;padding:48px 20px 20px!important}
+.v38-add .v38-addi{width:112px!important;height:112px!important;margin-top:auto}.v38-add .v38-addi svg{width:52px!important;height:52px!important}
+.v38-add h3{font-size:26px!important;letter-spacing:-.02em}
+.v38-add .v38-addf img{width:52px!important;height:52px!important;box-shadow:0 0 0 3px var(--bg)}
+.v38-add .v38-addf img+img{margin-left:-14px}
+.v38-add .v38-addf em{font-size:14px}
+.v38-add .v38-adda{margin-top:auto!important;width:100%;height:44px;justify-content:center;display:inline-flex;align-items:center}
+@media (max-width:760px){.v38-tc.v38-add{padding:24px 16px 16px!important;gap:14px!important}.v38-add .v38-addi{width:72px!important;height:72px!important;margin-top:0}.v38-add .v38-addi svg{width:34px!important;height:34px!important}.v38-add h3{font-size:22px!important}.v38-add .v38-addf img{width:40px!important;height:40px!important}}
+.tblv1 .tbcl{width:auto!important;min-width:0!important;height:44px!important;padding:0 14px!important;display:inline-flex!important;align-items:center;gap:8px;white-space:nowrap;flex:none}
+.tblv1 .tbcl span{display:inline!important}
+/* point 107 a / j : la carte de demande prend toute la largeur du contenu, choix du modèle à gauche */
+.v38-cmp{max-width:none!important;width:100%}
+.v39-mdl{position:relative;flex:none}
+.v39-mdb{display:inline-flex;align-items:center;gap:6px;height:44px;padding:0 12px;border:1px solid var(--line);border-radius:12px;background:var(--surface);color:var(--ink-2);font:500 13px/1 var(--f-ui,inherit);cursor:pointer}
+.v39-mdb svg{width:16px;height:16px}
+.v39-mdm{position:absolute;left:0;top:calc(100% + 6px);z-index:40;min-width:200px;padding:6px;border:1px solid var(--line);border-radius:12px;background:var(--surface);box-shadow:0 12px 32px rgba(20,10,60,.14)}
+.v39-mdm[hidden]{display:none}
+.v39-mdm button{display:flex;align-items:center;justify-content:space-between;width:100%;min-height:40px;padding:0 10px;border:0;border-radius:8px;background:none;font:inherit;font-size:14px;color:var(--ink);cursor:pointer;text-align:left}
+.v39-mdm button:hover,.v39-mdm button.on{background:var(--soft)}.v39-mdm svg{width:16px;height:16px;color:var(--brand)}
+@media (max-width:760px){.v39-mdb span{display:none}}
+/* points 107 j / 108 a : même composeur partout, champ en haut sur toute la largeur, outils dessous (trombone, modèle | micro, Envoyer) */
+.v39-comp{flex-wrap:wrap!important;row-gap:8px!important;height:auto!important;align-items:center}
+.v39-comp>.v33-in,.v39-comp>textarea,.v39-comp>input[type=text],.v39-comp .v36-cr>.v33-in{order:-1;flex:1 1 100%!important;width:100%!important;min-width:0!important;min-height:44px}
+.v39-comp .v39-mic{margin-left:auto}
+.v39-comp{container-type:inline-size}
+@container (max-width:440px){.v36-llb span{display:none}.v36-llb{padding:0 10px!important}}
+.v39-comp .v36-llb span{max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+/* point 107 a : le chat d'un expert tient dans la fenêtre, composeur visible en bas */
+@media (min-width:761px){#discussion .dgrid{grid-template-rows:minmax(0,1fr)!important;align-items:stretch}
+  #discussion .dgrid>.v36-hw{min-height:0!important;height:100%!important;max-height:100%}
+  #discussion .chat2{min-height:0!important;height:100%!important;max-height:100%}
+  #discussion .chat2 .thread{min-height:0!important}}

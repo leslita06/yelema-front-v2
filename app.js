@@ -2928,8 +2928,9 @@ document.querySelectorAll('[data-perm]').forEach(function(b){var ok=b.querySelec
   function badge(){var n=pending().length;
     $$('.sbadm a.it[href="admin-experts.html"]').forEach(function(a){var b=$('.v38-bdg',a);if(!n){if(b)b.remove();return}if(!b){b=document.createElement('span');b.className='v38-bdg';a.appendChild(b)}b.textContent=n;b.setAttribute('aria-label',n+' demande'+(n>1?'s':'')+' en attente')})}
   function payModal(d){var c=CAT[d.e];if(!c||!V.modal)return;var mm=defMoyen();
-    V.modal({ic:IC.card,tone:'info',t:'Approuver et payer '+c[0],p:c[0]+', '+c[1].toLowerCase()+', pour '+d.m+'. '+PRIX+' par mois, ajouté à votre prochaine facture.',
-      body:'<div class="v38-pm"><span class="v38-pml">Payer avec</span><div class="v38-pmo"><span class="v38-pmi">'+IC.card+'</span><span class="grow"><b>'+esc(mm)+'</b><small>Moyen par défaut</small></span><a class="link sm" href="admin-facturation.html#v38-moyens">Changer</a></div>'+
+    V.modal({ic:IC.card,tone:'info',t:'Recruter '+c[0]+' pour '+d.m.split(' ')[0],p:'',
+      body:'<div class="v39-apx"><img src="../img/'+d.e+'.jpg" alt=""><div><p>Vous êtes sur le point de recruter <b>'+esc(c[0])+'</b>, '+esc(c[1])+', pour <b>'+esc(d.m)+'</b> de votre équipe.</p><small>'+PRIX+' par mois, ajouté à votre prochaine facture.</small></div></div>'+
+        '<div class="v38-pm v39-apm"><span class="v38-pml">Payer avec</span><div class="v38-pmo"><span class="v38-pmi">'+IC.card+'</span><span class="grow"><b>'+esc(mm)+'</b><small>Moyen par défaut</small></span><a class="link sm" href="admin-facturation.html#v38-moyens">Changer</a></div>'+
         '<div class="v38-pmr"><span>Premier mois</span><b class="num">'+PRIX+'</b></div></div>',
       a:{l:'Payer '+PRIX,fn:function(b){V.busy&&V.busy(b,'Paiement…');setTimeout(function(){V.unbusy&&V.unbusy(b);var a=dems();a.forEach(function(x){if(x.id===d.id){x.st='ok';x.dt=now()}});demSet(a);V.close();
         say(c[0]+' rejoint votre équipe. '+pron(d.e)+' vous écrit dans quelques minutes.','ok');renderAdm();badge()},1100)}},b:{l:'Annuler'}})}
@@ -2960,7 +2961,8 @@ document.querySelectorAll('[data-perm]').forEach(function(b){var ok=b.querySelec
   if(ADMP){badge();
     // Vue d’ensemble : un rappel cliquable
     if(page==='admin'&&pending().length){var h0=$('.sform .hello');if(h0){var r=document.createElement('a');r.className='box v38-dov';r.href='admin-experts.html#demandes';
-      r.innerHTML='<span class="v38-dovi">'+IC.users+'</span><span class="grow"><b>'+pending().length+' demande'+(pending().length>1?'s':'')+' de recrutement</b><span>'+pending().map(function(d){return d.m.split(' ')[0]+' demande '+(CAT[d.e]||[d.e])[0]}).join(', ')+'</span></span><span class="v38-bdg">'+pending().length+'</span>';
+      r.classList.add('v39-dov');r.setAttribute('aria-label',pending().length+' demandes de recrutement, voir les demandes');
+      r.innerHTML='<span class="v38-dovi">'+IC.users+'</span><span class="grow"><b>'+pending().length+' demande'+(pending().length>1?'s':'')+' de recrutement</b><span class="v39-dovl">'+pending().map(function(d){var c=CAT[d.e]||[d.e];return '<span class="v39-dovp"><img src="../img/'+d.mp+'.jpg" alt="">'+esc(d.m.split(' ')[0])+svg('<path d="M5 12h14M12 5l7 7-7 7"/>')+'<img src="../img/'+d.e+'.jpg" alt="">'+esc(c[0])+'</span>'}).join('')+'</span></span><span class="v39-dovgo">Voir les demandes '+svg('<path d="M5 12h14M12 5l7 7-7 7"/>')+'</span>';
       h0.insertAdjacentElement('afterend',r)}}}
   // notifications de l’admin : les demandes en attente arrivent dans la cloche (même source que add83 / add86)
   if(!MEMBRE){try{var R=JSON.parse(ls('v33-req')||'[]'),P=pending(),chg=0;P.forEach(function(d){var n=(CAT[d.e]||[d.e])[0];if(!R.some(function(r){return r.m===d.m&&r.e===n})){R.push({m:d.m,p:d.mp,e:n,t:Date.now()-3600e3});chg=1}});
@@ -3036,7 +3038,9 @@ document.querySelectorAll('[data-perm]').forEach(function(b){var ok=b.querySelec
   // ================= 5. Yélé animé (points 80, 91) : WebP animé transparent, lu par tous les navigateurs (iPhone compris)
   var RM=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
   // point 104 b : dans « Besoin d’aide ? », les trois billes de Myriel qui s’interchangent doucement ; le visage WebP reste dans le panneau
-  function orbs(){$$('.ybtn svg.yele').forEach(function(s){if(s._v38)return;s._v38=1;var w=document.createElement('span');w.className='v38-orbs';w.setAttribute('aria-hidden','true');w.innerHTML='<i></i><i></i><i></i>';s.parentNode.insertBefore(w,s);s.style.display='none'})}
+  // point 109 c : comme chez Myriel, la bulle montre Yélé animé (même animation, ici en WebP animé transparent, lu par Safari iPhone) sur fond blanc
+  function orbs(){$$('.ybtn svg.yele').forEach(function(s){if(s._v38)return;s._v38=1;var w=document.createElement('img');w.className='v39-yb';w.alt='';w.setAttribute('aria-hidden','true');w.decoding='async';w.src='../img/yele/yele_smile.webp';s.parentNode.insertBefore(w,s);s.style.display='none';
+    var b=w.closest('.ybtn');if(b&&!b._v39){b._v39=1;b.addEventListener('mouseenter',function(){w.src='../img/yele/yele_laugh.webp'});b.addEventListener('mouseleave',function(){w.src='../img/yele/yele_smile.webp'})}})}
   orbs();
   function yele(){$$('svg.yele').forEach(function(s){if(s._v38)return;s._v38=1;var w=document.createElement('span');w.className='v38-yw ok'+(s.classList.contains('big')?' big':'');
       var im=document.createElement('img');im.className='v38-yv';im.alt='';im.setAttribute('aria-hidden','true');im.decoding='async';im.src='../img/yele/yele_smile.webp';
@@ -3093,13 +3097,13 @@ document.querySelectorAll('[data-perm]').forEach(function(b){var ok=b.querySelec
       if(/^nadege\.toure@unifood\.info$/.test(em))ls('v33-vue','membre');else if(/^aicha\.diabate@unifood\.info$/.test(em))ls('v33-vue','admin')},true)})();
 
   // ================= 9. menu latéral (point 84) : statut mot + forme sous le prénom de chaque expert
-  $$('.sb a.mt').forEach(function(a){var i=$('.p i',a),sm=$('small',a);if(!i||!sm||a._v38)return;a._v38=1;var w=!i.classList.contains('idle');
+  $$('.sb a.mt').forEach(function(a){var i=$('.p i',a),sm=$('small',a);if(!i||!sm||a._v38)return;a._v38=1;var w=!i.classList.contains('idle')||/djeneba\.html/.test(a.getAttribute('href')||'');if(w)i.classList.remove('idle');
     sm.className='ell v38-mst '+(w?'work':'ok');sm.innerHTML=(w?svg('<path d="M21 12a9 9 0 1 1-6.219-8.56"/>'):IC.ok)+(w?' Au travail':' Disponible')});
 
   // ================= 10. page d'un expert (point 82) : un seul fil d'Ariane, Appeler en secondaire, Écrire en principal,
   //                      même activité en cours partout (en-tête, En ce moment, ligne « écrit… », Son ordinateur)
   (function(){var pc=$('.xcol .pcard');if(!pc)return;var k=page,NOM={djeneba:'Djénéba',fatima:'Fatima',koffi:'Koffi'}[k];if(!NOM)return;
-    var ACT={fatima:{t:'rédige les 3 posts de la promo Sossa',p:60,r:'encore 10 min'}}[k];
+    var ACT={fatima:{t:'rédige les 3 posts de la promo Sossa',p:60,r:'encore 10 min'},djeneba:{t:'prépare le point du jour de demain',p:60,r:'encore 15 min'}}[k];
     var st=$('.st',pc);if(st){st.className='st v38-pst '+(ACT?'work':'ok');st.innerHTML=(ACT?svg('<path d="M21 12a9 9 0 1 1-6.219-8.56"/>'):IC.ok)+(ACT?' Au travail':' Disponible')}
     var cta=$('.cta',pc),call=$('.call',pc);
     if(cta&&!$('.v38-wr2',cta)){var w=document.createElement('a');w.href='#discussion';w.className='v38-wr2';w.dataset.h='1';w.innerHTML=svg('<path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/>')+' Écrire';cta.insertBefore(w,cta.firstChild);
@@ -3231,18 +3235,23 @@ document.querySelectorAll('[data-perm]').forEach(function(b){var ok=b.querySelec
   // ================= 18. « Demander à mon équipe » (points 92 b, 104, 106) : grande carte de Myriel en haut de l'accueil, qui envoie vraiment
   (function(){var C=$('.v38-cmp');if(C){var F=$('form',C),I=$('.v38-aski',C),B=$('.v38-askm',C),fi=$('.v38-askc input',C),FL=$('.v38-files',C),files=[];
       var NMS={djeneba:'Djénéba',fatima:'Fatima',koffi:'Koffi'},EXL={admin:['djeneba','fatima','koffi'],membre:['fatima','koffi'],membre0:[]}[VUE]||['djeneba','fatima','koffi'];
-      $$('.v38-to',C).forEach(function(t){t.hidden=EXL.indexOf(t.dataset.x)<0});$$('.v38-idea',C).forEach(function(t){t.hidden=EXL.indexOf(t.dataset.x)<0});
+      $$('.v38-to',C).forEach(function(t){t.hidden=EXL.indexOf(t.dataset.x)<0});
+      // point 107 b : idées tirées des experts recrutés et des marques de l’entreprise, elles suivent le destinataire choisi
+      var IDX={djeneba:['Prépare le point du jour','Relance Serge pour le devis','Résume la semaine pour la direction'],fatima:['3 posts pour la promo Sossa','Calendrier éditorial d’octobre','Réponds aux commentaires Super Mint'],
+        koffi:['Une affiche A2 Super Mint','Décline le visuel Sossa en story','Packaging Super Mint, version 3']};
+      var IW=$('.v38-ideas',C);function ideas(){if(!IW)return;var k=to(),L=[];if(k==='djeneba'||!IDX[k]){L.push(['djeneba',IDX.djeneba[0]]);EXL.forEach(function(x){if(x!=='djeneba'&&IDX[x])L.push([x,IDX[x][0]])});L.push(['djeneba',IDX.djeneba[2]])}else IDX[k].forEach(function(t){L.push([k,t])});
+        IW.innerHTML=L.slice(0,4).map(function(x){return '<button type="button" class="v38-idea" data-h="1" data-x="'+x[0]+'">'+esc(x[1])+'</button>'}).join('')}
       var first=$('.v38-to:not([hidden]) input',C);if(first)first.checked=true;if(!EXL.length)C.hidden=true;
       function to(){var r=$('.v38-to input:checked',C);return r?r.value:EXL[0]}
-      function upd(){B.disabled=!I.value.trim()&&!files.length;I.placeholder='Que voulez-vous confier à '+(NMS[to()]||'votre équipe')+' ?'}
+      function upd(){B.disabled=false;B.setAttribute('aria-disabled',(!I.value.trim()&&!files.length)?'true':'false');I.placeholder='Que voulez-vous confier à '+(NMS[to()]||'votre équipe')+' ?'}
       function grow(){I.style.height='auto';I.style.height=Math.min(I.scrollHeight,200)+'px'}
-      I.addEventListener('input',function(){upd();grow()});C.addEventListener('change',function(e){if(e.target.name==='v38to')upd()});upd();
-      I.addEventListener('keydown',function(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();if(!B.disabled)F.requestSubmit?F.requestSubmit():B.click()}});
+      I.addEventListener('input',function(){upd();grow()});C.addEventListener('change',function(e){if(e.target.name==='v38to'){upd();ideas()}});upd();ideas();
+      I.addEventListener('keydown',function(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();if(B.getAttribute('aria-disabled')!=='true')F.requestSubmit?F.requestSubmit():B.click()}});
       fi.addEventListener('change',function(){[].forEach.call(fi.files||[],function(x){files.push(x.name)});FL.hidden=!files.length;FL.innerHTML=files.map(function(n,i){return '<li>'+esc(n)+'<button type="button" data-h="1" data-i="'+i+'" aria-label="Retirer '+esc(n)+'">'+IC.x+'</button></li>'}).join('');upd()});
       FL.addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;stop(e);files.splice(+b.dataset.i,1);fi.dispatchEvent(new Event('change'))});
       $('.v38-askv',C).addEventListener('click',function(e){stop(e);say('Parlez, je vous écoute. Le message part dès que vous relâchez.','info')});
-      $$('.v38-idea',C).forEach(function(b){b.addEventListener('click',function(e){stop(e);var r=$('.v38-to[data-x="'+b.dataset.x+'"] input',C);if(r)r.checked=true;I.value=b.textContent;upd();grow();I.focus()})});
-      F.addEventListener('submit',function(e){e.preventDefault();e.stopPropagation();var t=I.value.trim();if(!t&&!files.length)return;
+      if(IW)IW.addEventListener('click',function(e){var b=e.target.closest('.v38-idea');if(!b)return;stop(e);if(to()!=='djeneba'){var r=$('.v38-to[data-x="'+b.dataset.x+'"] input',C);if(r)r.checked=true}I.value=b.textContent;upd();grow();I.focus()});
+      F.addEventListener('submit',function(e){e.preventDefault();e.stopPropagation();var t=I.value.trim();if(!t&&!files.length){I.focus();say('Écrivez votre demande, puis envoyez','info');return}
         try{sessionStorage.setItem('v38-ask',JSON.stringify({t:t,a:files.join(', ')}))}catch(_){}location.href=to()+'.html#discussion'},true);
       document.body.classList.add('v38-nodock')}
     var th=$('#discussion .thread'),q=null;try{q=JSON.parse(sessionStorage.getItem('v38-ask')||'null')}catch(_){}
@@ -3255,8 +3264,9 @@ document.querySelectorAll('[data-perm]').forEach(function(b){var ok=b.querySelec
 
   // ================= 19. Recruter (point 94) : la carte ouvre la fiche, pastille « Déjà recruté(e) », admin peut assigner à un nouveau membre
   (function(){var FEMX={djeneba:1,fatima:1,koffi:0};
-    $$('.pc2.mine2').forEach(function(c){var k=(c.getAttribute('href')||'').replace(/^recrue-|\.html$/g,'');$$('.rb',c).forEach(function(r){if(/Voir sa fiche|Ouvrir son espace/.test(r.textContent))r.remove()});
-      var it=$('.inteam',c);if(it&&!it._v38){it._v38=1;it.innerHTML=IC.check+' Déjà recruté'+(FEMX[k]?'e':'')}});
+    // point 107 i : « Déjà recruté(e) » à la place du bouton, même niveau et même format que « Recruter <prénom> »
+    $$('.pc2.mine2').forEach(function(c){var k=(c.getAttribute('href')||c.dataset.v36k||'').replace(/^recrue-|\.html$/g,''),lab=IC.check+' Déjà recruté'+(FEMX[k]?'e':'');
+      var it=$('.inteam',c);if(it)it.remove();var rb=$('.rb',c);if(!rb){rb=document.createElement('span');rb.className='rb';($('.nm',c)||c).appendChild(rb)}rb.classList.add('v39-rbd');rb.innerHTML=lab});
     if(MEMBRE)return;
     $$('.asg').forEach(function(g){if($('.v38-nm',g))return;var b=document.createElement('span');b.className='as v38-nm';b.dataset.h='1';b.setAttribute('role','button');b.tabIndex=0;b.innerHTML=IC.plus+' Un nouveau membre';g.appendChild(b)});
     document.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('.v38-nm');if(!b)return;stop(e);if(!V.modal)return;
@@ -3322,13 +3332,78 @@ document.querySelectorAll('[data-perm]').forEach(function(b){var ok=b.querySelec
         '<p class="v38-aih">Modifiable à tout moment dans Connecteurs.</p>'}
     new MutationObserver(function(){if(Z.classList.contains('on'))fill()}).observe(Z,{attributes:true,attributeFilter:['class']});
     if(cs)cs.innerHTML='<span>'+IC.check+' Partagé avec les experts que vous choisissez</span>'})();
-  // ================= 25. Version A / Version B (point 105) : A = maquette de Myriel (site/version-a/), B = la nôtre ; choix retenu
-  (function(){var X={djeneba:1,fatima:1,koffi:1}[page];if(page!=='accueil'&&!X)return;
-    var base=/\/client\//.test(location.pathname)?'client':'yelema',h=X?'equipe-'+page:'accueil',A='../version-a/index.html#'+h;
-    if(ls('v39-ver')==='A'){ls('v39-base',base);location.replace(A);return}
-    function put(){if($('.v39-ver'))return;var top=$('.top');if(!top)return;var d=document.createElement('div');d.className='v39-ver';d.setAttribute('role','group');d.setAttribute('aria-label','Version de la page');
-      d.innerHTML='<button type="button" data-h="1" data-v="A" aria-pressed="false" title="Version A, proposition de Myriel"><span class="v39-l">Version </span>A</button><button type="button" data-h="1" data-v="B" class="on" aria-pressed="true" title="Version B, la version actuelle"><span class="v39-l">Version </span>B</button>';
+  // ================= 25. points 105 et 109 l : page d'un expert, bascule Version A (mise en page de Myriel) / Version B (la nôtre).
+  //   A = le même contenu réel que B (photo, boutons, Livrables, Résumé, Analytique, Réglages, Mail, Agenda), seule la mise en page change. Pas de bascule sur l'accueil.
+  ls('v39-ver',null);ls('v39-base',null);
+  (function(){var X={djeneba:'Djénéba',fatima:'Fatima',koffi:'Koffi'}[page];if(!X)return;var R=document.documentElement,pc=$('.xcol .pcard');if(!pc)return;
+    var av=document.createElement('img');av.className='v39-vav';av.alt='';av.src='../img/'+page+'.jpg';pc.insertBefore(av,pc.firstChild);
+    function fit(){var g=$('#discussion .dgrid');if(!g)return;if(innerWidth<=760){g.style.height='';return}g.style.height='';var t=g.getBoundingClientRect().top+scrollY;g.style.height=Math.max(480,innerHeight-t-20)+'px'}
+    addEventListener('resize',function(){clearTimeout(fit._t);fit._t=setTimeout(fit,80)});
+    function set(v){R.classList.toggle('v39-va',v==='A');setTimeout(fit,0);$$('.v39-ver button').forEach(function(b){var on=b.dataset.v===v;b.classList.toggle('on',on);b.setAttribute('aria-pressed',on?'true':'false')});try{window.dispatchEvent(new Event('resize'))}catch(_){}}
+    function put(){if($('.v39-ver'))return;var top=$('.top');if(!top)return;var d=document.createElement('div');d.className='v39-ver';d.setAttribute('role','group');d.setAttribute('aria-label','Mise en page de l’espace de travail');
+      d.innerHTML='<button type="button" data-h="1" data-v="A" title="Version A, mise en page de Myriel"><span class="v39-l">Version </span>A</button><button type="button" data-h="1" data-v="B" title="Version B, notre mise en page"><span class="v39-l">Version </span>B</button>';
       var ref=$('[data-pop="ping"]',top)||$('[data-pop="notifs"]',top);if(ref)top.insertBefore(d,ref);else top.appendChild(d);
-      d.addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;stop(e);if(b.dataset.v==='B')return;ls('v39-ver','A');ls('v39-base',base);location.href=A})}
-    put();setTimeout(put,0)})();
+      d.addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;stop(e);var v=b.dataset.v;if(v===(ls('v39-xv')||'B')){say('Vous êtes déjà sur la version '+v,'info');return}ls('v39-xv',v);set(v);say('Version '+v+(v==='A'?', mise en page de Myriel':', notre mise en page'),'info')})}
+    put();setTimeout(function(){put();set(ls('v39-xv')||'B')},0);set(ls('v39-xv')||'B');setTimeout(fit,500);$$('.xnav a[data-t="discussion"]').forEach(function(x){x.addEventListener('click',function(){setTimeout(fit,60)})})})();
+  // ================= 26. point 107 e : icônes Tableau de bord et Chat entreprise de la maquette de Myriel, partout dans les menus
+  (function(){var P={'tableau-de-bord.html':'<path d="M4 20V11M10 20V5M16 20v-7M21 20H3"/>','memoire.html':'<path d="M7.9 20A9 9 0 1 0 4 16.1L2 22z"/>'};
+    Object.keys(P).forEach(function(h){$$('.sb a[href="'+h+'"] > svg, .mnav a[href="'+h+'"] svg, #sh-menu a[href="'+h+'"] svg, .mspn a[href="'+h+'"] > svg, .xmn a[href="'+h+'"] > svg').forEach(function(v){
+      var n=document.createElement('span');n.innerHTML=svg(P[h]);var x=n.firstChild;x.setAttribute('class',v.getAttribute('class')||'i s');v.parentNode.replaceChild(x,v)})})})();
+  // ================= 27. points 107 j / 108 a : tous les chats = trombone, modèle (à gauche), champ, micro, bouton « Envoyer » visible
+  (function(){var MIC=svg('<path d="M12 19v3"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><rect x="9" y="2" width="6" height="13" rx="3"/>');
+    function fix(c){if(c._v39)return;var sb=$('.v36-sb',c),clip=$('.v36-clip',c),llm=$('.v36-llm',c);if(!sb||sb.classList.contains('v36-sbfake'))return;
+      var inp=$('.v33-in',c)||$('textarea',c)||$('input[type=text]',c);if(!inp)return;c._v39=1;c.classList.add('v39-comp');
+      if(clip&&llm&&clip.parentNode===llm.parentNode)clip.insertAdjacentElement('afterend',llm);
+      var mic=document.createElement('button');mic.type='button';mic.className='v39-mic';mic.dataset.h='1';mic.setAttribute('aria-label','Dicter un message');mic.title='Dicter un message';mic.innerHTML=MIC;
+      var go=document.createElement('button');go.type='button';go.className='v39-send';go.dataset.h='1';go.innerHTML=IC.send+'<span>Envoyer</span>';
+      sb.insertAdjacentElement('afterend',go);sb.insertAdjacentElement('afterend',mic);sb.classList.add('v39-hsb');sb.tabIndex=-1;sb.setAttribute('aria-hidden','true');
+      function st(){var on=!!String(inp.value||'').trim();go.setAttribute('aria-disabled',on?'false':'true')}
+      st();inp.addEventListener('input',st);inp.addEventListener('keyup',st);new MutationObserver(function(){setTimeout(st,0)}).observe(sb,{attributes:true,attributeFilter:['class']});
+      setInterval(function(){if(document.visibilityState==='visible')st()},700);
+      go.addEventListener('click',function(e){stop(e);if(!String(inp.value||'').trim()){inp.focus();say('Écrivez votre message, puis envoyez','info');return}sb.click();setTimeout(st,50)});
+      mic.addEventListener('click',function(e){stop(e);if(mic.classList.contains('rec'))return;var keep=String(inp.value||'').trim();if(keep){inp.value='';inp.dispatchEvent(new Event('input',{bubbles:true}))}
+        mic.classList.add('rec');sb.click();setTimeout(function(){mic.classList.remove('rec');if(keep){inp.value=keep+' '+inp.value;inp.dispatchEvent(new Event('input',{bubbles:true}))}st()},1700)})}
+    function all(){$$('.v36-comp').forEach(fix)}
+    all();setTimeout(all,300);setTimeout(all,1200)})();
+  // ================= 28. point 108 c : Résumé, période Aujourd’hui / Cette semaine / Ce mois-ci / Personnalisée (Du / Au)
+  (function(){$$('.seg.rps').forEach(function(sg){if($('.v39-rpp',sg))return;var a=document.createElement('a');a.className='v39-rpp';a.dataset.h='1';a.href='#';a.textContent='Personnalisée';sg.appendChild(a);
+      var pop=document.createElement('div');pop.className='v39-rpop';pop.hidden=true;pop.setAttribute('role','dialog');pop.setAttribute('aria-label','Période personnalisée');
+      pop.innerHTML='<label><span>Du</span><input type="date" class="fi" value="2026-09-12"></label><label><span>Au</span><input type="date" class="fi" value="2026-10-03"></label><button type="button" class="btn p sm" data-h="1">Appliquer</button>';
+      sg.parentNode.style.position='relative';sg.parentNode.appendChild(pop);
+      function fr(v){try{return new Date(v+'T12:00:00').toLocaleDateString('fr-FR',{day:'numeric',month:'short'})}catch(_){return v}}
+      a.addEventListener('click',function(e){stop(e);pop.hidden=!pop.hidden;if(!pop.hidden)$('input',pop).focus()});
+      $('button',pop).addEventListener('click',function(e){stop(e);var i=$$('input',pop),d1=i[0].value,d2=i[1].value;if(!d1||!d2||d1>d2){say('Choisissez une date de début avant la date de fin','warn');return}
+        $$('a',sg).forEach(function(x){x.classList.toggle('on',x===a)});a.textContent=fr(d1)+' au '+fr(d2);pop.hidden=true;
+        var pn=sg.closest('.panel')||document;$$('.rcp',pn).forEach(function(r){r.classList.toggle('on',r.dataset.rp==='mois')});say('Résumé du '+fr(d1)+' au '+fr(d2),'ok')});
+      $$('a',sg).forEach(function(o){if(o!==a)o.addEventListener('click',function(){a.textContent='Personnalisée';pop.hidden=true})});
+      document.addEventListener('click',function(e){if(!pop.hidden&&!pop.contains(e.target)&&e.target!==a)pop.hidden=true})})})();
+  // ================= 29. point 108 e : rédiger un email avec Cc, Cci et pièces jointes
+  (function(){var M=$('#mcomp');if(!M||$('.v39-cc',M))return;var to=$('input[type=email]',M);if(!to)return;var l0=to.closest('.fl2');
+    var cl=document.createElement('div');cl.className='v39-ccl';cl.innerHTML='<button type="button" class="link sm" data-h="1" data-c="cc">Ajouter Cc</button><button type="button" class="link sm" data-h="1" data-c="cci">Ajouter Cci</button>';
+    l0.insertAdjacentElement('afterend',cl);
+    ['cci','cc'].forEach(function(k){var f=document.createElement('label');f.className='fl2 v39-cc';f.dataset.c=k;f.hidden=true;f.innerHTML='<span>'+(k==='cc'?'Cc':'Cci')+'</span><input class="fi" type="text" inputmode="email" placeholder="nom@entreprise.com, autre@entreprise.com" style="width:100%">';cl.insertAdjacentElement('afterend',f)});
+    cl.addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;stop(e);var f=$('.v39-cc[data-c="'+b.dataset.c+'"]',M);f.hidden=false;b.hidden=true;$('input',f).focus();if(!$$('button:not([hidden])',cl).length)cl.hidden=true});
+    var ta=$('textarea',M),z=document.createElement('div');z.className='v39-att';
+    z.innerHTML='<ul class="v39-attl"></ul><label class="v39-attb"><input type="file" multiple hidden>'+svg('<path d="m16 6-8.414 8.586a2 2 0 0 0 2.829 2.829l8.414-8.586a4 4 0 1 0-5.657-5.657l-8.379 8.551a6 6 0 1 0 8.485 8.485l8.379-8.551"/>')+'<span>Joindre des fichiers</span></label>';
+    (ta?ta.closest('.fl2'):l0).insertAdjacentElement('afterend',z);var F=[],fi=$('input[type=file]',z),ul=$('.v39-attl',z);
+    function draw(){ul.innerHTML=F.map(function(n,i){return '<li>'+svg('<path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/>')+'<span class="ell">'+esc(n)+'</span><button type="button" data-h="1" data-i="'+i+'" aria-label="Retirer '+esc(n)+'">'+IC.x+'</button></li>'}).join('');ul.hidden=!F.length}
+    draw();fi.addEventListener('change',function(){[].forEach.call(fi.files||[],function(x){F.push(x.name)});fi.value='';draw()});
+    ul.addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;stop(e);F.splice(+b.dataset.i,1);draw()});
+    var go=$('.v30-mcgo',M);if(go)go.addEventListener('click',function(){var n=F.length,c=$$('.v39-cc input',M).filter(function(i){return i.value.trim()}).length;if(n||c)setTimeout(function(){say((n?n+' pièce'+(n>1?'s jointes':' jointe'):'')+(n&&c?', ':'')+(c?'copies ajoutées':'')+' : '+(n?'jointes':'reprises')+' dans le brouillon','info')},1400);
+      setTimeout(function(){F=[];draw();$$('.v39-cc',M).forEach(function(f){f.hidden=true;$('input',f).value=''});cl.hidden=false;$$('button',cl).forEach(function(b){b.hidden=false})},600)})})();
+  // ================= 30. point 107 f / g : tableaux de bord, liste = Mes tableaux + Partagés avec moi ; un seul lien, Enregistrer en haut
+  (function(){var L=$('.tbrail .tbli');if(L){$$('p.tbg',L).forEach(function(g){if(/Nouveaux experts/.test(g.textContent))g.remove()});
+      var gs=$$('p.tbg',L);gs.forEach(function(g,i){var n=0,e=g.nextElementSibling;while(e&&!e.matches('p')){if(e.matches('a[data-t]')&&getComputedStyle(e).display!=='none')n++;e=e.nextElementSibling}var b=$('b',g);if(b&&n)b.textContent=n})}
+    function swap(){$$('.tbact .tbcl').forEach(function(cl){var pn=cl.closest('.panel')||document,tp=$('.tbtpl',pn);if(!tp||cl._v39)return;cl._v39=1;var m=document.createElement('i');tp.parentNode.insertBefore(m,tp);cl.parentNode.insertBefore(tp,cl);m.parentNode.insertBefore(cl,m);m.remove();
+      tp.innerHTML=svg('<path d="M15.2 3a2 2 0 0 1 1.4.6l3.8 3.8a2 2 0 0 1 .6 1.4V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/><path d="M17 21v-7a1 1 0 0 0-1-1H8a1 1 0 0 0-1 1v7"/><path d="M7 3v4a1 1 0 0 0 1 1h7"/>')+' <span>Enregistrer</span>';tp.title='Enregistrer comme modèle';tp.setAttribute('aria-label','Enregistrer comme modèle')})}
+    swap();setTimeout(swap,0);setTimeout(swap,400)})();
+  // ================= 31. point 107 j : la carte « Demander à mon équipe » a aussi le choix du modèle, à gauche à côté du trombone
+  (function(){var C=$('.v38-cmp .v38-cbar');if(!C||$('.v39-mdl',C))return;var L=['Claude Sonnet','Claude Opus','GPT-5','Gemini 2.5 Pro'];
+    function cur(){var m=ls('v36-llm');return m||L[0]}
+    var w=document.createElement('div');w.className='v39-mdl';w.innerHTML='<button type="button" class="v39-mdb" data-h="1" aria-haspopup="listbox" aria-expanded="false" title="Modèle d’IA">'+svg('<rect width="16" height="16" x="4" y="4" rx="2"/><rect width="6" height="6" x="9" y="9" rx="1"/><path d="M15 2v2M15 20v2M2 15h2M2 9h2M20 15h2M20 9h2M9 2v2M9 20v2"/>')+'<span></span>'+IC.chev+'</button><div class="v39-mdm" role="listbox" hidden></div>';
+    var clip=$('.v38-askc',C);if(clip)clip.insertAdjacentElement('afterend',w);else C.insertBefore(w,C.firstChild);var mv=$('.v38-askv',C),sd=$('.v38-askm',C);if(mv&&sd)sd.parentNode.insertBefore(mv,sd);
+    var b=$('.v39-mdb',w),m=$('.v39-mdm',w);function draw(){$('span',b).textContent=cur();m.innerHTML=L.map(function(x){return '<button type="button" role="option" data-h="1" aria-selected="'+(x===cur())+'" class="'+(x===cur()?'on':'')+'">'+esc(x)+(x===cur()?IC.check:'')+'</button>'}).join('')}draw();
+    b.addEventListener('click',function(e){stop(e);m.hidden=!m.hidden;b.setAttribute('aria-expanded',m.hidden?'false':'true')});
+    m.addEventListener('click',function(e){var o=e.target.closest('button');if(!o)return;stop(e);ls('v36-llm',o.textContent);draw();m.hidden=true;b.setAttribute('aria-expanded','false');say('Modèle choisi : '+o.textContent,'info')});
+    document.addEventListener('click',function(e){if(!m.hidden&&!w.contains(e.target)){m.hidden=true;b.setAttribute('aria-expanded','false')}})})();
 })();
