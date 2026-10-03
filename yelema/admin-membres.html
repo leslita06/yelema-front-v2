@@ -7,7 +7,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Funnel+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../app.css"><script>try{var a=localStorage.getItem("yap")||"clair";if(a==="sombre"||(a==="auto"&&matchMedia("(prefers-color-scheme: dark)").matches))document.documentElement.setAttribute("data-mode","nuit")}catch(e){}</script></head>
 <body data-brand="yelema"><div class="app adm-app"><aside class="sb sbadm">
-  <div class="orgw"><a class="org" href="admin.html"><img class="lg" src="../img/unifood.png" alt="Unifood"><img class="ico" src="../img/unifood.png" alt=""><div><b>Unifood</b><span>Administration</span></div></a><button class="sbt" aria-label="Replier le menu" title="Replier le menu"><svg class="i s" aria-hidden="true"
+  <div class="orgw"><a class="org" href="admin-membres.html"><img class="lg" src="../img/unifood.png" alt="Unifood"><img class="ico" src="../img/unifood.png" alt=""><div><b>Unifood</b><span>Administration</span></div></a><button class="sbt" aria-label="Replier le menu" title="Replier le menu"><svg class="i s" aria-hidden="true"
  
   xmlns="http://www.w3.org/2000/svg"
  
@@ -38,7 +38,23 @@
   <path d="m12 19-7-7 7-7" />
   <path d="M19 12H5" />
 </svg> Retour à mon espace</a>
-  <div class="lb">Organisation</div><a class="it" href="admin.html"><svg class="i s" aria-hidden="true"
+  <div class="lb">Organisation</div><a class="it on" href="admin-membres.html"><svg class="i s" aria-hidden="true"
+ 
+  xmlns="http://www.w3.org/2000/svg"
+ 
+ 
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+  <circle cx="9" cy="7" r="4" />
+  <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+  <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+</svg> Membres et droits</a><a class="it" href="admin.html"><svg class="i s" aria-hidden="true"
  
   xmlns="http://www.w3.org/2000/svg"
  
@@ -71,23 +87,7 @@
   <path d="M22 5h-4" />
   <path d="M4 17v2" />
   <path d="M5 18H3" />
-</svg> Experts</a><a class="it on" href="admin-membres.html"><svg class="i s" aria-hidden="true"
- 
-  xmlns="http://www.w3.org/2000/svg"
- 
- 
-  viewBox="0 0 24 24"
-  fill="none"
-  stroke="currentColor"
-  stroke-width="2"
-  stroke-linecap="round"
-  stroke-linejoin="round"
->
-  <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
-  <circle cx="9" cy="7" r="4" />
-  <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
-  <path d="M16 3.13a4 4 0 0 1 0 7.75" />
-</svg> Membres et droits</a><a class="it" href="admin-canaux.html"><svg class="i s" aria-hidden="true"
+</svg> Experts</a><a class="it" href="admin-canaux.html"><svg class="i s" aria-hidden="true"
  
   xmlns="http://www.w3.org/2000/svg"
  
@@ -296,7 +296,7 @@
   <line x1="21" x2="9" y1="12" y2="12" />
 </svg> Se déconnecter</a></div></div>
   <a class="pby" href="https://leslita06.github.io/yelema-site-preview/">Powered by <img src="../img/yelema_long.png" alt="Yelema"></a><a class="pbyy" href="https://leslita06.github.io/yelema-site-preview/" title="Powered by Yelema" aria-label="Powered by Yelema"><img src="../img/yelema_y.png" alt=""></a></div>
-</aside><main style="min-width:0"><header class="top"><div class="crumb grow"><a href="admin.html">Administration</a> <svg class="i s" aria-hidden="true"
+</aside><main style="min-width:0"><header class="top"><div class="crumb grow"><a href="admin-membres.html">Administration</a> <svg class="i s" aria-hidden="true"
  
   xmlns="http://www.w3.org/2000/svg"
  
@@ -407,7 +407,7 @@
 >
   <path d="M10.268 21a2 2 0 0 0 3.464 0" />
   <path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326" />
-</svg><span class="bdg">4</span></button></header><div class="adm adm1"><div class="page"><div class="sform sfw"><div class="hello"><div class="grow"><h1>Membres et droits</h1><p class="sub">14 membres, 2 invitations en attente</p></div><a class="btn p" href="#" data-open="inv"><svg class="i s" aria-hidden="true"
+</svg><span class="bdg">4</span></button></header><div class="adm adm1"><div class="page"><div class="sform sfw"><div class="hello"><div class="grow"><h1>Membres et droits</h1><p class="sub">14 membres, 2 invitations en attente</p><div class="v33-reqs" hidden></div></div><a class="btn p" href="#" data-open="inv"><svg class="i s" aria-hidden="true"
  
   xmlns="http://www.w3.org/2000/svg"
  
@@ -424,8 +424,8 @@
   <line x1="19" x2="19" y1="8" y2="14" />
   <line x1="22" x2="16" y1="11" y2="11" />
 </svg> Inviter un membre</a></div>
-<div class="box" style="margin-top:16px"><table class="tbl"><tr><th>Membre</th><th class="hide-m">Service</th><th>Rôle</th><th></th></tr><tr><td><a class="who" href="admin-membre.html"><img class="av" src="../img/m_men_83.jpg" alt="" style="width:36px;height:36px;object-fit:cover"><span><b>Jean-Marc Aka</b><br><span class="xs mute3">Directeur général</span></span></a></td><td class="hide-m">Direction</td><td><span class="pill br">Direction</span></td><td><a class="link" href="admin-membre.html">Voir</a></td></tr><tr><td><a class="who" href="admin-membre.html"><img class="av" src="../img/m_men_80.jpg" alt="" style="width:36px;height:36px;object-fit:cover"><span><b>Serge Bamba</b><br><span class="xs mute3">Directeur administratif</span></span></a></td><td class="hide-m">Direction</td><td><span class="pill br">Direction</span></td><td><a class="link" href="admin-membre.html">Voir</a></td></tr><tr><td><a class="who" href="admin-membre.html"><img class="av" src="../img/aicha.jpg" alt="" style="width:36px;height:36px;object-fit:cover"><span><b>Aïcha Diabaté</b><br><span class="xs mute3">Directrice marketing</span></span></a></td><td class="hide-m">Marketing</td><td><span class="pill br">Admin</span></td><td><a class="link" href="admin-membre.html">Voir</a></td></tr><tr><td><a class="who" href="admin-membre.html"><img class="av" src="../img/m_women_36.jpg" alt="" style="width:36px;height:36px;object-fit:cover"><span><b>Nadège Touré</b><br><span class="xs mute3">Chargée de communication</span></span></a></td><td class="hide-m">Marketing</td><td><span class="pill br">Équipe</span></td><td><a class="link" href="admin-membre.html">Voir</a></td></tr><tr><td><a class="who" href="admin-membre.html"><img class="av" src="../img/m_men_53.jpg" alt="" style="width:36px;height:36px;object-fit:cover"><span><b>Yao Kra</b><br><span class="xs mute3">Graphiste</span></span></a></td><td class="hide-m">Marketing</td><td><span class="pill br">Équipe</span></td><td><a class="link" href="admin-membre.html">Voir</a></td></tr><tr><td><a class="who" href="admin-membre.html"><img class="av" src="../img/m_women_16.jpg" alt="" style="width:36px;height:36px;object-fit:cover"><span><b>Fanta Bakayoko</b><br><span class="xs mute3">Responsable commerciale</span></span></a></td><td class="hide-m">Commercial</td><td><span class="pill br">Responsable</span></td><td><a class="link" href="admin-membre.html">Voir</a></td></tr><tr><td><a class="who" href="admin-membre.html"><img class="av" src="../img/m_men_59.jpg" alt="" style="width:36px;height:36px;object-fit:cover"><span><b>Kader Ouattara</b><br><span class="xs mute3">Commercial terrain</span></span></a></td><td class="hide-m">Commercial</td><td><span class="pill br">Équipe</span></td><td><a class="link" href="admin-membre.html">Voir</a></td></tr><tr><td><a class="who" href="admin-membre.html"><img class="av" src="../img/m_women_89.jpg" alt="" style="width:36px;height:36px;object-fit:cover"><span><b>Rokia Traoré</b><br><span class="xs mute3">Service client</span></span></a></td><td class="hide-m">Commercial</td><td><span class="pill br">Équipe</span></td><td><a class="link" href="admin-membre.html">Voir</a></td></tr><tr><td><a class="who" href="admin-membre.html"><img class="av" src="../img/m_women_30.jpg" alt="" style="width:36px;height:36px;object-fit:cover"><span><b>Mariam Koné</b><br><span class="xs mute3">Responsable RH</span></span></a></td><td class="hide-m">RH</td><td><span class="pill br">Responsable</span></td><td><a class="link" href="admin-membre.html">Voir</a></td></tr><tr><td><a class="who" href="admin-membre.html"><img class="av" src="../img/m_men_91.jpg" alt="" style="width:36px;height:36px;object-fit:cover"><span><b>Ibrahim Sylla</b><br><span class="xs mute3">Contrôleur financier</span></span></a></td><td class="hide-m">Finance</td><td><span class="pill br">Responsable</span></td><td><a class="link" href="admin-membre.html">Voir</a></td></tr><tr><td><a class="who" href="admin-membre.html"><img class="av" src="../img/m_men_49.jpg" alt="" style="width:36px;height:36px;object-fit:cover"><span><b>Hervé N'Guessan</b><br><span class="xs mute3">Responsable logistique</span></span></a></td><td class="hide-m">Opérations</td><td><span class="pill br">Responsable</span></td><td><a class="link" href="admin-membre.html">Voir</a></td></tr><tr><td><a class="who" href="admin-membre.html"><img class="av" src="../img/m_men_16.jpg" alt="" style="width:36px;height:36px;object-fit:cover"><span><b>Olivier Kacou</b><br><span class="xs mute3">Chef d'usine</span></span></a></td><td class="hide-m">Opérations</td><td><span class="pill br">Équipe</span></td><td><a class="link" href="admin-membre.html">Voir</a></td></tr><tr><td><a class="who" href="admin-membre.html"><img class="av" src="../img/m_women_69.jpg" alt="" style="width:36px;height:36px;object-fit:cover"><span><b>Sarah Diallo</b><br><span class="xs mute3">Assistante de direction</span></span></a></td><td class="hide-m">Direction</td><td><span class="pill br">Équipe</span></td><td><a class="link" href="admin-membre.html">Voir</a></td></tr><tr><td><a class="who" href="admin-membre.html"><img class="av" src="../img/m_men_30.jpg" alt="" style="width:36px;height:36px;object-fit:cover"><span><b>Didier Yapi</b><br><span class="xs mute3">Acheteur</span></span></a></td><td class="hide-m">Opérations</td><td><span class="pill br">Équipe</span></td><td><a class="link" href="admin-membre.html">Voir</a></td></tr></table></div>
-<div class="box" style="margin-top:14px"><div class="ch"><h2 style="font-size:16px;font-weight:650">Qui peut faire quoi</h2></div><table class="tbl drt"><tr><th></th><th style="text-align:center"><span class="drh"><b>Administrateur</b><small>Tout l’espace</small></span></th><th style="text-align:center"><span class="drh"><b>Responsable</b><small>Son service</small></span></th><th style="text-align:center"><span class="drh"><b>Membre</b><small>Son travail</small></span></th></tr><tr><td>Voir son tableau de bord</td><td align="center"><span class="drok"><svg class="i s" aria-hidden="true"
+<div class="box" style="margin-top:16px"><table class="tbl v33-tc"><tr><th>Membre</th><th class="hide-m">Service</th><th>Rôle</th><th>Experts</th><th></th></tr><tr><td><a class="who" href="admin-membre.html"><img class="av" src="../img/m_men_83.jpg" alt="" style="width:36px;height:36px;object-fit:cover"><span><b>Jean-Marc Aka</b><br><span class="xs mute3">Directeur général</span></span></a></td><td class="hide-m">Direction</td><td><span class="pill v33-mb">Membre</span></td><td><span class="v33-ax" data-who="Jean-Marc Aka" data-ex="djeneba"><img src="../img/djeneba.jpg" alt="Djénéba" title="Djénéba"></span><a class="btn o sm v33-att" href="#" data-open="v33-att" data-who="Jean-Marc Aka">Attribuer</a></td><td><a class="link" href="admin-membre.html">Voir</a></td></tr><tr><td><a class="who" href="admin-membre.html"><img class="av" src="../img/m_men_80.jpg" alt="" style="width:36px;height:36px;object-fit:cover"><span><b>Serge Bamba</b><br><span class="xs mute3">Directeur administratif</span></span></a></td><td class="hide-m">Direction</td><td><span class="pill v33-mb">Membre</span></td><td><span class="v33-ax" data-who="Serge Bamba" data-ex="djeneba"><img src="../img/djeneba.jpg" alt="Djénéba" title="Djénéba"></span><a class="btn o sm v33-att" href="#" data-open="v33-att" data-who="Serge Bamba">Attribuer</a></td><td><a class="link" href="admin-membre.html">Voir</a></td></tr><tr><td><a class="who" href="admin-membre.html"><img class="av" src="../img/aicha.jpg" alt="" style="width:36px;height:36px;object-fit:cover"><span><b>Aïcha Diabaté</b><br><span class="xs mute3">Directrice marketing</span></span></a></td><td class="hide-m">Marketing</td><td><span class="pill br">Admin</span></td><td><span class="v33-ax" data-who="Aïcha Diabaté" data-ex="djeneba fatima koffi"><img src="../img/djeneba.jpg" alt="Djénéba" title="Djénéba"><img src="../img/fatima.jpg" alt="Fatima" title="Fatima"><img src="../img/koffi.jpg" alt="Koffi" title="Koffi"></span><a class="btn o sm v33-att" href="#" data-open="v33-att" data-who="Aïcha Diabaté">Attribuer</a></td><td><a class="link" href="admin-membre.html">Voir</a></td></tr><tr><td><a class="who" href="admin-membre.html"><img class="av" src="../img/m_women_36.jpg" alt="" style="width:36px;height:36px;object-fit:cover"><span><b>Nadège Touré</b><br><span class="xs mute3">Chargée de communication</span></span></a></td><td class="hide-m">Marketing</td><td><span class="pill v33-mb">Membre</span></td><td><span class="v33-ax" data-who="Nadège Touré" data-ex="fatima koffi"><img src="../img/fatima.jpg" alt="Fatima" title="Fatima"><img src="../img/koffi.jpg" alt="Koffi" title="Koffi"></span><a class="btn o sm v33-att" href="#" data-open="v33-att" data-who="Nadège Touré">Attribuer</a></td><td><a class="link" href="admin-membre.html">Voir</a></td></tr><tr><td><a class="who" href="admin-membre.html"><img class="av" src="../img/m_men_53.jpg" alt="" style="width:36px;height:36px;object-fit:cover"><span><b>Yao Kra</b><br><span class="xs mute3">Graphiste</span></span></a></td><td class="hide-m">Marketing</td><td><span class="pill v33-mb">Membre</span></td><td><span class="v33-ax" data-who="Yao Kra" data-ex="koffi"><img src="../img/koffi.jpg" alt="Koffi" title="Koffi"></span><a class="btn o sm v33-att" href="#" data-open="v33-att" data-who="Yao Kra">Attribuer</a></td><td><a class="link" href="admin-membre.html">Voir</a></td></tr><tr><td><a class="who" href="admin-membre.html"><img class="av" src="../img/m_women_16.jpg" alt="" style="width:36px;height:36px;object-fit:cover"><span><b>Fanta Bakayoko</b><br><span class="xs mute3">Responsable commerciale</span></span></a></td><td class="hide-m">Commercial</td><td><span class="pill v33-mb">Membre</span></td><td><span class="v33-ax" data-who="Fanta Bakayoko" data-ex="fatima"><img src="../img/fatima.jpg" alt="Fatima" title="Fatima"></span><a class="btn o sm v33-att" href="#" data-open="v33-att" data-who="Fanta Bakayoko">Attribuer</a></td><td><a class="link" href="admin-membre.html">Voir</a></td></tr><tr><td><a class="who" href="admin-membre.html"><img class="av" src="../img/m_men_59.jpg" alt="" style="width:36px;height:36px;object-fit:cover"><span><b>Kader Ouattara</b><br><span class="xs mute3">Commercial terrain</span></span></a></td><td class="hide-m">Commercial</td><td><span class="pill v33-mb">Membre</span></td><td><span class="v33-ax" data-who="Kader Ouattara" data-ex=""><span class="xs mute3">Aucun</span></span><a class="btn o sm v33-att" href="#" data-open="v33-att" data-who="Kader Ouattara">Attribuer</a></td><td><a class="link" href="admin-membre.html">Voir</a></td></tr><tr><td><a class="who" href="admin-membre.html"><img class="av" src="../img/m_women_89.jpg" alt="" style="width:36px;height:36px;object-fit:cover"><span><b>Rokia Traoré</b><br><span class="xs mute3">Service client</span></span></a></td><td class="hide-m">Commercial</td><td><span class="pill v33-mb">Membre</span></td><td><span class="v33-ax" data-who="Rokia Traoré" data-ex=""><span class="xs mute3">Aucun</span></span><a class="btn o sm v33-att" href="#" data-open="v33-att" data-who="Rokia Traoré">Attribuer</a></td><td><a class="link" href="admin-membre.html">Voir</a></td></tr><tr><td><a class="who" href="admin-membre.html"><img class="av" src="../img/m_women_30.jpg" alt="" style="width:36px;height:36px;object-fit:cover"><span><b>Mariam Koné</b><br><span class="xs mute3">Responsable RH</span></span></a></td><td class="hide-m">RH</td><td><span class="pill v33-mb">Membre</span></td><td><span class="v33-ax" data-who="Mariam Koné" data-ex=""><span class="xs mute3">Aucun</span></span><a class="btn o sm v33-att" href="#" data-open="v33-att" data-who="Mariam Koné">Attribuer</a></td><td><a class="link" href="admin-membre.html">Voir</a></td></tr><tr><td><a class="who" href="admin-membre.html"><img class="av" src="../img/m_men_91.jpg" alt="" style="width:36px;height:36px;object-fit:cover"><span><b>Ibrahim Sylla</b><br><span class="xs mute3">Contrôleur financier</span></span></a></td><td class="hide-m">Finance</td><td><span class="pill v33-mb">Membre</span></td><td><span class="v33-ax" data-who="Ibrahim Sylla" data-ex=""><span class="xs mute3">Aucun</span></span><a class="btn o sm v33-att" href="#" data-open="v33-att" data-who="Ibrahim Sylla">Attribuer</a></td><td><a class="link" href="admin-membre.html">Voir</a></td></tr><tr><td><a class="who" href="admin-membre.html"><img class="av" src="../img/m_men_49.jpg" alt="" style="width:36px;height:36px;object-fit:cover"><span><b>Hervé N'Guessan</b><br><span class="xs mute3">Responsable logistique</span></span></a></td><td class="hide-m">Opérations</td><td><span class="pill v33-mb">Membre</span></td><td><span class="v33-ax" data-who="Hervé N'Guessan" data-ex=""><span class="xs mute3">Aucun</span></span><a class="btn o sm v33-att" href="#" data-open="v33-att" data-who="Hervé N'Guessan">Attribuer</a></td><td><a class="link" href="admin-membre.html">Voir</a></td></tr><tr><td><a class="who" href="admin-membre.html"><img class="av" src="../img/m_men_16.jpg" alt="" style="width:36px;height:36px;object-fit:cover"><span><b>Olivier Kacou</b><br><span class="xs mute3">Chef d'usine</span></span></a></td><td class="hide-m">Opérations</td><td><span class="pill v33-mb">Membre</span></td><td><span class="v33-ax" data-who="Olivier Kacou" data-ex=""><span class="xs mute3">Aucun</span></span><a class="btn o sm v33-att" href="#" data-open="v33-att" data-who="Olivier Kacou">Attribuer</a></td><td><a class="link" href="admin-membre.html">Voir</a></td></tr><tr><td><a class="who" href="admin-membre.html"><img class="av" src="../img/m_women_69.jpg" alt="" style="width:36px;height:36px;object-fit:cover"><span><b>Sarah Diallo</b><br><span class="xs mute3">Assistante de direction</span></span></a></td><td class="hide-m">Direction</td><td><span class="pill v33-mb">Membre</span></td><td><span class="v33-ax" data-who="Sarah Diallo" data-ex="djeneba"><img src="../img/djeneba.jpg" alt="Djénéba" title="Djénéba"></span><a class="btn o sm v33-att" href="#" data-open="v33-att" data-who="Sarah Diallo">Attribuer</a></td><td><a class="link" href="admin-membre.html">Voir</a></td></tr><tr><td><a class="who" href="admin-membre.html"><img class="av" src="../img/m_men_30.jpg" alt="" style="width:36px;height:36px;object-fit:cover"><span><b>Didier Yapi</b><br><span class="xs mute3">Acheteur</span></span></a></td><td class="hide-m">Opérations</td><td><span class="pill v33-mb">Membre</span></td><td><span class="v33-ax" data-who="Didier Yapi" data-ex=""><span class="xs mute3">Aucun</span></span><a class="btn o sm v33-att" href="#" data-open="v33-att" data-who="Didier Yapi">Attribuer</a></td><td><a class="link" href="admin-membre.html">Voir</a></td></tr></table></div>
+<div class="box" style="margin-top:14px"><div class="ch"><h2 style="font-size:16px;font-weight:650">Qui peut faire quoi</h2></div><table class="tbl drt"><tr><th></th><th style="text-align:center"><span class="drh"><b>Admin</b><small>Tout l’espace</small></span></th><th style="text-align:center"><span class="drh"><b>Membre</b><small>Ses experts</small></span></th></tr><tr><td>Parler à ses experts (web, Telegram, mail, voix)</td><td align="center"><span class="drok"><svg class="i s" aria-hidden="true"
  
   xmlns="http://www.w3.org/2000/svg"
  
@@ -451,20 +451,7 @@
   stroke-linejoin="round"
 >
   <path d="M20 6 9 17l-5-5" />
-</svg></span></td><td align="center"><span class="drok"><svg class="i s" aria-hidden="true"
- 
-  xmlns="http://www.w3.org/2000/svg"
- 
- 
-  viewBox="0 0 24 24"
-  fill="none"
-  stroke="currentColor"
-  stroke-width="2"
-  stroke-linecap="round"
-  stroke-linejoin="round"
->
-  <path d="M20 6 9 17l-5-5" />
-</svg></span></td></tr><tr><td>Parler à ses experts</td><td align="center"><span class="drok"><svg class="i s" aria-hidden="true"
+</svg></span></td></tr><tr><td>Voir l’analytique de ses experts</td><td align="center"><span class="drok"><svg class="i s" aria-hidden="true"
  
   xmlns="http://www.w3.org/2000/svg"
  
@@ -490,20 +477,7 @@
   stroke-linejoin="round"
 >
   <path d="M20 6 9 17l-5-5" />
-</svg></span></td><td align="center"><span class="drok"><svg class="i s" aria-hidden="true"
- 
-  xmlns="http://www.w3.org/2000/svg"
- 
- 
-  viewBox="0 0 24 24"
-  fill="none"
-  stroke="currentColor"
-  stroke-width="2"
-  stroke-linecap="round"
-  stroke-linejoin="round"
->
-  <path d="M20 6 9 17l-5-5" />
-</svg></span></td></tr><tr><td>Utiliser le chat entreprise</td><td align="center"><span class="drok"><svg class="i s" aria-hidden="true"
+</svg></span></td></tr><tr><td>Créer ses tableaux de bord et les partager, même par lien public</td><td align="center"><span class="drok"><svg class="i s" aria-hidden="true"
  
   xmlns="http://www.w3.org/2000/svg"
  
@@ -529,20 +503,7 @@
   stroke-linejoin="round"
 >
   <path d="M20 6 9 17l-5-5" />
-</svg></span></td><td align="center"><span class="drok"><svg class="i s" aria-hidden="true"
- 
-  xmlns="http://www.w3.org/2000/svg"
- 
- 
-  viewBox="0 0 24 24"
-  fill="none"
-  stroke="currentColor"
-  stroke-width="2"
-  stroke-linecap="round"
-  stroke-linejoin="round"
->
-  <path d="M20 6 9 17l-5-5" />
-</svg></span></td></tr><tr><td>Créer et partager ses tableaux de bord</td><td align="center"><span class="drok"><svg class="i s" aria-hidden="true"
+</svg></span></td></tr><tr><td>Créer ses routines, ranger ses fichiers</td><td align="center"><span class="drok"><svg class="i s" aria-hidden="true"
  
   xmlns="http://www.w3.org/2000/svg"
  
@@ -568,20 +529,7 @@
   stroke-linejoin="round"
 >
   <path d="M20 6 9 17l-5-5" />
-</svg></span></td><td align="center"><span class="drok"><svg class="i s" aria-hidden="true"
- 
-  xmlns="http://www.w3.org/2000/svg"
- 
- 
-  viewBox="0 0 24 24"
-  fill="none"
-  stroke="currentColor"
-  stroke-width="2"
-  stroke-linecap="round"
-  stroke-linejoin="round"
->
-  <path d="M20 6 9 17l-5-5" />
-</svg></span></td></tr><tr><td>Parler aux experts de toute son équipe</td><td align="center"><span class="drok"><svg class="i s" aria-hidden="true"
+</svg></span></td></tr><tr><td>Brancher ses propres outils, clés API et serveurs MCP pour ses experts</td><td align="center"><span class="drok"><svg class="i s" aria-hidden="true"
  
   xmlns="http://www.w3.org/2000/svg"
  
@@ -607,20 +555,7 @@
   stroke-linejoin="round"
 >
   <path d="M20 6 9 17l-5-5" />
-</svg></span></td><td align="center"><span class="drno"><svg class="i s" aria-hidden="true"
- 
-  xmlns="http://www.w3.org/2000/svg"
- 
- 
-  viewBox="0 0 24 24"
-  fill="none"
-  stroke="currentColor"
-  stroke-width="2"
-  stroke-linecap="round"
-  stroke-linejoin="round"
->
-  <path d="M5 12h14" />
-</svg></span></td></tr><tr><td>Suivre l’activité de son équipe</td><td align="center"><span class="drok"><svg class="i s" aria-hidden="true"
+</svg></span></td></tr><tr><td>Demander un nouvel expert</td><td align="center"><span class="drok"><svg class="i s" aria-hidden="true"
  
   xmlns="http://www.w3.org/2000/svg"
  
@@ -646,33 +581,7 @@
   stroke-linejoin="round"
 >
   <path d="M20 6 9 17l-5-5" />
-</svg></span></td><td align="center"><span class="drno"><svg class="i s" aria-hidden="true"
- 
-  xmlns="http://www.w3.org/2000/svg"
- 
- 
-  viewBox="0 0 24 24"
-  fill="none"
-  stroke="currentColor"
-  stroke-width="2"
-  stroke-linecap="round"
-  stroke-linejoin="round"
->
-  <path d="M5 12h14" />
-</svg></span></td></tr><tr><td>Voir les tableaux de son équipe</td><td align="center"><span class="drok"><svg class="i s" aria-hidden="true"
- 
-  xmlns="http://www.w3.org/2000/svg"
- 
- 
-  viewBox="0 0 24 24"
-  fill="none"
-  stroke="currentColor"
-  stroke-width="2"
-  stroke-linecap="round"
-  stroke-linejoin="round"
->
-  <path d="M20 6 9 17l-5-5" />
-</svg></span></td><td align="center"><span class="drok"><svg class="i s" aria-hidden="true"
+</svg></span></td></tr><tr><td>Voir les experts et les tableaux de toute l’entreprise</td><td align="center"><span class="drok"><svg class="i s" aria-hidden="true"
  
   xmlns="http://www.w3.org/2000/svg"
  
@@ -698,20 +607,7 @@
   stroke-linejoin="round"
 >
   <path d="M5 12h14" />
-</svg></span></td></tr><tr><td>Attribuer un expert à un membre de son équipe</td><td align="center"><span class="drok"><svg class="i s" aria-hidden="true"
- 
-  xmlns="http://www.w3.org/2000/svg"
- 
- 
-  viewBox="0 0 24 24"
-  fill="none"
-  stroke="currentColor"
-  stroke-width="2"
-  stroke-linecap="round"
-  stroke-linejoin="round"
->
-  <path d="M20 6 9 17l-5-5" />
-</svg></span></td><td align="center"><span class="drok"><svg class="i s" aria-hidden="true"
+</svg></span></td></tr><tr><td>Attribuer un expert à un membre</td><td align="center"><span class="drok"><svg class="i s" aria-hidden="true"
  
   xmlns="http://www.w3.org/2000/svg"
  
@@ -737,7 +633,7 @@
   stroke-linejoin="round"
 >
   <path d="M5 12h14" />
-</svg></span></td></tr><tr><td>Recruter un expert</td><td align="center"><span class="drok"><svg class="i s" aria-hidden="true"
+</svg></span></td></tr><tr><td>Recruter et payer un expert</td><td align="center"><span class="drok"><svg class="i s" aria-hidden="true"
  
   xmlns="http://www.w3.org/2000/svg"
  
@@ -763,20 +659,7 @@
   stroke-linejoin="round"
 >
   <path d="M5 12h14" />
-</svg></span></td><td align="center"><span class="drno"><svg class="i s" aria-hidden="true"
- 
-  xmlns="http://www.w3.org/2000/svg"
- 
- 
-  viewBox="0 0 24 24"
-  fill="none"
-  stroke="currentColor"
-  stroke-width="2"
-  stroke-linecap="round"
-  stroke-linejoin="round"
->
-  <path d="M5 12h14" />
-</svg></span></td></tr><tr><td>Inviter des membres</td><td align="center"><span class="drok"><svg class="i s" aria-hidden="true"
+</svg></span></td></tr><tr><td>Mettre en pause, arrêter ou retirer un expert</td><td align="center"><span class="drok"><svg class="i s" aria-hidden="true"
  
   xmlns="http://www.w3.org/2000/svg"
  
@@ -802,20 +685,7 @@
   stroke-linejoin="round"
 >
   <path d="M5 12h14" />
-</svg></span></td><td align="center"><span class="drno"><svg class="i s" aria-hidden="true"
- 
-  xmlns="http://www.w3.org/2000/svg"
- 
- 
-  viewBox="0 0 24 24"
-  fill="none"
-  stroke="currentColor"
-  stroke-width="2"
-  stroke-linecap="round"
-  stroke-linejoin="round"
->
-  <path d="M5 12h14" />
-</svg></span></td></tr><tr><td>Gérer les connecteurs et les clés d’IA</td><td align="center"><span class="drok"><svg class="i s" aria-hidden="true"
+</svg></span></td></tr><tr><td>Inviter, retirer un membre, changer son rôle</td><td align="center"><span class="drok"><svg class="i s" aria-hidden="true"
  
   xmlns="http://www.w3.org/2000/svg"
  
@@ -841,20 +711,7 @@
   stroke-linejoin="round"
 >
   <path d="M5 12h14" />
-</svg></span></td><td align="center"><span class="drno"><svg class="i s" aria-hidden="true"
- 
-  xmlns="http://www.w3.org/2000/svg"
- 
- 
-  viewBox="0 0 24 24"
-  fill="none"
-  stroke="currentColor"
-  stroke-width="2"
-  stroke-linecap="round"
-  stroke-linejoin="round"
->
-  <path d="M5 12h14" />
-</svg></span></td></tr><tr><td>Voir la facturation</td><td align="center"><span class="drok"><svg class="i s" aria-hidden="true"
+</svg></span></td></tr><tr><td>Outils, clés API et serveurs MCP de l’entreprise</td><td align="center"><span class="drok"><svg class="i s" aria-hidden="true"
  
   xmlns="http://www.w3.org/2000/svg"
  
@@ -880,6 +737,19 @@
   stroke-linejoin="round"
 >
   <path d="M5 12h14" />
+</svg></span></td></tr><tr><td>Activer ou couper le chat entreprise</td><td align="center"><span class="drok"><svg class="i s" aria-hidden="true"
+ 
+  xmlns="http://www.w3.org/2000/svg"
+ 
+ 
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M20 6 9 17l-5-5" />
 </svg></span></td><td align="center"><span class="drno"><svg class="i s" aria-hidden="true"
  
   xmlns="http://www.w3.org/2000/svg"
@@ -893,7 +763,59 @@
   stroke-linejoin="round"
 >
   <path d="M5 12h14" />
-</svg></span></td></tr></table></div></div></div></div></main></div><div class="pop" id="ping"><h3>Messages</h3>
+</svg></span></td></tr><tr><td>Facturation et suivi des coûts</td><td align="center"><span class="drok"><svg class="i s" aria-hidden="true"
+ 
+  xmlns="http://www.w3.org/2000/svg"
+ 
+ 
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M20 6 9 17l-5-5" />
+</svg></span></td><td align="center"><span class="drno"><svg class="i s" aria-hidden="true"
+ 
+  xmlns="http://www.w3.org/2000/svg"
+ 
+ 
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M5 12h14" />
+</svg></span></td></tr><tr><td>Supprimer la routine ou le fichier d’un autre</td><td align="center"><span class="drok"><svg class="i s" aria-hidden="true"
+ 
+  xmlns="http://www.w3.org/2000/svg"
+ 
+ 
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M20 6 9 17l-5-5" />
+</svg></span></td><td align="center"><span class="drno"><svg class="i s" aria-hidden="true"
+ 
+  xmlns="http://www.w3.org/2000/svg"
+ 
+ 
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M5 12h14" />
+</svg></span></td></tr></table></div></div></div></div><div class="modal" id="v33-att"><div class="ov" data-close></div><div class="pn"><button class="ib x" data-close aria-label="Fermer">×</button><h2>Attribuer des experts à <span class="v33-atw">ce membre</span></h2><p class="sm mute">Le membre parle à ces experts et voit leur travail.</p><div class="v33-atl"><label class="fmc"><input type="checkbox" value="djeneba"><img class="av" src="../img/djeneba.jpg" alt="" style="width:24px;height:24px;object-fit:cover"> Djénéba</label><label class="fmc"><input type="checkbox" value="fatima"><img class="av" src="../img/fatima.jpg" alt="" style="width:24px;height:24px;object-fit:cover"> Fatima</label><label class="fmc"><input type="checkbox" value="koffi"><img class="av" src="../img/koffi.jpg" alt="" style="width:24px;height:24px;object-fit:cover"> Koffi</label></div><div class="row" style="justify-content:flex-end;gap:8px;margin-top:14px"><a class="btn o" href="#" data-close>Annuler</a><a class="btn p v33-atok" href="#" data-h="1">Enregistrer</a></div></div></div></main></div><div class="pop" id="ping"><h3>Messages</h3>
 <div class="srch"><svg class="i s" aria-hidden="true"
  
   xmlns="http://www.w3.org/2000/svg"
@@ -908,7 +830,7 @@
 >
   <circle cx="11" cy="11" r="8" />
   <path d="m21 21-4.3-4.3" />
-</svg> Chercher une conversation</div><a class="cv unread" href="chat.html"><span class="p"><span class="hash">#</span></span><span class="grow"><b><span class="ell">Général</span><time>10:50</time></b><p>Djénéba : comité demain à 9 h, la note est prête.</p></span></a><a class="cv unread" href="fatima.html#discussion"><span class="p"><img src="../img/fatima.jpg" alt=""></span><span class="grow"><b><span class="ell">Fatima</span><time>10:42</time></b><p>Les trois visuels de la promo rentrée Sossa sont prêts…</p></span></a><a class="cv" href="djeneba.html#discussion"><span class="p"><img src="../img/djeneba.jpg" alt=""></span><span class="grow"><b><span class="ell">Djénéba</span><time>08:00</time></b><p>Votre point du jour : deux validations en attente…</p></span></a><a class="cv" href="koffi.html#discussion"><span class="p"><img src="../img/koffi.jpg" alt=""></span><span class="grow"><b><span class="ell">Koffi</span><time>09:40</time></b><p>La v2 du packaging est chez Yao.</p></span></a><a class="cv" href="chat.html"><span class="p"><img class="av" src="../img/m_women_36.jpg" alt="" style="width:42px;height:42px;object-fit:cover"></span><span class="grow"><b><span class="ell">Nadège Touré</span><time>hier</time></b><p>Je t'envoie les photos de Yopougon ce soir.</p></span></a><a class="cv" href="chat.html"><span class="p"><img class="av" src="../img/m_men_53.jpg" alt="" style="width:42px;height:42px;object-fit:cover"></span><span class="grow"><b><span class="ell">Yao Kra</span><time>hier</time></b><p>Ok pour la version rouge.</p></span></a></div>
+</svg> Chercher une conversation</div><a class="cv unread" href="chat.html" data-v33-ce><span class="p"><span class="hash">#</span></span><span class="grow"><b><span class="ell">Général</span><time>10:50</time></b><p>Djénéba : comité demain à 9 h, la note est prête.</p></span></a><a class="cv unread" href="fatima.html#discussion"><span class="p"><img src="../img/fatima.jpg" alt=""></span><span class="grow"><b><span class="ell">Fatima</span><time>10:42</time></b><p>Les trois visuels de la promo rentrée Sossa sont prêts…</p></span></a><a class="cv" href="djeneba.html#discussion"><span class="p"><img src="../img/djeneba.jpg" alt=""></span><span class="grow"><b><span class="ell">Djénéba</span><time>08:00</time></b><p>Votre point du jour : deux validations en attente…</p></span></a><a class="cv" href="koffi.html#discussion"><span class="p"><img src="../img/koffi.jpg" alt=""></span><span class="grow"><b><span class="ell">Koffi</span><time>09:40</time></b><p>La v2 du packaging est chez Yao.</p></span></a></div>
 <div class="pop" id="notifs"><h3>Notifications <a class="link sm mk" href="#"><svg class="i s" aria-hidden="true"
  
   xmlns="http://www.w3.org/2000/svg"
@@ -968,7 +890,7 @@
 >
   <polyline points="22 17 13.5 8.5 8.5 13.5 2 7" />
   <polyline points="16 17 22 17 22 11" />
-</svg></span><div><b>Ventes Sossa sous l'objectif</b><span>6 % sous la cible cette semaine</span></div></div><div class="nt"><span class="ic"><svg class="i s" aria-hidden="true"
+</svg></span><div><b>Une routine de Fatima a échoué</b><span>Veille des concurrents, Instagram ne répondait pas</span></div></div><div class="nt"><span class="ic"><svg class="i s" aria-hidden="true"
  
   xmlns="http://www.w3.org/2000/svg"
  
@@ -1674,7 +1596,7 @@
 <label class="fl2"><span>Adresse email</span><input class="fi" type="email" placeholder="prenom.nom@entreprise.com"></label>
 <div class="fl2"><span>Téléphone</span><div class="phw"><input class="fi" type="tel" placeholder="+225 07 00 00 00 00"><span class="phk"><small class="xs mute3" style="width:100%">Ce numéro est aussi sur</small><label><input type="checkbox" checked><img src="https://www.google.com/s2/favicons?sz=64&domain=telegram.org" alt=""> Telegram</label><label><input type="checkbox"><img src="https://www.google.com/s2/favicons?sz=64&domain=whatsapp.com" alt=""> WhatsApp</label></span></div></div>
 <div class="g2i"><label class="fl2"><span>Service</span><select class="fi isv"><option>Marketing</option><option>Commercial</option><option>Finance</option><option>RH</option><option>Opérations</option><option>Direction</option><option>Juridique</option><option>Logistique</option><option value="autre">Autre</option></select><input class="fi isvo" placeholder="Nom du service" hidden></label>
-</div><div class="fl2"><span>Rôle</span><div class="rlc"><label><input type="radio" name="irl" checked><b>Membre</b><small>Parle à ses experts</small></label><label><input type="radio" name="irl"><b>Responsable</b><small>Gère les experts de son service</small></label><label><input type="radio" name="irl"><b>Administrateur</b><small>Gère tout l’espace</small></label></div></div>
+</div><div class="fl2"><span>Rôle</span><div class="rlc"><label><input type="radio" name="irl" checked><b>Membre</b><small>Parle à ses experts</small></label><label><input type="radio" name="irl"><b>Admin</b><small>Gère tout l’espace</small></label></div></div>
 <div class="fl2"><span>Ses experts</span><details class="ms msx"><summary><span class="msv"><em>Djénéba</em></span><svg class="i s" aria-hidden="true"
  
   xmlns="http://www.w3.org/2000/svg"
@@ -1816,4 +1738,4 @@
   <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
   <polyline points="7 10 12 15 17 10" />
   <line x1="12" x2="12" y1="15" y2="3" />
-</svg> Télécharger</a></div></div></div></div><div class="toast" role="status"></div><script src="../app.js"></script></body></html>
+</svg> Télécharger</a></div></div></div></div><div class="toast" role="status"></div><script src="../app.js"></script><script type="application/json" id="v35-lv">{"djeneba": [{"n": "Direction", "k": "dir", "c": [{"n": "Note au comité de direction du 2 octobre", "k": "doc", "d": "2026-10-01 08:50", "fm": [["Google Doc", "https://docs.google.com/"], ["PDF", "pdf"]]}, {"n": "Relevé de décisions du 24 septembre", "k": "doc", "d": "2026-09-24 17:30", "fm": [["Google Doc", "https://docs.google.com/"], ["PDF", "pdf"]]}]}, {"n": "Points de la semaine", "k": "dir", "c": [{"n": "Point de la semaine 39", "k": "doc", "d": "2026-09-28 08:00", "fm": [["Google Doc", "https://docs.google.com/"], ["PDF", "pdf"]]}, {"n": "Point de la semaine 38", "k": "doc", "d": "2026-09-21 08:00", "fm": [["Google Doc", "https://docs.google.com/"], ["PDF", "pdf"]]}]}, {"n": "Rendez-vous", "k": "dir", "c": [{"n": "Brief du rendez-vous avec la banque", "k": "doc", "d": "2026-09-30 18:10", "fm": [["Google Doc", "https://docs.google.com/"], ["PDF", "pdf"]]}]}, {"n": "Pack du comité de direction", "k": "ppt", "d": "2026-10-01 09:30", "fm": [["PowerPoint", "pptx"], ["PDF", "pdf"]], "s": "3,6 Mo"}, {"n": "Suivi des engagements", "k": "sheet", "d": "2026-09-30 12:00", "fm": [["Google Sheets", "https://sheets.google.com/"], ["Excel", "xlsx"]]}], "fatima": [{"n": "Sossa", "k": "dir", "c": [{"n": "Sossa, post Facebook de la promo rentrée", "k": "img", "d": "2026-10-01 10:31", "fm": [["PNG", "png"], ["Canva", "https://www.canva.com/"]], "s": "2,1 Mo", "th": "flyer-sossa.jpg"}, {"n": "Sossa, scénario du film de 30 secondes", "k": "doc", "d": "2026-09-30 11:48", "fm": [["Google Doc", "https://docs.google.com/"], ["PDF", "pdf"]]}, {"n": "Sossa, story jeu concours", "k": "img", "d": "2026-09-12 15:10", "fm": [["PNG", "png"], ["Canva", "https://www.canva.com/"]], "s": "1,6 Mo", "th": "flyer-sossa.jpg"}]}, {"n": "Super Mint", "k": "dir", "c": [{"n": "Super Mint, calendrier éditorial d’octobre", "k": "sheet", "d": "2026-09-30 17:02", "fm": [["Google Sheets", "https://sheets.google.com/"], ["Excel", "xlsx"]]}, {"n": "Super Mint, stories de la semaine", "k": "img", "d": "2026-09-29 16:20", "fm": [["PNG", "png"], ["Canva", "https://www.canva.com/"]], "s": "1,2 Mo", "th": "flyer-supermint.jpg"}]}, {"n": "Rapports", "k": "dir", "c": [{"n": "Rapport des réseaux sociaux de septembre", "k": "ppt", "d": "2026-09-30 09:05", "fm": [["PowerPoint", "pptx"], ["PDF", "pdf"]], "s": "4,8 Mo"}]}, {"n": "Veille", "k": "dir", "c": [{"n": "Veille concurrence, semaine 39", "k": "xls", "d": "2026-09-28 19:00", "fm": [["Excel", "xlsx"], ["PDF", "pdf"]], "s": "220 Ko"}, {"n": "Veille concurrence, semaine 38", "k": "xls", "d": "2026-09-21 19:00", "fm": [["Excel", "xlsx"], ["PDF", "pdf"]], "s": "214 Ko"}, {"n": "Bilan de la campagne Sossa d’août", "k": "ppt", "d": "2026-09-18 10:00", "fm": [["PowerPoint", "pptx"], ["PDF", "pdf"]], "s": "3,2 Mo"}, {"n": "Tendances Instagram en Côte d’Ivoire", "k": "pdf", "d": "2026-09-16 08:40", "fm": [["PDF", "pdf"]], "s": "1,1 Mo"}]}, {"n": "Brief de fin d’année", "k": "doc", "d": "2026-09-29 15:40", "fm": [["Google Doc", "https://docs.google.com/"], ["PDF", "pdf"]]}, {"n": "Charte des réseaux sociaux", "k": "pdf", "d": "2026-09-20 11:15", "fm": [["PDF", "pdf"]], "s": "1,4 Mo"}], "koffi": [{"n": "Sossa", "k": "dir", "c": [{"n": "Sossa, affiche de la promo rentrée", "k": "img", "d": "2026-10-01 09:12", "fm": [["PNG", "png"], ["Canva", "https://www.canva.com/"]], "s": "3,4 Mo", "th": "flyer-sossa.jpg"}, {"n": "Sossa, story de la promo", "k": "img", "d": "2026-09-30 16:05", "fm": [["PNG", "png"], ["Canva", "https://www.canva.com/"]], "s": "1,1 Mo", "th": "flyer-sossa.jpg"}]}, {"n": "Super Mint", "k": "dir", "c": [{"n": "Super Mint, packaging édition limitée v2", "k": "img", "d": "2026-10-01 09:40", "fm": [["PNG", "png"], ["Canva", "https://www.canva.com/"]], "s": "5,2 Mo", "th": "flyer-supermint.jpg"}, {"n": "Super Mint, bon à tirer du packaging", "k": "pdf", "d": "2026-09-30 18:20", "fm": [["PDF", "pdf"]], "s": "2,7 Mo"}]}, {"n": "Charte", "k": "dir", "c": [{"n": "Charte graphique Sossa", "k": "pdf", "d": "2026-09-15 10:00", "fm": [["PDF", "pdf"]], "s": "6,3 Mo"}, {"n": "Charte graphique Super Mint", "k": "pdf", "d": "2026-09-15 10:05", "fm": [["PDF", "pdf"]], "s": "5,9 Mo"}]}, {"n": "Exports", "k": "dir", "c": [{"n": "Pack de déclinaisons de septembre", "k": "zip", "d": "2026-09-30 19:10", "fm": [["ZIP", "zip"]], "s": "48 Mo"}]}, {"n": "Planche des déclinaisons Sossa", "k": "img", "d": "2026-09-29 14:30", "fm": [["PNG", "png"], ["Canva", "https://www.canva.com/"]], "s": "2,4 Mo", "th": "flyer-sossa.jpg"}]}</script></body></html>
