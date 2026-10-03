@@ -3728,7 +3728,7 @@ html[data-mode="nuit"] .v35-down{background:#3a2a10;color:#ffd79a}
 .v35-sb span{flex:1;text-align:left}
 .v35-sb kbd,.v35-kb{font:inherit;font-size:11.5px;font-weight:600;padding:2px 7px;border-radius:6px;border:1px solid var(--line);background:var(--bg);color:var(--ink-3)}
 @media (max-width:1100px){.v35-sb{min-width:0}.v35-sb kbd{display:none}}
-@media (max-width:760px){.v35-sb{width:40px;height:40px;min-width:0;padding:0;justify-content:center;border-radius:50%}.v35-sb span,.v35-sb kbd{display:none}}
+@media (max-width:760px){.v35-sb{width:44px;height:44px;min-width:0;padding:0;justify-content:center;border-radius:50%}.v35-sb span,.v35-sb kbd{display:none}}
 .v35-so{position:fixed;inset:0;z-index:45;display:none;align-items:flex-start;justify-content:center;padding:12vh 16px 16px;background:rgba(23,17,43,.42)}
 .v35-so.on{display:flex}
 .v35-sp{width:min(640px,100%);max-height:72vh;display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--line);border-radius:18px;box-shadow:0 30px 60px -20px rgba(23,17,43,.45);overflow:hidden}
