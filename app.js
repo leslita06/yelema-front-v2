@@ -3195,7 +3195,7 @@ document.querySelectorAll('[data-perm]').forEach(function(b){var ok=b.querySelec
       ov.setAttribute('aria-label','Appel avec '+x[0]);
       ov.innerHTML='<div class="v38-chd"><div><b>'+x[0]+'</b><span>'+x[1]+'</span></div><span class="v38-ctm num">00:00</span></div>'+
         '<div class="v38-cst"><div class="v38-cfig"><span class="v38-halo" aria-hidden="true"></span><video class="v38-cv" muted playsinline loop preload="auto" poster="../img/vid/'+k+'.webp" src="../img/vid/'+k+'.mp4" aria-hidden="true"></video></div>'+
-        '<div class="v38-cstate" aria-live="polite"><span class="v38-wv" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span><b class="v38-cl">Appel de '+x[0]+'…</b></div>'+
+        '<div class="v38-cstate" aria-live="polite"><span class="v40-cdot" aria-hidden="true"></span><span class="v38-wv" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span><span class="v40-cthk" aria-hidden="true"><i></i><i></i><i></i></span><b class="v38-cl">Appel de '+x[0]+'…</b></div>'+
         '<div class="v38-csub"><p></p><button type="button" class="v38-cst2" data-h="1">Masquer les sous-titres</button></div></div>'+
         '<div class="v38-me"><img src="../img/'+(ME.p||'aicha')+'.jpg" alt=""><span class="v38-lvl" aria-hidden="true"><i></i></span><small>Vous</small></div>'+
         '<div class="v38-cbs"><button type="button" class="v38-cb" data-c="mic" data-h="1" aria-label="Couper le micro" aria-pressed="false">'+svg('<path d="M12 19v3"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><rect x="9" y="2" width="6" height="13" rx="3"/>')+'</button>'+
@@ -3215,6 +3215,13 @@ document.querySelectorAll('[data-perm]').forEach(function(b){var ok=b.querySelec
       T(function(){state('think',x[0]+' réfléchit…')},12000);
       T(function(){state('talk',x[0]+' parle…');say2(x[4],x[0],5000)},13200);
       T(function(){state('listen',x[0]+' vous écoute')},18600);
+      // point 117 : en démo, les trois états tournent tout seuls (écoute, réfléchit, parle)
+      var MORE=['Autre chose pour aujourd’hui ?','Je vous envoie le détail par écrit dans la discussion.','Je m’en occupe tout de suite.'],mi=0;
+      function loop(){state('user',x[0]+' vous écoute');say2(['Merci, c’est clair.','Oui, et pour demain ?','D’accord, vas-y.'][mi%3],'Vous',2000);
+        T(function(){state('think',x[0]+' réfléchit…')},3600);
+        T(function(){state('talk',x[0]+' parle…');say2(MORE[mi++%3],x[0],3200)},6400);
+        T(function(){state('listen',x[0]+' vous écoute')},10200);T(loop,13000)}
+      T(loop,21000);
       return true}
     function end(){if(!ov||!ov.classList.contains('on'))return;var k=ov.dataset.k,x=EXP[k],d=$('.v38-ctm',ov).textContent;clear();ov.classList.remove('on');document.body.classList.remove('v38-incall');try{$('.v38-cv',ov).pause()}catch(_){}
       var th=$('#discussion .thread');var pts=k==='djeneba'?['Deux rendez-vous ce matin, brief Banque Atlantique prêt','Devis de la machine d’emballage bloqué chez Serge','Relance de Serge, réponse avant midi']:k==='fatima'?['Posts de la promo Sossa presque prêts, 1 200 vues sur Facebook','Prix en plus gros sur les trois visuels','Envoi pour validation dans dix minutes']:['Packaging Super Mint v2 livré','Déclinaisons pour les affiches A2','Deux pistes de couleur d’ici ce soir'];
@@ -3437,4 +3444,78 @@ document.querySelectorAll('[data-perm]').forEach(function(b){var ok=b.querySelec
   // ================= 39. point 113 : raison d'une demande sur 2 lignes, texte complet au clic
   document.addEventListener('click',function(e){var r=e.target.closest&&e.target.closest('.v39-dqr');if(!r)return;var o=r.classList.toggle('v39-dqo');r.setAttribute('aria-expanded',o?'true':'false')});
   document.addEventListener('keydown',function(e){var r=e.target.closest&&e.target.closest('.v39-dqr');if(!r||(e.key!=='Enter'&&e.key!==' '))return;e.preventDefault();r.click()});
+  // ================= 40. point 119 : Mes connexions personnelles, une seule fenêtre « Ajouter une connexion » au gabarit des modales admin (97 h, 97 i)
+  (function(){var pe=$('.v33-perso');if(!pe||!V||!V.modal)return;
+    var PLUG=svg('<path d="M12 22v-5"/><path d="M9 8V2"/><path d="M15 8V2"/><path d="M18 8v5a4 4 0 0 1-4 4h-4a4 4 0 0 1-4-4V8Z"/>'),
+        DOTS=svg('<circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/>'),
+        KEY=svg('<path d="M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z"/><circle cx="16.5" cy="7.5" r=".5" fill="currentColor"/>'),
+        SRV=svg('<rect width="20" height="8" x="2" y="2" rx="2"/><rect width="20" height="8" x="2" y="14" rx="2"/><path d="M6 6h.01M6 18h.01"/>');
+    var FOUR=[['Anthropic','anthropic.com'],['OpenAI','openai.com'],['Google','gemini.google.com'],['Mistral','mistral.ai']];
+    var MENU='<span class="v40-pim"><button type="button" class="ib v40-pib" data-h="1" aria-label="Actions" aria-expanded="false">'+DOTS+'</button><span class="v40-pimm" role="menu" hidden><button type="button" role="menuitem" class="v40-pied" data-h="1">Modifier</button><button type="button" role="menuitem" class="v40-pirm" data-h="1">Retirer</button></span></span>';
+    var old=$$('[data-open="v33-key"]',pe),host=old.length?old[0].parentNode:pe;old.forEach(function(b){b.parentNode.removeChild(b)});
+    var add=document.createElement('a');add.href='#';add.className='btn o sm v40-pcadd';add.dataset.h='1';add.innerHTML=svg('<path d="M5 12h14M12 5v14"/>')+' Ajouter une connexion';host.appendChild(add);
+    function body(){return '<div class="v40-pcm"><div class="seg v40-pck" role="radiogroup" aria-label="Type de connexion"><a href="#" data-h="1" data-k="ia" class="on" role="radio" aria-checked="true">Modèle d’IA</a><a href="#" data-h="1" data-k="api" role="radio" aria-checked="false">Clé d’un service</a><a href="#" data-h="1" data-k="mcp" role="radio" aria-checked="false">Serveur MCP</a></div>'+
+      '<div class="v40-pcz" data-k="ia"><div class="v36-fl"><span>Fournisseur</span><div class="v40-pcf">'+FOUR.map(function(f,i){return '<a href="#" data-h="1" class="v40-pcfo'+(i?'':' on')+'" data-n="'+f[0]+'" data-d="'+f[1]+'"><img src="https://www.google.com/s2/favicons?sz=64&domain='+f[1]+'" alt="">'+f[0]+'</a>'}).join('')+'</div></div>'+
+        '<label class="v36-fl"><span>Clé</span><input class="fi v40-pkv" type="password" autocomplete="off" placeholder="Collez la clé"></label></div>'+
+      '<div class="v40-pcz" data-k="api" hidden><label class="v36-fl"><span>Service</span><input class="fi v40-psn" type="text" maxlength="60" placeholder="Par exemple : Notion"></label><label class="v36-fl"><span>Clé</span><input class="fi v40-psv" type="password" autocomplete="off" placeholder="Collez la clé"></label></div>'+
+      '<div class="v40-pcz" data-k="mcp" hidden><label class="v36-fl"><span>Nom</span><input class="fi v40-pmn" type="text" maxlength="60" placeholder="Par exemple : mon agenda"></label><label class="v36-fl"><span>Adresse du serveur</span><input class="fi v40-pmu" type="url" placeholder="https://…/mcp"></label><label class="v36-fl"><span>Jeton d’accès (facultatif)</span><input class="fi" type="password" autocomplete="off" placeholder="Bearer …"></label></div></div>'}
+    function item(ic,t,sub){var l=$('.v33-pl',pe)||pe,d=document.createElement('div');d.className='v33-pi v40-pi';
+      d.innerHTML=ic+'<span class="grow"><b class="v40-pin">'+esc(t)+'</b>'+(sub?'<small class="xs mute3">'+esc(sub)+'</small>':'')+'</span><span class="pill v33-pe">Personnel</span>'+MENU;
+      l.appendChild(d);d.classList.add('v36-flash')}
+    function mark(){var M=$('#v36-m');if(M)$('.pn',M).classList.add('v40-pcp');return M}
+    function open(){V.modal({ic:PLUG,tone:'info',t:'Ajouter une connexion',p:'Pour vous seule, avec vos experts.',body:body(),
+      a:{l:'Ajouter',fn:function(b){var M=$('#v36-m'),z=$('.v40-pck a.on',M).dataset.k;
+        if(z==='ia'){var f=$('.v40-pcfo.on',M),v=$('.v40-pkv',M).value.trim();if(v.length<8){say('Collez la clé '+f.dataset.n,'warn');$('.v40-pkv',M).focus();return}
+          V.close();item('<img src="https://www.google.com/s2/favicons?sz=64&domain='+f.dataset.d+'" alt="">',f.dataset.n,'Clé d’IA ••••'+v.slice(-4));say('Clé '+f.dataset.n+' ajoutée','ok');return}
+        if(z==='api'){var n=$('.v40-psn',M).value.trim(),k2=$('.v40-psv',M).value.trim();if(!n){say('Donnez le nom du service','warn');$('.v40-psn',M).focus();return}if(k2.length<6){say('Collez la clé','warn');$('.v40-psv',M).focus();return}
+          V.close();item(KEY,n,'Clé ••••'+k2.slice(-4));say('Clé '+n+' ajoutée','ok');return}
+        var mn=$('.v40-pmn',M).value.trim(),mu=$('.v40-pmu',M).value.trim();if(!mn){say('Donnez un nom au serveur','warn');$('.v40-pmn',M).focus();return}if(!/^https?:\/\/\S+\.\S+/.test(mu)){say('Entrez une adresse qui commence par https://','warn');$('.v40-pmu',M).focus();return}
+        if(V.busy)V.busy(b,'Test en cours…');setTimeout(function(){if(V.unbusy)V.unbusy(b);V.close();item(SRV,mn,mu.replace(/^https?:\/\//,'')+', 6 outils');say('Serveur « '+mn+' » ajouté, 6 outils','ok')},700)}},b:{l:'Annuler'}});mark()}
+    document.addEventListener('click',function(e){var t=e.target;if(!t.closest)return;
+      if(t.closest('.v40-pcadd')){stop(e);open();return}
+      var kk=t.closest('.v40-pck a');if(kk){stop(e);var P=kk.closest('.pn');$$('.v40-pck a',P).forEach(function(a){var on=a===kk;a.classList.toggle('on',on);a.setAttribute('aria-checked',on)});$$('.v40-pcz',P).forEach(function(z){z.hidden=z.dataset.k!==kk.dataset.k});var f=$('.v40-pcz:not([hidden]) input',P);if(f)f.focus();return}
+      var fo=t.closest('.v40-pcfo');if(fo){stop(e);$$('.v40-pcfo',fo.parentNode).forEach(function(a){a.classList.toggle('on',a===fo)});return}
+      var mb=t.closest('.v40-pib');if(mb){stop(e);var mm=mb.nextElementSibling,was=!mm.hidden;$$('.v40-pimm').forEach(function(x){x.hidden=true});mm.hidden=was;mb.setAttribute('aria-expanded',!was);return}
+      var ed=t.closest('.v40-pied');if(ed){stop(e);var r=ed.closest('.v40-pi'),nb=$('.v40-pin',r);ed.parentNode.hidden=true;
+        V.modal({ic:PLUG,tone:'info',t:'Modifier la connexion',p:'Un nom qui dit à quoi elle sert.',sel:1,body:'<label class="v36-fl"><span>Nom</span><input class="fi v36-in" type="text" maxlength="60" value="'+esc(nb.textContent)+'"></label>',
+          a:{l:'Enregistrer',fn:function(){var v=$('#v36-m .v36-in').value.trim();if(!v){say('Donnez un nom','warn');return}nb.textContent=v;V.close();say('Connexion modifiée','ok')}},b:{l:'Annuler'}});mark();return}
+      var rt=t.closest('.v40-pirm');if(rt){stop(e);var r2=rt.closest('.v40-pi'),n2=$('.v40-pin',r2).textContent;rt.parentNode.hidden=true;
+        V.modal({ic:PLUG,tone:'ko',t:'Retirer « '+n2+' » ?',p:'Vos experts ne pourront plus s’en servir.',a:{l:'Retirer',fn:function(){r2.parentNode.removeChild(r2);V.close();say('Connexion retirée : '+n2,'ok')}},b:{l:'Annuler'}});var M3=mark(),b1=M3&&$('.v36-mb1',M3);if(b1)b1.classList.add('dng');return}
+      if(!t.closest('.v40-pim'))$$('.v40-pimm').forEach(function(x){x.hidden=true})},true);
+    // les connexions posées par les boutons Gmail / Agenda reçoivent aussi Modifier / Retirer
+    new MutationObserver(function(){$$('.v33-pi:not(.v40-pi)',pe).forEach(function(d){d.classList.add('v40-pi');var b=$('b',d);if(b)b.classList.add('v40-pin');var s=document.createElement('span');s.innerHTML=MENU;d.appendChild(s.firstChild)})}).observe(pe,{childList:true,subtree:true});
+  })();
+  // ================= 41. point 118 : Yélé répond vraiment (réponse selon la question, avec un lien d'action), bouton Fermer, accès mobile
+  (function(){var Y=$('#yele');if(!Y)return;var GEN='Bonne question. Je vous réponds';
+    var ADM=VUE==='admin';
+    var KB=[
+      [/recrut|embauch|nouvel? expert|ajouter un expert/i,'Ouvrez Recruter : chaque expert a sa fiche de poste. '+(ADM?'Vous recrutez pour vous ou pour un collègue ; le premier expert coûte 300 000 F CFA par mois, les suivants 200 000 F CFA, Djénéba est incluse.':'Vous signalez votre intérêt, votre admin reçoit la demande et recrute.'),'recruter.html','Ouvrir Recruter'],
+      [/outil|connect|gmail|drive|slack|teams|notion|mcp|cl[ée]/i,'Chaque expert a ses connecteurs : ouvrez son espace, puis Réglages, Connecteurs. Vos clés et serveurs MCP personnels se gèrent dans Réglages, API et MCP.','fatima.html#connecteurs','Ouvrir les connecteurs'],
+      [/factur|paie|paiement|payer|prix|tarif|co[uû]t|abonnement/i,ADM?'Vos factures et moyens de paiement sont dans Administration, Facturation : Wave, Orange Money, MTN, Moov, Djamo ou carte. La prochaine facture se règle en un clic.':'La facturation est gérée par votre admin, Aïcha Diabaté. Je peux lui transmettre votre question.',ADM?'admin-facturation.html':'',ADM?'Ouvrir la facturation':''],
+      [/routine|chaque (matin|jour|semaine)|automati/i,'Une routine, c’est une consigne qui revient : ouvrez l’espace d’un expert, Réglages, Routines, puis Nouvelle routine. Le résultat arrive dans tous ses canaux.','djeneba.html#routines','Ouvrir les routines'],
+      [/tableau|dashboard|indicateur/i,'Ouvrez Tableaux de bord, puis Nouveau tableau : choisissez l’expert et décrivez ce que vous voulez suivre. Chaque tableau a son lien de partage.','tableau-de-bord.html','Ouvrir les tableaux'],
+      [/membre|invit|coll[eè]gue|r[ôo]le|acc[eè]s/i,ADM?'Administration, Membres : Inviter un membre, puis choisir Admin ou Membre.':'Les invitations et les rôles sont gérés par votre admin, Aïcha Diabaté.',ADM?'admin-membres.html':'',ADM?'Ouvrir les membres':''],
+      [/canal|canaux|telegram|whatsapp|web/i,'Un expert vous répond sur Telegram, le Web, Slack, Teams ou WhatsApp. Ouvrez son espace, Réglages, Canaux, pour en ajouter un.','fatima.html#canaux','Ouvrir les canaux'],
+      [/livrable|fichier|document|t[ée]l[ée]charg/i,'Les fichiers d’un expert sont dans son onglet Livrables, rangés par dossier. Vous pouvez aussi connecter votre Drive pour en garder une copie.','fatima.html#drive','Ouvrir les Livrables'],
+      [/mot de passe|connexion|compte|profil/i,'Votre compte se règle dans Mon profil : nom, photo, mot de passe, langue.','profil.html','Ouvrir mon profil']];
+    function answer(q){for(var i=0;i<KB.length;i++)if(KB[i][0].test(q))return KB[i];return null}
+    function fix(b){if(!b||b._v40||b.textContent.indexOf(GEN)!==0)return;b._v40=1;var m=b.closest('.msg'),p=m&&m.previousElementSibling,q=p&&p.classList.contains('moi')?p.textContent.trim():'';var a=answer(q);
+      if(a){b.innerHTML=esc(a[1])+(a[2]?'<a class="v40-ya" href="'+a[2]+'">'+esc(a[3])+' '+svg('<path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>')+'</a>':'')}
+      else b.innerHTML='Je n’ai pas la réponse tout de suite. Je transmets votre question à l’équipe Yelema, qui vous répond ici sous une heure ouvrée.';
+      var s=$('.sugg',Y);if(s){s.hidden=false;s.classList.add('v40-ys')}
+      try{m.scrollIntoView({block:'nearest'})}catch(_){}}
+    new MutationObserver(function(){$$('.msg.lui .bub',Y).forEach(fix)}).observe(Y,{subtree:true,childList:true,characterData:true});
+    // bouton Fermer en haut à droite du panneau
+    var hd=Y.firstElementChild;if(hd&&!$('.v40-yx',Y)){var x=document.createElement('button');x.type='button';x.className='ib v40-yx';x.dataset.h='1';x.setAttribute('aria-label','Fermer');x.innerHTML=svg('<path d="M18 6 6 18M6 6l12 12"/>');
+      x.addEventListener('click',function(e){stop(e);Y.classList.remove('on');var yb=$('.ybtn');if(yb)yb.setAttribute('aria-expanded','false')});hd.appendChild(x)}
+    document.addEventListener('keydown',function(e){if(e.key==='Escape'&&Y.classList.contains('on'))Y.classList.remove('on')});
+    // micro chez Yélé : une question de support dictée (pas une consigne d'expert)
+    var DQ=['Comment ajouter un canal Telegram ?','Comment connecter mes outils ?','Où sont les livrables de Fatima ?'],di=0;
+    Y.addEventListener('click',function(e){var mc=e.target.closest&&e.target.closest('.v39-mic, .mic');if(!mc)return;stop(e);var i=$('.v33-in, textarea, input[type=text]',Y);say('Je vous écoute…','info');mc.classList.add('on');
+      setTimeout(function(){mc.classList.remove('on');if(i){i.value=DQ[di++%DQ.length];i.dispatchEvent(new Event('input',{bubbles:true}));i.focus()}say('Texte dicté, relisez puis envoyez','ok')},1400)},true);
+    // les échanges défilent dans le panneau, le champ reste en bas
+    Y.classList.add('v40-yp');
+  })();
+  // ================= 42. point 120 : repère de page pour la couche de cohérence v40 (CSS en fin de chaîne)
+  document.documentElement.classList.add('v40-pg-'+String(page||'x').replace(/[^a-z0-9-]/g,''));
 })();

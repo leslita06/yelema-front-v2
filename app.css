@@ -5385,3 +5385,94 @@ html:not(.v39-va) .xcol .pcard .cta .v38-wr2{display:none!important}
 }
 /* 111 g mobile : en-tête A, place pour le métier et l’email */
 @media (max-width:760px){html.v39-va .xcol .pcard .cta .v38-wr2{display:none!important}html.v39-va .xcol .pcard .nm>span{white-space:normal!important;overflow:visible!important}html.v39-va .v39-vml{max-width:100%}html.v39-va .v39-vml span{overflow:hidden;text-overflow:ellipsis;font-size:12px}}
+/* ================= point 119 : fenêtres des connexions personnelles au gabarit des modales admin */
+.modal .pn.v36-pn.v40-pcp{width:min(520px,calc(100vw - 32px));max-height:calc(100dvh - 32px);overflow:auto}
+.v40-pcm{display:flex;flex-direction:column;gap:12px;width:100%}
+.v40-pck{display:grid!important;grid-template-columns:repeat(3,1fr);width:100%}
+.v40-pck a{justify-content:center;text-align:center;white-space:normal;min-height:40px;line-height:1.2}
+.v40-pcz{display:flex;flex-direction:column;gap:10px;min-height:178px}
+.v40-pcz[hidden]{display:none!important}
+.v40-pcm .v36-fl{width:100%}.v40-pcm .fi{width:100%;box-sizing:border-box}
+.v40-pcf{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.v40-pcfo{display:flex;align-items:center;gap:8px;min-height:44px;padding:0 12px;border:1.5px solid var(--line);border-radius:12px;font-size:14px;font-weight:500;color:var(--ink)}
+.v40-pcfo img{width:18px;height:18px;border-radius:4px}
+.v40-pcfo.on{border-color:var(--link);box-shadow:0 0 0 3px var(--tint)}
+.v40-pi{position:relative}
+.v40-pim{position:relative;flex:none}
+.v40-pib{width:36px;height:36px}
+.v40-pimm{position:absolute;right:0;top:100%;z-index:20;display:flex;flex-direction:column;min-width:150px;padding:6px;border:1px solid var(--line);border-radius:12px;background:var(--surface);box-shadow:0 12px 30px -12px rgba(23,17,43,.35)}
+.v40-pimm[hidden]{display:none!important}
+.v40-pimm button{min-height:40px;padding:0 12px;border:0;background:none;text-align:left;border-radius:8px;font:inherit;font-size:14px;color:var(--ink);cursor:pointer}
+.v40-pimm button:hover{background:var(--soft)}.v40-pimm .v40-pirm{color:var(--ko,#C2410C)}
+.v40-pi small{display:block}
+@media (max-width:560px){.v40-pcz{min-height:200px}.v40-pck a{font-size:13px;padding:0 6px}}
+/* ================= point 117 : trois états de l'appel bien distincts (parle violet, écoute vert, réfléchit ambre) */
+.v38-cstate{padding:8px 16px;border-radius:999px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);transition:background .3s,border-color .3s}
+.v40-cdot{width:10px;height:10px;border-radius:50%;background:#C5C4FF;flex:none}
+.v40-cthk{display:none;align-items:center;gap:4px;height:22px}.v40-cthk i{width:7px;height:7px;border-radius:50%;background:#FBBF24;animation:v40thk 1.4s ease-in-out infinite}
+.v40-cthk i:nth-child(2){animation-delay:.2s}.v40-cthk i:nth-child(3){animation-delay:.4s}
+@keyframes v40thk{0%,100%{opacity:.3;transform:translateY(0)}50%{opacity:1;transform:translateY(-4px)}}
+.v38-call .v38-halo{transition:opacity .4s,background .4s}
+/* parle */
+.v38-call.talk .v38-cstate{background:rgba(141,104,250,.28);border-color:rgba(197,196,255,.5)}
+.v38-call.talk .v40-cdot{background:#B7A4FF;box-shadow:0 0 0 4px rgba(183,164,255,.3)}
+/* écoute (et vous parlez) : halo vert calme, les ondes réagissent à votre voix */
+.v38-call.listen .v38-halo,.v38-call.user .v38-halo{opacity:.9;background:radial-gradient(closest-side,rgba(52,211,153,.5),rgba(52,211,153,0));animation:v40calm 3.2s ease-in-out infinite alternate}
+@keyframes v40calm{from{transform:scale(.99)}to{transform:scale(1.02)}}
+.v38-call.listen .v38-cstate,.v38-call.user .v38-cstate{background:rgba(52,211,153,.18);border-color:rgba(110,231,183,.5)}
+.v38-call.listen .v40-cdot,.v38-call.user .v40-cdot{background:#34D399}
+.v38-call.listen .v38-wv i,.v38-call.user .v38-wv i{opacity:1;background:#6EE7B7}
+.v38-call.user .v38-wv i{animation:v38wv .6s ease-in-out infinite}.v38-call.user .v38-wv i:nth-child(2n){animation-delay:.15s}.v38-call.user .v38-wv i:nth-child(3n){animation-delay:.3s}
+.v38-call.listen .v38-wv i{animation:v40idle 2.4s ease-in-out infinite}.v38-call.listen .v38-wv i:nth-child(2n){animation-delay:.4s}
+@keyframes v40idle{0%,100%{height:5px}50%{height:9px}}
+/* réfléchit : pulsation lente ambre, trois points */
+.v38-call.think .v38-halo{opacity:1;background:radial-gradient(closest-side,rgba(251,191,36,.5),rgba(251,191,36,0));animation:v40pulse 2.2s ease-in-out infinite}
+@keyframes v40pulse{0%,100%{transform:scale(.96);opacity:.55}50%{transform:scale(1.04);opacity:1}}
+.v38-call.think .v38-cstate{background:rgba(251,191,36,.16);border-color:rgba(252,211,77,.5)}
+.v38-call.think .v40-cdot{background:#FBBF24}
+.v38-call.think .v38-wv{display:none}.v38-call.think .v40-cthk{display:inline-flex}
+@media (prefers-reduced-motion:reduce){.v38-call .v38-halo,.v40-cthk i,.v38-call .v38-wv i{animation:none!important}}
+@media (max-width:760px){.v38-cstate{font-size:15px;padding:8px 14px;max-width:calc(100vw - 32px)}.v38-cstate b{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}}
+/* ================= point 118 : panneau de Yélé, fermer, défilement interne, réponses avec lien */
+#yele.v40-yp{max-height:calc(100dvh - 140px);overflow-y:auto;overscroll-behavior:contain}
+#yele.v40-yp>.row:first-child{position:relative;padding-right:44px}
+.v40-yx{position:absolute;top:-6px;right:-6px;width:40px;height:40px}
+#yele.v40-yp .inp{position:sticky;bottom:0;z-index:2;background:var(--surface)}
+.v40-ya{display:inline-flex;align-items:center;gap:6px;margin-top:8px;font-weight:600;color:var(--link)}
+.v40-ya svg{width:14px;height:14px}
+#yele .sugg.v40-ys{margin-top:8px}
+@media (max-width:760px){#yele.v40-yp{max-height:calc(100dvh - 160px - env(safe-area-inset-bottom))}}
+/* 115 : en version B, la carte photo reste photo + nom + métier (l’email à copier est propre à la version A) */
+html:not(.v39-va) .v39-vml{display:none!important}
+/* 112 c : la bascule de compte passe par « Changer de compte » du menu ; plus de bandeau flottant qui couvre l’écran et les fenêtres */
+.v33-demo{display:none!important}
+/* 114 (reprise) : la moitié gauche de la fleur visible, coupée par le bord droit de la tuile */
+.v38-tc.v38-add::after{top:-36px!important;right:-100px!important;width:200px!important;height:180px!important;opacity:.14!important}
+@media (max-width:760px){.v38-tc.v38-add::after{top:-28px!important;right:-70px!important;width:140px!important;height:126px!important}}
+/* 121 : le « + » et les visages descendent dans la carte (groupe plus bas), titre inchangé */
+.v38-add .v38-addi{margin-top:56px!important}
+.v38-add .v38-addf{margin-top:10px!important}
+@media (max-width:760px){.v38-add .v38-addi{margin-top:20px!important}.v38-add .v38-addf{margin-top:6px!important}}
+/* 117 : halo plus large et plus lisible autour de l’expert */
+.v38-halo{inset:-36px!important;border-radius:56px!important}
+/* 114 : la fleur se lit comme une fleur (plus de la moitié visible, coin haut droit) */
+.v38-tc.v38-add::after{top:-56px!important;right:-64px!important;width:190px!important;height:170px!important}
+@media (max-width:760px){.v38-tc.v38-add::after{top:-40px!important;right:-46px!important;width:136px!important;height:122px!important}}
+/* 111 g : email de la version A en minuscules, lisible */
+html.v39-va .xcol .pcard .v39-vml,html.v39-va .xcol .pcard .v39-vml *{text-transform:none!important;letter-spacing:0!important}
+/* 112 a / 115 : en version B mobile, le bouton écran n’est plus caché par le crayon Personnaliser */
+@media (max-width:760px){html:not(.v39-va) .xcol .pcard .cta{margin-right:52px!important}}
+/* ================= point 120 : couche de cohérence v40 (gabarit le plus fréquent ou celui des écrans validés) */
+/* titres de page : 36 px / 700 comme Accueil et les pages admin validées (Analytique, Canaux…) */
+html.v40-pg-admin-general main h1,html.v40-pg-admin-profil main h1,html.v40-pg-admin-modeles main h1{font-size:36px!important;font-weight:700!important;letter-spacing:-.02em}
+html.v40-pg-profil main h1,html.v40-pg-admin-membre main h1{font-size:30px!important;font-weight:700!important;letter-spacing:-.02em}
+@media (max-width:760px){html.v40-pg-admin-general main h1,html.v40-pg-admin-profil main h1,html.v40-pg-admin-modeles main h1,html.v40-pg-profil main h1,html.v40-pg-admin-membre main h1{font-size:26px!important}}
+/* titres de section : 18 px / 700 (le plus fréquent) */
+main .ch>h2,html.v40-pg-profil main h2{font-size:18px!important;font-weight:700!important}
+/* boutons : hauteur 44 px, rayon 12 px pour les boutons pleins et contour (hors pastilles sur photo) */
+.btn.p:not(.sm):not(.v38-tct),.btn.o:not(.sm):not(.v38-tct){min-height:44px;border-radius:12px}
+.v36-cnew.btn{min-height:44px!important}
+/* fenêtres : même marge intérieure que les modales validées (v36) */
+@media (min-width:561px){.modal .pn:not(.v36-pn){padding-left:26px!important;padding-right:26px!important}}
+/* 118 : en mobile, l’admin (sans barre d’onglets) garde la bulle de Yélé */
+@media (max-width:760px){html[class*="v40-pg-admin"] .ybtn{display:flex!important;bottom:calc(16px + env(safe-area-inset-bottom))!important;right:14px!important}html[class*="v40-pg-admin"] .pop.ypop{bottom:calc(76px + env(safe-area-inset-bottom))!important}}
