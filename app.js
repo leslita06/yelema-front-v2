@@ -2941,15 +2941,15 @@ document.querySelectorAll('[data-perm]').forEach(function(b){var ok=b.querySelec
         say('Demande refusée, '+d.m.split(' ')[0]+' est prévenu'+(/a$|e$/.test(d.m.split(' ')[0])?'e':''),'ok');renderAdm();badge()}},b:{l:'Annuler'}})}
   var SEC=null;
   function card(d){var c=CAT[d.e]||[d.e,'',0],me=d.m.split(' ')[0];
-    return '<tr class="v38-dq" data-id="'+d.id+'"><td><span class="v38-tw"><img src="../img/'+d.mp+'.jpg" alt=""><b>'+esc(d.m)+'</b></span></td>'+
-      '<td><span class="v38-tw"><img src="../img/'+d.e+'.jpg" alt=""><span><b>'+esc(c[0])+'</b><small>'+esc(c[1])+'</small></span></span>'+(d.msg?'<small class="v38-dqmsg">« '+esc(d.msg)+' »</small>':'')+'</td>'+
-      '<td>Pour '+esc(me)+'</td><td class="num">'+esc(d.t)+'</td>'+
+    return '<tr class="v38-dq" data-id="'+d.id+'"><td><span class="v38-tw"><img src="../img/'+d.mp+'.jpg" alt=""><span><b>'+esc(d.m)+'</b>'+(d.pour&&d.pour!==d.m?'<small>pour '+esc(d.pour)+'</small>':'')+'</span></span></td>'+
+      '<td><span class="v38-tw"><img src="../img/'+d.e+'.jpg" alt=""><span><b>'+esc(c[0])+'</b><small>'+esc(c[1])+'</small></span></span>'+(d.msg?'<span class="v39-dqr" tabindex="0" role="button" aria-expanded="false" title="'+esc(d.msg)+'">'+esc(d.msg)+'</span>':'')+'</td>'+
+      '<td class="num">'+esc(d.t)+'</td>'+
       '<td class="v38-dqa"><button type="button" class="btn o sm v38-ko" data-h="1">Refuser</button><button type="button" class="btn p sm v38-ok" data-h="1">Approuver</button></td></tr>'}
   function hist(d){var c=CAT[d.e]||[d.e];return '<li class="v38-dh"><img src="../img/'+d.mp+'.jpg" alt=""><span class="grow"><b>'+esc(c[0])+'</b> pour '+esc(d.m)+(d.motif?'<small>Motif : '+esc(d.motif)+'</small>':'')+'</span>'+
     '<span class="v38-st '+(d.st==='ok'?'ok':'ko')+'">'+(d.st==='ok'?IC.ok+' Approuvée':IC.x+' Refusée')+'</span><time>'+esc(d.dt||d.t)+'</time></li>'}
   function renderAdm(){if(!SEC)return;var a=dems(),p=a.filter(function(d){return d.st==='att'}),h=a.filter(function(d){return d.st!=='att'});
     $('.v38-dqn',SEC).textContent=p.length;$('.v38-dqn',SEC).hidden=!p.length;
-    $('.v38-dql',SEC).innerHTML=p.length?'<table class="tbl v38-dqt"><thead><tr><th>Demandeur</th><th>Expert demandé</th><th>Pour qui</th><th>Date</th><th><span class="v38-sr">Actions</span></th></tr></thead><tbody>'+p.map(card).join('')+'</tbody></table>':'<div class="v38-empty">'+IC.users+'<b>Aucune demande en attente</b><span>Quand un membre demande un expert, sa demande arrive ici et dans vos notifications.</span></div>';
+    $('.v38-dql',SEC).innerHTML=p.length?'<table class="tbl v38-dqt"><thead><tr><th>Demandeur</th><th>Expert demandé</th><th>Date</th><th><span class="v38-sr">Actions</span></th></tr></thead><tbody>'+p.map(card).join('')+'</tbody></table>':'<div class="v38-empty">'+IC.users+'<b>Aucune demande en attente</b><span>Quand un membre demande un expert, sa demande arrive ici et dans vos notifications.</span></div>';
     $('.v38-dhl',SEC).innerHTML=h.length?h.map(hist).join(''):'<li class="v38-dh mute3">Aucune demande traitée pour l’instant.</li>'}
   if(page==='admin-experts'){var hl=($('.tbex2')||{}).closest?$('.tbex2').closest('.box'):$('.sform .hello');if(hl){SEC=document.createElement('section');SEC.className='box v38-dem';SEC.id='demandes';
       SEC.innerHTML='<div class="ch"><h2>Demandes de recrutement <span class="v38-dqn"></span></h2><span class="xs mute3">Approuver ouvre le paiement, avec votre moyen par défaut</span></div><div class="v38-dql"></div>'+
@@ -3081,9 +3081,12 @@ document.querySelectorAll('[data-perm]').forEach(function(b){var ok=b.querySelec
       '<div class="v38-seg apseg v38-aps">'+ap+'</div>'+(th?'<div class="v38-seg v38-th">'+th+'</div>':'')+'</div>';
     function put(m,before){if($('.v38-apx',m))return;var d=document.createElement('div');d.innerHTML=html;var x=d.firstChild;if(before)m.insertBefore(x,before);else m.appendChild(x)}
     function clean(m){$$('[data-v33v="membre0"], .v33-pz, .v35-lz, .v36-sim',m).forEach(function(x){x.remove()});
-      var l=$('.v33-vwl',m);if(l)l.textContent='Changer de compte';
-      $$('.v33-vw',m).forEach(function(a){var k=a.dataset.v33v,im=k==='admin'?'aicha':'m_women_36',t=k==='admin'?['Aïcha Diabaté','Admin']:['Nadège Touré','Membre'];
-        a.innerHTML='<img src="../img/'+im+'.jpg" alt=""><span class="grow"><b>'+t[0]+'</b><small>'+t[1]+'</small></span>'+(a.classList.contains('on')?IC.check:'');a.classList.add('v38-acc')});
+      // point 112 c : une seule entrée « Changer de compte », vers l'autre compte de la démo (membre Nadège <-> admin Aïcha)
+      var l=$('.v33-vwl',m);if(l)l.remove();
+      var oth=VUE==='admin'?'membre':'admin';
+      $$('.v33-vw',m).forEach(function(a){if(a.closest('.v33-demo'))return;var k=a.dataset.v33v;if(k!==oth){a.remove();return}
+        var im=k==='admin'?'aicha':'m_women_36',t=k==='admin'?'Aïcha Diabaté, Admin':'Nadège Touré, Membre';
+        a.innerHTML=svg('<path d="M16 3h5v5"/><path d="M21 3l-7 7"/><path d="M8 21H3v-5"/><path d="M3 21l7-7"/>')+'<span class="grow"><b>Changer de compte</b><small><img src="../img/'+im+'.jpg" alt="">'+t+'</small></span>';a.classList.add('v38-acc','v39-chg')});
       $$('[data-yele]',m).forEach(function(a){a.innerHTML='<img class="v38-yf" src="../img/yele/yele_smile.webp" alt=""> Contacter Yélé'})}
     $$('.acm').forEach(function(m){clean(m);$$('.acx[href="profil.html"], .acx[href="notifications.html"], .acx[href^="admin-membres"]:not(.v33-vw)',m).forEach(function(a){if(!a.querySelector('.adav'))a.remove()});put(m,$('.acsep',m))});
     $$('#sh-moi .mspn').forEach(function(m){clean(m);put(m,$('.msi[href^="connexion"]',m)||$('.pby',m))});
@@ -3337,7 +3340,11 @@ document.querySelectorAll('[data-perm]').forEach(function(b){var ok=b.querySelec
   ls('v39-ver',null);ls('v39-base',null);
   (function(){var X={djeneba:'Djénéba',fatima:'Fatima',koffi:'Koffi'}[page];if(!X)return;var R=document.documentElement,pc=$('.xcol .pcard');if(!pc)return;
     var av=document.createElement('img');av.className='v39-vav';av.alt='';av.src='../img/'+page+'.jpg';pc.insertBefore(av,pc.firstChild);
-    function fit(){var g=$('#discussion .dgrid');if(!g)return;if(innerWidth<=760){g.style.height='';return}g.style.height='';var t=g.getBoundingClientRect().top+scrollY;g.style.height=Math.max(480,innerHeight-t-20)+'px'}
+    // point 111 g : en version A, sous le métier, l'adresse email de l'expert avec un bouton copier (au lieu de la tâche en cours)
+    var em=(($('.xcol .xmail span')||{}).textContent||'').trim()||(page+'@unifood.yelema.ai'),nm0=$('.nm',pc);
+    if(nm0&&!$('.v39-vml',nm0)){var ml=document.createElement('span');ml.className='v39-vml';ml.innerHTML=svg('<rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>')+'<span class="ell">'+esc(em)+'</span><button type="button" data-h="1" aria-label="Copier l’adresse email" title="Copier l’adresse email">'+svg('<rect width="14" height="14" x="8" y="8" rx="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>')+'</button>';nm0.appendChild(ml);
+      $('button',ml).addEventListener('click',function(e){stop(e);(V.copy||function(){})(em);say('Adresse copiée : '+em,'ok')})}
+    function fit(){var g=$('#discussion .dgrid');if(!g)return;if(innerWidth<=760){g.style.height='';return}g.style.height='';var t=g.getBoundingClientRect().top+scrollY;var h=Math.max(420,innerHeight-t-20);g.style.height=h+'px';var over=document.documentElement.scrollHeight-innerHeight;if(over>0&&h-over>=420)g.style.height=(h-over)+'px'}
     addEventListener('resize',function(){clearTimeout(fit._t);fit._t=setTimeout(fit,80)});
     function set(v){R.classList.toggle('v39-va',v==='A');setTimeout(fit,0);$$('.v39-ver button').forEach(function(b){var on=b.dataset.v===v;b.classList.toggle('on',on);b.setAttribute('aria-pressed',on?'true':'false')});try{window.dispatchEvent(new Event('resize'))}catch(_){}}
     function put(){if($('.v39-ver'))return;var top=$('.top');if(!top)return;var d=document.createElement('div');d.className='v39-ver';d.setAttribute('role','group');d.setAttribute('aria-label','Mise en page de l’espace de travail');
@@ -3406,4 +3413,28 @@ document.querySelectorAll('[data-perm]').forEach(function(b){var ok=b.querySelec
     b.addEventListener('click',function(e){stop(e);m.hidden=!m.hidden;b.setAttribute('aria-expanded',m.hidden?'false':'true')});
     m.addEventListener('click',function(e){var o=e.target.closest('button');if(!o)return;stop(e);ls('v36-llm',o.textContent);draw();m.hidden=true;b.setAttribute('aria-expanded','false');say('Modèle choisi : '+o.textContent,'info')});
     document.addEventListener('click',function(e){if(!m.hidden&&!w.contains(e.target)){m.hidden=true;b.setAttribute('aria-expanded','false')}})})();
+  // ================= 32. v4.40 : la bulle « Besoin d’aide ? » ne cache jamais un titre, un bouton ou un champ
+  (function(){var Y=$('.ybtn');if(!Y)return;var SEL='h1,h2,h3,h4,button,a.btn,.btn,input,textarea,select,[role="button"],.v38-addf,.v38-adda,summary';
+    function hits(){var r=Y.getBoundingClientRect();if(!r.width)return false;var L=$$(SEL).filter(function(e){if(Y.contains(e)||e.closest('#yele,.ypop,.modal,#v36-m,.v38-call'))return false;var q=e.getBoundingClientRect();
+        if(!q.width||!q.height||q.width>700||q.height>400)return false;if(q.right<=r.left||q.left>=r.right||q.bottom<=r.top||q.top>=r.bottom)return false;var cs=getComputedStyle(e);return cs.visibility!=='hidden'&&cs.opacity!=='0'&&!!e.offsetParent});
+      return L.length>0}
+    var busy=0;function place(){if(busy)return;busy=1;Y.classList.remove('v39-yc');Y.style.transform='';
+      if(hits()){Y.classList.add('v39-yc');var d=0;while(hits()&&d<480){d+=16;Y.style.transform='translateY(-'+d+'px)'}if(hits()){Y.style.transform=''}}busy=0}
+    var t;function later(){clearTimeout(t);t=setTimeout(place,120)}
+    place();setTimeout(place,600);setTimeout(place,1500);addEventListener('scroll',later,{passive:true,capture:true});addEventListener('resize',later);document.addEventListener('click',function(){setTimeout(place,350)})})();
+  // ================= 33. point 110 : mobile sans défilement horizontal
+  (function(){var MQ=matchMedia('(max-width:760px)');
+    // tableaux larges : cartes empilées (chaque cellule reçoit le titre de sa colonne)
+    $$('.v38-dem table, .v37-drt, .v36-ptm, .v36-ptx, table.v38-dqt').forEach(function(t){var H=$$('thead th',t).map(function(h){return h.textContent.trim()});if(!H.length)return;t.classList.add('v39-stk');
+      $$('tbody tr',t).forEach(function(r){$$('td',r).forEach(function(td,i){if(H[i]&&!td.dataset.l)td.dataset.l=H[i]})})});
+    // graphiques larges : défilement interne signalé
+    $$('.v36-tw').forEach(function(w){var t=$('table',w);if(!t||t.classList.contains('v39-stk')||w._v39)return;w._v39=1;w.classList.add('v39-hs');var h=document.createElement('p');h.className='v39-hsh';h.innerHTML=svg('<path d="M18 8l4 4-4 4M6 8l-4 4 4 4M2 12h20"/>')+' Faites glisser pour voir la suite';w.parentNode.insertBefore(h,w)});
+    // menu de l'admin en téléphone : un bouton qui déroule la liste, au lieu d'une barre qui défile
+    var A=$('.sb.sbadm');if(A&&!$('.v39-amb',A)){var on=$('a.it.on',A),b=document.createElement('button');b.type='button';b.className='v39-amb';b.dataset.h='1';b.setAttribute('aria-expanded','false');
+      b.innerHTML='<span class="ell">'+esc(on?on.textContent.trim():'Menu')+'</span>'+IC.chev;var bk=$('.back2',A);(bk||A.firstChild).insertAdjacentElement('afterend',b);
+      b.addEventListener('click',function(e){stop(e);var o=A.classList.toggle('v39-amo');b.setAttribute('aria-expanded',o?'true':'false')})}
+  })();
+  // ================= 39. point 113 : raison d'une demande sur 2 lignes, texte complet au clic
+  document.addEventListener('click',function(e){var r=e.target.closest&&e.target.closest('.v39-dqr');if(!r)return;var o=r.classList.toggle('v39-dqo');r.setAttribute('aria-expanded',o?'true':'false')});
+  document.addEventListener('keydown',function(e){var r=e.target.closest&&e.target.closest('.v39-dqr');if(!r||(e.key!=='Enter'&&e.key!==' '))return;e.preventDefault();r.click()});
 })();

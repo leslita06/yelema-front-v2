@@ -5104,7 +5104,7 @@ body.v38-nodock .dock{display:none!important}
 @media (prefers-reduced-motion:reduce){.v38-orbs,.v38-orbs i{animation:none}}
 /* v4.39 */
 /* point 90 : le filtre de période avec « Personnalisée » ne déborde plus en 390 */
-@media (max-width:760px){.seg.rps,.seg.an-per,.seg.tdper{max-width:100%;overflow-x:auto;scrollbar-width:none;flex-wrap:nowrap}.seg.an-per::-webkit-scrollbar,.seg.tdper::-webkit-scrollbar{display:none}.seg.an-per a,.seg.tdper a,.seg.rps a{flex:none}}
+
 /* points 107 j / 108 a : composeur unique, modèle à gauche, micro + bouton Envoyer */
 .v39-comp .v36-sb.v39-hsb{position:absolute!important;width:1px!important;height:1px!important;min-width:0;opacity:0;pointer-events:none;overflow:hidden;clip-path:inset(50%)}
 .v39-comp .v36-llm{flex:none}
@@ -5264,3 +5264,124 @@ html.v39-va .xcol .pcard .v38-pact .v38-pbar i{display:block;height:100%;backgro
   #discussion .dgrid>.v36-hw{min-height:0!important;height:100%!important;max-height:100%}
   #discussion .chat2{min-height:0!important;height:100%!important;max-height:100%}
   #discussion .chat2 .thread{min-height:0!important}}
+/* v4.40, 1 : bulle d'aide compacte (Yélé seul) quand elle couvrirait l'interface */
+.ybtn.v39-yc{padding:6px!important;gap:0!important;transition:transform .2s var(--ease,ease)}
+.ybtn.v39-yc>span:not(.v38-orbs){display:none!important}
+@media (prefers-reduced-motion:reduce){.ybtn.v39-yc{transition:none}}
+/* v4.40, 2 : le nom du modèle reste visible dans un composeur étroit (on retire l'icône puce, micro un peu plus petit) */
+@container (max-width:440px){.v36-llb span{display:inline!important;max-width:104px}.v36-llb>svg:first-child{display:none}.v36-llb{padding:0 8px!important;gap:4px!important}
+  .v39-mic{width:40px;height:40px}.v39-send{padding:0 12px;gap:6px}.v39-comp{column-gap:6px!important}}
+@container (max-width:340px){.v39-send span{display:none}.v39-send{width:44px;padding:0;justify-content:center}}
+/* v4.40, 3 : idées sous le chat et boutons d'un livrable : retour à la ligne, jamais de mot coupé */
+.comp .sugg{flex-wrap:wrap!important;overflow:visible!important;row-gap:8px}
+.comp .sugg>span{flex:none;white-space:nowrap}
+.deliv .a{display:flex!important;flex-wrap:wrap!important;gap:8px!important}
+.deliv .a>.btn{flex:1 1 auto;white-space:nowrap;justify-content:center}
+/* v4.40, 4 : Version A, la page ne défile pas sous la barre du haut ; la barre latérale va jusqu'en bas */
+@media (min-width:761px){html.v39-va .xp{min-height:0!important}html.v39-va .sb{height:100vh!important;height:100dvh!important}}
+@media (min-width:761px){#discussion .dgrid .v36-hcol{height:auto!important;max-height:100%!important;min-height:0!important;overflow:auto}
+  html.v39-va .xmain{padding-bottom:0!important}}
+/* v4.40, 2 (390) : le nom du modèle reste lisible aussi sur téléphone */
+.v39-comp .v36-llm{flex:0 0 auto!important}
+@media (max-width:760px){.v39-comp .v36-llb span{display:inline!important;max-width:110px}.v39-comp .v36-llb>svg:first-child{display:none}}
+/* v4.40, 1 : tuile « Ajouter un expert » : contenu en haut, bouton en bas, rien sous la bulle d'aide */
+.v38-add .v38-addi{margin-top:0!important}
+.v39-comp .v36-llb{width:auto!important;max-width:none!important}
+
+/* point 110 : mobile 390 / 360, aucun défilement horizontal */
+.v39-amb{display:none}
+@media (max-width:760px){
+  .seg.rps,.seg.an-per,.seg.tdper{display:grid!important;grid-template-columns:repeat(auto-fit,minmax(78px,1fr));width:100%!important;max-width:100%;overflow:visible!important;height:auto!important}
+  .seg.rps>a,.seg.an-per>a,.seg.tdper>a{flex:none;justify-content:center;text-align:center;white-space:nowrap;min-height:40px}
+  .xnav,.tabs.v33-rgt,.chips,.tdf.tdf1{flex-wrap:wrap!important;overflow:visible!important;row-gap:8px}
+  .xcol{overflow:visible!important}
+  html.v39-va .xnav{flex-wrap:wrap!important;overflow:visible!important}
+  html.v39-va .xnav .lb,html.v39-va .xnav .v30-sep{display:none!important}
+  .xnav>a,.tabs.v33-rgt>a,.chips>*{flex:0 0 auto}
+  .tdf.tdf1>*{flex:1 1 140px;min-width:0}
+  /* menu admin : bouton + liste déroulée */
+  .sb.sbadm{flex-wrap:wrap!important;overflow:visible!important;row-gap:8px;height:auto!important}
+  .sb.sbadm .v39-amb{display:inline-flex;align-items:center;justify-content:space-between;gap:8px;flex:1 1 140px;min-width:0;height:44px;padding:0 14px;border:1px solid var(--line);border-radius:12px;background:var(--surface);font:600 14px/1 var(--f-ui,inherit);color:var(--ink);cursor:pointer}
+  .sb.sbadm .v39-amb svg{width:16px;height:16px;flex:none;transition:transform .2s}
+  .sb.sbadm.v39-amo .v39-amb svg{transform:rotate(180deg)}
+  .sb.sbadm>a.it,.sb.sbadm>.lb{display:none!important}
+  .sb.sbadm.v39-amo>a.it{display:flex!important;flex:1 1 100%;width:100%}
+  .sb.sbadm .back2{flex:0 1 auto;min-width:0}
+  .sb.sbadm .back2 span,.sb.sbadm .back2{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  /* tableaux en cartes empilées */
+  table.v39-stk,table.v39-stk tbody,table.v39-stk tr,table.v39-stk td{display:block;width:100%!important;min-width:0!important;box-sizing:border-box}
+  table.v39-stk thead{display:none}
+  table.v39-stk tr{padding:12px 0;border-top:1px solid var(--line)}
+  table.v39-stk td{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:4px 0!important;border:0!important;text-align:right;white-space:normal!important}
+  table.v39-stk td::before{content:attr(data-l);flex:none;max-width:45%;font-size:12px;color:var(--ink-3);text-align:left}
+  table.v39-stk td:first-child{justify-content:flex-start;text-align:left}table.v39-stk td:first-child::before{display:none}
+  table.v39-stk td[data-l=""]::before,table.v39-stk td:not([data-l])::before{display:none}
+  .box:has(>table.v39-stk),.v38-dem,.v38-dql,.v36-tw:has(table.v39-stk){overflow:visible!important}
+  /* graphiques larges : défilement interne signalé */
+  .v39-hsh{display:flex;align-items:center;gap:6px;margin:4px 0 6px;font-size:12px;color:var(--ink-3)}.v39-hsh svg{width:14px;height:14px}
+  .v36-tw.v39-hs{overflow-x:auto;scrollbar-width:thin;-webkit-mask-image:linear-gradient(90deg,#000 85%,transparent);mask-image:linear-gradient(90deg,#000 85%,transparent)}
+}
+@media (min-width:761px){.v39-hsh{display:none}}
+@media (max-width:760px){
+  .v37-drt{width:100%!important;min-width:0!important;table-layout:fixed}.v37-drt td,.v37-drt th{white-space:normal!important;overflow-wrap:anywhere}
+  .v37-drt tr>*:not(:first-child){width:68px!important;padding-left:4px!important;padding-right:4px!important}.v37-drt .drh small{display:none}
+  .actbar{flex-wrap:wrap!important;row-gap:8px}
+  .fdos{overflow-x:hidden!important}.fdos .fdo{white-space:normal!important;min-width:0}
+}
+@media (max-width:760px){.seg.rps,.seg.an-per,.seg.tdper{display:flex!important;flex-wrap:wrap!important;gap:4px}.seg.rps>a,.seg.an-per>a,.seg.tdper>a{flex:1 1 auto!important}}
+/* point 111 a / f / g : version A, icônes des onglets et des apps (Livrables, Mail, Agenda), email sous le métier */
+html.v39-va .xnav>a{display:inline-flex!important;align-items:center;gap:8px}
+html.v39-va .xnav>a svg{display:block!important;width:18px;height:18px;flex:none}
+html.v39-va .xnav>a .ap{display:grid!important;place-items:center;width:24px;height:24px;border-radius:7px;flex:none}
+html.v39-va .xnav>a .ap svg{width:14px!important;height:14px!important;color:#fff;stroke:#fff}
+.v39-vml{display:none}
+html.v39-va .xcol .pcard .v38-pact{display:none!important}
+html.v39-va .xcol .pcard .v39-vml{display:inline-flex!important;align-items:center;gap:6px;max-width:100%;margin-top:4px;font:400 14px/1.3 var(--f-ui,inherit)!important;letter-spacing:0!important;color:var(--ink-2)!important}
+html.v39-va .v39-vml>svg{width:16px;height:16px;flex:none;color:var(--ink-3)}
+html.v39-va .v39-vml .ell{min-width:0}
+html.v39-va .v39-vml button{display:grid;place-items:center;width:36px;height:36px;border:0;border-radius:10px;background:transparent;color:var(--ink-3);cursor:pointer;flex:none}
+html.v39-va .v39-vml button:hover{background:var(--soft);color:var(--ink)}html.v39-va .v39-vml button svg{width:16px;height:16px}
+/* ================= point 113 : demandes de recrutement, raison contenue, pas de colonne Pour qui */
+.v39-dqr{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden;margin-top:6px;max-width:360px;font-style:normal!important;font-size:13px;line-height:1.4;color:var(--ink-2);white-space:normal;overflow-wrap:anywhere;cursor:pointer}
+.v39-dqr.v39-dqo{-webkit-line-clamp:unset;display:block}
+.v39-dqr:focus-visible{outline:2px solid var(--link);outline-offset:2px;border-radius:4px}
+.v38-dqt td:nth-child(2){max-width:380px}
+.v38-dqt .v38-tw small{display:block;font-size:12px;color:var(--ink-3);font-style:normal}
+@media (max-width:560px){.v39-dqr{max-width:none}.v38-dqt td:nth-child(2){max-width:none}}
+/* ================= point 114 : fleur de la charte, coupée par le bord de la tuile « Ajouter un expert » */
+.v38-tc.v38-add{position:relative;overflow:hidden;isolation:isolate}
+.v38-tc.v38-add::after{content:"";position:absolute;z-index:-1;top:-70px;right:-70px;width:180px;height:180px;background:url(img/art-asterisque.png) center/contain no-repeat;opacity:.16;pointer-events:none;animation:none!important}
+html.dark .v38-tc.v38-add::after,html[data-ap="sombre"] .v38-tc.v38-add::after{opacity:.22}
+@media (max-width:760px){.v38-tc.v38-add::after{top:-48px;right:-48px;width:124px;height:124px}}
+/* ================= point 112 a : version B, pas de bouton Écrire dans la carte photo (on est déjà sur la discussion) */
+html:not(.v39-va) .xcol .pcard .cta .v38-wr2{display:none!important}
+/* ================= point 112 d : Apparence du menu plus compacte */
+.v38-apx{padding:6px 10px 8px!important;margin-top:4px!important}
+.v38-apx .v38-aph{margin:0 0 2px!important;font-size:12px!important}
+.v38-apx .v38-seg{gap:4px!important;margin-top:4px!important}
+.v38-apx .v38-tile{flex-direction:row!important;justify-content:flex-start;gap:6px!important;padding:4px 6px!important;border-radius:9px!important;font-size:12px!important;min-height:32px!important}
+.v38-apx .v38-prv,.v38-apx .v38-sws{flex:none;width:22px!important;height:16px!important;padding:2px!important;gap:1px!important;border-radius:4px!important}
+.v38-apx .v38-prv i{height:2px!important}
+.v38-apx .v38-sws{gap:1px!important;background:none!important}
+.v38-apx .v38-sws i{width:7px!important;height:7px!important;box-shadow:none!important}
+.mspn .v38-apx{padding:8px!important;margin:4px 0!important}
+.mspn .v38-apx .v38-tile{min-height:44px!important}
+/* ================= point 112 c : Changer de compte, une entrée discrète */
+.v39-chg{display:flex!important;align-items:center;gap:10px}
+.v39-chg>svg{width:16px;height:16px;flex:none;color:var(--ink-3)}
+.v39-chg b{font-size:13.5px;font-weight:500!important}
+.v39-chg small{display:flex!important;align-items:center;gap:5px;font-size:12px;color:var(--ink-3)}
+.v39-chg small img{width:16px!important;height:16px!important;border-radius:50%;object-fit:cover}
+/* ================= point 115 : carte photo de l'expert très simple (photo, nom, métier), la tâche en cours vit dans « En ce moment » */
+.xcol .pcard .v38-pact{display:none!important}
+/* ================= 111 g + audit 390 : en-tête version A sur une seule ligne en mobile (composeur visible clavier ouvert) */
+@media (max-width:760px){
+  html.v39-va .xcol .pcard{flex-wrap:nowrap!important;gap:10px!important}
+  html.v39-va .xcol .pcard img.v39-vav{width:52px!important;height:52px!important;border-radius:14px!important}
+  html.v39-va .xcol .pcard .nm{font-size:22px!important;gap:2px}
+  html.v39-va .xcol .pcard .cta{order:4!important;width:auto!important;flex:none}
+  html.v39-va .xcol .pcard .cta .call{font-size:0!important;gap:0!important;width:44px;min-width:44px;padding:0!important;justify-content:center}
+  html.v39-va .xcol .pcard .cta .call svg{margin:0!important}
+}
+/* 111 g mobile : en-tête A, place pour le métier et l’email */
+@media (max-width:760px){html.v39-va .xcol .pcard .cta .v38-wr2{display:none!important}html.v39-va .xcol .pcard .nm>span{white-space:normal!important;overflow:visible!important}html.v39-va .v39-vml{max-width:100%}html.v39-va .v39-vml span{overflow:hidden;text-overflow:ellipsis;font-size:12px}}
