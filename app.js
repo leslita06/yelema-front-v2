@@ -619,7 +619,7 @@ document.querySelectorAll('[data-perm]').forEach(function(b){var ok=b.querySelec
   function snap(){return [].map.call(ins,function(i){return i.type==='checkbox'?i.checked:i.value}).join('|')}var s0=snap();
   function upd(){var ch=snap()!==s0;ok.classList.toggle('off',!ch);no.classList.toggle('off',!ch)}
   ins.forEach(function(i){i.addEventListener('change',upd)});
-  ok.addEventListener('click',function(e){e.preventDefault();s0=snap();upd();toast('Permissions enregistrées pour Aïcha Diabaté')});
+  ok.addEventListener('click',function(e){e.preventDefault();s0=snap();upd();toast('Rôle enregistré pour Aïcha Diabaté','ok')});
   no.addEventListener('click',function(e){e.preventDefault();var v=s0.split('|');ins.forEach(function(i,n){if(i.type==='checkbox')i.checked=v[n]==='true';else i.value=v[n]});upd();toast('Modifications annulées')});
   b.querySelector('.prmrole').addEventListener('change',function(e){var r=e.target.value,c=b.querySelectorAll('.prm input');c.forEach(function(x,n){x.checked=r==='Administrateur'?true:r==='Membre de l’équipe'?false:(n===3||n===4)});upd()});
   upd()});
@@ -1353,7 +1353,7 @@ document.querySelectorAll('[data-perm]').forEach(function(b){var ok=b.querySelec
       $$('input',at).forEach(function(i){i.checked=ex.indexOf(i.value)>=0})})});
     $('.v33-atok',at).addEventListener('click',function(e){stop(e);var ex=$$('input',at).filter(function(i){return i.checked}).map(function(i){return i.value});var cur=$('.v33-ax[data-who="'+who+'"]');
       cur.dataset.ex=ex.join(' ');cur.innerHTML=ex.length?ex.map(function(x){return '<img src="../img/'+x+'.jpg" alt="'+NOM[x]+'" title="'+NOM[x]+'">'}).join(''):'<span class="xs mute3">Aucun</span>';
-      at.classList.remove('on');toast(ex.length?who+' travaille avec '+ex.map(function(x){return NOM[x]}).join(', '):who+' n’a plus d’expert')})}
+      at.classList.remove('on');toast('Experts de '+who.split(' ')[0]+' mis à jour','ok')})}
 
   // ================= chat entreprise : interrupteur (admin, Détails de l’entreprise)
   function ceApply(){var off=ls('v33-ce')==='off';document.documentElement.classList.toggle('v33-ceoff',off);
@@ -1428,8 +1428,9 @@ document.querySelectorAll('[data-perm]').forEach(function(b){var ok=b.querySelec
     var NOW=new Date('2026-10-01T10:52:00');
     var JOURS=['dimanche','lundi','mardi','mercredi','jeudi','vendredi','samedi'],MOIS=['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];
     function freq(r){var dt=new Date(r.d+'T12:00'),z=' ('+r.z+')';
-      if(r.f==='day')return 'Tous les jours, '+r.h+z;if(r.f==='week')return 'Toutes les semaines, le '+JOURS[dt.getDay()]+', '+r.h+z;
-      if(r.f==='month')return 'Tous les mois, le '+(dt.getDate()===1?'1er':dt.getDate())+', '+r.h+z;return 'Une fois, le '+dt.getDate()+' '+MOIS[dt.getMonth()]+', '+r.h+z}
+      z=r.z&&r.z!=='Abidjan'?', heure de '+r.z:'';
+      if(r.f==='day')return 'Chaque jour à '+r.h+z;if(r.f==='week'){var dd=(r.days&&r.days.length?r.days:[dt.getDay()]).map(function(k){return JOURS[k]});return 'Chaque '+(dd.length>1?dd.slice(0,-1).join(', ')+' et '+dd[dd.length-1]:dd[0])+' à '+r.h+z}
+      if(r.f==='month')return 'Chaque mois, le '+(dt.getDate()===1?'1er':dt.getDate())+' à '+r.h+z;return 'Une fois, le '+dt.getDate()+' '+MOIS[dt.getMonth()]+' à '+r.h+z}
     function next(r){var p=r.h.split(':'),n=new Date(r.d+'T'+r.h+':00');
       if(r.f==='day'){n=new Date(NOW);n.setHours(+p[0],+p[1],0,0);if(n<=NOW)n.setDate(n.getDate()+1)}
       else if(r.f==='week'){var wd=new Date(r.d+'T12:00').getDay();n=new Date(NOW);n.setHours(+p[0],+p[1],0,0);while(n.getDay()!==wd||n<=NOW)n.setDate(n.getDate()+1)}
@@ -1451,7 +1452,7 @@ document.querySelectorAll('[data-perm]').forEach(function(b){var ok=b.querySelec
     box.addEventListener('click',function(e){var b=e.target.closest('a');if(!b)return;var row=b.closest('.v33-rt'),r=list.filter(function(x){return x.id===row.dataset.id})[0];if(!r)return;stop(e);
       if(b.classList.contains('v33-rp')){r.on=!r.on;render();toast(r.on?'Routine reprise : '+r.n:'Routine en pause : '+r.n)}
       if(b.classList.contains('v33-rx')){delId=r.id;$('#v33-del .v33-deln').textContent=r.n;$('#v33-del').classList.add('on')}});
-    $('#v33-del .v33-delok').addEventListener('click',function(e){stop(e);var r=list.filter(function(x){return x.id===delId})[0];list=list.filter(function(x){return x.id!==delId});render();closeM('v33-del');if(r)toast('Routine supprimée : '+r.n)});
+    $('#v33-del .v33-delok').addEventListener('click',function(e){stop(e);var r=list.filter(function(x){return x.id===delId})[0],ri=list.indexOf(r);list=list.filter(function(x){return x.id!==delId});render();closeM('v33-del');if(r)toast('Routine supprimée : '+r.n,{type:'ok',action:{label:'Annuler',fn:function(){if(list.indexOf(r)<0){list.splice(Math.min(ri,list.length),0,r);render();toast('Routine rétablie : '+r.n,'ok')}}}})});
     prb.addEventListener('click',function(e){var b=e.target.closest('.v33-pa');if(!b)return;stop(e);var p=PR[EX][+b.dataset.i];
       list.push({id:'p'+Date.now(),n:p[0],c:p[1],f:p[2],d:p[3],h:p[4],z:'Abidjan',last:'',on:true,o:ME.n,pr:+b.dataset.i});render();toast('Routine activée : '+p[0])});
     // ---- nouvelle routine
@@ -1467,7 +1468,7 @@ document.querySelectorAll('[data-perm]').forEach(function(b){var ok=b.querySelec
         t.insertAdjacentHTML('beforeend','<p>Voilà la consigne, relisez-la à gauche et modifiez ce que vous voulez.</p>')},500)});
     $('.v33-rok',rm).addEventListener('click',function(e){stop(e);var c=$('.v33-rc',rm).value.trim();if(!c){toast('Dites à '+NOM[EX]+' ce qu’elle doit faire');$('.v33-rc',rm).focus();return}
       var n=$('.v33-rn',rm).value.trim()||c.split(/\s+/).slice(0,5).join(' ');
-      list.push({id:'n'+Date.now(),n:n,c:c,f:$('.v33-rf',rm).value,d:$('.v33-rd',rm).value||'2026-10-05',h:$('.v33-rh',rm).value||'08:00',z:$('.v33-rz',rm).value||'Abidjan',last:'',on:true,o:ME.n});
+      list.unshift({id:'n'+Date.now(),n:n,c:c,f:$('.v33-rf',rm).value,d:$('.v33-rd',rm).value||'2026-10-05',h:$('.v33-rh',rm).value||'08:00',z:$('.v33-rz',rm).value||'Abidjan',last:'',on:true,o:ME.n,days:(window.v36rt&&window.v36rt.days)||null});
       render();rm.classList.remove('on');$('.v33-rn',rm).value='';$('.v33-rc',rm).value='';$('.v33-ait',rm).innerHTML='';showTab('rt');toast('Routine créée : '+n)});
   }
 
@@ -1488,7 +1489,7 @@ document.querySelectorAll('[data-perm]').forEach(function(b){var ok=b.querySelec
       more:svg('<circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/>'),home:svg('<path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>')};
     (function tag(L){L.forEach(function(x){x.id='f'+(++uid);if(x.k==='dir')tag(x.c)})})(DATA);
     function cur(){var L=DATA;path.forEach(function(d){L=d.c});return L}
-    function last(x){if(x.k!=='dir')return x.d||'';var m='';x.c.forEach(function(y){var v=last(y);if(v>m)m=v});return m}
+    function last(x){if(x.k!=='dir')return x.d||'';var m=x.d||'';x.c.forEach(function(y){var v=last(y);if(v>m)m=v});return m}
     function nb(x){var n=0;x.c.forEach(function(y){n+=y.k==='dir'?nb(y):1});return n}
     function fd(d){if(!d)return '';var p=d.split(/[- :]/);return p[2]+'/'+p[1]+', '+p[3]+':'+p[4]}
     function isLink(x){return x.k!=='dir'&&!x.s}
@@ -1499,7 +1500,7 @@ document.querySelectorAll('[data-perm]').forEach(function(b){var ok=b.querySelec
       var by=function(a,b){return last(b)<last(a)?-1:last(b)>last(a)?1:0};return d.sort(by).concat(f.sort(by))}
     function all(L,pre,out){L.forEach(function(x){if(x.k==='dir')all(x.c,pre.concat(x.n),out);else out.push({x:x,p:pre})});return out}
     function find(id,L,par){L=L||DATA;for(var i=0;i<L.length;i++){if(L[i].id===id)return {x:L[i],L:L,i:i};if(L[i].k==='dir'){var r=find(id,L[i].c);if(r)return r}}return null}
-    var lt=$('.v33-lt',LV),cr=$('.v33-cr',LV),srch=$('.v33-ls input',LV);
+    var lt=$('.v33-lt',LV),cr=$('.v33-cr',LV),srch=$('.v33-ls input',LV);window.v33lv={cur:function(){return cur()},path:function(){return path},find:function(id){return find(id)},render:function(){render()},uid:function(){return 'f'+(++uid)},clear:function(){q='';srch.value=''},sel:function(){return sel}};
     function crumb(){var h='<a href="#" data-h="1" data-v33cr="-1">'+AR.home+'<span>Livrables</span></a>';path.forEach(function(d,i){h+=AR.chev+(i===path.length-1?'<b>'+esc(d.n)+'</b>':'<a href="#" data-h="1" data-v33cr="'+i+'">'+esc(d.n)+'</a>')});cr.innerHTML=h;
       var w=$('#v33-dir .v33-dwh');if(w)w.textContent=path.length?path[path.length-1].n:'Livrables'}
     function rowH(x,p){var dir=x.k==='dir',th=x.th&&mode==='grid'?'<img src="../img/'+x.th+'" alt="" loading="lazy">':IK[x.k==='xls'?'xls':x.k]||IK.pdf;
@@ -1534,7 +1535,7 @@ document.querySelectorAll('[data-perm]').forEach(function(b){var ok=b.querySelec
       if(t.closest('.v33-ia')||t.closest('input'))return;
       e.preventDefault();var f=find(row.dataset.id);if(f)open(f.x)});
     lt.addEventListener('keydown',function(e){if(e.key==='Enter'&&e.target.classList.contains('v33-r')){var f=find(e.target.dataset.id);if(f)open(f.x)}});
-    $('#v33-fdel .v33-fdok').addEventListener('click',function(e){stop(e);var r=find(delId);if(r){r.L.splice(r.i,1);toast((r.x.k==='dir'?'Dossier supprimé : ':'Fichier supprimé : ')+r.x.n)}closeM('v33-fdel');render()});
+    $('#v33-fdel .v33-fdok').addEventListener('click',function(e){stop(e);var r=find(delId);if(r){r.L.splice(r.i,1);toast((r.x.k==='dir'?'Dossier supprimé : ':'Fichier supprimé : ')+r.x.n,{type:'ok',action:{label:'Annuler',fn:function(){if(r.L.indexOf(r.x)<0){r.L.splice(Math.min(r.i,r.L.length),0,r.x);render();toast((r.x.k==='dir'?'Dossier rétabli : ':'Fichier rétabli : ')+r.x.n,'ok')}}}})}closeM('v33-fdel');render()});
     cr.addEventListener('click',function(e){var a=e.target.closest('[data-v33cr]');if(!a)return;stop(e);path=path.slice(0,+a.dataset.v33cr+1);q='';srch.value='';render()});
     srch.addEventListener('input',function(){q=srch.value.trim().toLowerCase();render()});
     $$('.v33-vm button',LV).forEach(function(b){b.addEventListener('click',function(e){stop(e);mode=b.dataset.v33vm;$$('.v33-vm button',LV).forEach(function(x){x.classList.toggle('on',x===b);x.setAttribute('aria-pressed',x===b)});render()})});
@@ -1553,13 +1554,13 @@ document.querySelectorAll('[data-perm]').forEach(function(b){var ok=b.querySelec
     var ib=$('.v33-impb',LV),im=$('.v33-impm',LV);
     ib.addEventListener('click',function(e){stop(e);im.hidden=!im.hidden;ib.setAttribute('aria-expanded',!im.hidden)});
     $$('[data-v33imp]',im).forEach(function(a){a.addEventListener('click',function(e){stop(e);im.hidden=true;ib.setAttribute('aria-expanded','false');$(a.dataset.v33imp==='d'?'.v33-id':'.v33-if',LV).click();toast(a.dataset.v33imp==='d'?'Choisissez un dossier':'Choisissez vos fichiers')})});
-    $$('.v33-if,.v33-id',LV).forEach(function(i){i.addEventListener('change',function(){add(i.files);i.value=''})});
+    $$('.v33-if,.v33-id',LV).forEach(function(i){i.addEventListener('change',function(){var fl=[].slice.call(i.files||[]);i.value='';if(window.v36imp)window.v36imp(fl,add,i);else add(fl)})});
     document.addEventListener('click',function(e){if(!im.hidden&&!e.target.closest('.v33-imp')){im.hidden=true;ib.setAttribute('aria-expanded','false')}if(!e.target.closest('.v33-more,.v33-mm'))closeMenus()});
     var drop=$('.v33-drop',LV),dc=0,pan=$('#drive');
     pan.addEventListener('dragenter',function(e){if(!e.dataTransfer||[].indexOf.call(e.dataTransfer.types||[],'Files')<0)return;e.preventDefault();dc++;drop.hidden=false});
     pan.addEventListener('dragover',function(e){if(!drop.hidden){e.preventDefault();e.dataTransfer.dropEffect='copy'}});
     pan.addEventListener('dragleave',function(){dc=Math.max(0,dc-1);if(!dc)drop.hidden=true});
-    pan.addEventListener('drop',function(e){e.preventDefault();dc=0;drop.hidden=true;add(e.dataTransfer&&e.dataTransfer.files)});
+    pan.addEventListener('drop',function(e){e.preventDefault();dc=0;drop.hidden=true;var fl=[].slice.call((e.dataTransfer&&e.dataTransfer.files)||[]);if(window.v36imp)window.v36imp(fl,add,$('.v33-if',LV));else add(fl)});
     // liens « Voir plus », data-go="drive" : on arrive sur la liste
     document.addEventListener('click',function(e){var t=e.target.closest&&e.target.closest('[data-go="drive"],a[data-t="drive"]');if(!t)return;setTimeout(function(){path=[];q='';srch.value='';render()},0)});
     render();
@@ -1686,7 +1687,7 @@ document.querySelectorAll('[data-perm]').forEach(function(b){var ok=b.querySelec
           say(b.classList.contains('v35-rqok')?'Accès accordé, '+(it?it.m.split(' ')[0]:'le membre')+' est prévenue':'Demande refusée, le membre est prévenu')})}}}
 
   // ================= 2. historique des conversations (piste B)
-  var J=['Aujourd’hui','Hier','Cette semaine'];
+  var J=['Aujourd’hui','Hier','Cette semaine','Semaine dernière','Septembre'];
   var CONV={
     fatima:[
       {id:'f1',t:'Post Facebook promo Sossa',c:'web',g:0,orig:1},
@@ -1704,6 +1705,7 @@ document.querySelectorAll('[data-perm]').forEach(function(b){var ok=b.querySelec
       {id:'d1',t:'Point du jour et ventes Sossa',c:'web',g:0,orig:1},
       {id:'d2',t:'Brief du rendez-vous avec la banque',c:'tg',g:1,m:[['m','Prépare-moi le rendez-vous de demain avec la banque.','17:40'],['l','Le brief est prêt : qui vous recevez, l’historique des échanges et les trois points à obtenir. Il est dans Livrables, dossier Rendez-vous.','18:10'],['m','Ajoute le montant de la ligne de crédit actuelle.','18:15'],['l','Ajouté en tête du brief.','18:16']]},
       {id:'d3',t:'Relevé de décisions du 24 septembre',c:'web',g:2,m:[['m','Fais le relevé de décisions du comité de ce matin.','jeu. 12:30'],['l','Cinq décisions, avec un responsable et une date pour chacune. Je relance chaque responsable la veille de l’échéance.','jeu. 17:30']]}]};
+  CONV.fatima=CONV.fatima.concat([{id:'fx0',t:"Visuels stories Super Mint",c:'web',g:2,m:[['m',"Prépare trois stories pour Super Mint.",'09:10'],['l',"Les trois stories sont prêtes, au format 9:16, dans Livrables, dossier Super Mint.",'09:25']]},{id:'fx1',t:"Réponses aux commentaires",c:'tg',g:2,m:[['m',"Réponds aux commentaires d’hier sur le post Sossa.",'14:30'],['l',"J’ai répondu aux 14 commentaires, deux questions sur les prix sont remontées à Yao.",'14:52']]},{id:'fx2',t:"Plan média du T4",c:'web',g:3,m:[['m',"Fais le plan média du T4.",'10:05'],['l',"Le plan est prêt : Facebook et Instagram en priorité, un temps fort par mois.",'10:31']]},{id:'fx3',t:"Post anniversaire Unifood",c:'web',g:3,m:[['m',"Prépare un post pour l’anniversaire d’Unifood.",'16:40'],['l',"Deux versions prêtes, une photo d’équipe et une affiche, dans Livrables.",'17:02']]},{id:'fx4',t:"Bilan campagne rentrée",c:'tg',g:3,m:[['m',"Fais le bilan de la campagne de rentrée.",'11:20'],['l',"Bilan prêt : 96 000 vues, le post vidéo a le mieux marché.",'11:48']]},{id:'fx5',t:"Fiche influenceuses Abidjan",c:'web',g:3,m:[['m',"Liste des influenceuses food à Abidjan.",'09:10'],['l',"Douze profils, avec leur audience et leur dernier partenariat.",'09:25']]},{id:'fx6',t:"Textes du site, page Sossa",c:'web',g:3,m:[['m',"Réécris la page Sossa du site.",'14:30'],['l',"Nouveau texte prêt, plus court, avec la promo en tête.",'14:52']]},{id:'fx7',t:"Newsletter de septembre",c:'web',g:3,m:[['m',"Rédige la newsletter de septembre.",'10:05'],['l',"Elle est prête, trois sujets et un jeu concours en bas.",'10:31']]},{id:'fx8',t:"Sondage goûts Super Mint",c:'tg',g:3,m:[['m',"Lance un sondage sur les parfums Super Mint.",'16:40'],['l',"Sondage publié en story, 1 200 votes, la menthe citron arrive en tête.",'17:02']]},{id:'fx9',t:"Calendrier fêtes de fin d’année",c:'web',g:3,m:[['m',"Prépare le calendrier des fêtes de fin d’année.",'11:20'],['l',"Calendrier prêt de fin novembre au 6 janvier.",'11:48']]},{id:'fx10',t:"Lancement Sossa chocolat",c:'web',g:4,m:[['m',"Prépare le lancement de Sossa chocolat.",'09:10'],['l',"Plan de lancement prêt : teasing, révélation, jeu concours.",'09:25']]},{id:'fx11',t:"Charte des réseaux",c:'web',g:4,m:[['m',"Écris la charte des réseaux sociaux.",'14:30'],['l',"La charte est prête : ton, emojis, réponses types.",'14:52']]},{id:'fx12',t:"Photos boutique Treichville",c:'tg',g:4,m:[['m',"Trie les photos de la boutique de Treichville.",'10:05'],['l',"Vingt photos retenues, rangées dans Livrables.",'10:31']]},{id:'fx13',t:"Veille prix concurrents",c:'web',g:4,m:[['m',"Relève les prix des concurrents.",'16:40'],['l',"Tableau prêt, Sossa reste le moins cher en grand format.",'17:02']]},{id:'fx14',t:"Post rentrée scolaire",c:'web',g:4,m:[['m',"Un post pour la rentrée scolaire.",'11:20'],['l',"Post prêt, avec le goûter Sossa dans le cartable.",'11:48']]},{id:'fx15',t:"Script vidéo recette",c:'web',g:4,m:[['m',"Écris le script d’une vidéo recette.",'09:10'],['l',"Script prêt, 45 secondes, trois étapes.",'09:25']]},{id:'fx16',t:"Réponse avis Google",c:'tg',g:4,m:[['m',"Réponds aux avis Google de la semaine.",'14:30'],['l',"Six réponses publiées, une plainte transmise au service client.",'14:52']]},{id:'fx17',t:"Rapport réseaux d’août",c:'web',g:4,m:[['m',"Fais le rapport des réseaux d’août.",'10:05'],['l',"Rapport prêt : 41 publications et 180 000 vues.",'10:31']]},{id:'fx18',t:"Idées de posts pour septembre",c:'web',g:4,m:[['m',"Propose des idées de posts pour septembre.",'16:40'],['l',"Quinze idées classées par marque.",'17:02']]}]);
   var SUG={fatima:['Prépare les posts de la semaine pour Sossa','Fais le rapport des réseaux sociaux du mois','Propose un jeu concours pour Super Mint'],
     koffi:['Décline l’affiche Sossa pour Instagram','Prépare le bon à tirer du packaging','Vérifie la charte des visuels du jour'],
     djeneba:['Prépare mon point du jour','Rédige la note pour le comité de direction','Prépare le brief de mon prochain rendez-vous']};
@@ -1730,10 +1732,10 @@ document.querySelectorAll('[data-perm]').forEach(function(b){var ok=b.querySelec
     o.host.appendChild(pn);
     var btn=$('.v35-cvb',bar),inp=$('input',pn),list=$('.v35-hl',pn),cur=o.start;
     function title(t){if(o.title)o.title(t);else $('.v35-cur',bar).textContent=t}
-    function render(){var q=norm(inp.value.trim()),h='',n=0;
-      J.forEach(function(lab,gi){var L=o.sess.filter(function(s){return s.g===gi&&(!q||norm(s.t).indexOf(q)>=0)});if(!L.length)return;
+    function render(){var q=norm(inp.value.trim()),h='',n=0,lim=(q||pn._v36all)?1e9:20,tot=0;
+      J.forEach(function(lab,gi){var L=o.sess.filter(function(s){return s.g===gi&&(!q||norm(s.t).indexOf(q)>=0)});L=L.filter(function(){return tot++<lim});if(!L.length)return;
         h+='<div class="v35-hg">'+lab+'</div>';L.forEach(function(s){n++;h+='<button type="button" class="v35-hi'+(s.id===cur?' on':'')+'" data-h="1" data-id="'+s.id+'"'+(s.id===cur?' aria-current="true"':'')+'>'+(s.c==='tg'?IC.tg:IC.web)+'<span>'+esc(s.t)+'</span><small>'+(s.c==='tg'?'Telegram':'Web')+'</small></button>'})});
-      list.innerHTML=n?h:'<p class="v35-hn">Aucune conversation pour « '+esc(inp.value.trim())+' ».</p>'}
+      list.innerHTML=(n?h:'<p class="v35-hn">Aucune conversation pour « '+esc(inp.value.trim())+' ».</p>')+(tot>lim?'<button type="button" class="v36-more" data-h="1">Charger les plus anciennes</button>':'')}
     function open(on){pn.hidden=!on;btn.setAttribute('aria-expanded',on);if(on){inp.value='';render();setTimeout(function(){inp.focus()},30)}}
     function show(id){var s=o.sess.filter(function(x){return x.id===id})[0];if(!s&&id!=='new')return;
       if(cur===id&&id!=='new'){open(false);return}
@@ -1754,7 +1756,7 @@ document.querySelectorAll('[data-perm]').forEach(function(b){var ok=b.querySelec
   var CH=EX&&$('#discussion .chat2'),TH=CH&&$('.thread',CH);
   if(CH&&TH&&CONV[EX]){
     CH.classList.add('v35-hc');var S=CONV[EX],nodes0=[].slice.call(TH.childNodes);S.forEach(function(s){if(s.orig)s.nodes=nodes0});
-    var dayOf=function(s){return s.g===0?'Aujourd’hui':s.g===1?'Hier':'Cette semaine'};
+    var dayOf=function(s){return J[s.g]||'Cette semaine'};
     var build=function(s){var h='<span class="day">'+dayOf(s)+'</span>';s.m.forEach(function(x){h+='<div class="msg '+(x[0]==='m'?'moi':'lui')+'"><div class="bub">'+esc(x[1])+'</div><time>'+esc(x[2])+(x[0]==='m'&&s.c==='tg'?TGI:'')+'</time></div>'});
       var d=document.createElement('div');d.innerHTML=h;return [].slice.call(d.childNodes)};
     var emptyEl=function(){var d=document.createElement('div');d.className='v35-empty';
@@ -1768,7 +1770,7 @@ document.querySelectorAll('[data-perm]').forEach(function(b){var ok=b.querySelec
       if(i&&sb){i.value=b.textContent;sb.click()}else say('Message envoyé à '+NOM[EX])});
     new MutationObserver(function(){if(hx.cur()!=='new')return;var m=$('.msg.moi .bub',TH);if(!m)return;var em=$('.v35-empty',TH);if(em)em.remove();TH.classList.remove('v35-new');
       var t=m.textContent.trim();if(t.length>42)t=t.slice(0,40).replace(/\s+\S*$/,'')+'…';hx.add({id:'n'+Date.now(),t:t,c:'web',g:0});
-      var d=document.createElement('div');d.className='msg lui';d.innerHTML='<span class="typing"><i></i><i></i><i></i></span><time>'+NOM[EX]+' s’y met</time>';TH.appendChild(d);
+      var d=document.createElement('div');d.className='msg lui';d.innerHTML='<span class="typing"><i></i><i></i><i></i></span><time>'+NOM[EX]+' réfléchit…</time>';TH.appendChild(d);
       setTimeout(function(){d.innerHTML='<div class="bub">C’est noté, je m’y mets. Je vous montre une première version dans cette conversation.</div><time>à l’instant</time>'},900)}).observe(TH,{childList:true});
     V35.conv=function(id){var a=$('.xnav a[data-t="discussion"]');if(a)a.click();hx.show(id)};
   }
@@ -1828,7 +1830,7 @@ document.querySelectorAll('[data-perm]').forEach(function(b){var ok=b.querySelec
       ['kouassi','Kouassi','Ventes'],['mamadou','Mamadou','Finance'],['nadia','Nadia','Données'],['salif','Salif','Opérations']];
     var IDX=null;
     var fd=function(d){if(!d)return '';var p=d.split(/[- :]/);return p[2]+'/'+p[1]};
-    function index(){if(IDX)return IDX;IDX=[];var mine=ME.ex,dl=['aujourd’hui','hier','cette semaine'];
+    function index(){if(IDX)return IDX;IDX=[];var mine=ME.ex,dl=['aujourd’hui','hier','cette semaine','la semaine dernière','en septembre'];
       TEAM.forEach(function(x){if(mine.indexOf(x[0])<0)return;IDX.push({g:0,t:x[1],s:x[2]+', dans votre équipe',k:x[2],h:x[0]+'.html',av:x[0]})});
       if(!MEMBRE)RECR.forEach(function(x){IDX.push({g:0,t:x[1],s:x[2]+', à recruter',k:x[2]+' recruter',h:'recrue-'+x[0]+'.html',av:x[0]})});
       TEAM.forEach(function(x){if(mine.indexOf(x[0])<0||!CONV[x[0]])return;CONV[x[0]].forEach(function(s){IDX.push({g:1,t:s.t,s:x[1]+', '+dl[s.g]+', '+(s.c==='tg'?'Telegram':'web'),k:x[1],h:x[0]+'.html?conv='+s.id+'#discussion',ic:s.c,ex:x[0],cv:s.id})})});
@@ -1895,4 +1897,874 @@ document.querySelectorAll('[data-perm]').forEach(function(b){var ok=b.querySelec
       if(f){var r=$$('#drive .v33-lt .v33-r:not(.dir):not(.v33-th)').filter(function(r){var b=$('.v33-nm b',r);return b&&b.textContent===f})[0];if(r)r.click()}};
     if(Q.get('lv')!==null)setTimeout(function(){V35.liv(Q.get('lv'),Q.get('f'))},0);
   }
+})();
+
+/* v4.37 (add86) : messages unifiés (toasts), pop-up d’erreur, chargement, catalogue des états, simulation d’erreurs,
+   notifications groupées par expert, mode hors ligne léger. Préfixe v36-. */
+(function(){
+  function $(s,r){return (r||document).querySelector(s)}function $$(s,r){return [].slice.call((r||document).querySelectorAll(s))}
+  function svg(p){return '<svg class="i s" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'+p+'</svg>'}
+  function esc(t){return String(t).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+  function ls(k,v){try{if(v===undefined)return localStorage.getItem(k);if(v===null)localStorage.removeItem(k);else localStorage.setItem(k,v)}catch(e){return null}}
+  function ss(k,v){try{if(v===undefined)return sessionStorage.getItem(k);if(v===null)sessionStorage.removeItem(k);else sessionStorage.setItem(k,v)}catch(e){return null}}
+  function jget(k){try{return JSON.parse(ls(k)||'[]')}catch(_){return []}}
+  function stop(e){e.preventDefault();e.stopPropagation()}
+  var IC={ok:svg('<circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/>'),info:svg('<circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/>'),
+    warn:svg('<path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4M12 17h.01"/>'),
+    err:svg('<circle cx="12" cy="12" r="10"/><path d="m15 9-6 6M9 9l6 6"/>'),x:svg('<path d="M18 6 6 18M6 6l12 12"/>'),
+    wifi:svg('<path d="M12 20h.01M8.5 16.43a5 5 0 0 1 7 0M5 12.86a10 10 0 0 1 5.17-2.69M19 12.86a10 10 0 0 0-2.01-1.53M2 8.82a15 15 0 0 1 4.18-2.65M22 8.82a15 15 0 0 0-11.29-3.76M2 2l20 20"/>'),
+    wifiok:svg('<path d="M12 20h.01M2 8.82a15 15 0 0 1 20 0M5 12.86a10 10 0 0 1 14 0M8.5 16.43a5 5 0 0 1 7 0"/>'),
+    lock:svg('<rect width="18" height="11" x="3" y="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>'),clock:svg('<circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>'),
+    shield:svg('<path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="M12 8v4M12 16h.01"/>'),
+    file:svg('<path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4M12 12v4M12 19h.01"/>'),
+    filex:svg('<path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4M9.5 12.5l5 5M14.5 12.5l-5 5"/>'),
+    card:svg('<rect width="20" height="14" x="2" y="5" rx="2"/><path d="M2 10h20M6 15h4"/>'),pause:svg('<rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/>'),
+    gauge:svg('<path d="m12 14 4-4M3.34 19a10 10 0 1 1 17.32 0"/>'),check:svg('<path d="M20 6 9 17l-5-5"/>'),checks:svg('<path d="M18 6 7 17l-5-5M22 10l-7.5 7.5L13 16"/>'),
+    more:svg('<circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/>'),chev:svg('<path d="m6 9 6 6 6-6"/>'),
+    bug:svg('<path d="M12 20v-9M14 7a4 4 0 0 1 4 4v3a6 6 0 0 1-12 0v-3a4 4 0 0 1 4-4zM14.12 3.88 16 2M21 21a4 4 0 0 0-3.81-4M21 5a4 4 0 0 1-3.55 3.97M22 13h-4M3 21a4 4 0 0 1 3.81-4M3 5a4 4 0 0 0 3.55 3.97M6 13H2M8 2l1.88 1.88M9 7.13V6a3 3 0 1 1 6 0v1.13"/>'),
+    search:svg('<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>'),server:svg('<rect width="20" height="8" x="2" y="2" rx="2"/><rect width="20" height="8" x="2" y="14" rx="2"/><path d="M6 6h.01M6 18h.01"/>'),
+    up:svg('<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m17 8-5-5-5 5M12 3v12"/>')};
+  var page=(location.pathname.split('/').pop()||'').replace('.html','');
+  var Q=new URLSearchParams(location.search);
+  var NOM={djeneba:'Djénéba',fatima:'Fatima',koffi:'Koffi'},FEM={djeneba:1,fatima:1},EX=NOM[page]?page:null;
+  var PERS={admin:{n:'Aïcha Diabaté',ex:['djeneba','fatima','koffi']},membre:{n:'Nadège Touré',ex:['fatima','koffi']},membre0:{n:'Didier Yapi',ex:[]}};
+  var VUE=PERS[ls('v33-vue')]?ls('v33-vue'):'admin',ME=PERS[VUE],MEMBRE=VUE!=='admin';
+  var TOP=$('header.top');
+  var V36={};window.v36=V36;
+
+  // ================= 1. messages (toasts) : succès, info, avertissement, erreur ; action ; 3 au plus
+  var TS=document.createElement('div');TS.className='v36-ts';TS.setAttribute('aria-label','Messages');document.body.appendChild(TS);
+  var OLD=$('.toast');if(OLD){OLD.removeAttribute('role');OLD.setAttribute('aria-hidden','true');OLD.classList.add('v36-old')}
+  function kind(m){var s=String(m).toLowerCase();
+    if(/impossible|échec|échoué|erreur|introuvable|n’a pas pu|n'a pas pu|refusé par|injoignable|indisponible|toujours pas/.test(s))return 'err';
+    if(/^(écrivez|donnez|choisissez un |choisissez une |ajoutez|indiquez|entrez|renseignez|sélectionnez|collez)|gardé|pas de connexion|hors ligne|bloqué|attention|expir/.test(s))return 'warn';
+    if(/envoy|copi|enregistr|ajout|créé|crée |supprim|connecté|activé|importé|renomm|invit|mis à jour|mise à jour|c’est fait|c'est fait|prêt|accordé|terminé|validé|reprise|rétabli|partag|reçu|marqu|publi|téléchargement|planifi|programm|retiré|accepté|de nouveau en service/.test(s))return 'ok';
+    return 'info'}
+  function gone(t){if(t._gone)return;t._gone=1;clearTimeout(t._tm);t.classList.remove('on');t.classList.add('v36-gone');setTimeout(function(){t.remove()},230)}
+  function arm(t){clearTimeout(t._tm);if(t._d)t._tm=setTimeout(function(){gone(t)},t._d)}
+  function toast2(m,o){if(typeof o==='string')o={type:o};o=o||{};m=String(m==null?'':m);var ty=o.type||kind(m);
+    if(OLD){OLD.textContent=m;OLD.classList.add('on');clearTimeout(OLD._t);OLD._t=setTimeout(function(){OLD.classList.remove('on')},2600)}
+    var same=$$('.v36-t',TS).filter(function(t){return t._m===m&&!t._gone})[0];
+    if(same&&!o.action){same.classList.remove('v36-pulse');void same.offsetWidth;same.classList.add('v36-pulse');arm(same);return same}
+    var t=document.createElement('div');t.className='v36-t v36-'+ty;t._m=m;t.setAttribute('role',ty==='err'?'alert':'status');
+    t.innerHTML='<span class="v36-ti">'+IC[ty]+'</span><span class="v36-tx">'+esc(m)+'</span>'+(o.action?'<button type="button" class="v36-ta" data-h="1">'+esc(o.action.label)+'</button>':'')+
+      '<button type="button" class="v36-tc" data-h="1" aria-label="Fermer le message">'+IC.x+'</button>';
+    TS.appendChild(t);var live=$$('.v36-t',TS).filter(function(x){return !x._gone});while(live.length>3)gone(live.shift());
+    if(o.action)$('.v36-ta',t).addEventListener('click',function(e){stop(e);gone(t);o.action.fn()});
+    $('.v36-tc',t).addEventListener('click',function(e){stop(e);gone(t)});
+    t._d=(o.sticky||ty==='err')?0:o.action?7000:ty==='warn'?5000:3400;arm(t);
+    t.addEventListener('mouseenter',function(){clearTimeout(t._tm)});t.addEventListener('mouseleave',function(){arm(t)});
+    t.addEventListener('focusin',function(){clearTimeout(t._tm)});
+    requestAnimationFrame(function(){t.classList.add('on')});return t}
+  window.toast=toast2;V36.toast=toast2;var say=toast2;
+
+  // ================= 2. bouton en cours (spinner, libellé, désactivé)
+  function busy(b,lab){if(!b||b._v36b)return;b._v36b=b.innerHTML;b._v36w=b.style.minWidth;b.style.minWidth=b.offsetWidth+'px';b.classList.add('v36-busy');b.setAttribute('aria-busy','true');
+    if('disabled' in b&&b.tagName==='BUTTON')b.disabled=true;b.setAttribute('aria-disabled','true');b.innerHTML='<span class="v36-spin" aria-hidden="true"></span><span>'+esc(lab)+'</span>'}
+  function unbusy(b){if(!b||!b._v36b)return;b.innerHTML=b._v36b;b._v36b=null;b.style.minWidth=b._v36w||'';b.classList.remove('v36-busy');b.removeAttribute('aria-busy');b.removeAttribute('aria-disabled');if(b.tagName==='BUTTON')b.disabled=false}
+  V36.busy=busy;V36.unbusy=unbusy;
+  // un clic sur sel : bouton en cours pendant ms, puis l’action d’origine (clic rejoué)
+  function gate(sel,lab,ms,pre,after){document.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest(sel);if(!b||b._v36go)return;
+    if(b._v36b){e.preventDefault();e.stopImmediatePropagation();return}if(pre&&pre(b,e)===false)return;
+    e.preventDefault();e.stopImmediatePropagation();busy(b,lab);
+    setTimeout(function(){unbusy(b);b._v36go=1;try{b.click()}finally{b._v36go=0}if(after)after(b)},ms)},true)}
+  gate('#inv .invgo','Envoi…',800,null,function(b){var em=$('#inv input[type=email]');say('Invitation envoyée'+(em&&em.value.trim()?' à '+em.value.trim():''),'ok')});
+  gate('[data-toast="Profil enregistré"]','Enregistrement…',700);
+  gate('#v33-rtm .v33-rok','Création…',700,function(b){var c=$('#v33-rtm .v33-rc');return !!(c&&c.value.trim())});
+  // paiement : en cours, puis accepté, ou refusé par la banque (simulation)
+  if(Q.get('paiement')==='refuse')ss('v36-payko','1');if(Q.get('paiement')==='ok')ss('v36-payko',null);
+  document.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('#payer .pyd a.btn.p, #jeko .jgo');if(!b||b._v36go)return;e.preventDefault();e.stopImmediatePropagation();if(b._v36b)return;
+    busy(b,'Paiement…');setTimeout(function(){unbusy(b);if(ss('v36-payko')){CASES.paiement.run();return}
+      var j=b.closest('#jeko');if(j)j.classList.remove('on');say('Paiement envoyé : validez-le sur votre téléphone, le reçu arrive par email','ok')},1000)},true);
+  // connexion : bouton en cours, puis écran d’ouverture sur la page suivante
+  var LF=$('[data-login]');
+  if(LF)document.addEventListener('submit',function(e){if(e.target!==LF)return;e.preventDefault();e.stopImmediatePropagation();var b=$('.auok',LF);if(b&&b._v36b)return;
+    var em=$('input[type=email]',LF),to=(em&&/^admin@/.test(em.value.trim()))?'admin.html':'accueil.html';busy(b,'Connexion…');ss('v36-splash','1');
+    setTimeout(function(){location.href=to},800)},true);
+
+  // ================= 3. écran d’ouverture (une fois par session, 1 s au plus)
+  function splash(force){var d=document.createElement('div');d.className='v36-sp';d.setAttribute('role','status');d.setAttribute('aria-label','Ouverture de votre espace');
+    d.innerHTML='<div class="v36-spc"><span class="v36-spl"><img src="../img/yelema_long.png" alt="Yelema"></span><i class="v36-spb"><b></b></i><small>Ouverture de votre espace…</small></div>';
+    document.body.appendChild(d);var t=force?1400:850;setTimeout(function(){d.classList.add('out')},t);setTimeout(function(){d.remove()},t+220);return d}
+  V36.splash=splash;
+  if(ss('v36-splash')==='1'&&TOP){ss('v36-splash',null);if(!ss('v36-splashed')){ss('v36-splashed','1');splash()}}
+
+  // ================= 4. pop-up d’erreur : composant commun
+  var MD=null,MPREV=null;
+  function closeModal(){if(MD){MD.classList.remove('on');if(MPREV&&MPREV.focus)try{MPREV.focus()}catch(_){}}}
+  function mbtn(x,cl,k){if(!x)return '';return x.href?'<a class="btn '+cl+' '+k+'" href="'+x.href+'">'+esc(x.l)+'</a>':'<button type="button" class="btn '+cl+' '+k+'" data-h="1">'+esc(x.l)+'</button>'}
+  function modal(c){if(!MD){MD=document.createElement('div');MD.className='modal v36-m';MD.id='v36-m';
+      MD.innerHTML='<div class="ov" data-v36x></div><div class="pn v36-pn" role="alertdialog" aria-modal="true" aria-labelledby="v36-mt" aria-describedby="v36-mp"></div>';document.body.appendChild(MD);
+      MD.addEventListener('click',function(e){if(e.target.closest('[data-v36x]')){stop(e);if(!MD._nox)closeModal()}});
+      MD.addEventListener('keydown',function(e){if(e.key!=='Tab')return;var f=$$('button,a[href]',MD).filter(function(x){return x.offsetParent});if(!f.length)return;
+        if(e.shiftKey&&document.activeElement===f[0]){e.preventDefault();f[f.length-1].focus()}else if(!e.shiftKey&&document.activeElement===f[f.length-1]){e.preventDefault();f[0].focus()}})}
+    MPREV=document.activeElement;MD._nox=!!c.nox;var pn=$('.pn',MD);pn.className='pn v36-pn v36-'+(c.tone||'ko');
+    pn.innerHTML=(c.nox?'':'<button type="button" class="v36-mx" data-v36x data-h="1" aria-label="Fermer">'+IC.x+'</button>')+'<span class="v36-mi">'+c.ic+'</span><h2 id="v36-mt">'+esc(c.t)+'</h2><p id="v36-mp">'+esc(c.p)+'</p>'+(c.body||'')+
+      '<div class="v36-mb">'+mbtn(c.b,'o','v36-mb2')+mbtn(c.a,'p','v36-mb1')+'</div>';
+    [['.v36-mb1',c.a],['.v36-mb2',c.b]].forEach(function(z){var el=$(z[0],pn);if(!el||!z[1]||z[1].href)return;el.addEventListener('click',function(e){stop(e);if(z[1].fn)z[1].fn(el);else closeModal()})});
+    MD.classList.add('on');setTimeout(function(){var f=(c.body&&$('input',pn))||$('.v36-mb1',pn);if(f){f.focus();if(f.select&&c.sel)f.select()}},40);return MD}
+  V36.modal=modal;V36.close=closeModal;
+
+  function pick(){closeModal();var i=LASTINP||$('#drive .v33-if');if(i)i.click();else say('Ouvrez les Livrables d’un expert pour importer un fichier','info')}
+  function mo(n){return n>=1048576?(n/1048576).toFixed(n>=10485760?0:1).replace('.',',')+' Mo':Math.max(1,Math.round(n/1024))+' Ko'}
+  var who=function(){return EX||(MEMBRE?ME.ex[0]:'fatima')||'fatima'};
+  var CASES={
+    connexion:{n:'Connexion perdue',d:'Bandeau en haut, puis Connexion rétablie',ic:IC.wifi,run:function(){netSim(!OFF)}},
+    session:{n:'Session expirée',d:'Se reconnecter',ic:IC.clock,run:function(){modal({ic:IC.clock,tone:'warn',nox:1,t:'Votre session a expiré',p:'Pour protéger vos données, reconnectez-vous. Ce que vous avez écrit est gardé.',a:{l:'Se reconnecter',href:'connexion.html'}})}},
+    acces:{n:'Accès refusé',d:'Page réservée à l’admin',ic:IC.lock,run:function(){modal({ic:IC.lock,tone:'ko',t:'Cette page est réservée à l’admin',p:'Demandez l’accès à votre admin, ou revenez à l’accueil.',
+      a:{l:'Demander l’accès',fn:function(){closeModal();say('Demande d’accès envoyée à votre admin','ok')}},b:{l:'Retour',href:'accueil.html'}})}},
+    lourd:{n:'Fichier trop lourd',d:'Import de plus de 25 Mo',ic:IC.file,run:function(f,n){f=f||{name:'Film Sossa 30 s.mp4',size:48*1048576};
+      modal({ic:IC.file,tone:'warn',t:'Fichier trop lourd, 25 Mo maximum',p:'« '+f.name+' » fait '+mo(f.size)+(n>1?', et '+(n-1)+' autre'+(n>2?'s':'')+' aussi':'')+'. Compressez-le, ou partagez-le par un lien.',a:{l:'Choisir un autre fichier',fn:pick},b:{l:'Fermer'}})}},
+    format:{n:'Format non pris en charge',d:'Un .exe dans les Livrables',ic:IC.filex,run:function(f){var x=f?((/\.([a-z0-9]+)$/i.exec(f.name)||[,''])[1]||'sans extension'):'exe';
+      modal({ic:IC.filex,tone:'warn',t:'Format non pris en charge',p:'Les fichiers .'+x.toLowerCase()+' ne s’importent pas. Envoyez un PDF, un document Office, une image, une vidéo ou un ZIP.',a:{l:'Choisir un autre fichier',fn:pick},b:{l:'Fermer'}})}},
+    paiement:{n:'Paiement refusé',d:'Facturation',ic:IC.card,run:function(){modal({ic:IC.card,tone:'ko',t:'Paiement refusé par votre banque',p:'Aucun montant n’a été prélevé. Changez de moyen de paiement, ou réessayez dans un instant.',
+      b:{l:'Changer de moyen de paiement',fn:function(){closeModal();var j=$('#jeko.on');if(j)j.classList.remove('on');var p=$('#payer .pys');if(p){p.scrollIntoView({behavior:'smooth',block:'center'});var o=$('#payer .pyo:not(.on)')||$('#payer .pyo');if(o){o.setAttribute('tabindex','-1');setTimeout(function(){o.focus()},300)}}else location.href='admin-facturation.html#payer'}},
+      a:{l:'Réessayer',fn:function(b){busy(b,'Paiement…');setTimeout(function(){unbusy(b);closeModal();ss('v36-payko',null);say('Paiement accepté, le reçu arrive par email','ok')},1100)}}})}},
+    pause:{n:'Expert en pause',d:'Écrire à un expert en pause',ic:IC.pause,run:function(){var x=who(),n=NOM[x],l=FEM[x]?'la':'le';
+      if(MEMBRE)modal({ic:IC.pause,tone:'warn',t:n+' est en pause',p:'Votre admin peut '+l+' relancer. Votre message est gardé, il partira à son retour.',a:{l:'Prévenir l’admin',fn:function(){closeModal();say('Admin prévenue : vous attendez '+n,'ok')}},b:{l:'Fermer'}});
+      else modal({ic:IC.pause,tone:'warn',t:n+' est en pause',p:'Relancez-'+l+' pour qu’'+(FEM[x]?'elle':'il')+' reprenne le travail. Votre message est gardé.',a:{l:'Relancer '+n,fn:function(){ss('v36-pause',null);closeModal();say(n+' est de nouveau en service','ok')}},b:{l:'Fermer'}})}},
+    quota:{n:'Budget du mois atteint',d:'Côté admin',ic:IC.gauge,run:function(){modal({ic:IC.gauge,tone:'warn',t:'Budget du mois atteint',p:'Vos experts ont utilisé tout le budget d’octobre. Ils reprennent dès que vous augmentez le plafond.',
+      a:{l:'Augmenter le plafond',fn:function(){closeModal();if(page==='admin')say('Réglez le seuil dans Consommation IA','info');else location.href='admin.html#credits'}},b:{l:'Plus tard'}})}},
+    introuvable:{n:'Page introuvable',d:'Page 404',ic:IC.search,run:function(){location.href='404.html'}},
+    serveur:{n:'Un problème de notre côté',d:'Page d’erreur',ic:IC.server,run:function(){location.href='erreur.html'}}};
+  V36.cases=CASES;
+
+  // déclencheurs par l’adresse
+  if(Q.get('session')==='expiree')setTimeout(CASES.session.run,60);
+  if(Q.get('quota')==='1')setTimeout(CASES.quota.run,60);
+  if(EX&&Q.get('pause')==='1')ss('v36-pause',EX);if(Q.get('pause')==='0')ss('v36-pause',null);
+  if(MEMBRE&&/^admin/.test(page))setTimeout(CASES.acces.run,60);
+
+  // ================= 5. import des Livrables : contrôle (25 Mo, formats) et progression par fichier
+  var OKX=/^(pdf|docx?|xlsx?|csv|pptx?|key|txt|md|rtf|odt|ods|odp|png|jpe?g|gif|webp|svg|heic|mp4|mov|webm|mp3|m4a|wav|zip|rar)$/i,MAX=25*1048576,LASTINP=null;
+  var UP=null;
+  function upPanel(){if(UP&&document.body.contains(UP))return UP;UP=document.createElement('div');UP.className='v36-up';UP.setAttribute('role','region');UP.setAttribute('aria-label','Import en cours');
+    UP.innerHTML='<div class="v36-uph"><b class="v36-upt">Import</b><button type="button" class="v36-upx" data-h="1" aria-label="Fermer le suivi d’import" hidden>'+IC.x+'</button></div><div class="v36-upl"></div>';
+    document.body.appendChild(UP);$('.v36-upx',UP).addEventListener('click',function(e){stop(e);UP.remove();UP=null});return UP}
+  function progress(files,add){var P=upPanel(),L=$('.v36-upl',P),rows=[],left=files.length,done=[];$('.v36-upx',P).hidden=true;
+    $('.v36-upt',P).textContent='Import de '+files.length+' fichier'+(files.length>1?'s':'');
+    function end(){if(--left>0)return;$('.v36-upx',P).hidden=false;var ok=rows.filter(function(r){return r.ok});
+      $('.v36-upt',P).textContent=ok.length?ok.length+' fichier'+(ok.length>1?'s importés':' importé'):'Import annulé';
+      if(ok.length)add(ok.map(function(r){return r.f}));else say('Import annulé','info');
+      setTimeout(function(){if(UP===P&&!rows.some(function(r){return r.run})){P.classList.add('out');setTimeout(function(){if(UP===P){P.remove();UP=null}},250)}},2600)}
+    files.forEach(function(f){var r={f:f,run:true,ok:false,p:0},d=document.createElement('div');d.className='v36-ur';
+      d.innerHTML='<span class="v36-urn"><b>'+esc(f.name)+'</b><small>'+mo(f.size||1024)+'</small></span><span class="v36-urp">0 %</span><button type="button" class="v36-urx" data-h="1" aria-label="Annuler l’import de '+esc(f.name)+'">Annuler</button>'+
+        '<i class="v36-urb" role="progressbar" aria-label="Progression de '+esc(f.name)+'" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><b></b></i>';
+      L.appendChild(d);rows.push(r);var dur=650+Math.min(2600,(f.size||1024)/1048576*110),t0=Date.now();
+      r.tm=setInterval(function(){var p=Math.min(100,Math.round((Date.now()-t0)/dur*100));r.p=p;$('.v36-urb b',d).style.width=p+'%';$('.v36-urb',d).setAttribute('aria-valuenow',p);$('.v36-urp',d).textContent=p+' %';
+        if(p>=100){clearInterval(r.tm);r.run=false;r.ok=true;d.classList.add('ok');$('.v36-urp',d).innerHTML=IC.check+'<span>Importé</span>';var x=$('.v36-urx',d);if(x)x.remove();end()}},60);
+      $('.v36-urx',d).addEventListener('click',function(e){stop(e);if(!r.run)return;clearInterval(r.tm);r.run=false;d.classList.add('ko');$('.v36-urp',d).textContent='Annulé';e.currentTarget.remove();end()})})}
+  V36.progress=progress;
+  window.v36imp=function(files,add,inp){LASTINP=inp||LASTINP;var ok=[],big=[],bad=[];
+    files.forEach(function(f){var x=(/\.([a-z0-9]+)$/i.exec(f.name)||[,''])[1];if(!OKX.test(x))bad.push(f);else if(f.size>MAX)big.push(f);else ok.push(f)});
+    if(ok.length)progress(ok,add);if(big.length)CASES.lourd.run(big[0],big.length);else if(bad.length)CASES.format.run(bad[0])};
+
+  // ================= 6. chat : « <Prénom> réfléchit… », puis la réponse
+  var REP={djeneba:'C’est noté, je m’en occupe. Je vous fais un retour ici dans quelques minutes.',fatima:'C’est noté, je m’y mets. Je vous montre une première version ici.',koffi:'C’est noté, je prépare les visuels et je vous les montre ici.'};
+  function think(th,after,x,mem){if(!th)return;var n=NOM[x]||'Votre expert',d=document.createElement('div');
+    if(mem){d.className='gm2 lui v36-th';d.innerHTML='<div class="ba"><span class="typing"><i></i><i></i><i></i></span> <small class="v36-thl">Le chat entreprise réfléchit…</small></div>'}
+    else{d.className='msg lui v36-th';d.innerHTML='<span class="typing"><i></i><i></i><i></i></span><time>'+esc(n)+' réfléchit…</time>'}
+    if(after&&after.parentNode===th)after.insertAdjacentElement('afterend',d);else th.appendChild(d);d.setAttribute('aria-live','polite');
+    setTimeout(function(){if(mem)d.innerHTML='<div class="ba"><p>C’est noté. Je cherche dans les documents de l’entreprise et je vous réponds ici.</p></div>';
+      else d.innerHTML='<div class="bub">'+esc(REP[x]||'C’est noté, je m’en occupe.')+'</div><time>à l’instant</time>';d.classList.remove('v36-th');th.scrollTop=th.scrollHeight},1500);
+    th.scrollTop=th.scrollHeight;return d}
+  V36.think=think;
+  function watch(th,x){$$('.msg',th).forEach(function(n){n._v36=1});new MutationObserver(function(ms){ms.forEach(function(m){[].forEach.call(m.addedNodes,function(nd){
+      if(nd.nodeType!==1||!nd.classList.contains('msg')||!nd.classList.contains('moi')||nd.classList.contains('v36-pend')||nd._v36)return;nd._v36=1;var tm=$('time',nd);if(!tm||!/à l’instant/.test(tm.textContent))return;
+      var nx=nd.nextElementSibling;if(nx&&$('.typing',nx)&&/réfléchit/.test(nx.textContent))return;think(th,nd,x)})})}).observe(th,{childList:true})}
+  if(EX){var TH0=$('#discussion .thread');if(TH0)watch(TH0,EX)}
+  $$('.cm .cth').forEach(function(c){var x=c.id.replace('c-','');var th=$('.thread',c);if(th&&NOM[x])watch(th,x)});
+
+  // ================= 7. connexion perdue : bandeau, file d’attente des messages, envoi au retour
+  var OFF=false;
+  function q(){return jget('v36-q')}function qset(a){ls('v36-q',a.length?JSON.stringify(a):null)}
+  function banner(on){var b=$('.v36-net');
+    if(on){if(!b){b=document.createElement('div');b.className='v36-net';b.setAttribute('role','status');document.body.appendChild(b)}b.classList.remove('back');
+      b.innerHTML='<span class="v36-neti">'+IC.wifi+'</span><span class="v36-nett"><b>Pas de connexion, on réessaie…</b> <span>Vos messages partiront dès le retour du réseau.</span></span><button type="button" class="v36-netb" data-h="1">Réessayer</button>';
+      $('.v36-netb',b).addEventListener('click',function(e){stop(e);var bt=e.currentTarget;busy(bt,'Essai…');setTimeout(function(){unbusy(bt);
+        if(ss('v36-off'))netSim(false);else if(navigator.onLine===false)say('Toujours pas de réseau, on réessaie toutes les 10 secondes','warn');else net(false)},900)})}
+    else if(b){b.classList.add('back');b.innerHTML='<span class="v36-neti">'+IC.wifiok+'</span><span class="v36-nett"><b>Connexion rétablie</b></span>';setTimeout(function(){if(b.classList.contains('back')){b.classList.add('out');setTimeout(function(){b.remove()},250)}},1800)}}
+  function net(off,quiet){if(off===OFF)return;OFF=off;document.documentElement.classList.toggle('v36-offl',off);banner(off);simLabels();if(!off&&!quiet)flush()}
+  function netSim(off){ss('v36-off',off?'1':null);if(!off&&navigator.onLine===false){say('Toujours pas de réseau, on réessaie toutes les 10 secondes','warn');return}net(off)}
+  V36.net=net;V36.netSim=netSim;
+  window.addEventListener('offline',function(){net(true)});window.addEventListener('online',function(){if(!ss('v36-off'))net(false)});
+  if(Q.get('horsligne')==='1')ss('v36-off','1');if(Q.get('horsligne')==='0')ss('v36-off',null);
+  // trouver le fil d’un composeur
+  function fil(inp){var cm=inp.closest('.cm'),ch=inp.closest('.chat2'),gm=inp.closest('.gmain');
+    if(cm){var c=$('.cth.on',cm),th=c&&$('.thread',c);return th?{el:th,k:c.id,x:c.id.replace('c-','')}:null}
+    if(ch){var t=$('.thread',ch);return t?{el:t,k:'disc',x:EX}:null}
+    if(gm){var cv=$('.gconv',gm);return cv?{el:cv,k:'mem',mem:1}:null}return null}
+  function filK(k){if(k==='disc')return EX&&$('#discussion .thread')?{el:$('#discussion .thread'),k:k,x:EX}:null;if(k==='mem'){var cv=$('.gmain .gconv');return cv?{el:cv,k:k,mem:1}:null}
+    var c=document.getElementById(k);return c&&$('.thread',c)?{el:$('.thread',c),k:k,x:k.replace('c-','')}:null}
+  function pendEl(it,f){var d=document.createElement('div');d.dataset.q=it.id;
+    var st='<span class="v36-qs"><span class="v36-qi">'+IC.clock+'</span><span class="v36-ql">En attente de connexion</span><button type="button" class="v36-qm" data-h="1" aria-label="Plus d’actions pour ce message" aria-expanded="false">'+IC.more+'</button>'+
+      '<span class="v36-qmm" hidden><button type="button" class="v36-qx" data-h="1">Annuler l’envoi</button></span></span>';
+    if(f.mem){d.className='gm2 moi v36-pend';d.innerHTML='<div class="bq">'+esc(it.x)+'</div>'+st}else{d.className='msg moi v36-pend';d.innerHTML='<div class="bub">'+esc(it.x)+'</div><div class="v36-qw">'+st+'</div>'}
+    d._v36=1;return d}
+  function place(f,d){var th=f.el;if(f.mem){var g=$$('.gfil',th).filter(function(x){return x.style.display!=='none'&&x.offsetParent})[0];var gm=th.closest('.gmain');if(gm)gm.classList.remove('vide');(g||th).appendChild(d);return}
+    var last=th.lastElementChild;if(last&&$('.typing',last)&&!last.classList.contains('v36-th'))th.insertBefore(d,last);else th.appendChild(d);th.scrollTop=th.scrollHeight}
+  function enqueue(inp){var v=inp.value.trim(),f=fil(inp);if(!v||!f)return false;var it={id:'q'+Date.now()+Math.floor(Math.random()*99),pg:page,k:f.k,x:v,t:Date.now()};
+    var a=q();a.push(it);qset(a);place(f,pendEl(it,f));inp.value='';return true}
+  function flush(){var a=q();if(!a.length)return;qset([]);var n=a.length,k=0;
+    a.forEach(function(it){var d=$('[data-q="'+it.id+'"]');if(!d)return;var f=filK(it.k);var delay=350*(k++);
+      setTimeout(function(){d.classList.remove('v36-pend');d.classList.add('v36-sent');var s=$('.v36-qs',d);if(s)s.outerHTML='<span class="v36-qs ok"><span class="v36-qi">'+IC.check+'</span><span class="v36-ql">Envoyé à l’instant</span></span>';
+        if(f&&(f.mem||NOM[f.x]))think(f.el,d,f.x,f.mem)},delay)});
+    say(n+' message'+(n>1?'s envoyés':' envoyé'),'ok')}
+  V36.flush=flush;
+  // réafficher la file au rechargement
+  q().filter(function(it){return it.pg===page}).forEach(function(it){var f=filK(it.k);if(f)place(f,pendEl(it,f))});
+  // menu ⋯ d’un message en attente : Annuler l’envoi
+  document.addEventListener('click',function(e){var m=e.target.closest&&e.target.closest('.v36-qm');
+    if(m){stop(e);var mm=m.nextElementSibling,was=!mm.hidden;$$('.v36-qmm').forEach(function(x){x.hidden=true});$$('.v36-qm').forEach(function(x){x.setAttribute('aria-expanded','false')});mm.hidden=was;m.setAttribute('aria-expanded',!was);if(!was)$('.v36-qx',mm).focus();return}
+    var x=e.target.closest&&e.target.closest('.v36-qx');if(x){stop(e);var d=x.closest('[data-q]');qset(q().filter(function(it){return it.id!==d.dataset.q}));d.remove();say('Envoi annulé, le message est retiré','info');return}
+    if(!(e.target.closest&&e.target.closest('.v36-qmm')))$$('.v36-qmm').forEach(function(x){x.hidden=true})});
+  // envoyer : hors ligne = en file ; expert en pause = pop-up (capture, avant l’envoi d’origine)
+  function sendGuard(e,inp){if(!inp)return;
+    if(EX&&ss('v36-pause')===EX&&inp.closest('#discussion')){e.preventDefault();e.stopImmediatePropagation();CASES.pause.run();return}
+    if(OFF){if(!inp.value.trim())return;e.preventDefault();e.stopImmediatePropagation();enqueue(inp)}}
+  document.addEventListener('click',function(e){var sb=e.target.closest&&e.target.closest('.v33-send');if(!sb)return;var c=sb.parentNode;while(c&&c!==document&&!$('.v33-in',c))c=c.parentNode;sendGuard(e,c&&c!==document?$('.v33-in',c):null)},true);
+  document.addEventListener('keydown',function(e){if(e.key!=='Enter'||!e.target.classList||!e.target.classList.contains('v33-in'))return;sendGuard(e,e.target)},true);
+  if(!navigator.onLine||ss('v36-off'))net(true,1);else if(q().length)setTimeout(flush,400);
+
+  // ================= 8. menu du compte : « Simuler une erreur… » (petit menu maison)
+  var SM=null;
+  function simLabels(){$$('.v36-smc').forEach(function(b){$('b',b).textContent=OFF?'Rétablir la connexion':'Connexion perdue'})}
+  function simMenu(){if(!SM){SM=document.createElement('div');SM.className='modal v36-sm';SM.id='v36-sm';
+      var h='<div class="ov" data-v36y></div><div class="pn v36-smp" role="dialog" aria-modal="true" aria-labelledby="v36-smt"><div class="v36-smh"><h2 id="v36-smt">Simuler une erreur</h2><button type="button" class="v36-mx" data-v36y data-h="1" aria-label="Fermer">'+IC.x+'</button></div><div class="v36-sml">';
+      Object.keys(CASES).forEach(function(k){var c=CASES[k];h+='<button type="button" class="v36-smi'+(k==='connexion'?' v36-smc':'')+'" data-h="1" data-v36s="'+k+'"><span class="v36-smic">'+c.ic+'</span><span><b>'+esc(c.n)+'</b><small>'+esc(c.d)+'</small></span></button>'});
+      SM.innerHTML=h+'</div><a class="v36-sma" href="etats.html">Voir tous les états et messages</a></div>';document.body.appendChild(SM);
+      SM.addEventListener('click',function(e){if(e.target.closest('[data-v36y]')){stop(e);SM.classList.remove('on');return}var b=e.target.closest('[data-v36s]');if(!b)return;stop(e);SM.classList.remove('on');CASES[b.dataset.v36s].run()});simLabels()}
+    SM.classList.add('on');setTimeout(function(){var f=$('.v36-smi',SM);if(f)f.focus()},40)}
+  V36.sim=simMenu;
+  $$('.v35-lz').forEach(function(lz){var a=document.createElement('a');a.className=lz.className.replace('v35-lz','v36-sim');a.href='#';a.dataset.h='1';a.innerHTML=IC.bug+' <span>Simuler une erreur…</span>';lz.insertAdjacentElement('afterend',a)});
+  document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('.v36-sim');if(!a)return;stop(e);var m=a.closest('.acm,.pop,#sh-moi');if(m&&m.classList.contains('on'))m.classList.remove('on');document.body.classList.remove('shlock');simMenu()});
+
+  // ================= 9. notifications groupées par expert (panneau de la cloche et page Notifications)
+  var NB=[
+    {id:'n1',x:'fatima',t:'Nouveau message de Fatima',s:'La version Instagram du post Sossa est prête',h:'fatima.html#discussion',d:'10:31',u:1},
+    {id:'n3',x:'koffi',t:'Packaging Super Mint v2 livré',s:'Envoyé à Yao pour l’impression',h:'koffi.html#drive',d:'09:40'},
+    {id:'n8',x:'koffi',t:'Nouveau message de Koffi',s:'L’affiche de la promo rentrée Sossa est prête',h:'koffi.html#discussion',d:'09:24',u:1},
+    {id:'n2',x:'djeneba',t:'Note au comité prête',s:'Pour la réunion de demain, 9 h',h:'djeneba.html#drive',d:'08:50',u:1},
+    {id:'n4',x:'fatima',t:'Une routine de Fatima a échoué',s:'Veille des concurrents, Instagram ne répondait pas',h:'fatima.html#routines',d:'08:05',u:1},
+    {id:'n9',x:'djeneba',t:'Votre point du jour est prêt',s:'Rendez-vous et urgences du jour',h:'djeneba.html#discussion',d:'08:00'},
+    {id:'n5',x:'y',t:'Nadège a rejoint l’équipe',s:'Invitée par Aïcha Diabaté',h:'admin-membres.html',d:'hier, 17:20',u:1,adm:1},
+    {id:'n6',x:'fatima',t:'Calendrier éditorial d’octobre prêt',s:'12 publications',h:'fatima.html#drive',d:'hier, 16:02'},
+    {id:'n7',x:'y',t:'Facture d’octobre payée',s:'1 300 000 F CFA par Wave',h:'admin-facturation.html',d:'hier, 11:15',adm:1}];
+  var GRP=[['djeneba','Djénéba'],['fatima','Fatima'],['koffi','Koffi'],['y','Yelema']];
+  function items(){var L=NB.filter(function(it){return it.x==='y'?!MEMBRE:ME.ex.indexOf(it.x)>=0});
+    if(!MEMBRE){jget('v33-req').forEach(function(r){L.unshift({id:'r'+r.t,x:'y',t:r.e?r.m+' souhaite recruter '+r.e:r.m+' demande un expert',s:'Demande d’un membre',h:'admin-membres.html',d:'à l’instant',u:1})});
+}
+    var lu=jget('v36-lu');L.forEach(function(it){it.un=!!it.u&&lu.indexOf(it.id)<0});return L}
+  var NF='all';
+  function nread(ids){var lu=jget('v36-lu');ids.forEach(function(i){if(lu.indexOf(i)<0)lu.push(i)});ls('v36-lu',JSON.stringify(lu.slice(-200)));nall()}
+  function plie(){return jget('v36-nplie')}
+  function ngroups(mode){var L=items(),pl=plie(),h='',shown=0;
+    GRP.forEach(function(g){var G=L.filter(function(it){return it.x===g[0]});if(!G.length)return;var un=G.filter(function(it){return it.un}).length;
+      var V=G.filter(function(it){return NF==='all'||it.un});if(!V.length)return;shown++;var closed=pl.indexOf(g[0])>=0,gid='v36-ng-'+mode+'-'+g[0];
+      var av=g[0]==='y'?'<span class="v36-nav y"><img src="../img/yelema_y.png" alt=""></span>':'<span class="v36-nav"><img src="../img/'+g[0]+'.jpg" alt=""></span>';
+      h+='<section class="v36-ng'+(closed?' plie':'')+'" data-g="'+g[0]+'"><div class="v36-ngh"><button type="button" class="v36-ngt" data-h="1" aria-expanded="'+(!closed)+'" aria-controls="'+gid+'">'+av+'<b>'+g[1]+'</b>'+
+        (un?'<em class="v36-ngc" aria-label="'+un+' non lue'+(un>1?'s':'')+'">'+un+'</em>':'')+'<span class="v36-ngv">'+IC.chev+'</span></button>'+
+        (un?'<button type="button" class="v36-ngr" data-h="1">Marquer comme lu<span class="v36-sr"> : '+g[1]+'</span></button>':'')+'</div><div class="v36-ngi" id="'+gid+'"'+(closed?' hidden':'')+'>';
+      V.forEach(function(it){h+='<a class="v36-ni'+(it.un?' un':'')+'" href="'+it.h+'" data-id="'+it.id+'">'+(it.un?'<i class="v36-nd"><span class="v36-sr">Non lue : </span></i>':'<i class="v36-nd0"></i>')+
+        '<span class="v36-nx"><b>'+esc(it.t)+'</b><small>'+esc(it.s)+'</small></span><time>'+esc(it.d)+'</time></a>'});
+      h+='</div></section>'});
+    if(!shown)h='<p class="v36-nempty">'+(NF==='un'?'Aucune notification non lue. Tout est à jour.':'Aucune notification pour le moment.')+'</p>';return h}
+  function nhead(mode){var un=items().filter(function(it){return it.un}).length;
+    return '<div class="v36-nh"><div class="v36-nf" role="group" aria-label="Filtrer"><button type="button" data-h="1" data-nf="all" aria-pressed="'+(NF==='all')+'"'+(NF==='all'?' class="on"':'')+'>Toutes</button>'+
+      '<button type="button" data-h="1" data-nf="un" aria-pressed="'+(NF==='un')+'"'+(NF==='un'?' class="on"':'')+'>Non lues'+(un?' <em>'+un+'</em>':'')+'</button></div>'+
+      (mode==='pop'?'<button type="button" class="v36-nall" data-h="1"'+(un?'':' disabled')+'>'+IC.checks+' Tout marquer comme lu</button>':'')+'</div>'}
+  var NPOP=$('#notifs'),NPAGE=null;
+  if(page==='notifications'){var pg0=$('main .page');if(pg0){var sg=$('.hello + .seg',pg0);$$('.ngrp,.nempty',pg0).forEach(function(g){g.remove()});NPAGE=document.createElement('div');NPAGE.className='v36-np';
+    if(sg)sg.replaceWith(NPAGE);else pg0.appendChild(NPAGE);var hb=$('.hello .btn',pg0);if(hb){var nb=hb.cloneNode(true);nb.removeAttribute('data-toast');nb.dataset.h='1';nb.classList.add('v36-nall');hb.replaceWith(nb)}}}
+  function nall(){var L=items(),un=L.filter(function(it){return it.un}).length;
+    $$('[data-pop="notifs"] .bdg').forEach(function(b){b.textContent=un;b.hidden=!un});
+    $$('[data-pop="notifs"]').forEach(function(b){b.setAttribute('aria-label','Notifications'+(un?', '+un+' non lue'+(un>1?'s':''):''))});
+    if(NPOP){NPOP.innerHTML='<h3 class="v36-nt">Notifications</h3>'+nhead('pop')+'<div class="v36-ngl">'+ngroups('pop')+'</div><a class="seeall v36-see" href="notifications.html">Tout voir</a>';NPOP.classList.add('v36-npop')}
+    if(NPAGE){NPAGE.innerHTML=nhead('page')+'<div class="v36-ngl">'+ngroups('page')+'</div>';var sub=$('.hello .sub');if(sub)sub.textContent=un?un+(un>1?' non lues':' non lue'):'Tout est lu';
+      var hb=$('.hello .v36-nall');if(hb){hb.disabled=!un;hb.setAttribute('aria-disabled',!un)}}}
+  V36.notifs=nall;
+  function nclick(e){var t=e.target;
+    var f=t.closest('[data-nf]');if(f){stop(e);NF=f.dataset.nf;nall();var k=$$('[data-nf="'+NF+'"]').filter(function(x){return e.currentTarget.contains(x)})[0];if(k)k.focus();return}
+    if(t.closest('.v36-nall')){stop(e);var ids=items().filter(function(it){return it.un}).map(function(it){return it.id});if(!ids.length){say('Tout est déjà lu','info');return}nread(ids);say('Tout est marqué comme lu','ok');return}
+    var r=t.closest('.v36-ngr');if(r){stop(e);var g=r.closest('.v36-ng').dataset.g;nread(items().filter(function(it){return it.x===g&&it.un}).map(function(it){return it.id}));say('Notifications de '+(NOM[g]||'Yelema')+' marquées comme lues','ok');return}
+    var gt=t.closest('.v36-ngt');if(gt){stop(e);var gk=gt.closest('.v36-ng').dataset.g,pl=plie(),i=pl.indexOf(gk);if(i<0)pl.push(gk);else pl.splice(i,1);ls('v36-nplie',JSON.stringify(pl));nall();
+      var nb2=$$('.v36-ng[data-g="'+gk+'"] .v36-ngt').filter(function(x){return e.currentTarget.contains(x)})[0];if(nb2)nb2.focus();return}
+    var a=t.closest('.v36-ni');if(a){nread([a.dataset.id]);var tg=a.getAttribute('href').split('#'),pgt=tg[0].replace('.html','');
+      if(pgt===page&&tg[1]){e.preventDefault();e.stopPropagation();if(NPOP)NPOP.classList.remove('on');var h=tg[1];
+        if(h==='routines'){goRoutines()}else{var tb=$('[data-tabs] [data-t="'+h+'"]');if(tb)tb.click()}}}}
+  if(NPOP)NPOP.addEventListener('click',nclick);
+  if(NPAGE){NPAGE.addEventListener('click',nclick);var hb2=$('.hello .v36-nall');if(hb2)hb2.addEventListener('click',nclick)}
+  nall();
+
+  // ================= 11. inscription : créer l’espace de l’entreprise, puis Recruter
+  var SU=$('[data-signup]');
+  if(SU){var F=function(n){return $('[name="'+n+'"]',SU)},pw=F('pw'),bar=$('.mdsb i',SU);
+    function rules(){var v=pw.value,r={len:v.length>=8,maj:/[A-ZÀ-Ý]/.test(v),num:/\d/.test(v)},k=0;$$('.mdrl li',SU).forEach(function(li){var o=r[li.dataset.r];li.classList.toggle('ok',!!o);if(o)k++});
+      if(bar){bar.style.width=(k/3*100)+'%';bar.className=k<2?'lo':k<3?'mi':'hi'}return k===3}
+    function err(n,m){var i=F(n),p=$('#v36-fe-'+n);if(p){p.innerHTML=m||'';p.hidden=!m}var w=i&&i.closest('.mdi');if(w)w.classList.toggle('bad',!!m);if(i)i.setAttribute('aria-invalid',m?'true':'false')}
+    pw.addEventListener('input',function(){rules();err('pw','')});
+    ['ent','nom','em'].forEach(function(n){F(n).addEventListener('input',function(){err(n,'')})});F('cgu').addEventListener('change',function(){err('cgu','')});
+    document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('[data-v36cgu]');if(a){stop(e);var m=$('#v36-cgu');if(m)m.classList.add('on');return}
+      var k=e.target.closest&&e.target.closest('.v36-cguok');if(k){stop(e);F('cgu').checked=true;err('cgu','');$('#v36-cgu').classList.remove('on')}});
+    SU.addEventListener('submit',function(e){e.preventDefault();var b=$('.v36-suok',SU);if(b._v36b)return;var bad=[];
+      var ent=F('ent').value.trim(),nom=F('nom').value.trim(),em=F('em').value.trim();
+      if(!ent){err('ent','Indiquez le nom de votre entreprise.');bad.push('ent')}
+      if(!nom){err('nom','Indiquez votre prénom et votre nom.');bad.push('nom')}
+      if(!em){err('em','Indiquez votre email professionnel.');bad.push('em')}
+      else if(!/^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i.test(em)){err('em','Cet email n’est pas valide. Vérifiez-le, par exemple prenom.nom@entreprise.com.');bad.push('em')}
+      else if(/@unifood\.info$/i.test(em)){err('em','Un compte existe déjà avec cet email. <a class="link" href="connexion.html"><b>Se connecter</b></a>');bad.push('em')}
+      if(!rules()){err('pw','Le mot de passe doit suivre les trois règles ci-dessus.');bad.push('pw')}
+      if(!F('cgu').checked){err('cgu','Acceptez les conditions pour continuer.');bad.push('cgu')}
+      if(bad.length){F(bad[0]).focus();return}
+      busy(b,'Création de l’espace…');ss('v36-new',nom.split(/\s+/)[0]);setTimeout(function(){location.href='recruter.html?bienvenue=1'},900)});
+    rules()}
+  if(page==='recruter'&&(ss('v36-new')||Q.get('bienvenue')==='1')){var pg1=$('main .page');if(pg1&&!$('.v36-wel')){var pn0=ss('v36-new');
+    var w=document.createElement('div');w.className='v36-wel';w.setAttribute('role','status');
+    w.innerHTML='<img src="../img/djeneba.jpg" alt=""><span class="grow"><b>Bienvenue'+(pn0?' '+esc(pn0):'')+', choisissez votre premier Expert.</b> <span>Djénéba est incluse.</span></span><button type="button" class="v36-welx" data-h="1" aria-label="Fermer le message de bienvenue">'+IC.x+'</button>';
+    pg1.insertBefore(w,pg1.firstChild);$('.v36-welx',w).addEventListener('click',function(e){stop(e);ss('v36-new',null);w.remove()})}}
+
+  // ================= 12. historique en colonne à gauche du chat (piste A, choix de Leslie du 03/10, 08:19), repliable ; plein écran en 390
+  var PANEL=svg('<rect width="18" height="18" x="3" y="3" rx="2"/><path d="M9 3v18"/>'),HIST=svg('<path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5M12 7v5l4 2"/>'),PLUS=svg('<path d="M5 12h14M12 5v14"/>');
+  function plieH(){return ls('v36-hcol')==='1'}
+  $$('.v35-hb').forEach(function(bar){var host=bar.closest('.chat2')||bar.closest('.gmain');if(!host)return;var pn=$('.v35-hp',host);if(!pn)return;
+    var cvb=$('.v35-cvb',bar),nw=$('.v35-nw',bar),inp=$('.v35-hs input',pn),list=$('.v35-hl',pn),hd=bar.closest('.ghead'),cur=$('.v35-cur',bar)||(hd&&$('.gtt',hd));
+    bar.classList.add('v36-hb');if(cvb){cvb.setAttribute('aria-label','Historique des conversations');cvb.title='Historique des conversations'}
+    // la colonne : à côté du chat (page expert : enveloppe ; chat entreprise : grille .gpt)
+    var wrap;if(host.classList.contains('chat2')){wrap=document.createElement('div');wrap.className='v36-hw';host.parentNode.insertBefore(wrap,host);wrap.appendChild(pn);wrap.appendChild(host)}
+    else{wrap=host.closest('.gpt');wrap.classList.add('v36-hw','v36-hwg');wrap.insertBefore(pn,host)}
+    pn.classList.add('v36-hcol');pn.setAttribute('aria-label','Historique des conversations');
+    var top=document.createElement('div');top.className='v36-chd';
+    top.innerHTML='<button type="button" class="v36-ctg" data-h="1" aria-expanded="true" aria-label="Replier l’historique" title="Replier l’historique">'+PANEL+'</button>'+
+      '<button type="button" class="btn p v36-cnew" data-h="1" aria-label="Nouvelle conversation">'+PLUS+'<span>Nouvelle conversation</span></button>'+
+      '<button type="button" class="v36-copen" data-h="1" aria-label="Déplier l’historique" title="Historique des conversations">'+HIST+'</button>';
+    var ph=$('.v35-hph',pn);if(ph)ph.insertAdjacentElement('afterend',top);else pn.insertBefore(top,pn.firstChild);
+    function plie(on){wrap.classList.toggle('plie',on);var b=$('.v36-ctg',top);b.setAttribute('aria-expanded',!on);b.setAttribute('aria-label',on?'Déplier l’historique':'Replier l’historique');b.title=b.getAttribute('aria-label')}
+    plie(plieH());
+    $('.v36-ctg',top).addEventListener('click',function(e){stop(e);var on=!wrap.classList.contains('plie');ls('v36-hcol',on?'1':null);plie(on)});
+    $('.v36-copen',top).addEventListener('click',function(e){stop(e);ls('v36-hcol',null);plie(false);setTimeout(function(){if(inp)inp.focus()},30)});
+    $('.v36-cnew',top).addEventListener('click',function(e){stop(e);if(nw)nw.click()});
+    pn.addEventListener('click',function(e){var m=e.target.closest('.v36-more');if(!m)return;stop(e);pn._v36all=1;refresh();var b=$$('.v35-hi',list)[20];if(b)b.focus()});
+    function onItem(){var b=$('.v35-hi.on',list);if(!b)return;var r=b.offsetTop-list.offsetTop;if(r<list.scrollTop||r>list.scrollTop+list.clientHeight-48)list.scrollTop=Math.max(0,r-list.clientHeight/3)}
+    function refresh(){if(inp)inp.dispatchEvent(new Event('input'))}
+    function sync(){refresh();setTimeout(onItem,0)}
+    sync();if(cur)new MutationObserver(sync).observe(cur,{childList:true,characterData:true,subtree:true});
+    if(cvb)cvb.addEventListener('click',function(){setTimeout(onItem,40)})});
+
+  // ================= 13. composeur unique (retours du 03/10, 08:18 et 08:22) : trombone, champ, choix du modèle, un seul bouton rond (micro, puis Envoyer)
+  // Clés d’IA (retour du 03/10, 08:41) : Yelema ne fournit pas de modèle, le client branche ses clés ; la pastille du chat liste les modèles des fournisseurs branchés
+  var PROV={Anthropic:{d:'anthropic.com',p:'sk-ant-',m:['Claude Sonnet','Claude Opus','Claude Haiku']},OpenAI:{d:'openai.com',p:'sk-',m:['GPT-5','GPT-5 mini']},
+    Google:{d:'gemini.google.com',p:'AIza',m:['Gemini 2.5 Pro','Gemini 2.5 Flash']},Mistral:{d:'mistral.ai',p:'',m:['Mistral Large','Mistral Small']},
+    OpenRouter:{d:'openrouter.ai',p:'sk-or-',m:['Llama 4 Maverick','DeepSeek V3','Qwen 3']}};
+  var AIK0=[{p:'Anthropic',k:'sk-ant-••••4f2a',by:'Aïcha Diabaté',def:1},{p:'OpenAI',k:'sk-••••9c1e',by:'Aïcha Diabaté'},{p:'Mistral',k:'••••b7d3',by:'Nadège Touré'}];
+  function aikGet(){var v=ls('v36-aik');if(v){try{var a=JSON.parse(v);if(Array.isArray(a))return a}catch(_){}}return AIK0.map(function(x){return Object.assign({},x)})}
+  function aikSet(a){ls('v36-aik',JSON.stringify(a))}
+  V36.aikGet=aikGet;V36.aikSet=aikSet;V36.PROV=PROV;
+  var MODS=[];
+  function mdlRead(){var a=aikGet(),d=a.filter(function(x){return x.def})[0]||a[0];a=a.slice().sort(function(x,y){return (y.def?1:0)-(x.def?1:0)});
+    MODS=[];a.forEach(function(x){(PROV[x.p]||{m:[]}).m.forEach(function(m){MODS.push(m);MODS['p_'+m]=x.p})});MODS.groups=a.map(function(x){return x.p});MODS.def=d?(PROV[d.p]||{m:[]}).m[0]:null}
+  function llHTML(){if(!MODS.length)return '<p class="v36-lle">Aucune clé d’IA branchée.</p><a class="v36-llo v36-llk" data-h="1" href="'+(EX?'#connecteurs':'admin-modeles.html')+'">Ajouter une clé d’IA</a>';
+    return MODS.groups.map(function(g){var P=PROV[g]||{m:[],d:''};return '<div class="v36-llg" role="group" aria-label="'+esc(g)+'"><span class="v36-llh"><img src="https://www.google.com/s2/favicons?sz=64&domain='+P.d+'" alt="">'+esc(g)+'</span>'+
+      P.m.map(function(m){return '<button type="button" class="v36-llo" role="option" data-h="1" data-m="'+esc(m)+'">'+esc(m)+IC.check+'</button>'}).join('')+'</div>'}).join('')}
+  var CPU=svg('<rect width="16" height="16" x="4" y="4" rx="2"/><rect width="6" height="6" x="9" y="9" rx="1"/><path d="M15 2v2M15 20v2M2 15h2M2 9h2M20 15h2M20 9h2M9 2v2M9 20v2"/>');
+  var MIC=svg('<path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2M12 19v3"/>'),ARR=svg('<path d="m5 12 7-7 7 7M12 19V5"/>');
+  var CLIP=svg('<path d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.57a2 2 0 0 1-2.83-2.83l8.49-8.48"/>');
+  var DICT=['Prépare les posts de la semaine pour Sossa','Fais-moi le point du jour en cinq lignes','Résume les livrables de la semaine'],DN=0;
+  function mdlRead(){var L=$$('.v36-mdl .v36-mdi');if(L.length){MODS=L.map(function(x){return x.dataset.m});var d=$('.v36-mdl .v36-mdi.def');MODS.def=d?d.dataset.m:MODS[0]}}
+  mdlRead();V36.mdlRead=function(){mdlRead();llSync()};
+  function curMod(){var m=ls('v36-llm');return MODS.indexOf(m)>=0?m:(MODS.def||MODS[0]||'Aucune clé')}
+  var LLOPEN=null;function llClose(){if(LLOPEN){$('.v36-lll',LLOPEN).hidden=true;$('.v36-llb',LLOPEN).setAttribute('aria-expanded','false');LLOPEN=null}}
+  document.addEventListener('click',function(e){if(LLOPEN&&!LLOPEN.contains(e.target))llClose()});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&LLOPEN){var b=$('.v36-llb',LLOPEN);llClose();b.focus()}});
+  function llSync(){$$('.v36-lll').forEach(function(l){l.innerHTML=llHTML()});$$('.v36-llb span').forEach(function(x){x.textContent=curMod()});$$('.v36-llo').forEach(function(o){var on=o.dataset.m===curMod();o.classList.toggle('on',on);o.setAttribute('aria-selected',on)})}
+  var FILE=document.createElement('input');FILE.type='file';FILE.multiple=true;FILE.hidden=true;FILE.setAttribute('aria-hidden','true');document.body.appendChild(FILE);
+  FILE.addEventListener('change',function(){var n=FILE.files.length;if(n)say(n>1?n+' fichiers joints, ils partent avec votre message':'Fichier joint : '+FILE.files[0].name+', il part avec votre message','ok');FILE.value=''});
+  function dictate(inp,sb){if(sb.classList.contains('rec'))return;sb.classList.add('rec');sb.setAttribute('aria-label','Écoute en cours');say('Je vous écoute…','info');
+    setTimeout(function(){sb.classList.remove('rec');inp.value=DICT[DN++%DICT.length];inp.dispatchEvent(new Event('input',{bubbles:true}));inp.focus();say('Texte dicté, relisez puis envoyez','info')},1600)}
+  function unify(c,inp,o){if(!c||!inp||c._v36u)return;c._v36u=1;o=o||{};c.classList.add('v36-comp');
+    var row=o.row||c;
+    // trombone : on réutilise le bouton « joindre » existant, sinon on en crée un
+    var clip=o.clip||$('.ib[aria-label^="Joindre"]',c);
+    if(!clip){clip=document.createElement('button');clip.type='button';clip.className='ib'}
+    clip.classList.add('v36-clip');clip.dataset.h='1';clip.setAttribute('aria-label','Joindre un fichier');clip.title='Joindre un fichier';clip.innerHTML=CLIP;
+    if(!clip._v36){clip._v36=1;clip.addEventListener('click',function(e){stop(e);e.stopImmediatePropagation();FILE.click()},true)}
+    var sb=o.sb;if(!sb){sb=document.createElement('button');sb.type='button';sb.className='v36-sb1'}
+    sb.dataset.h='1';sb.classList.add('v36-sb');sb.innerHTML='<span class="v36-sbm">'+MIC+'</span><span class="v36-sba">'+ARR+'</span>';
+    var w=document.createElement('div');w.className='v36-llm';
+    w.innerHTML='<button type="button" class="v36-llb" data-h="1" aria-haspopup="listbox" aria-expanded="false" aria-label="Modèle d’IA" title="Modèle d’IA">'+CPU+'<span>'+esc(curMod())+'</span>'+IC.chev+'</button>'+
+      '<div class="v36-lll" role="listbox" aria-label="Modèle d’IA" hidden>'+llHTML()+'</div>';
+    // ordre : trombone, champ, modèle, bouton
+    row.insertBefore(clip,row.firstChild);clip.insertAdjacentElement('afterend',inp);row.appendChild(w);row.appendChild(sb);
+    (o.hide||[]).forEach(function(x){if(x&&x!==sb&&x!==clip)x.classList.add('v36-hid')});
+    $('.v36-llb',w).addEventListener('click',function(e){stop(e);var was=LLOPEN===w;llClose();if(was)return;llSync();$('.v36-lll',w).hidden=false;$('.v36-llb',w).setAttribute('aria-expanded','true');LLOPEN=w;
+      var r=w.getBoundingClientRect();w.classList.toggle('dn',r.top<300);var op=$('.v36-llo.on',w);if(op)op.focus()});
+    $('.v36-lll',w).addEventListener('click',function(e){var op=e.target.closest('.v36-llo');if(!op||op.classList.contains('v36-llk'))return;stop(e);ls('v36-llm',op.dataset.m);llSync();llClose();$('.v36-llb',w).focus();say('Modèle choisi : '+op.dataset.m,'info')});
+    $('.v36-lll',w).addEventListener('keydown',function(e){var L=$$('.v36-llo',w),i=L.indexOf(document.activeElement);if(e.key==='ArrowDown'){e.preventDefault();L[(i+1)%L.length].focus()}if(e.key==='ArrowUp'){e.preventDefault();L[(i-1+L.length)%L.length].focus()}});
+    function st(){var on=!!inp.value.trim();if(sb._on===on)return;sb._on=on;sb.classList.toggle('on',on);sb.setAttribute('aria-label',on?'Envoyer':'Dicter un message');sb.title=on?'Envoyer':'Dicter un message'}
+    sb._on=null;st();inp.addEventListener('input',st);inp.addEventListener('keydown',function(e){if(e.key==='Enter')setTimeout(st,0)});
+    new MutationObserver(function(){setTimeout(st,0)}).observe(c,{subtree:true,childList:true});
+    sb.addEventListener('click',function(e){setTimeout(st,0);if(inp.value.trim()){if(o.send){stop(e);o.send()}return}e.preventDefault();e.stopImmediatePropagation();dictate(inp,sb)},true);
+    return sb}
+  // chats d’un expert, Messages, Yélé : .inp ; chat entreprise : .gin2 (une seule ligne)
+  $$('.v33-in').forEach(function(inp){var c=inp.parentNode;while(c&&c!==document.body&&!$('.v33-send',c))c=c.parentNode;if(!c||c===document.body)return;var sb=$('.v33-send',c);
+    if(c.classList.contains('gin2')){var row=document.createElement('div');row.className='v36-cr';c.appendChild(row);
+      unify(c,inp,{row:row,sb:sb,hide:[$('.tx',c)].concat($$(':scope > .row',c))})}
+    else unify(c,inp,{sb:sb,hide:$$('.mic, button.send, .ph',c)})});
+  // Demander un point précis (Résumé) et demande à l’expert dans un tableau de bord
+  $$('form.askx').forEach(function(f){var i=$('input[type=text]',f),b=$('button[type=submit]',f);if(!i||!b)return;
+    unify(f,i,{hide:[b],send:function(){if(f.requestSubmit)f.requestSubmit(b);else b.click()}})});
+  $$('.tbask .tbin').forEach(function(c){var t=$('textarea',c),m=$('.tbmic',c),s2=$('.tbsend',c);if(!t||!s2)return;var row=document.createElement('div');row.className='v36-cr';c.insertBefore(row,c.firstChild);
+    var sb=unify(c,t,{row:row,hide:[m,s2],send:function(){s2.click()}});
+    if(sb&&m){sb.addEventListener('click',function(e){if(t.value.trim())return;e.stopImmediatePropagation();m.click()},true)}});
+  // accueil sur téléphone : « Demander à mon équipe » est un lien vers le chat ; même bouton rond
+  $$('a .in .mic').forEach(function(m){m.classList.add('v36-sb','v36-sbfake');m.innerHTML='<span class="v36-sbm">'+MIC+'</span>'});
+  // un membre qui ouvre l’espace d’un expert déjà dans son équipe ne fait pas de demande de recrutement
+  if(MEMBRE)window.addEventListener('click',function(e){var c=e.target.closest&&e.target.closest('.pc2.mine2');if(c)e.stopPropagation()},true);
+
+  // ================= 14. Analytique d’un expert : détails au clic, routines actives, lien vers les routines
+  document.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('.v36-akb');if(!b)return;stop(e);var l=b.nextElementSibling,on=l.hidden;l.hidden=!on;b.setAttribute('aria-expanded',on);
+    b.textContent=on?(l.classList.contains('v36-sk')?'Masquer les compétences':'Masquer le détail'):(l.classList.contains('v36-sk')?'Voir les compétences':'Voir le détail')});
+  var goRoutines=function(){var c=$('.xnav a[data-t="calendrier"]');if(c)c.click();var r=$('.v33-agt a[data-v33a="rt"]');if(r)r.click();window.scrollTo(0,0)};
+  document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('[data-v36rt]');if(!a||!EX)return;stop(e);goRoutines()});
+  if(EX&&$('.v36-rtn')){try{var RL=JSON.parse(ls('v33-rt-'+EX)||'null');if(RL)$('.v36-rtn').textContent=RL.filter(function(r){return r.on}).length}catch(_){}}
+
+  // ================= 15. Livrables : fenêtre « Nouveau dossier » (nom présélectionné, compteur, validation en direct)
+  var DM=$('#v33-dir'),FOLD=svg('<path d="M12 10v6M9 13h6"/><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/>');
+  if(DM&&window.v33lv){var LVA=window.v33lv,dpn=$('.pn',DM);dpn.className='pn v36-pn v36-info v36-dirp';
+    dpn.innerHTML='<button type="button" class="v36-mx" data-close data-h="1" aria-label="Fermer">'+IC.x+'</button><span class="v36-mi">'+FOLD+'</span><h2 id="v36-dt">Nouveau dossier</h2>'+
+      '<p class="v36-dwh">Dans : <span class="v33-dwh">Livrables</span></p><label class="v36-dl" for="v36-dn">Nom du dossier</label>'+
+      '<div class="v36-dfw"><input id="v36-dn" class="fi v33-dn" type="text" maxlength="60" autocomplete="off" aria-describedby="v36-de v36-dc"><span class="v36-dc" id="v36-dc" aria-live="polite">0/60</span></div>'+
+      '<p class="v36-fe" id="v36-de" hidden></p><div class="v36-mb"><button type="button" class="btn o v36-dx" data-h="1">Annuler</button><button type="button" class="btn p v33-dok v36-dok" data-h="1">Créer</button></div>';
+    DM.setAttribute('role','dialog');DM.setAttribute('aria-labelledby','v36-dt');
+    $$('[data-close]',DM).forEach(function(x){x.addEventListener('click',function(e){e.preventDefault();DM.classList.remove('on')})});
+    var dn=$('#v36-dn',DM),de=$('#v36-de',DM),dc=$('#v36-dc',DM),dok=$('.v36-dok',DM);
+    function dErr(){var v=dn.value.trim();if(!v)return 'Donnez un nom au dossier';if(/[\/\\:*?"<>|]/.test(dn.value))return 'Ce caractère n’est pas accepté : / \\ : * ? " < > |';
+      if(LVA.cur().some(function(x){return x.k==='dir'&&x.n.toLowerCase()===v.toLowerCase()}))return 'Un dossier porte déjà ce nom';return ''}
+    function dCheck(show){var m=dErr();dc.textContent=dn.value.length+'/60';dok.classList.toggle('v36-off',!!m);dok.setAttribute('aria-disabled',!!m);
+      if(show||!m){de.textContent=m;de.hidden=!m;dn.closest('.v36-dfw').classList.toggle('bad',!!m);dn.setAttribute('aria-invalid',!!m)}return m}
+    function dOpen(){var p=LVA.path();$('.v33-dwh',DM).textContent='Livrables'+(p.length?' › '+p.map(function(d){return d.n}).join(' › '):'');
+      var base='Nouveau dossier',v=base,k=2;while(LVA.cur().some(function(x){return x.k==='dir'&&x.n.toLowerCase()===v.toLowerCase()}))v=base+' '+(k++);
+      dn.value=v;de.hidden=true;dn.closest('.v36-dfw').classList.remove('bad');dCheck();setTimeout(function(){dn.focus();dn.select()},40)}
+    document.addEventListener('click',function(e){if(e.target.closest&&e.target.closest('[data-open="v33-dir"]'))setTimeout(dOpen,0)});
+    dn.addEventListener('input',function(){dCheck(true)});
+    dn.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();dok.click()}});
+    $('.v36-dx',DM).addEventListener('click',function(e){stop(e);DM.classList.remove('on')});
+    dok.addEventListener('click',function(e){stop(e);var m=dCheck(true);if(m){dn.focus();return}var n=dn.value.trim(),id=LVA.uid();
+      LVA.cur().push({id:id,n:n,k:'dir',c:[],d:'2026-10-01 10:5'+(5+Math.floor(Math.random()*4))});DM.classList.remove('on');LVA.clear();LVA.render();
+      var row=$('#drive .v33-r[data-id="'+id+'"]');if(row){row.classList.add('v36-flash');setTimeout(function(){row.classList.remove('v36-flash')},1800)}
+      say('Dossier « '+n+' » créé',{type:'ok',action:{label:'Ouvrir',fn:function(){var r=$('#drive .v33-r[data-id="'+id+'"]');if(r)r.click()}}})});
+  }
+
+  // ================= 16. Livrables : « Connecter votre Drive » (Composio), puis « Copier dans votre Drive »
+  var LVT=EX&&$('#drive .v33-imp');
+  if(LVT){var CLOUD=svg('<path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/>'),DK='v36-drive',DA='v36-drauto';
+    var GD='<img src="https://www.google.com/s2/favicons?sz=64&domain=drive.google.com" alt="" width="16" height="16">',OD='<img src="https://www.google.com/s2/favicons?sz=64&domain=onedrive.live.com" alt="" width="16" height="16">';
+    var dw=document.createElement('div');dw.className='v36-drw';LVT.insertAdjacentElement('afterend',dw);
+    var pick=document.createElement('div');pick.className='modal v36-drm';pick.id='v36-drm';
+    pick.innerHTML='<div class="ov" data-v36z></div><div class="pn v36-pn v36-info" role="dialog" aria-modal="true" aria-labelledby="v36-drt"><button type="button" class="v36-mx" data-v36z data-h="1" aria-label="Fermer">'+IC.x+'</button><span class="v36-mi">'+CLOUD+'</span>'+
+      '<h2 id="v36-drt">Connecter votre Drive</h2><p>Vous pourrez copier les livrables de '+NOM[EX]+' dans votre Drive. Ils restent aussi dans son espace.</p>'+
+      '<div class="v36-drc"><button type="button" class="v36-drx" data-h="1" data-d="Google Drive">'+GD+'<b>Google Drive</b></button><button type="button" class="v36-drx" data-h="1" data-d="OneDrive">'+OD+'<b>OneDrive</b></button></div></div>';
+    document.body.appendChild(pick);
+    function dname(){return ls(DK)}
+    function dpath(){return dname()+' › Yelema › '+NOM[EX]}
+    function draw(){var n=dname();if(!n){dw.innerHTML='<button type="button" class="btn o sm v36-drb" data-h="1">'+CLOUD+'<span class="lbl">Connecter votre Drive</span><span class="v36-drl">'+GD+OD+'</span></button>';}
+      else dw.innerHTML='<button type="button" class="v36-drp" data-h="1" aria-haspopup="menu" aria-expanded="false"><span class="v36-drk">'+IC.check+'</span>'+(n==='OneDrive'?OD:GD)+'<span class="lbl">'+esc(n)+' connecté</span>'+IC.chev+'</button>'+
+        '<div class="v36-drmn" role="menu" hidden><button type="button" role="menuitem" class="v36-drd" data-h="1">Choisir le dossier de destination<small>'+esc(dpath())+'</small></button>'+
+        '<button type="button" role="menuitemcheckbox" class="v36-dra" data-h="1" aria-checked="'+(ls(DA)==='1')+'"><span>Copier automatiquement les nouveaux livrables</span><i class="v36-sw" aria-hidden="true"></i></button>'+
+        '<button type="button" role="menuitem" class="v36-dro" data-h="1">Déconnecter</button></div>';
+      document.documentElement.classList.toggle('v36-drv-on',!!n);cxSync()}
+    function cxSync(){var n=dname();$$('#connecteurs .v33-cx').forEach(function(c){var t=(c.dataset.n||c.textContent||'').trim();if(!/^(Google Drive|OneDrive|Microsoft OneDrive)\b/.test(t))return;
+      var on=n&&t.indexOf(n)===0;c.classList.toggle('on',!!on);var b=$('.v33-cxk,.v33-cxb',c);if(b)b.outerHTML=on?'<button type="button" class="v33-cxk" data-h="1" title="Connecté" aria-label="'+esc(t)+' connecté">'+IC.check+'</button>':'<a class="btn o sm v33-cxb" href="#" data-h="1">Connecter</a>'})}
+    draw();var pendD=null;
+    dw.addEventListener('click',function(e){var t=e.target;
+      if(t.closest('.v36-drb')){stop(e);pick.classList.add('on');setTimeout(function(){$('.v36-drx',pick).focus()},40);return}
+      if(t.closest('.v36-drp')){stop(e);var m=$('.v36-drmn',dw),b=$('.v36-drp',dw);m.hidden=!m.hidden;b.setAttribute('aria-expanded',!m.hidden);return}
+      if(t.closest('.v36-drd')){stop(e);$('.v36-drmn',dw).hidden=true;say('Destination : '+dpath(),'info');return}
+      if(t.closest('.v36-dra')){stop(e);var on=ls(DA)!=='1';ls(DA,on?'1':null);t.closest('.v36-dra').setAttribute('aria-checked',on);say(on?'Les nouveaux livrables de '+NOM[EX]+' seront copiés dans '+dname():'Copie automatique arrêtée',on?'ok':'info');return}
+      if(t.closest('.v36-dro')){stop(e);var n=dname();ls(DK,null);ls(DA,null);draw();say(n+' déconnecté','info')}});
+    document.addEventListener('click',function(e){var m=$('.v36-drmn',dw);if(m&&!m.hidden&&!e.target.closest('.v36-drw')){m.hidden=true;$('.v36-drp',dw).setAttribute('aria-expanded','false')}});
+    pick.addEventListener('click',function(e){if(e.target.closest('[data-v36z]')){stop(e);pick.classList.remove('on');return}var b=e.target.closest('.v36-drx');if(!b)return;stop(e);pendD=b.dataset.d;pick.classList.remove('on');
+      var z=$('#cz');if(z){var p=$('.pn',z);p.classList.remove('done');$$('.czn',z).forEach(function(x){x.textContent=pendD});z.classList.add('on')}else{ls(DK,pendD);draw();say(pendD+' connecté','ok')}});
+    $$('#cz .czgo').forEach(function(g){g.addEventListener('click',function(){if(!pendD)return;var d=pendD;pendD=null;ls(DK,d);setTimeout(function(){draw();say(d+' connecté : copiez les livrables de '+NOM[EX]+' en un clic','ok')},300)})});
+    function copyTo(nm){say('Copié dans '+dpath(),{type:'ok',action:{label:'Ouvrir',fn:function(){window.open(dname()==='OneDrive'?'https://onedrive.live.com/':'https://drive.google.com/','_blank','noopener')}}})}
+    var LTL=$('#drive .v33-lt');
+    function addCopy(){if(!dname())return;$$('.v33-mm',LTL).forEach(function(m){if($('.v36-cpd',m))return;var a=document.createElement('a');a.href='#';a.dataset.h='1';a.className='v36-cpd';a.textContent='Copier dans votre Drive';m.insertBefore(a,m.firstChild)});
+      var pf=$('#v33-pv .v33-pvf');if(pf&&!$('.v36-cpd',pf)){var b=document.createElement('a');b.href='#';b.dataset.h='1';b.className='btn o v36-cpd';b.innerHTML=CLOUD+' Copier dans votre Drive';pf.appendChild(b)}}
+    new MutationObserver(addCopy).observe(LTL,{childList:true,subtree:true});var PVF=$('#v33-pv .v33-pvf');if(PVF)new MutationObserver(addCopy).observe(PVF,{childList:true});addCopy();
+    document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('.v36-cpd');if(!a)return;stop(e);var row=a.closest('.v33-r'),nm='';
+      if(row){var b=$('.v33-nm b',row);nm=b?b.textContent:'';var mm=a.closest('.v33-mm');if(mm)mm.hidden=true}else{var h=$('#v33-pv .v33-pvh');nm=h?h.textContent:''}copyTo(nm)});
+    var oldDraw=draw;draw=function(){oldDraw();addCopy()};
+  }
+
+  // ================= 17. API et MCP (Leslie, 03/10 08:30) : chacun gère les siens ; Créer une clé, Ajouter un serveur MCP ; menu ⋯ par ligne
+  var AM=EX&&$('#connecteurs .v35-am');
+  if(AM){ss('v35-acc',null);ls('v35-acc',null);var note=$('.v35-note',AM);if(note)note.remove();AM.classList.add('v36-am');
+    var MEF=ME.n.split(' ')[0],KEYI=svg('<path d="m15.5 7.5 2.3 2.3a1 1 0 0 0 1.4 0l2.1-2.1a1 1 0 0 0 0-1.4L19 4"/><path d="m21 2-9.6 9.6"/><circle cx="7.5" cy="15.5" r="5.5"/>'),
+      SRV=svg('<rect width="20" height="8" x="2" y="2" rx="2"/><rect width="20" height="8" x="2" y="14" rx="2"/><path d="M6 6h.01M6 18h.01"/>'),COPY=svg('<rect width="14" height="14" x="8" y="8" rx="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>');
+    var secs=$$('.v35-sec',AM),SK=secs[0],SM=secs[1],TK=$('.v35-t',SK),TM=$('.v35-t',SM);
+    function head(sec,cls,lab){var h=$('h3',sec),w=document.createElement('div');w.className='v36-sech';h.parentNode.insertBefore(w,h);w.appendChild(h);
+      var b=document.createElement('button');b.type='button';b.className='btn o sm '+cls;b.dataset.h='1';b.innerHTML=PLUS+' '+lab;w.appendChild(b);return b}
+    var bK=head(SK,'v36-kadd','Créer une clé'),bM=head(SM,'v36-sadd','Ajouter un serveur MCP');
+    function canDel(r){return !MEMBRE||r.dataset.by===ME.n}
+    function menuCell(r,kind){var by=r.dataset.by||'Aïcha Diabaté';r.dataset.by=by;r.dataset.kind=kind;var nm=$('.v35-nm',r)||$('b',r);
+      if(nm&&!$('.v36-by',r)){var sm=document.createElement('small');sm.className='v36-by';sm.textContent=by===ME.n?'Ajouté par vous':'Ajouté par '+by.split(' ')[0];nm.appendChild(sm)}
+      if($('.v36-rm',r))return;var c=document.createElement('span');c.className='v36-rm';c.setAttribute('role','cell');
+      c.innerHTML='<button type="button" class="v36-rmb" data-h="1" aria-haspopup="menu" aria-expanded="false" aria-label="Plus d’actions">'+IC.more+'</button><span class="v36-rmm" role="menu" hidden>'+
+        (kind!=='mdl'?'<button type="button" role="menuitem" class="v36-rren" data-h="1">Renommer</button>':'')+
+        (canDel(r)?'<button type="button" role="menuitem" class="v36-rdel" data-h="1">'+(kind==='key'?'Révoquer':'Retirer')+'</button>':'<span class="v36-rno">Seul '+esc(by.split(' ')[0])+' ou l’admin peut '+(kind==='key'?'la révoquer':'le retirer')+'</span>')+'</span>';r.appendChild(c)}
+    $$('.v35-r:not(.v35-th)',TK).forEach(function(r){menuCell(r,'key')});$$('.v35-r:not(.v35-th)',TM).forEach(function(r){menuCell(r,'mcp')});
+    $$('.v35-th',AM).forEach(function(h){var c=document.createElement('span');c.innerHTML='<span class="v36-sr">Actions</span>';h.appendChild(c)});
+    function closeRm(){$$('.v36-rmm',AM).forEach(function(m){m.hidden=true});$$('.v36-rmb',AM).forEach(function(b){b.setAttribute('aria-expanded','false')})}
+    document.addEventListener('click',function(e){if(!e.target.closest('.v36-rm'))closeRm()});
+    function rname(r){var b=$('.v35-nm',r)||$('b',r);return b?b.firstChild.textContent.trim():''}
+    AM.addEventListener('click',function(e){var t=e.target;
+      var mb=t.closest('.v36-rmb');if(mb){stop(e);var m=mb.nextElementSibling,was=!m.hidden;closeRm();m.hidden=was;mb.setAttribute('aria-expanded',!was);if(!was){var f=$('button',m);if(f)f.focus()}return}
+      var rr=t.closest('.v36-rren');if(rr){stop(e);closeRm();var r=rr.closest('.v35-r,.v36-mdi'),old=rname(r);
+        modal({ic:r.dataset.kind==='key'?KEYI:SRV,tone:'info',t:'Renommer',p:'Un nom qui dit à quoi '+(r.dataset.kind==='key'?'sert cette clé.':'sert ce serveur.'),sel:1,
+          body:'<label class="v36-fl"><span>Nom</span><input class="fi v36-in" type="text" maxlength="60" value="'+esc(old)+'"></label>',
+          a:{l:'Enregistrer',fn:function(){var v=$('#v36-m .v36-in').value.trim();if(!v){say('Donnez un nom','warn');return}var b=$('.v35-nm',r)||$('b',r);b.firstChild.textContent=v;closeModal();say('Renommé : '+v,'ok')}},b:{l:'Annuler'}});
+        setTimeout(function(){var i=$('#v36-m .v36-in');if(i)i.addEventListener('keydown',function(ev){if(ev.key==='Enter'){ev.preventDefault();$('#v36-m .v36-mb1').click()}})},60);return}
+      var rd=t.closest('.v36-rdel');if(rd){stop(e);closeRm();var r2=rd.closest('.v35-r,.v36-mdi'),k=r2.dataset.kind,n=rname(r2);
+        modal({ic:k==='key'?KEYI:k==='mcp'?SRV:CPU,tone:'ko',t:k==='key'?'Révoquer la clé « '+n+' » ?':'Retirer « '+n+' » ?',p:k==='key'?'Les logiciels qui l’utilisent ne pourront plus confier de travail à '+NOM[EX]+'. Cette action est définitive.':k==='mcp'?NOM[EX]+' n’aura plus accès aux outils de ce serveur.':NOM[EX]+' ne pourra plus utiliser ce modèle dans le chat.',
+          a:{l:k==='key'?'Révoquer':'Retirer',fn:function(){r2.remove();closeModal();if(k==='mdl'&&V36.mdlRead)V36.mdlRead();say((k==='key'?'Clé révoquée : ':k==='mcp'?'Serveur retiré : ':'Modèle retiré : ')+n,'ok')}},b:{l:'Annuler'}});var mb1=$('#v36-m .v36-mb1');if(mb1)mb1.classList.add('dng');return}});
+    // Créer une clé : nom, puis la clé complète une seule fois
+    function rnd(n){var c='abcdef0123456789',o='';for(var i=0;i<n;i++)o+=c[Math.floor(Math.random()*16)];return o}
+    bK.addEventListener('click',function(e){stop(e);modal({ic:KEYI,tone:'info',t:'Créer une clé',p:'Pour qu’un de vos logiciels confie un travail à '+NOM[EX]+'.',
+      body:'<label class="v36-fl"><span>Nom de la clé</span><input class="fi v36-in" type="text" maxlength="60" placeholder="Par exemple : site web"></label>',
+      a:{l:'Créer',fn:function(b){var v=$('#v36-m .v36-in').value.trim();if(!v){say('Donnez un nom à la clé','warn');$('#v36-m .v36-in').focus();return}busy(b,'Création…');
+        setTimeout(function(){var key='yl_live_'+rnd(24),mask='yl_live_••••'+key.slice(-4);
+          modal({ic:KEYI,tone:'warn',nox:1,t:'Votre nouvelle clé',p:'Copiez-la maintenant et gardez-la en lieu sûr. Vous ne la reverrez plus.',
+            body:'<div class="v36-kshow"><code>'+key+'</code><button type="button" class="btn o sm v36-kcp" data-h="1">'+COPY+' Copier</button></div>',
+            a:{l:'J’ai copié la clé',fn:function(){closeModal();var r=document.createElement('div');r.className='v35-r';r.setAttribute('role','row');r.dataset.by=ME.n;
+              r.innerHTML='<b role="cell" class="v35-nm">'+esc(v)+'</b><span role="cell" data-l="Clé"><span class="v35-k"><code>'+mask+'</code></span></span><span role="cell" class="v35-m" data-l="Créée le">01/10</span><span role="cell" class="v35-m" data-l="Dernière utilisation">jamais</span><span role="cell" class="v35-ok"><i></i>Active</span>';
+              TK.appendChild(r);menuCell(r,'key');r.classList.add('v36-flash');say('Clé « '+v+' » créée','ok')}}});
+          $('#v36-m .v36-kcp').addEventListener('click',function(ev){stop(ev);try{navigator.clipboard.writeText(key)}catch(_){}ev.currentTarget.innerHTML=IC.check+' Copiée';say('Clé copiée dans le presse-papiers','ok')})},700)}},b:{l:'Annuler'}})});
+    // Ajouter un serveur MCP : nom, adresse, jeton, test de connexion
+    bM.addEventListener('click',function(e){stop(e);var tested=0;modal({ic:SRV,tone:'info',t:'Ajouter un serveur MCP',p:'Il donne à '+NOM[EX]+' les outils de vos logiciels internes.',
+      body:'<label class="v36-fl"><span>Nom</span><input class="fi v36-in v36-sn" type="text" maxlength="60" placeholder="Par exemple : stock Unifood"></label><label class="v36-fl"><span>Adresse du serveur</span><input class="fi v36-su2" type="url" placeholder="https://…/mcp"></label>'+
+        '<label class="v36-fl"><span>Jeton <small>facultatif</small></span><input class="fi v36-st" type="password" autocomplete="off"></label><p class="v36-stt" aria-live="polite"></p>',
+      a:{l:'Tester la connexion',fn:function(b){var n=$('#v36-m .v36-sn').value.trim(),u=$('#v36-m .v36-su2').value.trim(),o=$('#v36-m .v36-stt');
+        if(!n){say('Donnez un nom au serveur','warn');$('#v36-m .v36-sn').focus();return}if(!/^https?:\/\/\S+\.\S+/.test(u)){say('Entrez une adresse qui commence par https://','warn');$('#v36-m .v36-su2').focus();return}
+        if(!tested){busy(b,'Test en cours…');setTimeout(function(){unbusy(b);tested=4+Math.floor(Math.random()*6);o.innerHTML='<span class="v36-ok2">'+IC.check+' Connexion réussie : '+tested+' outils trouvés.</span>';b.textContent='Ajouter'},1100);return}
+        closeModal();var r=document.createElement('div');r.className='v35-r';r.setAttribute('role','row');r.dataset.by=ME.n;
+        r.innerHTML='<b role="cell" class="v35-nm">'+esc(n)+'</b><span role="cell" data-l="Adresse"><span class="v35-k"><code>'+esc(u.replace(/^https?:\/\//,''))+'</code></span></span><span role="cell" class="v35-m" data-l="Outils">'+tested+' outils</span><span role="cell" class="v35-m" data-l="Dernier appel">jamais</span><span role="cell" class="v35-ok"><i></i>Actif</span>';
+        TM.appendChild(r);menuCell(r,'mcp');r.classList.add('v36-flash');say('Serveur « '+n+' » ajouté, '+tested+' outils','ok')}},b:{l:'Annuler'}})});
+  }
+
+  // ================= 18. Agenda d’un expert : Jour, Semaine, Mois, précédent, suivant, Aujourd’hui (même segment que l’Analytique)
+  var AGP=EX&&$('#calendrier .v33-agp[data-v33p="ag"]');
+  if(AGP){var WH=$('.ws-h',AGP),SUB=$('.ws-h .xs',AGP),CTL=$('.ws-h .row',AGP),CAL=$('.cal2',AGP),AGL=$('.agl',AGP);
+    var MOISN=['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'],JN=['dimanche','lundi','mardi','mercredi','jeudi','vendredi','samedi'],JC=['lun.','mar.','mer.','jeu.','ven.','sam.','dim.'];
+    var BASE=new Date(2026,8,28),TODAY=new Date(2026,9,1),view=matchMedia('(max-width:760px)').matches?'jour':'semaine',cur=new Date(TODAY);
+    $$('.cnv, a[data-toast="Retour à aujourd\'hui"]',CTL).forEach(function(a){a.remove()});
+    var C=document.createElement('div');C.className='v36-agc';
+    C.innerHTML='<div class="seg an-per v36-agseg" role="group" aria-label="Période"><a href="#" data-h="1" data-v="jour">Jour</a><a href="#" data-h="1" data-v="semaine">Semaine</a><a href="#" data-h="1" data-v="mois">Mois</a></div>'+
+      '<button type="button" class="ib v36-agpv" data-h="1" aria-label="Précédent">'+svg('<path d="m15 18-6-6 6-6"/>')+'</button><button type="button" class="btn o sm v36-agtd" data-h="1">Aujourd’hui</button><button type="button" class="ib v36-agnx" data-h="1" aria-label="Suivant">'+svg('<path d="m9 18 6-6-6-6"/>')+'</button>';
+    CTL.appendChild(C);var V=document.createElement('div');V.className='v36-agv';(AGL||CAL).insertAdjacentElement('afterend',V);
+    function ymd(d){return d.getFullYear()*10000+d.getMonth()*100+d.getDate()}
+    function evs(d){var di=Math.round((new Date(d.getFullYear(),d.getMonth(),d.getDate())-BASE)/864e5),wd=(d.getDay()+6)%7,inb=di>=0&&di<7;
+      if(!inb&&(d<new Date(2026,8,1)||d>new Date(2026,10,30)))return [];var col=$$('.col',CAL)[wd];if(!col)return [];
+      return $$('.ev',col).filter(function(e){return inb||!e.classList.contains('v33-new')}).map(function(e){var tp=parseFloat(e.style.top)||2,hg=parseFloat(e.style.height)||48,h=8+(tp-2)/52,m=Math.round((h%1)*60/15)*15;
+        var b=$('b',e),sp=$('span',e);return {t:(Math.floor(h)<10?'0':'')+Math.floor(h)+':'+(m<10?'0':'')+m,n:b?b.textContent:'',s:sp?sp.textContent:'',k:(e.className.match(/\b(h|b|c)\b/)||[,''])[1],d:Math.round((hg+4)/52*60)}}).sort(function(a,b){return a.t<b.t?-1:1})}
+    function monday(d){var x=new Date(d);x.setDate(x.getDate()-((x.getDay()+6)%7));return x}
+    function lab(){if(view==='jour')return (ymd(cur)===ymd(TODAY)?'Aujourd’hui, ':'')+JN[cur.getDay()]+' '+(cur.getDate()===1?'1er':cur.getDate())+' '+MOISN[cur.getMonth()];
+      if(view==='semaine'){var a=monday(cur),b=new Date(a);b.setDate(b.getDate()+6);return 'Semaine du '+(a.getDate()===1?'1er':a.getDate())+' '+MOISN[a.getMonth()]+' au '+(b.getDate()===1?'1er':b.getDate())+' '+MOISN[b.getMonth()]}
+      return MOISN[cur.getMonth()].charAt(0).toUpperCase()+MOISN[cur.getMonth()].slice(1)+' '+cur.getFullYear()}
+    function evh(e,full){return '<div class="v36-ev '+e.k+'"><time>'+e.t+'</time><b>'+esc(e.n)+'</b>'+(full&&e.s?'<span>'+esc(e.s)+'</span>':'')+'</div>'}
+    function draw(){$$('.v36-agseg a',C).forEach(function(a){var on=a.dataset.v===view;a.classList.toggle('on',on);a.setAttribute('aria-pressed',on)});if(SUB)SUB.textContent=lab();
+      var base=view==='semaine'&&ymd(monday(cur))===ymd(BASE);AGP.classList.toggle('v36-agbase',base);V.hidden=base;
+      var td=$('.v36-agtd',C);td.setAttribute('aria-pressed',ymd(cur)===ymd(TODAY));
+      if(base){V.innerHTML='';return}
+      var h='';
+      if(view==='jour'){var L=evs(cur);h='<div class="v36-agd">'+(L.length?L.map(function(e){return evh(e,1)}).join(''):'<p class="v36-age">Rien de prévu ce jour-là.</p>')+'</div>'}
+      else if(view==='semaine'){var a=monday(cur);h='<div class="v36-agw">';for(var i=0;i<7;i++){var d=new Date(a);d.setDate(a.getDate()+i);var L2=evs(d);
+          h+='<div class="v36-agwd'+(ymd(d)===ymd(TODAY)?' tdy':'')+'"><button type="button" class="v36-agdh" data-h="1" data-d="'+d.getTime()+'">'+JC[i]+' <b>'+d.getDate()+'</b></button>'+(L2.length?L2.map(function(e){return evh(e)}).join(''):'<span class="v36-age">Libre</span>')+'</div>'}h+='</div>'}
+      else{var f=new Date(cur.getFullYear(),cur.getMonth(),1),st=monday(f);h='<div class="v36-agm" role="grid"><div class="v36-agmh">'+JC.map(function(j){return '<span>'+j+'</span>'}).join('')+'</div><div class="v36-agmg">';
+        for(var k=0;k<42;k++){var d2=new Date(st);d2.setDate(st.getDate()+k);if(k>=35&&d2.getMonth()!==cur.getMonth())break;var L3=evs(d2),out=d2.getMonth()!==cur.getMonth();
+          h+='<button type="button" class="v36-agmd'+(out?' out':'')+(ymd(d2)===ymd(TODAY)?' tdy':'')+'" data-h="1" data-d="'+d2.getTime()+'" aria-label="'+JN[d2.getDay()]+' '+d2.getDate()+' '+MOISN[d2.getMonth()]+', '+L3.length+' rendez-vous"><b>'+d2.getDate()+'</b>'+
+            L3.slice(0,2).map(function(e){return '<i class="'+e.k+'">'+esc(e.n)+'</i>'}).join('')+(L3.length>2?'<em>+'+(L3.length-2)+'</em>':'')+'</button>'}h+='</div></div>'}
+      V.innerHTML=h}
+    C.addEventListener('click',function(e){var a=e.target.closest('[data-v]');if(a){stop(e);view=a.dataset.v;draw();return}
+      if(e.target.closest('.v36-agtd')){stop(e);cur=new Date(TODAY);draw();return}
+      var dir=e.target.closest('.v36-agpv')?-1:e.target.closest('.v36-agnx')?1:0;if(!dir)return;stop(e);
+      if(view==='jour')cur.setDate(cur.getDate()+dir);else if(view==='semaine')cur.setDate(cur.getDate()+7*dir);else cur=new Date(cur.getFullYear(),cur.getMonth()+dir,1);draw()});
+    V.addEventListener('click',function(e){var b=e.target.closest('[data-d]');if(!b)return;stop(e);cur=new Date(+b.dataset.d);view='jour';draw()});
+    draw();V36.agenda=function(v){view=v;draw()};
+  }
+
+  // ================= 19. Membres : fenêtre « Attribuer » (personne en tête, cartes d’experts cochables, compteur)
+  var AT=$('#v33-att');
+  if(AT){var apn=$('.pn',AT);apn.classList.add('v36-atp');var ROLE={'Djénéba':'Chief of Staff','Fatima':'Marketing et contenu','Koffi':'Design'};
+    var hdr=document.createElement('div');hdr.className='v36-ath';hdr.innerHTML='<img alt=""><span><b class="v36-atn"></b><small class="v36-atr"></small></span>';apn.insertBefore(hdr,$('h2',apn));
+    var h2=$('h2',apn);h2.id='v36-att';AT.setAttribute('role','dialog');AT.setAttribute('aria-labelledby','v36-att');
+    $$('.v33-atl label',apn).forEach(function(l){var i=$('input',l),im=$('img',l),n=l.textContent.trim();l.className='v36-atc';im.removeAttribute('style');
+      l.innerHTML='';l.appendChild(i);l.insertAdjacentHTML('beforeend','<img src="'+im.getAttribute('src')+'" alt=""><span class="grow"><b>'+esc(n)+'</b><small>'+esc(ROLE[n]||'')+'</small></span><span class="v36-atk" aria-hidden="true">'+IC.check+'</span>')});
+    var cnt=document.createElement('p');cnt.className='v36-atcnt';cnt.setAttribute('aria-live','polite');$('.v33-atl',apn).insertAdjacentElement('afterend',cnt);
+    function cn(){var n=$$('.v33-atl input:checked',apn).length;cnt.textContent=n?n+' expert'+(n>1?'s attribués':' attribué'):'Aucun expert attribué'}
+    apn.addEventListener('change',cn);
+    document.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('[data-open="v33-att"]');if(!b)return;setTimeout(function(){var w=b.dataset.who||'',tr=b.closest('tr'),im=tr&&$('img.av',tr),rl=tr&&$('.pill',tr);
+      $('img',hdr).src=im?im.getAttribute('src'):'../img/aicha.jpg';$('.v36-atn',hdr).textContent=w;$('.v36-atr',hdr).textContent=rl?rl.textContent.trim():'Membre';
+      h2.innerHTML='Experts de '+esc(w.split(' ')[0])+'<span class="v33-atw" hidden>'+esc(w)+'</span>';cn();var f=$('.v33-atl input',apn);if(f)f.focus()},0)});
+    gate('#v33-att .v33-atok','Enregistrement…',700)}
+
+  // ================= 20. Routines : 2e onglet des Réglages (Profil, Routines, Canaux, Connecteurs) ; l’Agenda redevient le calendrier seul
+  var RTP=EX&&$('#routines.panel .v36-rtw'),RTS=EX&&$('#calendrier .v33-agp[data-v33p="rt"]');
+  if(RTP&&RTS){RTP.appendChild(RTS);RTS.hidden=false;RTS.classList.add('v36-rtmv');var agt=$('#calendrier .v33-agt');if(agt)agt.hidden=true;var agp=$('#calendrier .v33-agp[data-v33p="ag"]');if(agp)agp.hidden=false;
+    var rgn=$('.xnav .v33-rgn');function regOn(){var p=$('#routines.panel');if(rgn&&p&&p.classList.contains('on'))rgn.classList.add('on')}
+    document.addEventListener('click',function(e){if(e.target.closest&&e.target.closest('[data-t],[data-go]'))setTimeout(regOn,10)});
+    goRoutines=function(){var a=$('.v33-rgt a[data-t="routines"]');if(a)a.click();regOn();window.scrollTo(0,0)};V36.routines=goRoutines;
+    if(location.hash==='#routines'||Q.get('onglet')==='routines')setTimeout(function(){goRoutines();try{history.replaceState(null,'','#routines')}catch(_){}},0)}
+
+  // ================= 21. Nouvelle routine : panneau à droite en 3 blocs (Que doit faire, Quand, Où recevoir)
+  var RTM=EX&&$('#v33-rtm');
+  if(RTM){var rpn=$('.pn',RTM),old=$('.v33-rtg',rpn),NM=NOM[EX],now=new Date(2026,9,1,10,52);
+    var EXR={djeneba:['Fais-moi le point du jour : rendez-vous, validations en attente et urgences, en cinq lignes.','Résume ce qui a été fait aujourd’hui et ce qui reste pour demain.','Prépare le bilan de la semaine pour le directeur général : décisions, engagements tenus, retards.'],
+      fatima:['Prépare les posts de la semaine pour Sossa et Super Mint.','Fais le rapport des réseaux sociaux du mois écoulé, avec les trois publications qui ont le mieux marché.','Regarde ce que les concurrents ont publié aujourd’hui et note ce qui compte.'],
+      koffi:['Décline les visuels validés de la semaine dans tous les formats des réseaux.','Vérifie que les visuels livrés aujourd’hui respectent la charte de chaque marque.','Exporte les visuels validés de la semaine en PNG et PDF, rangés par marque.']}[EX];
+    var JL=['L','M','M','J','V','S','D'],JLONG=['lundi','mardi','mercredi','jeudi','vendredi','samedi','dimanche'],MN=['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];
+    var ZONES=[['Abidjan','Heure d’Abidjan (GMT)'],['Dakar','Heure de Dakar (GMT)'],['Lagos','Heure de Lagos (GMT+1)'],['Paris','Heure de Paris (GMT+2)']];
+    var R={f:'week',days:[0],dom:1,date:'2026-10-05',h:'08:00',z:'Abidjan',ch:'tg'};
+    rpn.classList.add('v36-rtpn');old.classList.add('v36-hid');var ox=$(':scope > .ib.x',rpn);if(ox)ox.classList.add('v36-hid');
+    var TGI='<img src="../img/lg/telegram.png" alt="" width="18" height="18">',WEB='<img src="../img/yelema_y.png" alt="" width="18" height="18">';
+    var F=document.createElement('div');F.className='v36-rtf';
+    F.innerHTML='<div class="v36-rth"><h2 id="v36-rtt">Nouvelle routine</h2><button type="button" class="v36-mx" data-h="1" aria-label="Fermer">'+IC.x+'</button></div><div class="v36-rtb">'+
+      '<section class="v36-rts1"><label class="v36-rtnm"><span>Nom</span><input class="v36-rn" type="text" maxlength="60" placeholder="Il se remplit tout seul"></label>'+
+      '<h3><label for="v36-rc">Que doit faire '+NM+' ?</label></h3><textarea id="v36-rc" class="v36-rc" rows="4" placeholder="Dites-le simplement, comme à une collègue"></textarea>'+
+      '<div class="v36-rtx">'+EXR.map(function(x){return '<button type="button" data-h="1">'+esc(x)+'</button>'}).join('')+'</div>'+
+      '<button type="button" class="v36-rtai" data-h="1">'+svg('<path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3Z"/>')+' Aide-moi à l’écrire</button></section>'+
+      '<section><h3>Quand ?</h3><div class="seg v36-rtq" role="group" aria-label="Fréquence"><a href="#" data-h="1" data-f="once">Une fois</a><a href="#" data-h="1" data-f="day">Chaque jour</a><a href="#" data-h="1" data-f="week">Chaque semaine</a><a href="#" data-h="1" data-f="month">Chaque mois</a></div>'+
+      '<div class="v36-rtd" role="group" aria-label="Jours de la semaine">'+JL.map(function(j,i){return '<button type="button" data-h="1" data-j="'+i+'" aria-label="'+JLONG[i]+'" aria-pressed="false">'+j+'</button>'}).join('')+'</div>'+
+      '<div class="v36-rtm2"><span>Le</span><div class="v36-dd" data-k="dom"></div><span>du mois</span></div><label class="v36-rtdt"><span>Date</span><input type="date" class="fi" value="2026-10-05" min="2026-10-01"></label>'+
+      '<div class="v36-rtrow"><span>À</span><div class="v36-dd" data-k="h"></div><div class="v36-dd v36-ddz" data-k="z"></div></div><p class="v36-rtsum" aria-live="polite"></p></section>'+
+      '<p class="v36-rtcan">'+svg('<path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/>')+' Le résultat arrive dans tous ses canaux.</p></section></div>'+
+      '<div class="v36-rtft"><button type="button" class="btn o v36-rtx2" data-h="1">Annuler</button><button type="button" class="btn p v36-rtok" data-h="1">Créer la routine</button></div>';
+    rpn.appendChild(F);RTM.setAttribute('role','dialog');RTM.setAttribute('aria-labelledby','v36-rtt');
+    // listes maison (heure par 15 min, jour du mois, fuseau)
+    var dd=function(el,opts,val,cb){el.innerHTML='<button type="button" class="v36-ddb" data-h="1" aria-haspopup="listbox" aria-expanded="false"><span></span>'+IC.chev+'</button><div class="v36-ddl" role="listbox" hidden>'+opts.map(function(o){return '<button type="button" role="option" data-h="1" data-v="'+esc(o[0])+'">'+esc(o[1])+'</button>'}).join('')+'</div>';
+      var b=$('.v36-ddb',el),l=$('.v36-ddl',el);function set(v){val=v;var o=opts.filter(function(x){return String(x[0])===String(v)})[0];$('span',b).textContent=o?o[1]:v;$$('[role=option]',l).forEach(function(x){x.setAttribute('aria-selected',x.dataset.v===String(v))})}
+      set(val);b.addEventListener('click',function(e){stop(e);var was=!l.hidden;$$('.v36-ddl',F).forEach(function(x){x.hidden=true});l.hidden=was;b.setAttribute('aria-expanded',!was);if(!was){var c=$('[aria-selected="true"]',l);if(c){l.scrollTop=c.offsetTop-60;c.focus()}}});
+      l.addEventListener('click',function(e){var o=e.target.closest('[role=option]');if(!o)return;stop(e);set(o.dataset.v);l.hidden=true;b.setAttribute('aria-expanded','false');b.focus();cb(o.dataset.v)});
+      l.addEventListener('keydown',function(e){var L=$$('[role=option]',l),i=L.indexOf(document.activeElement);if(e.key==='ArrowDown'){e.preventDefault();(L[i+1]||L[0]).focus()}if(e.key==='ArrowUp'){e.preventDefault();(L[i-1]||L[L.length-1]).focus()}if(e.key==='Escape'){e.stopPropagation();l.hidden=true;b.focus()}});return set};
+    var HRS=[];for(var hh=0;hh<24;hh++)for(var mi=0;mi<60;mi+=15){var tt=(hh<10?'0':'')+hh+':'+(mi?mi:'00');HRS.push([tt,tt])}
+    var DOM2=[];for(var di=1;di<=28;di++)DOM2.push([di,di===1?'1er':String(di)]);
+    var sum=function(){};
+    var setH=dd($('[data-k=h]',F),HRS,R.h,function(v){R.h=v;sum()}),setDom=dd($('[data-k=dom]',F),DOM2,R.dom,function(v){R.dom=+v;sum()}),setZ=dd($('[data-k=z]',F),ZONES,R.z,function(v){R.z=v;sum()});
+    document.addEventListener('click',function(e){if(!(e.target.closest&&e.target.closest('.v36-dd')))$$('.v36-ddl',F).forEach(function(x){x.hidden=true})});
+    var nextRun=function(){var p=R.h.split(':'),n;
+      if(R.f==='once'){n=new Date(R.date+'T'+R.h+':00')}
+      else if(R.f==='day'){n=new Date(now);n.setHours(+p[0],+p[1],0,0);if(n<=now)n.setDate(n.getDate()+1)}
+      else if(R.f==='week'){if(!R.days.length)return null;n=new Date(now);n.setHours(+p[0],+p[1],0,0);for(var i=0;i<9;i++){if(R.days.indexOf((n.getDay()+6)%7)>=0&&n>now)break;n.setDate(n.getDate()+1)}}
+      else{n=new Date(now.getFullYear(),now.getMonth(),R.dom,+p[0],+p[1]);if(n<=now)n=new Date(now.getFullYear(),now.getMonth()+1,R.dom,+p[0],+p[1])}
+      return n};
+    var dl=function(n){return JLONG[(n.getDay()+6)%7]+' '+(n.getDate()===1?'1er':n.getDate())+' '+MN[n.getMonth()]};
+    sum=function(){var z=ZONES.filter(function(x){return x[0]===R.z})[0],zl=z?z[1].replace(/^Heure/,'heure').replace(/ \(.*\)$/,''):'',t;
+      var ds=R.days.slice().sort().map(function(i){return JLONG[i]});
+      if(R.f==='once')t='Une fois, le '+dl(new Date(R.date+'T12:00'))+' à '+R.h;else if(R.f==='day')t='Chaque jour à '+R.h;
+      else if(R.f==='week')t=ds.length?'Chaque '+(ds.length>1?ds.slice(0,-1).join(', ')+' et '+ds[ds.length-1]:ds[0])+' à '+R.h:'Choisissez au moins un jour';else t='Chaque mois, le '+(R.dom===1?'1er':R.dom)+' à '+R.h;
+      var n=nextRun();$('.v36-rtsum',F).innerHTML=esc(t)+(R.f==='week'&&!ds.length?'.':', '+esc(zl)+'.')+(n?' <b>Prochain passage : '+esc(dl(n))+'.</b>':'');
+      $$('.v36-rtq a',F).forEach(function(a){var on=a.dataset.f===R.f;a.classList.toggle('on',on);a.setAttribute('aria-pressed',on)});
+      $('.v36-rtd',F).hidden=R.f!=='week';$('.v36-rtm2',F).hidden=R.f!=='month';$('.v36-rtdt',F).hidden=R.f!=='once';
+      $$('.v36-rtd button',F).forEach(function(b){var on=R.days.indexOf(+b.dataset.j)>=0;b.classList.toggle('on',on);b.setAttribute('aria-pressed',on)});
+    };
+    var rn=$('.v36-rn',F),rc=$('.v36-rc',F),nameTouched=false;
+    var autoName=function(){if(nameTouched)return;var w=rc.value.trim().replace(/[.,:;!?].*$/,'').split(/\s+/).slice(0,4).join(' ');rn.value=w?w.charAt(0).toUpperCase()+w.slice(1):''};
+    rn.addEventListener('input',function(){nameTouched=!!rn.value.trim()});rc.addEventListener('input',autoName);
+    $('.v36-rtx',F).addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;stop(e);rc.value=b.textContent;autoName();rc.focus()});
+    $('.v36-rtai',F).addEventListener('click',function(e){stop(e);var q=rc.value.trim();if(!q){say('Écrivez d’abord quelques mots, '+NM+' les met au propre','warn');rc.focus();return}var b=e.currentTarget;busy(b,'Je réécris…');
+      setTimeout(function(){unbusy(b);var c=q.replace(/\.$/,'');rc.value=c.charAt(0).toUpperCase()+c.slice(1)+'. Range le résultat le fichier dans les Livrables. Demande mon accord avant tout envoi à l’extérieur.';autoName();say('Consigne réécrite, relisez-la','info')},700)});
+    $('.v36-rtq',F).addEventListener('click',function(e){var a=e.target.closest('[data-f]');if(!a)return;stop(e);R.f=a.dataset.f;sum()});
+    $('.v36-rtd',F).addEventListener('click',function(e){var b=e.target.closest('[data-j]');if(!b)return;stop(e);var j=+b.dataset.j,i=R.days.indexOf(j);if(i<0)R.days.push(j);else R.days.splice(i,1);sum()});
+    $('.v36-rtdt input',F).addEventListener('change',function(e){R.date=e.target.value||R.date;sum()});
+    [$('.v36-rth .v36-mx',F),$('.v36-rtx2',F)].forEach(function(b){b.addEventListener('click',function(e){stop(e);RTM.classList.remove('on')})});
+    document.addEventListener('click',function(e){if(e.target.closest&&e.target.closest('[data-open="v33-rtm"]'))setTimeout(function(){R={f:'week',days:[0],dom:1,date:'2026-10-05',h:'08:00',z:'Abidjan',ch:'tg'};rc.value='';rn.value='';nameTouched=false;setH(R.h);setDom(R.dom);setZ(R.z);sum();rc.focus()},0)});
+    $('.v36-rtok',F).addEventListener('click',function(e){stop(e);var b=e.currentTarget;if(b._v36b)return;var c=rc.value.trim();
+      if(!c){say('Dites à '+NM+' ce qu’'+(FEM[EX]?'elle':'il')+' doit faire','warn');rc.focus();return}if(R.f==='week'&&!R.days.length){say('Choisissez au moins un jour','warn');return}
+      var n=nextRun(),ymd=function(d){return d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2)};
+      $('.v33-rc',RTM).value=c;$('.v33-rn',RTM).value=rn.value.trim();$('.v33-rf',RTM).value=R.f;$('.v33-rd',RTM).value=R.f==='once'?R.date:ymd(n||now);$('.v33-rh',RTM).value=R.h;$('.v33-rz',RTM).value=R.z;
+      window.v36rt={days:R.f==='week'?R.days.map(function(j){return (j+1)%7}).sort():null};
+      busy(b,'Création…');setTimeout(function(){unbusy(b);var ok=$('.v33-rok',RTM);ok._v36go=1;try{ok.click()}finally{ok._v36go=0}window.v36rt=null;
+        var first=$('#routines .v33-rt')||$('#calendrier .v33-rt');if(first){first.classList.add('v36-flash');setTimeout(function(){first.classList.remove('v36-flash')},1800)}},700)});
+    sum()}
+  // routines prêtes : lignes pleine largeur avec icône
+  var PRB=EX&&$('.v33-rtp');
+  if(PRB){var RPI=svg('<path d="m17 2 4 4-4 4"/><path d="M3 11v-1a4 4 0 0 1 4-4h14"/><path d="m7 22-4-4 4-4"/><path d="M21 13v1a4 4 0 0 1-4 4H3"/>');
+    var prIc=function(){$$('.v33-pr',PRB).forEach(function(p){if($('.v36-pri',p))return;var i=document.createElement('span');i.className='v36-pri';i.innerHTML=RPI;p.insertBefore(i,p.firstChild)})};
+    prIc();new MutationObserver(prIc).observe(PRB,{childList:true});var h3=PRB.previousElementSibling&&PRB.previousElementSibling.previousElementSibling;if(h3&&h3.classList.contains('v33-h3'))h3.textContent='Routines prêtes'}
+
+  // ================= 22. Fiche membre : rôle Admin ou Membre (segment), ce que le rôle permet en lecture seule
+  $$('[data-perm]').forEach(function(b){var sel=$('.prmrole',b),seg=$('.v36-rseg',b);if(!sel||!seg)return;
+    function sync(){$$('a',seg).forEach(function(a){var on=a.dataset.r===sel.value;a.classList.toggle('on',on);a.setAttribute('aria-pressed',on)});$$('.v36-rl',b).forEach(function(l){l.hidden=l.dataset.r!==sel.value})}
+    seg.addEventListener('click',function(e){var a=e.target.closest('[data-r]');if(!a)return;stop(e);if(sel.value===a.dataset.r)return;sel.value=a.dataset.r;sel.dispatchEvent(new Event('change',{bubbles:true}));sync()});
+    var no=$('.prmno',b);if(no)no.addEventListener('click',function(){setTimeout(sync,0)});sync()});
+
+  // ================= 23. Recruter depuis l’Administration : experts déjà recrutés = badge « Recruté », recrutement pour un collègue
+  if(page==='recruter'&&Q.get('depuis')==='admin'&&!MEMBRE){document.documentElement.classList.add('v36-radm');
+    var PRIX={djeneba:'Incluse',fatima:'200 000 F CFA par mois',koffi:'200 000 F CFA par mois'},COL=[['Nadège Touré','m_women_36'],['Yao Kra','m_men_53'],['Serge Bamba','m_men_80'],['Jean-Marc Aka','m_men_83']];
+    $$('.pc2.mine2').forEach(function(c){var k=(c.getAttribute('href')||'').replace('.html',''),n=NOM[k]||k;c.dataset.v36k=k;c.removeAttribute('href');c.setAttribute('aria-label',n+', déjà recruté');
+      var it=$('.inteam',c);if(it)it.innerHTML=IC.check+' Recruté';
+      $$('.rcrow .rb',c).forEach(function(r){r.remove()});var row=$('.rcrow',c)||c;var b=document.createElement('button');b.type='button';b.className='rb v36-rcol';b.dataset.h='1';b.innerHTML=PLUS+' Recruter pour un collègue';row.appendChild(b)});
+    document.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('.v36-rcol');if(!b)return;e.preventDefault();e.stopImmediatePropagation();var c=b.closest('.pc2'),k=c.dataset.v36k,n=NOM[k]||k;
+      modal({ic:PLUS,tone:'info',t:'Recruter '+n+' pour un collègue',p:n+' de plus, avec son propre espace pour votre collègue. '+(PRIX[k]&&PRIX[k]!=='Incluse'?PRIX[k]+'.':''),
+        body:'<div class="v36-cl" role="radiogroup" aria-label="Pour qui">'+COL.map(function(x,i){return '<label class="v36-clo"><input type="radio" name="v36cl" value="'+esc(x[0])+'"'+(i?'':' checked')+'><img src="../img/'+x[1]+'.jpg" alt=""><span>'+esc(x[0])+'</span></label>'}).join('')+'</div>',
+        a:{l:'Recruter',fn:function(bt){var w=$('#v36-m input[name=v36cl]:checked');busy(bt,'Recrutement…');setTimeout(function(){closeModal();say(n+' recruté'+(FEM[k]?'e':'')+' pour '+(w?w.value.split(' ')[0]:'votre collègue')+', son espace est prêt','ok')},800)}},b:{l:'Annuler'}})},true)}
+
+  // ================= 10. catalogue des états : un bouton « Déclencher » par cas
+  var CAT=$('.v36-cat');
+  if(CAT){
+    var T={ 't-ok':function(){say('Profil enregistré','ok')},'t-info':function(){say('Fatima vous répond en général en moins de 5 minutes','info')},
+      't-warn':function(){say('Écrivez d’abord votre message','warn')},
+      't-err':function(){var tr=function(){say('Impossible d’enregistrer le profil, vérifiez votre connexion',{type:'err',action:{label:'Réessayer',fn:function(){say('Profil enregistré','ok')}}})};tr()},
+      't-undo':function(){var r=$('.v36-cfr');if(!r||r.hidden){say('Le fichier est déjà supprimé','info');return}r.hidden=true;$('.v36-cfe').hidden=false;
+        say('Fichier supprimé : Plan média T4',{type:'ok',action:{label:'Annuler',fn:function(){r.hidden=false;$('.v36-cfe').hidden=true;say('Fichier rétabli : Plan média T4','ok')}}})},
+      'ouverture':function(){splash(true)},
+      'busy':function(){var b=$('.v36-cdb');if(!b||b._v36b)return;busy(b,'Envoi…');setTimeout(function(){unbusy(b);say('Message envoyé','ok')},1400)},
+      'import':function(){progress([{name:'Plan média T4.pdf',size:3.2*1048576},{name:'Film Sossa 30 s.mp4',size:18*1048576},{name:'Photos boutique.zip',size:9*1048576}],function(f){say(f.length+' fichier'+(f.length>1?'s ajoutés':' ajouté')+' à Livrables','ok')})},
+      'reflechit':function(){var th=$('.v36-cth');if(!th)return;var d=document.createElement('div');d.className='msg moi';d._v36=1;d.innerHTML='<div class="bub">Prépare les posts de la semaine pour Sossa</div><time>à l’instant</time>';th.appendChild(d);think(th,d,'fatima')},
+      'lent':function(){if(window.v35&&window.v35.lent)window.v35.lent();else say('Chargement lent indisponible ici','info')},
+      'offline':function(){netSim(!OFF)},
+      'notifs':function(){var b=$('[data-pop="notifs"]');if(b){setTimeout(function(){b.click()},0)}},
+      '404':function(){location.href='404.html'},'erreur':function(){location.href='erreur.html'}};
+    CAT.addEventListener('click',function(e){var b=e.target.closest('[data-v36]');if(!b)return;stop(e);var k=b.dataset.v36;if(T[k])T[k]();else if(CASES[k])CASES[k].run()});
+  }
+  // ================= 24. Clés d’IA (Leslie, 03/10 08:41) : une ligne par fournisseur, une clé par défaut, bascule de secours
+  var KEYI2=svg('<path d="m15.5 7.5 2.3 2.3a1 1 0 0 0 1.4 0l2.1-2.1a1 1 0 0 0 0-1.4L19 4"/><path d="m21 2-9.6 9.6"/><circle cx="7.5" cy="15.5" r="5.5"/>');
+  $$('.v36-aik').forEach(function(S){var L=$('.v36-ail',S),FB=$('.v36-aifb',S),ADD=$('.v36-aiadd',S);if(!L)return;
+    function mine(x){return x.by===ME.n}
+    function draw(fl){var a=aikGet();
+      L.innerHTML=a.length?a.map(function(x,i){var P=PROV[x.p]||{d:''},can=!MEMBRE||mine(x);
+        return '<div class="v36-air'+(x.def?' def':'')+(fl===x.p?' v36-flash':'')+'" role="listitem" data-p="'+esc(x.p)+'"><img src="https://www.google.com/s2/favicons?sz=64&domain='+P.d+'" alt=""><span class="grow"><b>'+esc(x.p)+(x.def?' <em class="v36-aidf">Par défaut</em>':'')+'</b>'+
+          '<code>'+esc(x.k)+'</code><small>'+(mine(x)?'Ajouté par vous':'Ajouté par '+esc(x.by))+'</small></span>'+
+          '<span class="v36-rm"><button type="button" class="v36-rmb" data-h="1" aria-haspopup="menu" aria-expanded="false" aria-label="Plus d’actions pour la clé '+esc(x.p)+'">'+IC.more+'</button><span class="v36-rmm" role="menu" hidden>'+
+          (x.def?'':'<button type="button" role="menuitem" class="v36-aidef" data-h="1">Définir par défaut</button>')+
+          (can?'<button type="button" role="menuitem" class="v36-airep" data-h="1">Remplacer la clé</button><button type="button" role="menuitem" class="v36-rdel v36-aidel" data-h="1">Supprimer</button>':'<span class="v36-rno">Seul '+esc(x.by.split(' ')[0])+' ou l’admin peut la remplacer ou la supprimer</span>')+'</span></span></div>'}).join('')
+        :'<p class="v36-aie">Aucune clé branchée. Ajoutez la clé d’un fournisseur pour que vos experts puissent travailler.</p>'}
+    draw();
+    if(FB){var on=ls('v36-aifb')!=='0';FB.setAttribute('aria-checked',on);FB.dataset.h='1';
+      FB.addEventListener('click',function(e){stop(e);var v=FB.getAttribute('aria-checked')!=='true';FB.setAttribute('aria-checked',v);ls('v36-aifb',v?'1':'0');say(v?'Bascule activée : si la clé par défaut ne répond pas, une autre prend le relais':'Bascule désactivée','info')})}
+    function closeM(){$$('.v36-rmm',S).forEach(function(m){m.hidden=true});$$('.v36-rmb',S).forEach(function(b){b.setAttribute('aria-expanded','false')})}
+    document.addEventListener('click',function(e){if(!e.target.closest('.v36-aik .v36-rm'))closeM()});
+    function keyStep(p,rep){var P=PROV[p];
+      modal({ic:'<img class="v36-aimg" src="https://www.google.com/s2/favicons?sz=64&domain='+P.d+'" alt="">',tone:'info',t:(rep?'Remplacer la clé ':'Clé ')+p,p:'Collez la clé d’API créée dans votre compte '+p+'.',
+        body:'<label class="v36-fl"><span>Clé d’API</span><input class="fi v36-in" type="password" autocomplete="off" spellcheck="false" placeholder="'+(P.p?P.p+'…':'Collez la clé')+'"></label><p class="v36-fe" aria-live="polite"></p>',
+        a:{l:rep?'Remplacer':'Ajouter',fn:function(b){var i=$('#v36-m .v36-in'),v=i.value.trim(),er=$('#v36-m .v36-fe');
+          if(v.length<12){er.textContent='Cette clé est trop courte. Copiez-la en entier depuis '+p+'.';i.focus();return}er.textContent='';busy(b,'Vérification…');
+          setTimeout(function(){var a=aikGet(),m=(P.p&&v.indexOf(P.p)===0?P.p:'')+'••••'+v.slice(-4),x=a.filter(function(z){return z.p===p})[0];
+            if(x){x.k=m;x.by=ME.n}else a.push({p:p,k:m,by:ME.n,def:a.length?0:1});aikSet(a);closeModal();draw(p);V36.mdlRead();
+            say(rep?'Clé '+p+' remplacée':'Clé '+p+' ajoutée : ses modèles sont dans la barre du chat','ok')},800)}},b:{l:'Annuler'}});
+      setTimeout(function(){var i=$('#v36-m .v36-in');if(i)i.addEventListener('keydown',function(ev){if(ev.key==='Enter'){ev.preventDefault();$('#v36-m .v36-mb1').click()}})},60)}
+    if(ADD)ADD.addEventListener('click',function(e){stop(e);var a=aikGet(),has={};a.forEach(function(x){has[x.p]=1});
+      modal({ic:KEYI2,tone:'info',t:'Ajouter une clé',p:'Choisissez le fournisseur, puis collez la clé.',
+        body:'<div class="v36-aipv" role="list">'+Object.keys(PROV).map(function(p){return '<button type="button" class="v36-aipo" role="listitem" data-h="1" data-p="'+p+'"'+(has[p]?' aria-disabled="true"':'')+'><img src="https://www.google.com/s2/favicons?sz=64&domain='+PROV[p].d+'" alt=""><b>'+p+'</b>'+(has[p]?'<small>Déjà branchée</small>':'')+'</button>'}).join('')+'</div>',
+        b:{l:'Annuler'}});
+      $('#v36-m .v36-aipv').addEventListener('click',function(ev){var o=ev.target.closest('.v36-aipo');if(!o)return;stop(ev);
+        if(o.getAttribute('aria-disabled')){say('Une clé '+o.dataset.p+' est déjà branchée : passez par ⋯ puis Remplacer la clé','info');return}keyStep(o.dataset.p)})});
+    S.addEventListener('click',function(e){var t=e.target;
+      var mb=t.closest('.v36-rmb');if(mb){stop(e);var m=mb.nextElementSibling,was=!m.hidden;closeM();m.hidden=was;mb.setAttribute('aria-expanded',!was);if(!was){var f=$('button',m);if(f)f.focus()}return}
+      var r=t.closest('.v36-air');if(!r)return;var p=r.dataset.p;
+      if(t.closest('.v36-aidef')){stop(e);var a=aikGet();a.forEach(function(x){x.def=x.p===p?1:0});aikSet(a);ls('v36-llm',null);draw(p);V36.mdlRead();say(p+' est la clé par défaut','ok');return}
+      if(t.closest('.v36-airep')){stop(e);closeM();keyStep(p,1);return}
+      if(t.closest('.v36-aidel')){stop(e);closeM();modal({ic:KEYI2,tone:'ko',t:'Supprimer la clé '+p+' ?',p:'Les modèles '+p+' ne seront plus proposés dans le chat.',
+        a:{l:'Supprimer',fn:function(){var a=aikGet(),w=a.filter(function(x){return x.p===p})[0],i=a.indexOf(w);a.splice(i,1);if(w.def&&a[0])a[0].def=1;aikSet(a);closeModal();draw();V36.mdlRead();
+          say('Clé '+p+' supprimée',{type:'ok',action:{label:'Annuler',fn:function(){var b=aikGet();if(w.def)b.forEach(function(x){x.def=0});b.splice(i,0,w);aikSet(b);draw(p);V36.mdlRead();say('Clé '+p+' rétablie','ok')}}})}},b:{l:'Annuler'}});
+        var d1=$('#v36-m .v36-mb1');if(d1)d1.classList.add('dng')}});
+  });
+
+  // ================= 25. Administration : retour vers la liste parente, avec de vrais liens (Précédent du navigateur)
+  var BACK=svg('<path d="m12 19-7-7 7-7M19 12H5"/>');
+  (function(){var tgt=null,lab='';
+    if(Q.get('depuis')==='admin'&&(EX||page==='recruter')){tgt='admin-experts.html';lab='Experts'}
+    if(page==='admin-membre'){var ob=$('.sform > a.back');if(ob){ob.innerHTML=BACK+' Membres';ob.classList.add('v36-bk');ob.setAttribute('aria-label','Retour aux membres');return}tgt='admin-membres.html';lab='Membres'}
+    if(!tgt)return;var a=document.createElement('a');a.className='v36-bk v36-bkf';a.href=tgt;a.innerHTML=BACK+' '+lab;a.setAttribute('aria-label','Retour à la liste des '+lab.toLowerCase());
+    var host=$('main .page')||$('main');if(host)host.insertBefore(a,host.firstChild);
+    // garder le paramètre dans les liens internes de l’espace de l’expert
+    if(EX)$$('a[href^="#"]').forEach(function(x){x.dataset.v36dp=1})})();
+
+  // ================= 26. Consommation IA (Leslie, 03/10 08:38, option A) : seuil d’alerte réglable
+  $$('.v36-cia').forEach(function(B){var dd=$('.v36-ciad',B),sw=$('.v36-ciasw',B),lab=$('.v36-cial',B);if(!dd)return;
+    var V=['10','20','30','50','80','100'];var cur=ls('v36-cia')||'30';
+    function set(v){cur=v;ls('v36-cia',v);$$('.v36-ciav',B).forEach(function(x){x.textContent=v+' €'});if(sw)sw.setAttribute('aria-label','Me prévenir au-delà de '+v+' € ce mois-ci')}
+    set(cur);var btn=$('.v36-ddb',dd),list=$('.v36-ddl',dd);
+    list.innerHTML=V.map(function(v){return '<button type="button" role="option" data-h="1" data-v="'+v+'">'+v+' €</button>'}).join('');
+    btn.addEventListener('click',function(e){stop(e);list.hidden=!list.hidden;btn.setAttribute('aria-expanded',!list.hidden);if(!list.hidden){var o=$('[data-v="'+cur+'"]',list)||$('button',list);$$('button',list).forEach(function(x){x.setAttribute('aria-selected',x===o)});o.focus()}});
+    list.addEventListener('click',function(e){var o=e.target.closest('button');if(!o)return;stop(e);set(o.dataset.v);list.hidden=true;btn.setAttribute('aria-expanded','false');btn.focus();say('Alerte réglée : au-delà de '+o.dataset.v+' € ce mois-ci','ok')});
+    list.addEventListener('keydown',function(e){var L=$$('button',list),i=L.indexOf(document.activeElement);if(e.key==='ArrowDown'){e.preventDefault();L[(i+1)%L.length].focus()}if(e.key==='ArrowUp'){e.preventDefault();L[(i-1+L.length)%L.length].focus()}if(e.key==='Escape'){list.hidden=true;btn.focus()}});
+    document.addEventListener('click',function(e){if(!dd.contains(e.target))list.hidden=true});
+    if(sw)sw.addEventListener('click',function(e){stop(e);var v=sw.getAttribute('aria-checked')!=='true';sw.setAttribute('aria-checked',v);sw.classList.toggle('on',v);say(v?'Alerte activée':'Alerte coupée','info')})});
+
+  // ================= 27. Analytique admin : filtres Membres et Experts à cases multiples, par service ; libellé qui résume
+  function msInit(M){if(M._v36)return;M._v36=1;var btn=$('.v36-msb',M),pan=$('.v36-msp',M),lab=$('.v36-msb span',M),kind=M.dataset.k;
+    var all=$('.v36-msall',pan),items=$$('input[data-n]',pan),svc=$$('.v36-mssv',pan);
+    function sum(){var on=items.filter(function(i){return i.checked}),n=on.length;
+      if(!n||n===items.length){all.checked=true;return kind==='m'?'Tous les membres':'Tous les experts'}all.checked=false;
+      if(kind==='m'){var s0=on[0].dataset.s;if(on.every(function(i){return i.dataset.s===s0})&&items.filter(function(i){return i.dataset.s===s0}).length===n)return 'Service '+s0}
+      return n===1?on[0].dataset.n:n+(kind==='m'?' membres':' experts')}
+    function upd(t){var s=sum();lab.textContent=s;svc.forEach(function(b){var its=items.filter(function(i){return i.dataset.s===b.dataset.s});b.setAttribute('aria-pressed',its.length&&its.every(function(i){return i.checked})&&!all.checked)});if(t)say('Analytique : '+s,'info')}
+    function close(){pan.hidden=true;btn.setAttribute('aria-expanded','false')}
+    btn.addEventListener('click',function(e){stop(e);var was=!pan.hidden;$$('.v36-msp').forEach(function(p){p.hidden=true});pan.hidden=was;btn.setAttribute('aria-expanded',!was);if(!was){var f=$('input,button',pan);if(f)f.focus()}});
+    all.addEventListener('change',function(){items.forEach(function(i){i.checked=false});all.checked=true;upd(1)});
+    items.forEach(function(i){i.addEventListener('change',function(){if(items.every(function(x){return !x.checked}))all.checked=true;upd(1)})});
+    svc.forEach(function(b){b.dataset.h='1';b.addEventListener('click',function(e){stop(e);items.forEach(function(i){i.checked=i.dataset.s===b.dataset.s});upd(1)})});
+    pan.addEventListener('keydown',function(e){if(e.key==='Escape'){close();btn.focus()}});
+    document.addEventListener('click',function(e){if(!M.contains(e.target))close()});upd();M._sum=sum}
+  V36.msInit=msInit;$$('.v36-af .v36-ms').forEach(msInit);
+  // ================= 28. Analytique admin : Par membre | Par expert ; Facturation : un moyen choisi = sa seule étape, hauteur fixe ; demande d’export ; recherche plus large
+  $$('.v36-pts').forEach(function(seg){var sec=seg.closest('section');seg.addEventListener('click',function(e){var a=e.target.closest('a');if(!a)return;stop(e);
+    $$('a',seg).forEach(function(x){var on=x===a;x.classList.toggle('on',on);x.setAttribute('aria-selected',on)});
+    $('.v36-ptm',sec).hidden=a.dataset.v!=='m';$('.v36-ptx',sec).hidden=a.dataset.v!=='x'})});
+  var PAY=page==='admin-facturation'&&$('#payer');
+  if(PAY){var PDS=$$('.pyd',PAY),Z=document.createElement('div');Z.className='v36-pyz';PDS[0].parentNode.insertBefore(Z,PDS[0]);PDS.forEach(function(p){Z.appendChild(p);p.hidden=true});
+    $$('.pyo',PAY).forEach(function(o){o.classList.remove('on');o.setAttribute('role','radio');o.setAttribute('aria-checked','false');o.tabIndex=0});
+    var MM={'Wave':'mm','Orange Money':'mm','MTN MoMo':'mm','Moov Money':'mm','Djamo':'djamo','Carte bancaire':'carte','Dépôt ou virement':'dep'};
+    function fit(){var h=0;PDS.forEach(function(p){var w=p.hidden;p.hidden=false;p.style.position='absolute';p.style.visibility='hidden';p.style.width=Z.clientWidth+'px';h=Math.max(h,p.offsetHeight);p.hidden=w;p.style.position='';p.style.visibility='';p.style.width=''});Z.style.height=h+'px'}
+    fit();window.addEventListener('resize',fit);
+    function choose(o){$$('.pyo',PAY).forEach(function(x){var on=x===o;x.classList.toggle('on',on);x.setAttribute('aria-checked',on)});var k=MM[o.dataset.pay];PDS.forEach(function(p){p.hidden=p.dataset.pd!==k});
+      var mm=$('[data-pd="mm"] .xs',PAY);if(mm)mm.textContent='Numéro '+o.dataset.pay}
+    document.addEventListener('click',function(e){var o=e.target.closest&&e.target.closest('#payer .pyo');if(!o)return;e.preventDefault();e.stopImmediatePropagation();choose(o)},true);
+    PAY.addEventListener('keydown',function(e){var o=e.target.closest&&e.target.closest('.pyo');if(o&&(e.key==='Enter'||e.key===' ')){e.preventDefault();choose(o)}});
+  }
+  var EXB=$('.v36-exb');
+  if(EXB){var EXL=$('.v36-exl');
+    function msHTML(kind,label,items,svc){return '<div class="v36-ms" data-k="'+kind+'"><button type="button" class="v36-msb" data-h="1" aria-haspopup="true" aria-expanded="false"><span>'+label+'</span>'+IC.chev+'</button><div class="v36-msp" hidden><label class="v36-msi v36-msa"><input type="checkbox" class="v36-msall" checked><span>'+label+'</span></label>'+
+      (svc?'<div class="v36-mss"><span>Par service</span>'+svc.map(function(x){return '<button type="button" class="v36-mssv" data-s="'+x+'" aria-pressed="false">'+x+'</button>'}).join('')+'</div>':'')+
+      '<div class="v36-msl">'+items.map(function(x){return '<label class="v36-msi"><input type="checkbox" data-n="'+esc(x[0])+'" data-s="'+esc(x[1])+'"><span>'+esc(x[0])+'<small>'+esc(x[1])+'</small></span></label>'}).join('')+'</div></div></div>'}
+    var XS=[['Djénéba','Chief of Staff'],['Fatima','Marketing et contenu'],['Koffi','Design'],['Kouassi','Ventes'],['Adjoua','Recrutement'],['Mamadou','Finance']],
+      MS=[['Aïcha Diabaté','Marketing'],['Nadège Touré','Marketing'],['Yao Kra','Marketing'],['Fanta Bakayoko','Commercial'],['Mariam Koné','RH'],['Ibrahim Sylla','Finance'],['Jean-Marc Aka','Direction'],['Serge Bamba','Direction']];
+    EXB.addEventListener('click',function(e){stop(e);
+      modal({ic:IC.up.replace('m17 8-5-5-5 5M12 3v12','m7 10 5 5 5-5M12 15V3'),tone:'info',t:'Demander un export',p:'Vous recevez un lien de téléchargement par email.',
+        body:'<div class="v36-exf"><span class="v36-exk">Pour qui</span><div class="seg v36-exw" role="radiogroup" aria-label="Pour qui"><a href="#" class="on" role="radio" aria-checked="true" data-h="1" data-v="ent">Toute l’entreprise</a><a href="#" role="radio" aria-checked="false" data-h="1" data-v="x">Des experts</a><a href="#" role="radio" aria-checked="false" data-h="1" data-v="m">Des membres</a></div>'+
+          '<div class="v36-exs" data-v="x" hidden>'+msHTML('x','Tous les experts',XS)+'</div><div class="v36-exs" data-v="m" hidden>'+msHTML('m','Tous les membres',MS,['Direction','Marketing','Commercial','Finance','RH'])+'</div>'+
+          '<span class="v36-exk">Période</span><div class="v36-exd"><label>Du<input class="fi v36-ex1" type="date" value="2026-09-01"></label><label>au<input class="fi v36-ex2" type="date" value="2026-09-30"></label></div>'+
+          '<span class="v36-exk">Quoi</span><div class="v36-exq"><label><input type="checkbox" checked value="Conversations et messages"> Conversations et messages</label><label><input type="checkbox" checked value="Livrables"> Livrables</label><label><input type="checkbox" checked value="Documents fournis aux experts"> Documents fournis aux experts</label></div>'+
+          '<span class="v36-exk">Format</span><p class="v36-exfm">'+IC.file+' ZIP avec JSON et fichiers</p></div>',
+        a:{l:'Envoyer la demande',fn:function(b){var M=$('#v36-m'),w=$('.v36-exw a.on',M).dataset.v,q=$$('.v36-exq input:checked',M).map(function(x){return x.value});
+          if(!q.length){say('Cochez au moins un contenu à exporter','warn');return}
+          var d1=$('.v36-ex1',M).value,d2=$('.v36-ex2',M).value;if(!d1||!d2||d1>d2){say('Choisissez une période valide','warn');return}
+          var who=w==='ent'?'Toute l’entreprise':$('.v36-exs[data-v="'+w+'"] .v36-msb span',M).textContent;
+          function fr(x){var p=x.split('-');return p[2]+'/'+p[1]}
+          busy(b,'Envoi…');setTimeout(function(){closeModal();say('Demande envoyée. Le lien de téléchargement arrive par email sous 48 h.','ok');
+            if(EXL){var r=document.createElement('div');r.className='v36-exr v36-flash';r.setAttribute('role','listitem');r.innerHTML='<span class="num">03/10</span><span class="grow">'+esc(who)+', du '+fr(d1)+' au '+fr(d2)+'</span><span class="pill">En préparation</span>';EXL.insertBefore(r,EXL.firstChild)}},800)}},
+        b:{l:'Annuler'}});
+      var M=$('#v36-m');$$('.v36-ms',M).forEach(msInit);
+      $('.v36-exw',M).addEventListener('click',function(ev){var a=ev.target.closest('a');if(!a)return;stop(ev);$$('.v36-exw a',M).forEach(function(x){var on=x===a;x.classList.toggle('on',on);x.setAttribute('aria-checked',on)});$$('.v36-exs',M).forEach(function(x){x.hidden=x.dataset.v!==a.dataset.v})})});
+  }
+  if(page==='memoire')document.body.classList.add('v36-pgm');
+  var SB=$('.v35-sb span');if(SB){SB.textContent='Chercher dans les conversations, les livrables, les membres…';SB.parentNode.classList.add('v36-sbw')}
+})();
+/* v4.37 (add87) : historique des conversations par-dessus le chat entre 761 et 1679 px (le chat garde sa largeur, la colonne de droite reste),
+   lien « Gérer les connecteurs de l’entreprise » réservé à l’admin. Préfixe v37-. */
+(function(){
+  function $(s,r){return (r||document).querySelector(s)}function $$(s,r){return [].slice.call((r||document).querySelectorAll(s))}
+  var vue;try{vue=localStorage.getItem('v33-vue')}catch(e){}
+  if(vue&&vue!=='admin')$$('.v37-adm').forEach(function(p){p.hidden=true});
+  var MQ=window.matchMedia('(min-width:761px) and (max-width:1679px)');
+  $$('.v36-hw:not(.v36-hwg)').forEach(function(w){var col=$('.v36-hcol',w),tg=$('.v36-ctg',w);if(!col||!tg)return;
+    function aria(){var on=w.classList.contains('plie');tg.setAttribute('aria-expanded',!on);tg.setAttribute('aria-label',on?'Déplier l’historique':'Replier l’historique');tg.title=tg.getAttribute('aria-label')}
+    function close(){if(!w.classList.contains('plie')){w.classList.add('plie');aria()}}
+    function sync(){var ov=MQ.matches&&!w.classList.contains('plie');if(w.classList.contains('v37-ov')!==ov)w.classList.toggle('v37-ov',ov)}
+    // à cette largeur, la page s’ouvre colonne repliée ; la déplier la pose par-dessus le chat
+    if(MQ.matches){w.classList.add('plie');aria()}
+    sync();new MutationObserver(sync).observe(w,{attributes:true,attributeFilter:['class']});
+    if(MQ.addEventListener)MQ.addEventListener('change',sync);
+    col.addEventListener('click',function(e){if(!w.classList.contains('v37-ov'))return;if(e.target.closest('.v35-hi'))setTimeout(close,60)});
+    document.addEventListener('click',function(e){if(w.classList.contains('v37-ov')&&!col.contains(e.target))close()});
+    document.addEventListener('keydown',function(e){if(e.key==='Escape'&&w.classList.contains('v37-ov')){close();tg.focus()}})});
 })();
