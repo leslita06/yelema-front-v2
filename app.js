@@ -536,7 +536,7 @@ window.tbUrl=function(el){var p=el&&el.closest?el.closest('.panel'):null;var id=
     var f=c.querySelector('form.tbask'),t=f.querySelector('textarea'),sel=c.querySelector('.tbsel'),thr=c.querySelector('.tbthr'),send=f.querySelector('.tbsend'),who=f.dataset.who;
     handled(send);
     function fm(){return [].map.call(c.querySelectorAll('.tbfm input:checked'),function(i){return i.value})}
-    function upd(){var fb=c.classList.contains('fb');var x=fm();sel.textContent=fb?'Retour sur tout le tableau':(x.length?('Formats : '+x.join(', ')):'Choisissez au moins un format');send.disabled=!t.value.trim()||(!fb&&!x.length)}
+    function upd(){var fb=c.classList.contains('fb');var x=fm();sel.textContent=fb?'Feedback sur tout le tableau':(x.length?('Formats : '+x.join(', ')):'Choisissez au moins un format');send.disabled=!t.value.trim()||(!fb&&!x.length)}
     c.querySelectorAll('.tbmode a').forEach(function(a){handled(a);a.addEventListener('click',function(e){e.preventDefault();c.querySelectorAll('.tbmode a').forEach(function(x){x.classList.toggle('on',x===a)});
       var fb=a.dataset.m==='fb';c.classList.toggle('fb',fb);t.placeholder=t.dataset[fb?'phFb':'phNew'];upd();t.focus()})});
     c.querySelectorAll('.tbfm input').forEach(function(i){i.addEventListener('change',upd)});t.addEventListener('input',upd);
@@ -962,7 +962,7 @@ document.querySelectorAll('[data-perm]').forEach(function(b){var ok=b.querySelec
     var rows='<div class="gsp own"><img src="../img/aicha.jpg" alt=""><span class="grow"><b>Aïcha Diabaté <small>(vous)</small></b><small>aicha.diabate@unifood.info</small></span><span class="gsr0">Propriétaire</span></div>'+
       PEOPLE.slice(0,2).map(function(x,i){return '<div class="gsp"><img src="../img/'+x[2]+'.jpg" alt=""><span class="grow"><b>'+esc(x[0])+'</b><small>'+esc(x[1])+'</small></span><select class="gsr" aria-label="Accès de '+esc(x[0])+'">'+opts(i?'e':'l')+'</select></div>'}).join('');
     pn.innerHTML='<button class="ib x" data-close aria-label="Fermer"><svg class="i" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>'+
-      '<h2 class="gsh">Partager « <span class="tbn">'+esc(title)+'</span> »</h2>'+
+      '<h2 class="gsh v40-gsh">Partager<b class="tbn">'+esc(title)+'</b></h2>'+
       '<div class="gsadd"><input type="text" placeholder="Ajouter des personnes par leur nom ou leur e-mail" aria-label="Ajouter des personnes" list="gspl"><select class="gsr gsnr" aria-label="Accès de la personne ajoutée"><option value="l">Lecteur</option><option value="e">Éditeur</option></select><a href="#" class="btn p sm gsinv">Ajouter</a></div>'+
       '<datalist id="gspl">'+PEOPLE.map(function(x){return '<option value="'+esc(x[0])+'">'}).join('')+'</datalist>'+
       '<h3 class="gst">Personnes qui ont accès</h3><div class="gspl">'+rows+'</div>'+
@@ -1741,7 +1741,7 @@ document.querySelectorAll('[data-perm]').forEach(function(b){var ok=b.querySelec
       if(cur===id&&id!=='new'){open(false);return}
       o.leave(cur);cur=id;o.show(s||null);title(s?s.t:'Nouvelle conversation');open(false)}
     btn.addEventListener('click',function(e){stop(e);open(pn.hidden)});
-    $('.v35-nw',bar).addEventListener('click',function(e){stop(e);if(cur==='new'){o.show(null);open(false);say('Écrivez votre demande, ou choisissez une suggestion')}else show('new')});
+    $('.v35-nw',bar).addEventListener('click',function(e){stop(e);if(cur==='new'){o.show(null);open(false);var gi=document.querySelector('.gin2 textarea, .gin2 input[type=text], .gin2 .v33-in');if(gi)gi.focus()}else show('new')});
     $('.v35-hx',pn).addEventListener('click',function(e){stop(e);open(false)});
     inp.addEventListener('input',render);
     inp.addEventListener('keydown',function(e){if(e.key==='Escape'){e.preventDefault();open(false);btn.focus()}if(e.key==='Enter'){e.preventDefault();var f=$('.v35-hi',list);if(f)f.click()}});
@@ -1942,7 +1942,7 @@ document.querySelectorAll('[data-perm]').forEach(function(b){var ok=b.querySelec
     return 'info'}
   function gone(t){if(t._gone)return;t._gone=1;clearTimeout(t._tm);t.classList.remove('on');t.classList.add('v36-gone');setTimeout(function(){t.remove()},230)}
   function arm(t){clearTimeout(t._tm);if(t._d)t._tm=setTimeout(function(){gone(t)},t._d)}
-  function toast2(m,o){if(typeof o==='string')o={type:o};o=o||{};m=String(m==null?'':m);var ty=o.type||kind(m);
+  function toast2(m,o){if(typeof o==='string')o={type:o};o=o||{};m=String(m==null?'':m);if(/^(Je vous écoute|Texte dicté)/.test(m)&&!document.body.classList.contains('v38-incall'))return null;/* point 122 : la dictée se signale dans le composeur seul */var ty=o.type||kind(m);
     if(OLD){OLD.textContent=m;OLD.classList.add('on');clearTimeout(OLD._t);OLD._t=setTimeout(function(){OLD.classList.remove('on')},2600)}
     var same=$$('.v36-t',TS).filter(function(t){return t._m===m&&!t._gone})[0];
     if(same&&!o.action){same.classList.remove('v36-pulse');void same.offsetWidth;same.classList.add('v36-pulse');arm(same);return same}
@@ -3259,9 +3259,10 @@ document.querySelectorAll('[data-perm]').forEach(function(b){var ok=b.querySelec
       I.addEventListener('keydown',function(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();if(B.getAttribute('aria-disabled')!=='true')F.requestSubmit?F.requestSubmit():B.click()}});
       fi.addEventListener('change',function(){[].forEach.call(fi.files||[],function(x){files.push(x.name)});FL.hidden=!files.length;FL.innerHTML=files.map(function(n,i){return '<li>'+esc(n)+'<button type="button" data-h="1" data-i="'+i+'" aria-label="Retirer '+esc(n)+'">'+IC.x+'</button></li>'}).join('');upd()});
       FL.addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;stop(e);files.splice(+b.dataset.i,1);fi.dispatchEvent(new Event('change'))});
-      $('.v38-askv',C).addEventListener('click',function(e){stop(e);say('Parlez, je vous écoute. Le message part dès que vous relâchez.','info')});
+      $('.v38-askv',C).addEventListener('click',function(e){stop(e);var mv=e.currentTarget;if(mv.classList.contains('rec'))return;mv.classList.add('rec');mv.setAttribute('aria-label','Écoute en cours');var ph0=I.placeholder;I.placeholder='Je vous écoute…';
+        setTimeout(function(){mv.classList.remove('rec');mv.setAttribute('aria-label','Dicter un message vocal');I.placeholder=ph0;var k=to(),L=IDX[k]||IDX.djeneba;I.value=(I.value?I.value+' ':'')+L[1];upd();grow();I.focus()},1600)});
       if(IW)IW.addEventListener('click',function(e){var b=e.target.closest('.v38-idea');if(!b)return;stop(e);if(to()!=='djeneba'){var r=$('.v38-to[data-x="'+b.dataset.x+'"] input',C);if(r)r.checked=true}I.value=b.textContent;upd();grow();I.focus()});
-      F.addEventListener('submit',function(e){e.preventDefault();e.stopPropagation();var t=I.value.trim();if(!t&&!files.length){I.focus();say('Écrivez votre demande, puis envoyez','info');return}
+      F.addEventListener('submit',function(e){e.preventDefault();e.stopPropagation();var t=I.value.trim();if(!t&&!files.length){I.focus();return}
         try{sessionStorage.setItem('v38-ask',JSON.stringify({t:t,a:files.join(', ')}))}catch(_){}location.href=to()+'.html#discussion'},true);
       document.body.classList.add('v38-nodock')}
     var th=$('#discussion .thread'),q=null;try{q=JSON.parse(sessionStorage.getItem('v38-ask')||'null')}catch(_){}
@@ -3376,7 +3377,7 @@ document.querySelectorAll('[data-perm]').forEach(function(b){var ok=b.querySelec
       setInterval(function(){if(document.visibilityState==='visible')st()},700);
       go.addEventListener('click',function(e){stop(e);if(!String(inp.value||'').trim()){inp.focus();say('Écrivez votre message, puis envoyez','info');return}sb.click();setTimeout(st,50)});
       mic.addEventListener('click',function(e){stop(e);if(mic.classList.contains('rec'))return;var keep=String(inp.value||'').trim();if(keep){inp.value='';inp.dispatchEvent(new Event('input',{bubbles:true}))}
-        mic.classList.add('rec');sb.click();setTimeout(function(){mic.classList.remove('rec');if(keep){inp.value=keep+' '+inp.value;inp.dispatchEvent(new Event('input',{bubbles:true}))}st()},1700)})}
+        mic.classList.add('rec');var ph0=inp.placeholder;inp.placeholder='Je vous écoute…';sb.click();setTimeout(function(){mic.classList.remove('rec');inp.placeholder=ph0;if(keep){inp.value=keep+' '+inp.value;inp.dispatchEvent(new Event('input',{bubbles:true}))}st()},1700)})}
     function all(){$$('.v36-comp').forEach(fix)}
     all();setTimeout(all,300);setTimeout(all,1200)})();
   // ================= 28. point 108 c : Résumé, période Aujourd’hui / Cette semaine / Ce mois-ci / Personnalisée (Du / Au)
@@ -3500,10 +3501,10 @@ document.querySelectorAll('[data-perm]').forEach(function(b){var ok=b.querySelec
       [/mot de passe|connexion|compte|profil/i,'Votre compte se règle dans Mon profil : nom, photo, mot de passe, langue.','profil.html','Ouvrir mon profil']];
     function answer(q){for(var i=0;i<KB.length;i++)if(KB[i][0].test(q))return KB[i];return null}
     function fix(b){if(!b||b._v40||b.textContent.indexOf(GEN)!==0)return;b._v40=1;var m=b.closest('.msg'),p=m&&m.previousElementSibling,q=p&&p.classList.contains('moi')?p.textContent.trim():'';var a=answer(q);
-      if(a){b.innerHTML=esc(a[1])+(a[2]?'<a class="v40-ya" href="'+a[2]+'">'+esc(a[3])+' '+svg('<path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>')+'</a>':'')}
+      if(a){b.innerHTML=esc(a[1])+(a[2]?' <a class="v40-ya" href="'+a[2]+'">'+esc(a[3])+' '+svg('<path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>')+'</a>':'')}
       else b.innerHTML='Je n’ai pas la réponse tout de suite. Je transmets votre question à l’équipe Yelema, qui vous répond ici sous une heure ouvrée.';
       var s=$('.sugg',Y);if(s){s.hidden=false;s.classList.add('v40-ys')}
-      try{m.scrollIntoView({block:'nearest'})}catch(_){}}
+      Y.scrollTop=Y.scrollHeight}
     new MutationObserver(function(){$$('.msg.lui .bub',Y).forEach(fix)}).observe(Y,{subtree:true,childList:true,characterData:true});
     // bouton Fermer en haut à droite du panneau
     var hd=Y.firstElementChild;if(hd&&!$('.v40-yx',Y)){var x=document.createElement('button');x.type='button';x.className='ib v40-yx';x.dataset.h='1';x.setAttribute('aria-label','Fermer');x.innerHTML=svg('<path d="M18 6 6 18M6 6l12 12"/>');
@@ -3511,11 +3512,15 @@ document.querySelectorAll('[data-perm]').forEach(function(b){var ok=b.querySelec
     document.addEventListener('keydown',function(e){if(e.key==='Escape'&&Y.classList.contains('on'))Y.classList.remove('on')});
     // micro chez Yélé : une question de support dictée (pas une consigne d'expert)
     var DQ=['Comment ajouter un canal Telegram ?','Comment connecter mes outils ?','Où sont les livrables de Fatima ?'],di=0;
-    Y.addEventListener('click',function(e){var mc=e.target.closest&&e.target.closest('.v39-mic, .mic');if(!mc)return;stop(e);var i=$('.v33-in, textarea, input[type=text]',Y);say('Je vous écoute…','info');mc.classList.add('on');
-      setTimeout(function(){mc.classList.remove('on');if(i){i.value=DQ[di++%DQ.length];i.dispatchEvent(new Event('input',{bubbles:true}));i.focus()}say('Texte dicté, relisez puis envoyez','ok')},1400)},true);
+    Y.addEventListener('click',function(e){var mc=e.target.closest&&e.target.closest('.v39-mic, .mic');if(!mc)return;stop(e);var i=$('.v33-in, textarea, input[type=text]',Y);if(mc.classList.contains('rec'))return;mc.classList.add('rec');if(i)i.placeholder='Yélé vous écoute…';
+      setTimeout(function(){mc.classList.remove('rec');if(i){i.placeholder='Posez votre question à Yélé';i.value=DQ[di++%DQ.length];i.dispatchEvent(new Event('input',{bubbles:true}));i.focus()}},1400)},true);
     // les échanges défilent dans le panneau, le champ reste en bas
     Y.classList.add('v40-yp');
   })();
   // ================= 42. point 120 : repère de page pour la couche de cohérence v40 (CSS en fin de chaîne)
   document.documentElement.classList.add('v40-pg-'+String(page||'x').replace(/[^a-z0-9-]/g,''));
+  // ================= 43. point 124 b : chaque groupe de la liste des tableaux défile dans sa propre zone bornée
+  (function(){var L=$('.tbrail .tbli');if(!L)return;$$('p.tbg',L).forEach(function(g){var z=document.createElement('div');z.className='v40-tbz';var e=g.nextElementSibling;
+      while(e&&!e.matches('p')){var nx=e.nextElementSibling;z.appendChild(e);e=nx}g.insertAdjacentElement('afterend',z);z.setAttribute('role','group');z.setAttribute('aria-label',g.firstChild?g.firstChild.textContent.trim():'Tableaux')});
+    function mark(){$$('.v40-tbz',L).forEach(function(z){z.classList.toggle('v40-tbzs',z.scrollHeight>z.clientHeight+1)})}mark();setTimeout(mark,400);addEventListener('resize',mark)})();
 })();

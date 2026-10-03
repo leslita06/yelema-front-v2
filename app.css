@@ -5476,3 +5476,27 @@ main .ch>h2,html.v40-pg-profil main h2{font-size:18px!important;font-weight:700!
 @media (min-width:561px){.modal .pn:not(.v36-pn){padding-left:26px!important;padding-right:26px!important}}
 /* 118 : en mobile, l’admin (sans barre d’onglets) garde la bulle de Yélé */
 @media (max-width:760px){html[class*="v40-pg-admin"] .ybtn{display:flex!important;bottom:calc(16px + env(safe-area-inset-bottom))!important;right:14px!important}html[class*="v40-pg-admin"] .pop.ypop{bottom:calc(76px + env(safe-area-inset-bottom))!important}}
+/* ================= point 122 : hors appel, la dictée se voit dans le composeur (micro qui pulse), sans toast */
+.mic.rec,.tbmic.rec,#yele .v39-mic.rec,#yele .mic.rec{background:var(--ko)!important;color:#fff!important;animation:v36p 1s infinite}
+@keyframes v40mic{0%{box-shadow:0 0 0 0 rgba(220,38,38,.55)}70%{box-shadow:0 0 0 10px rgba(220,38,38,0)}100%{box-shadow:0 0 0 0 rgba(220,38,38,0)}}
+.mic.rec,.tbmic.rec,.v39-mic.rec,.v36-sb.rec:not(.v39-hsb){background:#DC2626!important;color:#fff!important;animation:v40mic 1.1s ease-out infinite!important}
+@media (prefers-reduced-motion:reduce){.mic.rec,.tbmic.rec,.v39-mic.rec{animation:none!important}}
+/* ================= v4.43 : Yélé, la liste s’arrête au-dessus du composeur ; pas de choix de modèle (support) ; lien sur sa ligne */
+#yele.v40-yp .inp{position:static!important}
+#yele .v36-llm,#yele .v36-llb{display:none!important}
+.v40-ya{display:flex;width:fit-content;margin-top:8px}
+/* v4.43 : marge basse réservée à la bulle « Besoin d’aide ? » (ne recouvre jamais « Voir les experts » en bas de page) */
+@media (min-width:761px){.app:not(.adm-app) main .page,.app:not(.adm-app) .xmain{padding-bottom:96px!important}}
+/* 114 v4.43 : fleur de la charte bien lisible : pétales entiers, centre dans la carte, coupée seulement par le bord */
+.v38-tc.v38-add::after{top:-34px!important;right:-34px!important;width:150px!important;height:134px!important;opacity:.16!important}
+@media (max-width:760px){.v38-tc.v38-add::after{top:-26px!important;right:-26px!important;width:112px!important;height:100px!important}}
+.v38-tc.v38-add::after{top:-44px!important;right:-44px!important;width:190px!important;height:170px!important;opacity:.2!important}
+@media (max-width:760px){.v38-tc.v38-add::after{top:-30px!important;right:-30px!important;width:130px!important;height:116px!important}}
+.v38-askv.rec{background:#DC2626!important;color:#fff!important;border-color:transparent!important;animation:v40mic 1.1s ease-out infinite!important}
+/* ================= point 124 : groupes de tableaux à défilement borné ; titre de Partager sans guillemets */
+.tbrail .v40-tbz{display:flex;flex-direction:column;gap:2px;max-height:min(300px,34vh);overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:var(--line) transparent}
+.tbrail .v40-tbz.v40-tbzs{padding-right:4px;border-bottom:1px solid var(--line);margin-bottom:6px}
+.tbrail .v40-tbz::-webkit-scrollbar{width:6px}.tbrail .v40-tbz::-webkit-scrollbar-thumb{background:var(--line);border-radius:3px}
+.gsh.v40-gsh{display:flex;flex-direction:column;gap:4px}
+.gsh.v40-gsh .tbn{display:block;font-weight:700;font-size:.82em;color:var(--ink-2);overflow-wrap:anywhere}
+html.v38-tbmini .tbrail .v40-tbz{max-height:none}
