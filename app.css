@@ -2,8 +2,8 @@
    [data-brand="yelema"] couleurs Yelema + logo du client ; [data-brand="client"] couleurs du client. */
 :root{
   --ease:cubic-bezier(.22,1,.36,1);
-  --f-ui:"Funnel Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
-  --f-num:"Space Grotesk",var(--f-ui);
+  --f-ui:"Onest",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-num:"Bricolage Grotesque",var(--f-ui);
   --r-xl:22px; --r-l:18px; --r-m:12px;
   --z-bar:10; --z-dock:20;
 }
@@ -4541,3 +4541,216 @@ body.sbmini .sbt svg{transform:none!important}
   /* Yélé : panneau en bas d’écran, au-dessus de la barre d’onglets */
   .pop.ypop.on{position:fixed!important;left:0!important;right:0!important;top:auto!important;bottom:0!important;width:100%!important;max-width:none!important;max-height:88dvh;overflow:auto;border-radius:24px 24px 0 0;z-index:60;padding-bottom:calc(12px + env(safe-area-inset-bottom))}
 }
+
+/* v4.38 (add88) : demandes de recrutement, Yélé animé, facturation, choix d’un service. Préfixe v38-. */
+/* --- demandes : section Admin > Experts */
+.v38-dem{margin-top:16px}
+.v38-dem .ch h2{font-size:16px;font-weight:650;display:flex;align-items:center;gap:8px}
+.v38-dqn,.v38-bdg{display:inline-grid;place-items:center;min-width:22px;height:22px;padding:0 7px;border-radius:999px;background:var(--brand);color:#fff;font-size:12px;font-weight:700;font-variant-numeric:tabular-nums}
+.sbadm a.it .v38-bdg{margin-left:auto}
+.v38-dql{display:grid;gap:12px;margin-top:12px}
+.v38-dq{display:grid;grid-template-columns:120px minmax(0,1fr);gap:16px;padding:12px;border:1px solid var(--line);border-radius:18px;background:var(--surface)}
+.v38-dqp{display:block;border-radius:14px;overflow:hidden;background:linear-gradient(180deg,#B9A7EE,#8D68FA);aspect-ratio:3/4}
+.v38-dqp img{width:100%;height:100%;object-fit:contain;object-position:50% 100%}
+.v38-dqb{display:flex;flex-direction:column;gap:8px;min-width:0}
+.v38-dqh b{font-size:20px;font-weight:700;letter-spacing:-.02em}.v38-dqm{display:block;color:var(--ink-3);font-size:14px}
+.v38-dqw{display:flex;align-items:center;gap:8px;font-size:14px;flex-wrap:wrap}.v38-dqw img{width:28px;height:28px;border-radius:50%;object-fit:cover}.v38-dqw time{color:var(--ink-3);font-size:12px;margin-left:auto}
+.v38-dqmsg{margin:0;padding:10px 12px;border-radius:12px;background:var(--soft);font-size:14px;color:var(--ink-2)}
+.v38-dqf{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:auto}.v38-dqpx{font-size:13px;color:var(--ink-3)}.v38-dqpx b{color:var(--ink);font-size:15px}
+.v38-dqa{display:flex;gap:8px;margin-left:auto;flex-wrap:wrap}.v38-dqa .btn{min-height:44px}
+.v38-empty{display:grid;justify-items:center;gap:4px;text-align:center;padding:28px 16px;border:1px dashed var(--line);border-radius:16px;color:var(--ink-3)}.v38-empty svg{width:28px;height:28px}.v38-empty b{color:var(--ink)}
+.v38-dhw{margin-top:14px}.v38-dhw summary{cursor:pointer;font-weight:600;font-size:14px;min-height:44px;display:flex;align-items:center}
+.v38-dhl{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.v38-dh{display:flex;align-items:center;gap:10px;padding:8px 4px;border-top:1px solid var(--line);font-size:14px}.v38-dh img{width:28px;height:28px;border-radius:50%;object-fit:cover}.v38-dh small{display:block;color:var(--ink-3);font-size:12px}.v38-dh time{color:var(--ink-3);font-size:12px}
+.v38-st{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:600;white-space:nowrap}.v38-st svg{width:15px;height:15px}.v38-st.ok{color:var(--ok)}.v38-st.ko{color:var(--ink-3)}
+.v38-dov{display:flex;align-items:center;gap:12px;margin-top:14px;padding:14px 16px;text-decoration:none;color:inherit}.v38-dov b{display:block}.v38-dov span span{color:var(--ink-3);font-size:13px}
+.v38-dovi{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;background:var(--tint);color:var(--brand-ink);flex:none}
+/* --- côté membre : demande en attente */
+.rb.v38-pend,.rqgo.v38-pend,.rqok.v38-pend{background:var(--soft)!important;color:var(--ink-2)!important;border-color:transparent!important}
+.v38-pend svg{color:var(--warn,#B7791F)}
+html.v38-mreq .rqend .num,html.v38-mreq .rqend .xs,html.v38-mreq .rqprice .num{display:none}
+html.v38-mreq #rq-go .dts,html.v38-mreq #rq-go .asg,html.v38-mreq #rq-go>b,html.v38-mreq #rq-go>p.xs{display:none}
+.v38-f{display:grid;gap:6px;margin-top:10px;text-align:left}.v38-f span{font-size:13px;color:var(--ink-3)}
+/* --- paiement d’une demande */
+.v38-pm{display:grid;gap:10px;margin-top:12px;text-align:left}.v38-pml{font-size:13px;color:var(--ink-3)}
+.v38-pmo{display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid var(--line);border-radius:14px}.v38-pmo small{display:block;color:var(--ink-3);font-size:12px}
+.v38-pmi{width:36px;height:36px;border-radius:10px;display:grid;place-items:center;background:var(--tint);color:var(--brand-ink)}
+.v38-pmr{display:flex;justify-content:space-between;font-size:14px;padding-top:6px;border-top:1px solid var(--line)}
+/* --- Assigner à : services */
+.v38-svm{position:absolute;z-index:120;background:var(--surface);border:1px solid var(--line);border-radius:16px;box-shadow:0 18px 48px rgba(23,17,43,.18);padding:8px;max-height:360px;overflow:auto}
+.v38-svh{display:block;font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-3);padding:6px 8px 8px}
+.v38-svo{display:flex;align-items:center;gap:10px;width:100%;min-height:48px;padding:6px 8px;border:0;border-radius:12px;background:transparent;font:inherit;color:inherit;text-align:left;cursor:pointer}
+.v38-svo:hover{background:var(--soft)}.v38-svo small{display:block;font-size:12px;color:var(--ink-3)}
+.v38-svk{width:22px;height:22px;border-radius:7px;border:1.5px solid var(--line);display:grid;place-items:center;color:transparent;flex:none}.v38-svk svg{width:14px;height:14px}
+.v38-svo.on .v38-svk{background:var(--brand);border-color:var(--brand);color:#fff}
+.v38-svf{display:flex}.v38-svf img{width:24px;height:24px;border-radius:50%;object-fit:cover;border:2px solid var(--surface);margin-left:-6px}
+.as[data-who="tout le service"]{cursor:pointer}.as[data-who="tout le service"] svg{width:16px;height:16px}
+/* --- facturation */
+.v38-plan b{font-size:28px}
+.v38-plus{display:flex;align-items:center;gap:10px;margin-top:12px;padding-top:12px;border-top:1px solid var(--line)}.v38-plus small{display:block;color:var(--ink-3);font-size:12px}.v38-plus .btn{min-height:40px}
+.v38-moys{margin-top:14px}.v38-moys .ch h2{font-size:16px;font-weight:650}
+.v38-ml{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px;margin-top:10px}
+.v38-mc{position:relative;display:flex;align-items:center;gap:10px;padding:12px;border:1px solid var(--line);border-radius:16px;background:var(--surface)}.v38-mc small{display:block;color:var(--ink-3);font-size:12px}
+.v38-mc.def{border-color:color-mix(in srgb,var(--brand) 40%,var(--line))}
+.v38-mdef{display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:600;color:var(--ok);white-space:nowrap}.v38-mdef svg{width:14px;height:14px}
+.v38-mm{position:relative}.v38-mb{width:44px;height:44px;border:0;border-radius:12px;background:transparent;display:grid;place-items:center;color:var(--ink-2);cursor:pointer}.v38-mb:hover{background:var(--soft)}
+.v38-mmu{position:absolute;right:0;top:46px;z-index:30;min-width:210px;background:var(--surface);border:1px solid var(--line);border-radius:14px;box-shadow:0 14px 36px rgba(23,17,43,.16);padding:6px}
+.v38-mi{display:flex;align-items:center;gap:8px;width:100%;min-height:44px;padding:0 10px;border:0;border-radius:10px;background:transparent;font:inherit;color:inherit;cursor:pointer;text-align:left}.v38-mi:hover{background:var(--soft)}.v38-mi.ko{color:var(--ko)}
+.v38-mopt{display:grid;gap:8px;margin-top:12px;text-align:left}.v38-mo{display:flex;align-items:center;gap:10px;min-height:48px;padding:6px 10px;border:1px solid var(--line);border-radius:12px;cursor:pointer}
+.v38-mo:has(input:checked){border-color:var(--brand);background:var(--tint)}.v38-mo input{accent-color:var(--brand)}
+/* --- carte de pied admin : initiale, plus de bouclier */
+.adav.v38-adi{display:grid;place-items:center;font-weight:700;font-size:16px;color:#fff;background:var(--brand)}
+/* --- Yélé animé */
+.v38-yw{position:relative;display:inline-grid;place-items:center;width:42px;height:42px;flex:none}
+.v38-yw.big{width:64px;height:64px}
+.v38-yw>svg.yele{width:100%!important;height:100%!important}
+.v38-yv{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform:scale(1.3);opacity:0;pointer-events:none;transition:opacity .2s}
+.v38-yw.ok>.v38-yv{opacity:1}.v38-yw.ok>svg.yele{visibility:hidden}
+@media (max-width:760px){
+  .v38-dq{grid-template-columns:88px minmax(0,1fr);gap:12px}
+  .v38-dqa{width:100%;margin-left:0}.v38-dqa .btn{flex:1;justify-content:center}
+  .v38-dqw time{margin-left:0;width:100%}
+  .v38-ml{grid-template-columns:1fr}
+}
+/* ================= point 73 : barre du haut (user et admin) : le titre à gauche, tout le reste groupé contre le bord droit, recherche en premier */
+@media (min-width:761px){
+  .top{gap:10px}
+  .top .crumb.grow{flex:1 1 auto;min-width:0}
+  .top .v35-sb.v36-sbw{flex:0 1 420px!important;min-width:240px!important;max-width:420px!important;margin-left:auto}
+  .top>.tbtn,.top>button:not(.v35-sb),.top>a.tbtn{flex:none}
+}
+
+/* ================= point 83 : Couleurs et Éclairage passent dans le menu du compte */
+.v38-noap .top [data-pop="eclair"],.v38-noap .top [data-pop="modes"]{display:none!important}
+.v38-apx{padding:8px 10px 10px;border-top:1px solid var(--line);margin-top:6px}
+.v38-aph{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-3);margin:0 0 8px}
+.v38-apr{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:6px}
+.v38-apr>span{font-size:13px;color:var(--ink-2)}
+.v38-seg{display:inline-flex;padding:3px;border-radius:12px;background:var(--soft);gap:2px}
+.v38-seg a{display:grid;place-items:center;min-height:32px;padding:0 10px;border-radius:9px;font-size:13px;font-weight:500;color:var(--ink-2);white-space:nowrap}
+.v38-seg a.on{background:var(--surface);color:var(--ink);font-weight:600;box-shadow:0 1px 2px rgba(23,17,43,.12)}
+.mspn .v38-apx{padding:12px 8px;margin:6px 0}.mspn .v38-seg a{min-height:40px;padding:0 14px}
+
+/* ================= point 86 : polices et tailles de Myriel (Bricolage Grotesque titres, Onest texte) */
+body{font-size:14px;line-height:1.5}
+h1,h2,h3,.num{font-family:var(--f-num)}
+h1,h2,h3{font-weight:700}
+.hello h1,.page>h1{letter-spacing:-.03em}
+.h2x h2{font-size:20px;font-weight:700;letter-spacing:-.02em}
+svg.i{stroke-width:1.75}
+.btn{min-height:44px}
+.btn.sm{min-height:36px}
+
+/* ================= point 84 : menu latéral aux mesures de Myriel */
+:root{--sbw:272px}
+body.sbmini{--sbw:78px}
+.sb{padding:16px 12px;gap:4px}
+.sb .org{gap:12px;padding:4px 8px 20px}
+.sb .org img{width:40px;height:40px;border-radius:12px}
+.sb .org b{font-size:16px;font-weight:600}
+.sb .org span{font-size:12px}
+.sb a.it{min-height:44px;padding:0 12px;border-radius:12px;gap:12px;font-size:14px;font-weight:500;color:var(--ink-2)}
+.sb a.it svg.i,.sb a.it svg.s{width:20px;height:20px;stroke-width:1.75}
+.sb a.it:hover,.sb a.mt:hover{background:var(--soft)}
+.sb a.it.on{background:var(--tint);color:var(--brand-ink);font-weight:600}
+html[data-mode="nuit"] .sb a.it.on{background:var(--soft-2);color:var(--ink)}
+.sb .lb{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-3);padding:24px 12px 8px}
+.sb a.mt{min-height:56px;padding:8px 12px;border-radius:12px;gap:12px;font-size:14px;font-weight:600}
+.sb a.mt .p img{width:40px;height:40px}
+.sb a.mt .p i{display:none}
+.v38-mst{display:flex!important;align-items:center;gap:4px;font-size:12px;font-weight:500}
+.v38-mst svg{width:14px!important;height:14px!important}
+.v38-mst.ok{color:var(--ok)}.v38-mst.work{color:#6A4BD8}
+html[data-mode="nuit"] .v38-mst.work{color:#B7A4FF}
+.sb .foot{margin-top:auto;padding-top:12px}
+.sb .acw{border-top:1px solid var(--line);margin-top:8px;padding-top:12px}
+.sb .me img.av,.sb .me .adav{width:40px!important;height:40px!important}
+.sb .me b{font-weight:600;font-size:14px}.sb .me small{font-size:12px;color:var(--ink-3)}
+.acm{width:256px}
+.sb .pby{font-size:12px;color:var(--ink-3)}
+body.sbmini .sb a.mt .v38-mst{display:none!important}
+
+/* ================= points 81, 81 bis : accueil, salut et barre de demande */
+.hello .date{font-size:16px;color:var(--ink-3);margin-bottom:8px}
+.hello h1{font-family:var(--f-num);font-weight:700;font-size:clamp(26px,4vw,36px);line-height:1.05;letter-spacing:-.03em}
+.v38-ask{display:flex;align-items:center;gap:10px;max-width:720px;margin:20px 0 8px;padding:6px 6px 6px 10px;border-radius:30px;background:#17112B;color:#fff;box-shadow:0 16px 40px -18px rgba(23,17,43,.55)}
+.v38-ask .who{display:flex}.v38-ask .who img{width:34px;height:34px;border-radius:50%;object-fit:cover;box-shadow:0 0 0 2px #17112B}
+.v38-ask .who img+img{margin-left:-10px}.v38-ask .who img[hidden]{display:none}
+.v38-askp{flex:1;color:#D6D1EC;font-size:15px}
+.v38-askm{display:grid;place-items:center;width:44px;height:44px;border-radius:50%;background:var(--accent);color:#17112B;flex:none}
+[data-brand="yelema"] .v38-askm{color:#fff}
+.v38-askm svg{width:20px;height:20px}
+body.v38-hasask .dock{opacity:0;transform:translateY(16px);pointer-events:none;transition:opacity .2s var(--ease),transform .2s var(--ease)}
+body.v38-hasask .dock .in{pointer-events:none}
+body.v38-hasask.v38-dkon .dock{opacity:1;transform:none}
+body.v38-hasask.v38-dkon .dock .in{pointer-events:auto}
+
+/* ================= points 87, 87 bis, 87 ter : cartes Mon équipe (Myriel), experts en pied qui bougent */
+.v38-team{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;align-items:stretch}
+.v38-tc{position:relative;display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--line);border-radius:20px;overflow:hidden;transition:box-shadow .2s var(--ease),transform .2s var(--ease)}
+.v38-tc:not(.v38-add):hover{box-shadow:0 18px 40px -22px rgba(23,17,43,.45);transform:translateY(-2px)}
+.v38-tc[hidden]{display:none}
+.v38-tcl{position:absolute;inset:0;z-index:1;border-radius:inherit}
+.v38-tcl:focus-visible{outline:2px solid var(--link);outline-offset:2px}
+.v38-tci{position:relative;aspect-ratio:420/748;background:var(--g);overflow:hidden}
+.v38-tci video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 50%}
+.v38-st2{position:absolute;top:12px;left:12px;z-index:2;display:inline-flex;align-items:center;gap:5px;height:28px;padding:0 10px;border-radius:99px;font-size:12px;font-weight:600;background:rgba(255,255,255,.94);backdrop-filter:blur(6px)}
+.v38-st2 svg{width:14px;height:14px}
+.v38-st2.ok{color:#137A4B}.v38-st2.work{color:#4429AE}
+.v38-st2.work svg{animation:v38spin 1.4s linear infinite}
+@media (prefers-reduced-motion:reduce){.v38-st2.work svg{animation:none}}
+@keyframes v38spin{to{transform:rotate(360deg)}}
+.v38-tcb{display:flex;flex-direction:column;flex:1;padding:16px 16px 16px}
+.v38-tcb h3{font-family:var(--f-num);font-size:24px;font-weight:700;letter-spacing:-.02em;line-height:1.1}
+.v38-tcm{font-size:14px;color:var(--ink-3);margin-top:2px}
+.v38-tcb hr{border:0;border-top:1px solid var(--line);margin:12px 0}
+.v38-tce{font-size:14px;font-weight:600;color:var(--ink)}
+.v38-tcd{font-size:13px;color:var(--ink-2);margin-top:4px}
+.v38-tcx{font-size:12px;color:var(--ink-3);margin-top:8px;margin-bottom:14px}
+.v38-tca{display:flex;gap:8px;margin-top:auto;position:relative;z-index:2}
+.v38-tcw{flex:1;justify-content:center;min-height:44px}
+.v38-tct{width:44px;min-height:44px;padding:0!important;justify-content:center;border-radius:50%!important;flex:none}
+.v38-add{border:1.5px dashed color-mix(in srgb,var(--ink-3) 45%,transparent);background:transparent;align-items:flex-start;justify-content:center;padding:24px 20px;gap:8px;min-height:280px}
+.v38-addi{display:grid;place-items:center;width:44px;height:44px;border-radius:50%;background:var(--tint);color:var(--brand-ink)}
+.v38-addi svg{width:20px;height:20px}
+.v38-add h3{font-family:var(--f-num);font-size:20px;font-weight:700}
+.v38-addp{font-size:13px;color:var(--ink-2);max-width:30ch}
+.v38-adda{margin-top:6px}
+@media (max-width:760px){
+  .v38-team{grid-template-columns:1fr 1fr;gap:12px}
+  .v38-tcb{padding:12px}
+  .v38-tcb h3{font-size:20px}
+  .v38-tcx{display:none}
+  .v38-tcd{font-size:12px}
+  .v38-add{grid-column:1/-1;min-height:0;padding:18px}
+  .v38-ask{margin:14px 0 4px}
+  .v38-askp{font-size:14px}
+}
+@media (max-width:380px){.v38-tca .v38-tcw{font-size:13px;padding:0 8px}}
+.v35-sb>span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;flex:1}
+.v38-apr{flex-direction:column;align-items:stretch;gap:4px;margin-top:8px}
+.v38-apr .v38-seg{display:flex}.v38-apr .v38-seg a{flex:1}
+
+/* ================= point 82 : page d'un expert */
+@media (min-width:761px){.xcol .xsw{display:none}}
+.pcard .st.v38-pst{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.94);font-weight:600}
+.pcard .st.v38-pst svg{width:14px;height:14px}
+.pcard .st.v38-pst.ok{color:#137A4B}.pcard .st.v38-pst.work{color:#4429AE}
+.pcard .st.v38-pst.work svg{animation:v38spin 1.4s linear infinite}
+@media (prefers-reduced-motion:reduce){.pcard .st.v38-pst.work svg{animation:none}}
+.pcard .cta{gap:8px}
+.pcard .cta .v38-wr2{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;min-height:44px;border-radius:999px;background:#fff;color:#17112B;font-weight:600;font-size:14px}
+.pcard .cta .v38-wr2 svg{width:18px;height:18px}
+@media (min-width:761px){.pcard .cta .call.v38-call2{flex:none;background:rgba(255,255,255,.16)!important;color:#fff!important;border:1px solid rgba(255,255,255,.5);box-shadow:none!important;min-height:44px;padding:0 14px}}
+.v38-pact{position:relative;z-index:2;margin:0 0 10px;padding:0 12px;color:#fff;font-size:13px;font-weight:600;display:flex;flex-direction:column;gap:5px}
+.v38-pact small{font-size:12px;font-weight:500;opacity:.9}
+.v38-pbar{display:block;height:4px;border-radius:4px;background:rgba(255,255,255,.3);overflow:hidden}
+.v38-pbar i{display:block;height:100%;border-radius:inherit;background:#fff}
+.v38-lvp{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--ink-3);margin-top:4px}
+.v38-lvp .v38-pbar{width:64px;flex:none;background:var(--soft-2)}.v38-lvp .v38-pbar i{background:#6A4BD8}
+.pcard .nm .v38-pact{padding:0;margin:8px 0 0;text-transform:none;letter-spacing:0}
+.rail .doing{white-space:normal!important;line-height:1.35}
+@media (max-width:760px){.pcard .cta .v38-wr2,.pcard .v38-pact{display:none!important}}
+.pcard .nm .v38-pact>span.ell{text-transform:none;letter-spacing:0;font-size:13px}
+.rail .doing{max-width:calc(100% - 16px)}
+@media (max-width:760px){body.v37-disc .pcard .st.v38-pst{font-size:0;padding:0;width:16px;height:16px;justify-content:center}body.v37-disc .pcard .st.v38-pst svg{width:14px;height:14px}}

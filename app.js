@@ -1799,7 +1799,7 @@ document.querySelectorAll('[data-perm]').forEach(function(b){var ok=b.querySelec
     setTimeout(function(){d.remove();MAIN.hidden=false;MAIN._v35=0;if(done)done()},1500)}
   var ADML={admin:'la vue d’ensemble','admin-membres':'les membres','admin-membre':'la fiche du membre','admin-experts':'les experts','admin-canaux':'les canaux','admin-connecteurs':'les connecteurs',
     'admin-facturation':'la facturation','admin-general':'les détails de l’entreprise','admin-analytics':'l’analytique','admin-modeles':'les modèles','admin-profil':'votre profil'};
-  function zones(){var Z=[['.nowbox','ce que font vos experts'],['.crew2','votre équipe'],['section.pcs2:not(.crew2)','les experts à recruter',1],['.tbx','vos tableaux de bord'],['.ngrp','vos notifications',1],
+  function zones(){var Z=[['.nowbox','ce que font vos experts'],['.crew2','votre équipe'],['.v38-team','votre équipe'],['section.pcs2:not(.crew2)','les experts à recruter',1],['.tbx','vos tableaux de bord'],['.ngrp','vos notifications',1],
       ['.mp','votre profil'],['.rq','la fiche de poste'],['.chatp .cl','vos discussions'],['.chatp .cm','les messages'],['.gmain','la conversation']];
     if(EX){var n=NOM[EX];Z=Z.concat([['#discussion .thread','la discussion avec '+n],['#discussion .rail','ce que fait '+n],['#resume','le résumé'],['#analytique','l’analytique'],['#drive','les livrables'],
       ['#mail','les emails'],['#calendrier','l’agenda'],['#profil','le profil'],['#canaux','les canaux'],['#connecteurs','les connecteurs'],['#fiche','la fiche de poste']])}
@@ -2437,7 +2437,7 @@ document.querySelectorAll('[data-perm]').forEach(function(b){var ok=b.querySelec
             a:{l:'J’ai copié la clé',fn:function(){closeModal();var r=document.createElement('div');r.className='v35-r';r.setAttribute('role','row');r.dataset.by=ME.n;
               r.innerHTML='<b role="cell" class="v35-nm">'+esc(v)+'</b><span role="cell" data-l="Clé"><span class="v35-k"><code>'+mask+'</code></span></span><span role="cell" class="v35-m" data-l="Créée le">01/10</span><span role="cell" class="v35-m" data-l="Dernière utilisation">jamais</span><span role="cell" class="v35-ok"><i></i>Active</span>';
               TK.appendChild(r);menuCell(r,'key');r.classList.add('v36-flash');say('Clé « '+v+' » créée','ok')}}});
-          $('#v36-m .v36-kcp').addEventListener('click',function(ev){stop(ev);try{navigator.clipboard.writeText(key)}catch(_){}ev.currentTarget.innerHTML=IC.check+' Copiée';say('Clé copiée dans le presse-papiers','ok')})},700)}},b:{l:'Annuler'}})});
+          $('#v36-m .v36-kcp').addEventListener('click',function(ev){stop(ev);try{var _p=navigator.clipboard&&navigator.clipboard.writeText(key);if(_p&&_p.catch)_p.catch(function(){})}catch(_){}ev.currentTarget.innerHTML=IC.check+' Copiée';say('Clé copiée dans le presse-papiers','ok')})},700)}},b:{l:'Annuler'}})});
     // Ajouter un serveur MCP : nom, adresse, jeton, test de connexion
     bM.addEventListener('click',function(e){stop(e);var tested=0;modal({ic:SRV,tone:'info',t:'Ajouter un serveur MCP',p:'Il donne à '+NOM[EX]+' les outils de vos logiciels internes.',
       body:'<label class="v36-fl"><span>Nom</span><input class="fi v36-in v36-sn" type="text" maxlength="60" placeholder="Par exemple : stock Unifood"></label><label class="v36-fl"><span>Adresse du serveur</span><input class="fi v36-su2" type="url" placeholder="https://…/mcp"></label>'+
@@ -2838,4 +2838,248 @@ document.querySelectorAll('[data-perm]').forEach(function(b){var ok=b.querySelec
   document.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('.v36-comp .v36-sb');if(!b)return;go(b.closest('.v36-comp'),e)},true);
   // Yélé : la suggestion pose la question
   if(Y)$$('.sugg span',Y).forEach(function(s){s.setAttribute('role','button');s.tabIndex=0;s.addEventListener('click',function(e){e.stopPropagation();yeleSend(s.textContent.trim())})});
+})();
+/* v4.38 (add88) : demandes de recrutement membre / admin (points 54, 77, 78), Yélé animé (80), carte de pied admin (72 ter),
+   facturation (69 à 71), choix d’un service dans « Assigner à » (79). Préfixe v38-. */
+(function(){
+  function $(s,r){return (r||document).querySelector(s)}function $$(s,r){return [].slice.call((r||document).querySelectorAll(s))}
+  function esc(t){return String(t==null?'':t).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+  function ls(k,v){try{if(v===undefined)return localStorage.getItem(k);if(v===null)localStorage.removeItem(k);else localStorage.setItem(k,v)}catch(e){return null}}
+  function stop(e){e.preventDefault();e.stopPropagation();e.stopImmediatePropagation()}
+  function svg(p){return '<svg class="i s" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">'+p+'</svg>'}
+  var IC={send:svg('<path d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z"/><path d="m21.854 2.147-10.94 10.939"/>'),
+    clock:svg('<circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>'),check:svg('<path d="M20 6 9 17l-5-5"/>'),ok:svg('<circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/>'),
+    x:svg('<path d="M18 6 6 18M6 6l12 12"/>'),user:svg('<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M19 8v6M22 11h-6"/>'),
+    card:svg('<rect width="20" height="14" x="2" y="5" rx="2"/><path d="M2 10h20"/>'),more:svg('<circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/>'),
+    users:svg('<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>'),
+    chev:svg('<path d="m6 9 6 6 6-6"/>'),star:svg('<path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.12 2.12 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.12 2.12 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.12 2.12 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.12 2.12 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.12 2.12 0 0 0 1.597-1.16z"/>'),
+    trash:svg('<path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>'),plus:svg('<path d="M5 12h14M12 5v14"/>')};
+  var V=window.v36||{},say=function(m,t){(V.toast||window.toast||function(){})(m,t)};
+  var page=(location.pathname.split('/').pop()||'').replace('.html','');
+  var Q=new URLSearchParams(location.search);
+  var VUE=ls('v33-vue')||'admin',MEMBRE=VUE!=='admin',ADMP=!!$('.sbadm');
+  var ME={admin:{n:'Aïcha Diabaté',f:'Aïcha',p:'aicha'},membre:{n:'Nadège Touré',f:'Nadège',p:'m_women_36'},membre0:{n:'Didier Yapi',f:'Didier',p:'m_men_30'}}[VUE]||{n:'Aïcha Diabaté',f:'Aïcha',p:'aicha'};
+  // experts proposés (pas encore dans l’équipe) : prénom, métier, accord féminin
+  var CAT={adjoua:['Adjoua','Recrutement',1],alioune:['Alioune','Investissement',0],awa:['Awa','Service client',1],fatou:['Fatou','RH et paie',1],ibrahim:['Ibrahim','Juridique',0],
+    kouassi:['Kouassi','Ventes',0],mamadou:['Mamadou','Finance',0],nadia:['Nadia','Données',1],salif:['Salif','Opérations',0]};
+  var PRIX='200 000 F CFA';
+  function slug(n){return String(n).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^a-z]/g,'')}
+  function pron(k){return CAT[k]&&CAT[k][2]?'Elle':'Il'}
+
+  // ================= 1. demandes de recrutement (points 54, 77, 78)
+  var DK='v38-dem';
+  var SEED=[{id:'d1',e:'fatou',m:'Nadège Touré',mp:'m_women_36',msg:'Pour suivre les congés et les contrats des saisonniers de la campagne Sossa.',t:'02/10 à 16:40',st:'att'},
+    {id:'d2',e:'nadia',m:'Fanta Bakayoko',mp:'m_women_16',msg:'Pour sortir chaque lundi les ventes par région.',t:'02/10 à 09:15',st:'att'},
+    {id:'d0',e:'salif',m:'Didier Yapi',mp:'m_men_30',msg:'Pour suivre les livraisons des fournisseurs.',t:'29/09 à 11:02',st:'ko',motif:'On attend la fin du trimestre.',dt:'30/09'}];
+  function dems(){var v=ls(DK);if(v){try{var a=JSON.parse(v);if(Array.isArray(a))return a}catch(_){}}return SEED.map(function(x){return Object.assign({},x)})}
+  function demSet(a){ls(DK,JSON.stringify(a))}
+  function now(){var d=new Date();function z(n){return (n<10?'0':'')+n}return z(d.getDate())+'/'+z(d.getMonth()+1)+' à '+z(d.getHours())+':'+z(d.getMinutes())}
+  function mine(k){return dems().filter(function(d){return d.e===k&&d.m===ME.n&&d.st==='att'})[0]}
+  function pending(){return dems().filter(function(d){return d.st==='att'})}
+  window.v38={dems:dems,demSet:demSet};
+
+  // --- côté membre : « Demander à l’admin », jamais « rejoint votre équipe »
+  function askModal(k){var c=CAT[k];if(!c||!V.modal)return;
+    V.modal({ic:IC.send,tone:'info',t:'Demander '+c[0]+' à votre admin',p:'Votre admin reçoit la demande et décide. Rien n’est facturé de votre côté.',
+      body:'<label class="v36-fl v38-f"><span>Pourquoi, en une phrase (facultatif)</span><input class="fi v36-in v38-why" type="text" maxlength="140" placeholder="Pour préparer les contrats des saisonniers"></label>',
+      a:{l:'Envoyer la demande',fn:function(b){var w=$('#v36-m .v38-why');var a=dems();a.unshift({id:'d'+Date.now(),e:k,m:ME.n,mp:ME.p,msg:w?w.value.trim():'',t:now(),st:'att'});demSet(a);
+        try{var r=JSON.parse(ls('v33-req')||'[]');r.unshift({m:ME.n,p:ME.p,e:c[0],t:Date.now()});ls('v33-req',JSON.stringify(r.slice(0,12)))}catch(_){}
+        V.close();say('Demande envoyée à votre admin. Vous serez prévenu'+(VUE==='membre'?'e':'')+' dès '+(/^[AEIOUÉ]/.test(c[0])?'qu’':'que ')+c[0]+' rejoint l’équipe.','ok');memberSync()}},b:{l:'Annuler'}})}
+  function pendHTML(){return IC.clock+' Demande en attente'}
+  function memberSync(){if(!MEMBRE||ADMP)return;
+    // cartes de Recruter
+    $$('.pc2:not(.mine2)').forEach(function(c){var h=c.getAttribute('href')||'',k=(/recrue-([a-z]+)/.exec(h)||[])[1];if(!k||!CAT[k])return;var rb=$('.rb',c);if(!rb)return;
+      if(mine(k)){rb.innerHTML=pendHTML();rb.classList.add('v38-pend');c.classList.add('v38-pc-pend')}else{rb.innerHTML=IC.send+' Demander à l’admin';rb.classList.remove('v38-pend')}});
+    // fiche d’une recrue
+    var k=(/^recrue-([a-z]+)$/.exec(page)||[])[1];if(k&&CAT[k]){document.documentElement.classList.add('v38-mreq');
+      $$('.rqgo,.rqok').forEach(function(b){if(mine(k)){b.innerHTML=pendHTML();b.classList.add('v38-pend')}else{b.innerHTML=IC.send+' Demander à l’admin';b.classList.remove('v38-pend')}})}}
+  if(MEMBRE&&!ADMP){
+    window.addEventListener('click',function(e){var t=e.target.closest&&e.target.closest('.pc2 .rb, .rqgo, .rqok, .rqgo2');if(!t)return;
+      var c=t.closest('.pc2'),h=c?(c.getAttribute('href')||''):'',k=(/recrue-([a-z]+)/.exec(h)||/^recrue-([a-z]+)$/.exec(page)||[])[1];if(!k||!CAT[k])return;
+      if(c&&c.classList.contains('mine2'))return;stop(e);if(mine(k)){say('Votre demande pour '+CAT[k][0]+' attend la réponse de votre admin','info');return}askModal(k)},true);
+    memberSync();
+    // décisions de l’admin : le membre est prévenu une fois
+    dems().forEach(function(d){if(d.m===ME.n&&d.st!=='att'&&!d.vu){var c=CAT[d.e];if(!c)return;
+      setTimeout(function(){say(d.st==='ok'?'Votre admin a accepté : '+c[0]+' rejoint l’équipe.':'Votre admin a refusé la demande pour '+c[0]+(d.motif?' : '+d.motif:'.'),d.st==='ok'?'ok':'info')},900);
+      var a=dems();a.forEach(function(x){if(x.id===d.id)x.vu=1});demSet(a)}})}
+
+  // --- côté admin : section « Demandes » (Admin > Experts), pastilles, approuver et payer, refuser
+  function badge(){var n=pending().length;
+    $$('.sbadm a.it[href="admin-experts.html"]').forEach(function(a){var b=$('.v38-bdg',a);if(!n){if(b)b.remove();return}if(!b){b=document.createElement('span');b.className='v38-bdg';a.appendChild(b)}b.textContent=n;b.setAttribute('aria-label',n+' demande'+(n>1?'s':'')+' en attente')})}
+  function payModal(d){var c=CAT[d.e];if(!c||!V.modal)return;var mm=defMoyen();
+    V.modal({ic:IC.card,tone:'info',t:'Approuver et payer '+c[0],p:c[0]+', '+c[1].toLowerCase()+', pour '+d.m+'. '+PRIX+' par mois, ajouté à votre prochaine facture.',
+      body:'<div class="v38-pm"><span class="v38-pml">Payer avec</span><div class="v38-pmo"><span class="v38-pmi">'+IC.card+'</span><span class="grow"><b>'+esc(mm)+'</b><small>Moyen par défaut</small></span><a class="link sm" href="admin-facturation.html#v38-moyens">Changer</a></div>'+
+        '<div class="v38-pmr"><span>Premier mois</span><b class="num">'+PRIX+'</b></div></div>',
+      a:{l:'Payer '+PRIX,fn:function(b){V.busy&&V.busy(b,'Paiement…');setTimeout(function(){V.unbusy&&V.unbusy(b);var a=dems();a.forEach(function(x){if(x.id===d.id){x.st='ok';x.dt=now()}});demSet(a);V.close();
+        say(c[0]+' rejoint votre équipe. '+pron(d.e)+' vous écrit dans quelques minutes.','ok');renderAdm();badge()},1100)}},b:{l:'Annuler'}})}
+  function refuseModal(d){var c=CAT[d.e];if(!c||!V.modal)return;
+    V.modal({ic:IC.x,tone:'warn',t:'Refuser la demande de '+d.m.split(' ')[0],p:d.m.split(' ')[0]+' est prévenu'+(/a$|e$/.test(d.m.split(' ')[0])?'e':'')+'. Vous pourrez recruter '+c[0]+' plus tard.',
+      body:'<label class="v36-fl v38-f"><span>Motif (facultatif)</span><input class="fi v36-in v38-mot" type="text" maxlength="140" placeholder="On en reparle au prochain trimestre"></label>',
+      a:{l:'Refuser',fn:function(){var m=$('#v36-m .v38-mot'),a=dems();a.forEach(function(x){if(x.id===d.id){x.st='ko';x.motif=m?m.value.trim():'';x.dt=now()}});demSet(a);V.close();
+        say('Demande refusée, '+d.m.split(' ')[0]+' est prévenu'+(/a$|e$/.test(d.m.split(' ')[0])?'e':''),'ok');renderAdm();badge()}},b:{l:'Annuler'}})}
+  var SEC=null;
+  function card(d){var c=CAT[d.e]||[d.e,'',0];
+    return '<article class="v38-dq" data-id="'+d.id+'"><span class="v38-dqp"><img src="../img/vid/'+d.e+'.webp" alt="" onerror="this.src=\'../img/'+d.e+'.jpg\'"></span>'+
+      '<div class="v38-dqb"><div class="v38-dqh"><b>'+esc(c[0])+'</b><span class="v38-dqm">'+esc(c[1])+'</span></div>'+
+      '<div class="v38-dqw"><img src="../img/'+d.mp+'.jpg" alt=""><span><b>'+esc(d.m)+'</b> demande '+esc(c[0])+'</span><time>'+esc(d.t)+'</time></div>'+
+      (d.msg?'<p class="v38-dqmsg">« '+esc(d.msg)+' »</p>':'')+
+      '<div class="v38-dqf"><span class="v38-dqpx"><b class="num">'+PRIX+'</b> par mois</span><span class="v38-dqa"><button type="button" class="btn o v38-ko" data-h="1">Refuser</button><button type="button" class="btn p v38-ok" data-h="1">'+IC.check+' Approuver et payer</button></span></div></div></article>'}
+  function hist(d){var c=CAT[d.e]||[d.e];return '<li class="v38-dh"><img src="../img/'+d.mp+'.jpg" alt=""><span class="grow"><b>'+esc(c[0])+'</b> pour '+esc(d.m)+(d.motif?'<small>Motif : '+esc(d.motif)+'</small>':'')+'</span>'+
+    '<span class="v38-st '+(d.st==='ok'?'ok':'ko')+'">'+(d.st==='ok'?IC.ok+' Approuvée':IC.x+' Refusée')+'</span><time>'+esc(d.dt||d.t)+'</time></li>'}
+  function renderAdm(){if(!SEC)return;var a=dems(),p=a.filter(function(d){return d.st==='att'}),h=a.filter(function(d){return d.st!=='att'});
+    $('.v38-dqn',SEC).textContent=p.length;$('.v38-dqn',SEC).hidden=!p.length;
+    $('.v38-dql',SEC).innerHTML=p.length?p.map(card).join(''):'<div class="v38-empty">'+IC.users+'<b>Aucune demande en attente</b><span>Quand un membre demande un expert, sa demande arrive ici et dans vos notifications.</span></div>';
+    $('.v38-dhl',SEC).innerHTML=h.length?h.map(hist).join(''):'<li class="v38-dh mute3">Aucune demande traitée pour l’instant.</li>'}
+  if(page==='admin-experts'){var hl=$('.sform .hello');if(hl){SEC=document.createElement('section');SEC.className='box v38-dem';SEC.id='demandes';
+      SEC.innerHTML='<div class="ch"><h2>Demandes de recrutement <span class="v38-dqn"></span></h2><span class="xs mute3">Les membres demandent, vous décidez</span></div><div class="v38-dql"></div>'+
+        '<details class="v38-dhw"><summary>Demandes traitées</summary><ul class="v38-dhl"></ul></details>';
+      hl.insertAdjacentElement('afterend',SEC);renderAdm();
+      SEC.addEventListener('click',function(e){var b=e.target.closest('.v38-ok,.v38-ko');if(!b)return;stop(e);var id=b.closest('.v38-dq').dataset.id,d=dems().filter(function(x){return x.id===id})[0];if(!d)return;
+        if(b.classList.contains('v38-ok'))payModal(d);else refuseModal(d)});
+      if(location.hash==='#demandes')setTimeout(function(){SEC.scrollIntoView({block:'start'});scrollBy(0,-80)},200)}}
+  if(ADMP){badge();
+    // Vue d’ensemble : un rappel cliquable
+    if(page==='admin'&&pending().length){var h0=$('.sform .hello');if(h0){var r=document.createElement('a');r.className='box v38-dov';r.href='admin-experts.html#demandes';
+      r.innerHTML='<span class="v38-dovi">'+IC.users+'</span><span class="grow"><b>'+pending().length+' demande'+(pending().length>1?'s':'')+' de recrutement</b><span>'+pending().map(function(d){return d.m.split(' ')[0]+' demande '+(CAT[d.e]||[d.e])[0]}).join(', ')+'</span></span><span class="v38-bdg">'+pending().length+'</span>';
+      h0.insertAdjacentElement('afterend',r)}}}
+  // notifications de l’admin : les demandes en attente arrivent dans la cloche (même source que add83 / add86)
+  if(!MEMBRE){try{var R=JSON.parse(ls('v33-req')||'[]'),P=pending(),chg=0;P.forEach(function(d){var n=(CAT[d.e]||[d.e])[0];if(!R.some(function(r){return r.m===d.m&&r.e===n})){R.push({m:d.m,p:d.mp,e:n,t:Date.now()-3600e3});chg=1}});
+      R=R.filter(function(r){var x=dems().filter(function(d){return d.m===r.m&&(CAT[d.e]||[])[0]===r.e})[0];if(x&&x.st!=='att'){chg=1;return false}return true});
+      if(chg)ls('v33-req',JSON.stringify(R))}catch(_){}}
+  // le recrutement côté admin (fiche recrue) dit « rejoint votre équipe » seulement après le paiement : bouton « Payer et recruter »
+  if(!MEMBRE)$$('.rqok').forEach(function(b){if(/Recruter/.test(b.textContent))b.innerHTML=IC.card+' Payer et recruter '+esc(b.dataset.nom||'')});
+
+  // ================= 2. « Assigner à » : choisir un ou plusieurs services (point 79)
+  var MEMB=[['Jean-Marc Aka','Direction','m_men_83'],['Serge Bamba','Direction','m_men_80'],['Sarah Diallo','Direction','m_women_69'],['Aïcha Diabaté','Marketing','aicha'],['Nadège Touré','Marketing','m_women_36'],['Yao Kra','Marketing','m_men_53'],
+    ['Fanta Bakayoko','Commercial','m_women_16'],['Kader Ouattara','Commercial','m_men_59'],['Rokia Traoré','Commercial','m_women_89'],['Mariam Koné','RH','m_women_30'],['Ibrahim Sylla','Finance','m_men_91'],
+    ['Hervé N’Guessan','Opérations','m_men_49'],['Olivier Kacou','Opérations','m_men_16'],['Didier Yapi','Opérations','m_men_30']];
+  var SERV=[];MEMB.forEach(function(m){if(SERV.indexOf(m[1])<0)SERV.push(m[1])});
+  function first(n){return n.split(' ')[0]}
+  function pillFor(box,m){var f=first(m[0]),p=$$('.as',box).filter(function(x){var w=x.dataset.who;return w===f||w===m[0]||(w==='Moi'&&m[0]===ME.n)})[0];
+    if(!p){p=document.createElement('span');p.className='as v38-as';p.dataset.who=f;p.innerHTML='<img class="av" src="../img/'+m[2]+'.jpg" alt="" style="width:28px;height:28px;object-fit:cover;border-radius:50%">'+esc(f);
+      var sv=$('.as[data-who="tout le service"]',box);box.insertBefore(p,sv);
+      p.addEventListener('click',function(){var on=box.querySelectorAll('.as.on');if(p.classList.contains('on')&&on.length===1)return;p.classList.toggle('on')})}return p}
+  function svcLabel(sv,sel){var n=0;sel.forEach(function(s){n+=MEMB.filter(function(m){return m[1]===s}).length});
+    sv.innerHTML=IC.users+' '+(sel.length===0?'Tout un service':sel.length===1?'Service '+esc(sel[0])+' ('+n+')':sel.length+' services ('+n+')')+' '+IC.chev;sv.classList.toggle('on',sel.length>0)}
+  var MENU=null;
+  function closeMenu(){if(MENU){MENU.remove();MENU=null}}
+  window.addEventListener('click',function(e){var sv=e.target.closest&&e.target.closest('.as[data-who="tout le service"]');
+    if(!sv){if(MENU&&!MENU.contains(e.target))closeMenu();return}stop(e);if(MENU&&MENU._sv===sv){closeMenu();return}closeMenu();
+    var box=sv.parentNode,sel=sv._sel||(sv._sel=[]);MENU=document.createElement('div');MENU.className='v38-svm';MENU._sv=sv;MENU.setAttribute('role','listbox');MENU.setAttribute('aria-multiselectable','true');
+    MENU.innerHTML='<b class="v38-svh">Choisir un ou plusieurs services</b>'+SERV.map(function(s){var L=MEMB.filter(function(m){return m[1]===s});
+      return '<button type="button" class="v38-svo'+(sel.indexOf(s)>=0?' on':'')+'" role="option" aria-selected="'+(sel.indexOf(s)>=0)+'" data-s="'+esc(s)+'" data-h="1"><span class="v38-svk">'+IC.check+'</span><span class="grow"><b>'+esc(s)+'</b><small>'+L.length+' personne'+(L.length>1?'s':'')+'</small></span><span class="v38-svf">'+
+        L.slice(0,4).map(function(m){return '<img src="../img/'+m[2]+'.jpg" alt="">'}).join('')+'</span></button>'}).join('');
+    document.body.appendChild(MENU);var r=sv.getBoundingClientRect(),w=Math.min(320,innerWidth-24);MENU.style.width=w+'px';MENU.style.left=Math.max(12,Math.min(r.left,innerWidth-w-12))+'px';
+    var top=r.bottom+6+scrollY;if(r.bottom+6+360>innerHeight&&r.top>380)top=r.top-6+scrollY-Math.min(360,MENU.offsetHeight);MENU.style.top=top+'px';
+    MENU.addEventListener('click',function(ev){var o=ev.target.closest('.v38-svo');if(!o)return;stop(ev);var s=o.dataset.s,i=sel.indexOf(s),on=i<0;if(on)sel.push(s);else sel.splice(i,1);
+      o.classList.toggle('on',on);o.setAttribute('aria-selected',on);MEMB.filter(function(m){return m[1]===s}).forEach(function(m){var p=pillFor(box,m);p.classList.toggle('on',on||sel.some(function(x){return x===m[1]}))});
+      if(!$$('.as.on:not([data-who="tout le service"])',box).length){var mo=$('.as[data-who="Moi"]',box);if(mo)mo.classList.add('on')}svcLabel(sv,sel)})},true);
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')closeMenu()});
+  $$('.as[data-who="tout le service"]').forEach(function(sv){sv.setAttribute('role','button');sv.tabIndex=0;svcLabel(sv,[])});
+
+  // ================= 3. carte de pied admin : « Admin », sans bouclier (point 72 ter) ; fait au build (post88), ici le menu du compte
+  // ================= 4. facturation (points 69 à 71) : formule Team, Yelema Plus en option, moyens de paiement retirables
+  var MK='v38-moy';
+  function moyens(){try{var a=JSON.parse(ls(MK)||'null');if(Array.isArray(a))return a}catch(_){}return [{n:'Wave',d:'+225 07 •• •• 12',def:1},{n:'Carte bancaire',d:'Visa •••• 4242'}]}
+  function moySet(a){ls(MK,JSON.stringify(a))}
+  function defMoyen(){var a=moyens(),d=a.filter(function(x){return x.def})[0]||a[0];return d?d.n+', '+d.d:'Aucun moyen enregistré'}
+  if(page==='admin-facturation'){
+    var fk=$('.fxk:not(.fxn)');if(fk&&!$('.v38-plan',fk)){fk.classList.add('v38-plan');fk.innerHTML='<small>Formule</small><b>Team</b>'+
+      '<div class="v38-plus"><span class="grow"><b>Yelema Plus</b><small>En option</small></span><button type="button" class="btn o sm v38-plusb" data-h="1">'+IC.plus+' Ajouter</button></div>';
+      $('.v38-plusb',fk).addEventListener('click',function(e){stop(e);say('Demande envoyée : l’équipe Yelema vous présente Yelema Plus avant tout ajout','ok')})}
+    $$('.sform p').forEach(function(p){if(/est en pause : elle n.est pas factur/.test(p.textContent))p.remove()});
+    var pay=$('#payer');if(pay&&!$('#v38-moyens')){var S=document.createElement('section');S.className='box v38-moys';S.id='v38-moyens';pay.parentNode.parentNode.insertBefore(S,pay.parentNode.nextSibling);
+      var LOGO={'Wave':'<img src="https://www.google.com/s2/favicons?sz=64&domain=wave.com" alt="">','Carte bancaire':IC.card,'Orange Money':'<b>OM</b>','MTN MoMo':'<b>MTN</b>','Moov Money':'<b>moov</b>','Djamo':'<b>djamo</b>'};
+      var COL={'Wave':'#1DC8F2','Carte bancaire':'#1A1F71','Orange Money':'#FF7900','MTN MoMo':'#FFCB05','Moov Money':'#0B4EA2','Djamo':'#111111'};
+      function draw(){var a=moyens();S.innerHTML='<div class="ch"><h2>Moyens de paiement enregistrés</h2><button type="button" class="btn o sm v38-madd" data-h="1">'+IC.plus+' Ajouter</button></div><div class="v38-ml">'+
+        (a.length?a.map(function(m,i){return '<div class="v38-mc'+(m.def?' def':'')+'"><span class="pyl" style="--pc:'+(COL[m.n]||'#5B5BD6')+'">'+(LOGO[m.n]||IC.card)+'</span><span class="grow"><b>'+esc(m.n)+'</b><small>'+esc(m.d)+'</small></span>'+
+          (m.def?'<span class="v38-mdef">'+IC.check+' Par défaut</span>':'')+'<div class="v38-mm"><button type="button" class="v38-mb" data-h="1" data-i="'+i+'" aria-label="Actions pour '+esc(m.n)+'" aria-haspopup="menu">'+IC.more+'</button></div></div>'}).join(''):
+          '<p class="xs mute3">Aucun moyen enregistré. Ajoutez-en un pour payer en un clic.</p>')+'</div>'}
+      draw();
+      S.addEventListener('click',function(e){var b=e.target.closest('.v38-mb'),it=e.target.closest('.v38-mi'),ad=e.target.closest('.v38-madd');
+        if(ad){stop(e);var a=moyens(),opt=['Orange Money','MTN MoMo','Moov Money','Djamo','Wave','Carte bancaire'].filter(function(n){return !a.some(function(m){return m.n===n})});
+          if(!opt.length){say('Tous les moyens sont déjà enregistrés','info');return}
+          V.modal({ic:IC.card,tone:'info',t:'Ajouter un moyen de paiement',p:'Choisissez le moyen, vous le validerez au premier paiement.',body:'<div class="v38-mopt">'+opt.map(function(n,i){return '<label class="v38-mo"><input type="radio" name="v38mo" value="'+esc(n)+'"'+(i?'':' checked')+'><span class="pyl" style="--pc:'+(COL[n]||'#5B5BD6')+'">'+(LOGO[n]||IC.card)+'</span><b>'+esc(n)+'</b></label>'}).join('')+'</div>',
+            a:{l:'Ajouter',fn:function(){var v=$('#v36-m input[name=v38mo]:checked'),a2=moyens();if(v){a2.push({n:v.value,d:v.value==='Carte bancaire'?'Visa •••• 0000':'+225 07 •• •• 00',def:a2.length?0:1});moySet(a2);draw();say(v.value+' ajouté','ok')}V.close()}},b:{l:'Annuler'}});return}
+        if(b){stop(e);var o=$('.v38-mmu',S);if(o){var same=o._i===b.dataset.i;o.remove();if(same)return}var a=moyens(),m=a[+b.dataset.i],u=document.createElement('div');u.className='v38-mmu';u._i=b.dataset.i;u.setAttribute('role','menu');
+          u.innerHTML=(m.def?'':'<button type="button" class="v38-mi" role="menuitem" data-a="def" data-i="'+b.dataset.i+'" data-h="1">'+IC.star+' Définir par défaut</button>')+
+            '<button type="button" class="v38-mi ko" role="menuitem" data-a="rm" data-i="'+b.dataset.i+'" data-h="1">'+IC.trash+' Retirer</button>';b.parentNode.appendChild(u);return}
+        if(it){stop(e);var a=moyens(),i=+it.dataset.i,m=a[i];var u2=$('.v38-mmu',S);if(u2)u2.remove();
+          if(it.dataset.a==='def'){a.forEach(function(x,j){x.def=j===i?1:0});moySet(a);draw();say(m.n+' est maintenant le moyen par défaut','ok');return}
+          if(m.def&&a.length===1){V.modal({ic:IC.card,tone:'warn',t:'Ce moyen ne peut pas être retiré',p:'C’est votre seul moyen de paiement. Ajoutez-en un autre, puis retirez celui-ci.',b:{l:'Fermer'}});return}
+          V.modal({ic:IC.trash,tone:'warn',t:'Retirer '+m.n+' ?',p:m.n+' ('+m.d+') ne servira plus aux paiements.'+(m.def?' Le moyen suivant devient celui par défaut.':''),
+            a:{l:'Retirer',fn:function(){var a2=moyens();a2.splice(i,1);if(m.def&&a2.length)a2[0].def=1;moySet(a2);draw();V.close();say(m.n+' retiré','ok')}},b:{l:'Annuler'}});return}
+        var o2=$('.v38-mmu',S);if(o2)o2.remove()});
+      document.addEventListener('click',function(e){var o=$('.v38-mmu',S);if(o&&!e.target.closest('.v38-mm'))o.remove()})}}
+
+  // ================= 5. Yélé animé (point 80) : vidéo VP9 transparente chargée après la page ; repli sur l’ancienne bouille
+  var RM=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var CANW=(function(){try{var v=document.createElement('video');return !!v.canPlayType&&v.canPlayType('video/webm; codecs="vp9"')!==''&&!/^((?!chrome|android).)*safari/i.test(navigator.userAgent)}catch(e){return false}})();
+  function yele(){if(!CANW)return;$$('svg.yele').forEach(function(s){if(s._v38)return;s._v38=1;var w=document.createElement('span');w.className='v38-yw'+(s.classList.contains('big')?' big':'');
+      var v=document.createElement('video');v.className='v38-yv';v.muted=true;v.loop=!RM;v.playsInline=true;v.setAttribute('playsinline','');v.setAttribute('aria-hidden','true');v.preload=RM?'auto':'none';v.src='../img/yele/yele_smile.webm';
+      s.parentNode.insertBefore(w,s);w.appendChild(s);w.appendChild(v);
+      v.addEventListener('loadeddata',function(){w.classList.add('ok');if(RM)try{v.pause();v.currentTime=0}catch(_){}});v.addEventListener('error',function(){w.classList.remove('ok')});
+      if(!RM){var p=v.play();if(p&&p.catch)p.catch(function(){})}else v.load()})}
+  function laugh(){if(RM||!CANW)return;$$('#yele .v38-yv').forEach(function(v){if(v._l)return;v._l=1;v.loop=false;v.src='../img/yele/yele_laugh.webm';var p=v.play();if(p&&p.catch)p.catch(function(){});
+      v.onended=function(){v.onended=null;v.loop=true;v.src='../img/yele/yele_smile.webm';var q=v.play();if(q&&q.catch)q.catch(function(){});v._l=0}})}
+  V.yeleLaugh=laugh;
+  if(document.readyState==='complete')setTimeout(yele,300);else window.addEventListener('load',function(){setTimeout(yele,300)});
+  var YP=$('#yele');if(YP)new MutationObserver(function(){if(YP.classList.contains('on'))laugh()}).observe(YP,{attributes:true,attributeFilter:['class']});
+
+  // ================= 6. catalogue des états : tout « Déclencher » que rien n'a pris en charge montre un état réel (spinner puis confirmation)
+  document.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('.v36-go');if(!b||b._v38b)return;e.preventDefault();
+    var card=b.closest('div'),t=card&&card.querySelector('b,h3'),nm=t?t.textContent.trim():'Routine';b._v38b=1;
+    if(V.busy)V.busy(b,'Lancement…');else{b.disabled=true;b.textContent='Lancement…'}
+    setTimeout(function(){if(V.unbusy)V.unbusy(b);else{b.disabled=false;b.textContent='Déclencher'}b._v38b=0;say((nm==='Routine'?'Routine lancée':nm+' : déclenché'),'ok')},900)});
+  // copie sûre dans le presse-papiers (jamais de promesse rejetée non gérée)
+  V.copy=function(t){function fb(){try{var a=document.createElement('textarea');a.value=t;a.setAttribute('readonly','');a.style.position='fixed';a.style.opacity='0';document.body.appendChild(a);a.select();document.execCommand('copy');a.remove()}catch(_){}}
+    try{var p=navigator.clipboard&&navigator.clipboard.writeText(t);if(p&&p.catch)p.catch(fb);else fb()}catch(_){fb()}};
+
+  // ================= 7. accueil (points 81, 81 bis, 87) : date du jour, barre de demande qui se range en dock, cartes Mon équipe
+  (function(){var d=$('.hello .date');if(d&&$('.v38-team')){try{var t=new Date().toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'});d.textContent=t.charAt(0).toUpperCase()+t.slice(1)}catch(_){}}
+    var ask=$('.v38-ask'),dock=$('.dock');
+    if(ask&&dock){document.body.classList.add('v38-hasask');
+      if('IntersectionObserver' in window)new IntersectionObserver(function(es){es.forEach(function(e){document.body.classList.toggle('v38-dkon',!e.isIntersecting&&e.boundingClientRect.top<0)})},{threshold:0}).observe(ask)}
+    var team=$('.v38-team');if(!team)return;
+    var EX={admin:['djeneba','fatima','koffi'],membre:['fatima','koffi'],membre0:[]}[VUE]||['djeneba','fatima','koffi'];
+    var n=0;$$('.v38-tc[data-x]',team).forEach(function(c){var on=EX.indexOf(c.dataset.x)>-1;c.hidden=!on;if(on)n++});
+    var cnt=$('.v38-cnt');if(cnt)cnt.textContent='('+n+')';
+    if(ask){$$('.who img',ask).forEach(function(im){var k=(im.getAttribute('src')||'').split('/').pop().replace('.jpg','');im.hidden=EX.indexOf(k)<0});if(!n)ask.hidden=true}
+    var ad=$('.v38-add .v38-adda');if(ad&&MEMBRE){ad.textContent='Demander un expert';ad.setAttribute('href',ad.dataset.v38m)}})();
+
+  // ================= 8. Apparence dans le menu « ⋯ » du compte (point 83) : Couleurs et Éclairage quittent la barre du haut
+  (function(){var mx=$$('#modes .mdx');if(!mx.length&&!$('#eclair'))return;
+    var th=mx.map(function(a){var cl=/\/client\//.test(a.getAttribute('href'));return '<a class="'+(a.classList.contains('on')?'on':'')+'" href="'+a.getAttribute('href')+'" data-h="1">'+(cl?'Entreprise':'Yelema')+'</a>'}).join('');
+    var ap=[['clair','Clair'],['sombre','Sombre'],['auto','Auto']].map(function(x){return '<a href="#" data-ap="'+x[0]+'" data-h="1">'+x[1]+'</a>'}).join('');
+    var html='<div class="v38-apx"><p class="v38-aph">Apparence</p><div class="v38-apr"><span>Thème</span><div class="v38-seg v38-th">'+th+'</div></div>'+
+      '<div class="v38-apr"><span>Éclairage</span><div class="v38-seg apseg v38-aps">'+ap+'</div></div></div>';
+    function put(m,before){if($('.v38-apx',m))return;var d=document.createElement('div');d.innerHTML=html;var x=d.firstChild;if(before)m.insertBefore(x,before);else m.appendChild(x)}
+    $$('.acm').forEach(function(m){put(m,$('.acsep',m))});
+    $$('#sh-moi .mspn').forEach(function(m){put(m,$('.msi[href^="connexion"]',m)||$('.pby',m))});
+    var cur;try{cur=localStorage.getItem('yap')||'clair'}catch(_){cur='clair'}
+    $$('.v38-aps a').forEach(function(a){a.classList.toggle('on',a.dataset.ap===cur)});
+    document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('.v38-aps a');if(!a)return;e.preventDefault();e.stopPropagation();
+      var o=$('#eclair .apo[data-ap="'+a.dataset.ap+'"]');if(o)o.click()},true);
+    document.documentElement.classList.add('v38-noap')})();
+
+  // ================= 9. menu latéral (point 84) : statut mot + forme sous le prénom de chaque expert
+  $$('.sb a.mt').forEach(function(a){var i=$('.p i',a),sm=$('small',a);if(!i||!sm||a._v38)return;a._v38=1;var w=!i.classList.contains('idle');
+    sm.className='ell v38-mst '+(w?'work':'ok');sm.innerHTML=(w?svg('<path d="M21 12a9 9 0 1 1-6.219-8.56"/>'):IC.ok)+(w?' Au travail':' Disponible')});
+
+  // ================= 10. page d'un expert (point 82) : un seul fil d'Ariane, Appeler en secondaire, Écrire en principal,
+  //                      même activité en cours partout (en-tête, En ce moment, ligne « écrit… », Son ordinateur)
+  (function(){var pc=$('.xcol .pcard');if(!pc)return;var k=page,NOM={djeneba:'Djénéba',fatima:'Fatima',koffi:'Koffi'}[k];if(!NOM)return;
+    var ACT={fatima:{t:'rédige les 3 posts de la promo Sossa',p:60,r:'encore 10 min'}}[k];
+    var st=$('.st',pc);if(st){st.className='st v38-pst '+(ACT?'work':'ok');st.innerHTML=(ACT?svg('<path d="M21 12a9 9 0 1 1-6.219-8.56"/>'):IC.ok)+(ACT?' Au travail':' Disponible')}
+    var cta=$('.cta',pc),call=$('.call',pc);
+    if(cta&&!$('.v38-wr2',cta)){var w=document.createElement('a');w.href='#discussion';w.className='v38-wr2';w.dataset.h='1';w.innerHTML=svg('<path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/>')+' Écrire';cta.insertBefore(w,cta.firstChild);
+      w.addEventListener('click',function(e){e.preventDefault();var d=$('.xnav [data-t="discussion"]');if(d&&!d.classList.contains('on'))d.click();
+        setTimeout(function(){var t=$('#discussion .comp textarea, #discussion .comp input[type=text], #discussion .comp [contenteditable]');if(t){t.focus();return}var ph=$('#discussion .comp .ph');if(ph)ph.click()},120)})}
+    if(call)call.classList.add('v38-call2');
+    if(!ACT)return;
+    var full=NOM+' '+ACT.t+', '+ACT.p+' %, '+ACT.r;
+    var nm=$('.nm',pc);if(nm&&!$('.v38-pact',pc)){var a=document.createElement('div');a.className='v38-pact';a.innerHTML='<span class="ell">'+esc(ACT.t.charAt(0).toUpperCase()+ACT.t.slice(1))+'</span><span class="v38-pbar"><i style="width:'+ACT.p+'%"></i></span><small>'+ACT.p+' %, '+ACT.r+'</small>';nm.appendChild(a)}
+    $$('#discussion .rail .lvnow .lvtt').forEach(function(t){if($('.v38-lvp',t.parentNode))return;var x=document.createElement('span');x.className='v38-lvp';x.innerHTML='<span class="v38-pbar"><i style="width:'+ACT.p+'%"></i></span>'+ACT.p+' %, '+ACT.r;t.parentNode.insertBefore(x,t.nextSibling)});
+    $$('#discussion .thread .typing').forEach(function(t){var tm=t.parentNode.querySelector('time');if(tm)tm.textContent=full});
+    $$('#discussion .rail .doing').forEach(function(d){var dot=$('.dot',d);d.textContent=' '+full;if(dot)d.insertBefore(dot,d.firstChild)})})();
 })();
