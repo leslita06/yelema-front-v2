@@ -2269,7 +2269,7 @@ document.querySelectorAll('[data-perm]').forEach(function(b){var ok=b.querySelec
   var MIC=svg('<path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2M12 19v3"/>'),ARR=svg('<path d="m5 12 7-7 7 7M12 19V5"/>');
   var CLIP=svg('<path d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.57a2 2 0 0 1-2.83-2.83l8.49-8.48"/>');
   var DICT=['Prépare les posts de la semaine pour Sossa','Fais-moi le point du jour en cinq lignes','Résume les livrables de la semaine'],DN=0;
-  function mdlRead(){var L=$$('.v36-mdl .v36-mdi');if(L.length){MODS=L.map(function(x){return x.dataset.m});var d=$('.v36-mdl .v36-mdi.def');MODS.def=d?d.dataset.m:MODS[0]}}
+  /* (v4.37) l’ancienne lecture de la liste de modèles écrasait celle des clés d’IA (même nom de fonction) : retirée */
   mdlRead();V36.mdlRead=function(){mdlRead();llSync()};
   function curMod(){var m=ls('v36-llm');return MODS.indexOf(m)>=0?m:(MODS.def||MODS[0]||'Aucune clé')}
   var LLOPEN=null;function llClose(){if(LLOPEN){$('.v36-lll',LLOPEN).hidden=true;$('.v36-llb',LLOPEN).setAttribute('aria-expanded','false');LLOPEN=null}}
@@ -2764,7 +2764,78 @@ document.querySelectorAll('[data-perm]').forEach(function(b){var ok=b.querySelec
     if(MQ.matches){w.classList.add('plie');aria()}
     sync();new MutationObserver(sync).observe(w,{attributes:true,attributeFilter:['class']});
     if(MQ.addEventListener)MQ.addEventListener('change',sync);
-    col.addEventListener('click',function(e){if(!w.classList.contains('v37-ov'))return;if(e.target.closest('.v35-hi'))setTimeout(close,60)});
+    col.addEventListener('click',function(e){if(!w.classList.contains('v37-ov'))return;if(e.target.closest('.v35-hi'))setTimeout(close,60)},true);
     document.addEventListener('click',function(e){if(w.classList.contains('v37-ov')&&!col.contains(e.target))close()});
     document.addEventListener('keydown',function(e){if(e.key==='Escape'&&w.classList.contains('v37-ov')){close();tg.focus()}})});
+})();
+/* compteur « Connectés » : Google Drive ou OneDrive suit la connexion des Livrables (add86), le compteur suit les cartes */
+(function(){var g=document.querySelector('#connecteurs .v33-cxg'),em=document.querySelector('#connecteurs .v33-cxs [data-v33cx="c"] em');if(!g||!em)return;
+  function n(){var k=g.querySelectorAll('.v33-cx.on').length;if(em.textContent!==String(k))em.textContent=k}
+  n();setTimeout(n,0);new MutationObserver(n).observe(g,{subtree:true,attributes:true,attributeFilter:['class']})})();
+/* point 36 : mobile. Discussion d’un expert en en-tête compact, composeur collé en bas, Discussions en liste puis conversation,
+   tableaux de l’administration en cartes. Le style est dans add87.css (media max-width:760px). */
+(function(){
+  function $(s,r){return (r||document).querySelector(s)}function $$(s,r){return [].slice.call((r||document).querySelectorAll(s))}
+  var MOB=window.matchMedia('(max-width:760px)');
+  var BACK='<svg class="i s" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>';
+  // composeurs : zone collée en bas
+  $$('.chat2>.comp,.cm>.comp,.gin2.v36-comp').forEach(function(c){c.classList.add('v37-sticky')});
+  // espace d’un expert : Discussion
+  var D=$('#discussion.panel');
+  if(D&&$('.xcol .pcard')){var was=null;
+    function disc(){var on=D.classList.contains('on');document.body.classList.toggle('v37-disc',on);
+      if(on&&MOB.matches&&was===false)window.scrollTo(0,0);was=on}
+    disc();new MutationObserver(disc).observe(D,{attributes:true,attributeFilter:['class']});
+    if(MOB.matches&&D.classList.contains('on')){window.scrollTo(0,0);setTimeout(function(){window.scrollTo(0,0)},60);setTimeout(function(){window.scrollTo(0,0)},400)}}
+  // Discussions : la liste d’abord, puis la conversation en plein écran
+  var CP=$('.chatp');
+  if(CP&&$('.cl',CP)&&$('.cm',CP)){
+    function list(){document.body.classList.add('v37-cl');document.body.classList.remove('v37-cv')}
+    function conv(){document.body.classList.add('v37-cv');document.body.classList.remove('v37-cl');window.scrollTo(0,0)}
+    $$('.cm .chd',CP).forEach(function(h){var b=document.createElement('button');b.type='button';b.className='v37-back';b.setAttribute('data-h','1');b.setAttribute('aria-label','Retour aux discussions');b.innerHTML=BACK;
+      b.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();list();window.scrollTo(0,0)});h.insertBefore(b,h.firstChild)});
+    $$('.cl a.cv',CP).forEach(function(a){a.addEventListener('click',function(){if(MOB.matches)setTimeout(conv,0)})});
+    if(/^#c-/.test(location.hash)){conv();setTimeout(function(){window.scrollTo(0,0)},60);setTimeout(function(){window.scrollTo(0,0)},400)}else list()}
+  // tableaux : une carte par ligne en 390 (libellé de colonne devant chaque valeur)
+  $$('main table.tbl:not(.drt)').forEach(function(t){var rows=[].slice.call(t.rows);if(rows.length<2)return;var h=rows[0];if(!h.querySelector('th'))return;
+    var L=[].map.call(h.cells,function(c){return (c.textContent||'').trim()});h.classList.add('v37-th');t.classList.add('v37-cards');
+    rows.slice(1).forEach(function(r){[].forEach.call(r.cells,function(c,i){if(L[i]&&!c.hasAttribute('data-l'))c.setAttribute('data-l',L[i])})})});
+})();
+/* hors ligne simulé : jamais plus de 2 minutes pour un vrai visiteur (la file d’attente part au retour) */
+(function(){var k='v37-offt',now=Date.now(),t;try{if(!sessionStorage.getItem('v36-off')){sessionStorage.removeItem(k);return}t=+sessionStorage.getItem(k)||0;if(!t){sessionStorage.setItem(k,now);t=now}}catch(e){return}
+  function back(){var b=document.querySelector('.v36-net .v36-netb');try{sessionStorage.removeItem(k)}catch(e){}if(b)b.click()}
+  var left=120000-(now-t);if(left<=0)setTimeout(back,300);else setTimeout(back,left)})();
+/* points 41 et 44 : la même icône de repli partout */
+(function(){var C='<rect width="18" height="18" x="3" y="3" rx="2"/><path d="M9 3v18"/>',
+  OPEN='<svg class="i s" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'+C+'<path d="m14 9 3 3-3 3"/></svg>',
+  CLOSE='<svg class="i s" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'+C+'<path d="m16 15-3-3 3-3"/></svg>';
+  function sb(){var mini=document.body.classList.contains('sbmini');[].forEach.call(document.querySelectorAll('.sbt'),function(b){var want=mini?OPEN:CLOSE;if(b._v37!==want){b.innerHTML=want;b._v37=want}})}
+  sb();new MutationObserver(sb).observe(document.body,{attributes:true,attributeFilter:['class']});
+  [].forEach.call(document.querySelectorAll('.v36-ctg'),function(b){b.innerHTML=CLOSE});
+  [].forEach.call(document.querySelectorAll('.v36-copen'),function(b){b.innerHTML=OPEN;b.setAttribute('aria-label','Déplier l’historique');b.title='Déplier l’historique'});
+  // la colonne étroite ne coupe jamais le bouton : « + » seul avec une infobulle si le libellé ne tient pas
+  function fit(){[].forEach.call(document.querySelectorAll('.v36-chd .v36-cnew'),function(b){var s=b.querySelector('span');if(!s)return;b.classList.remove('v37-ico');s.hidden=false;
+    if(b.scrollWidth>b.clientWidth+1||b.getBoundingClientRect().right>b.parentNode.getBoundingClientRect().right+1){s.hidden=true;b.classList.add('v37-ico');b.title='Nouvelle conversation'}})}
+  fit();window.addEventListener('resize',fit);
+  [].forEach.call(document.querySelectorAll('.v36-hw'),function(w){new MutationObserver(function(){setTimeout(fit,0)}).observe(w,{attributes:true,attributeFilter:['class']})})})();
+/* point 42 : dans le chat entreprise et chez Yélé, Envoyer (bouton ou Entrée) montre vraiment le message, puis la réponse */
+(function(){function $(s,r){return (r||document).querySelector(s)}function $$(s,r){return [].slice.call((r||document).querySelectorAll(s))}
+  function esc(t){return String(t).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+  function offl(){return document.documentElement.classList.contains('v36-offl')}
+  var GM=$('.gpt .gmain'),Y=$('#yele');
+  function memSend(v){var conv=$('.gconv',GM),ga=$('.gm2.lui .ga',GM),gai=ga?ga.innerHTML:'',f=document.createElement('div');f.className='gfil';f.id='v37-g'+Date.now();
+    f.innerHTML='<div class="gm2 moi"><div class="bq">'+esc(v)+'</div></div><div class="gm2 lui v37-wait"><span class="ga">'+gai+'</span><div class="ba"><p class="v37-th">Yelema cherche dans les documents de l’entreprise…</p></div></div>';
+    $$('.gfil',GM).forEach(function(x){x.style.display='none'});conv.appendChild(f);f.style.display='block';GM.classList.remove('vide');var t=$('.gtt',GM);if(t)t.textContent=v.length>48?v.slice(0,46)+'…':v;
+    setTimeout(function(){var l=$('.v37-wait',f);if(!l)return;l.classList.remove('v37-wait');$('.ba',l).innerHTML='<p>Voici ce que j’ai trouvé dans les documents de l’entreprise sur « '+esc(v)+' ». Les sources sont citées sous la réponse ; demandez un détail si besoin.</p>'},1400)}
+  function yeleSend(v){var inp=$('.inp',Y),m=document.createElement('div');m.className='msg moi';m.style.marginTop='10px';m.innerHTML='<div class="bub">'+esc(v)+'</div>';
+    var a=document.createElement('div');a.className='msg lui';a.style.marginTop='8px';a.innerHTML='<div class="bub">Yélé réfléchit…</div>';inp.parentNode.insertBefore(m,inp);inp.parentNode.insertBefore(a,inp);
+    var sg=$('.sugg',Y);if(sg)sg.hidden=true;
+    setTimeout(function(){$('.bub',a).textContent='Bonne question. Je vous réponds tout de suite, et si c’est plus complexe, je passe le relais à l’équipe Yelema qui vous écrit ici.'},1200)}
+  function host(el){if(GM&&GM.contains(el))return 'mem';if(Y&&Y.contains(el))return 'yele';return null}
+  function go(box,e){var i=$('.v33-in',box);if(!i)return;var v=i.value.trim();if(!v||offl())return;var h=host(box);if(!h)return;e.preventDefault();e.stopImmediatePropagation();
+    if(h==='mem')memSend(v);else yeleSend(v);i.value='';i.dispatchEvent(new Event('input',{bubbles:true}))}
+  document.addEventListener('keydown',function(e){if(e.key!=='Enter'||e.shiftKey||e.isComposing)return;var i=e.target.closest&&e.target.closest('.v36-comp .v33-in');if(!i)return;go(i.closest('.v36-comp'),e)},true);
+  document.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('.v36-comp .v36-sb');if(!b)return;go(b.closest('.v36-comp'),e)},true);
+  // Yélé : la suggestion pose la question
+  if(Y)$$('.sugg span',Y).forEach(function(s){s.setAttribute('role','button');s.tabIndex=0;s.addEventListener('click',function(e){e.stopPropagation();yeleSend(s.textContent.trim())})});
 })();

@@ -4438,3 +4438,106 @@ a.v36-kpa:hover,a.v36-kpa:focus-visible{border-color:var(--brand);background:var
 }
 .v30-ro.v37-ro span{color:var(--ink-3)}
 .v30-ro.v37-adm{background:transparent;padding:4px 0}
+
+/* ================= point 36 : mobile (390 et 360) ================= */
+@media (max-width:760px){
+  /* barre du haut : la recherche passe à la ligne sans recouvrir la page */
+  body.v36-pgm .top{height:auto!important;min-height:56px;max-height:none!important;padding-top:6px}
+  /* messages en haut, sous la barre, jamais sur le composeur */
+  .v36-ts{top:calc(64px + env(safe-area-inset-top));bottom:auto!important;left:16px!important;right:16px;width:auto!important;transform:none!important}
+  .v36-tw{position:relative}
+  /* composeur : champ pleine largeur sur sa ligne, outils dessous (trombone, modèle, bouton rond) */
+  .v36-comp:not(.gin2),.gin2.v36-comp .v36-cr{flex-wrap:wrap;row-gap:4px}
+  .v36-comp:not(.gin2)>.v33-in,.v36-comp:not(.gin2)>textarea,.v36-cr>.v33-in,.v36-cr>textarea{order:-1;flex:1 1 100%;min-height:44px;font-size:16px}
+  .v36-comp .v36-llm{margin-right:auto}
+  .v36-comp .v36-lll{bottom:calc(100% + 6px);top:auto}
+  /* zone de saisie collée en bas, au-dessus de la barre d’onglets ; la barre s’efface quand on écrit (clavier ouvert) */
+  .v37-sticky{position:sticky;bottom:calc(64px + env(safe-area-inset-bottom));z-index:24;background:var(--surface);box-shadow:0 -8px 18px -10px rgba(23,17,43,.18)}
+  body:has(.v36-comp:focus-within) .tabbar{display:none}
+  body:has(.v36-comp:focus-within) .v37-sticky{bottom:0}
+  body:has(.v36-comp:focus-within) .v37-sticky .sugg{display:none}
+  .v37-sticky .sugg{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin:0 -4px;padding:0 4px 6px}
+  .v37-sticky .sugg::-webkit-scrollbar{display:none}
+  .v37-sticky .sugg>*{flex:none;min-height:36px}
+  /* espace d’un expert, Discussion : en-tête compact (photo, prénom, statut, appeler), fil lisible tout de suite */
+  body.v37-disc .xcol .xsw,body.v37-disc .xcol .xmail{display:none}
+  body.v37-disc .xcol{gap:8px;padding-top:10px}
+  body.v37-disc .xmain,body.v37-cv .chatp,body.v37-cv .cm{overflow:visible!important;overflow-x:clip!important}
+  body.v37-disc .pcard{height:auto!important;aspect-ratio:auto!important;display:flex;align-items:center;gap:10px;min-height:64px;padding:8px 8px 8px 10px;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:18px}
+  body.v37-disc .pcard::after{display:none}
+  body.v37-disc .pcard img{position:static;flex:none;width:48px;height:48px;border-radius:50%;object-position:50% 12%;z-index:0}
+  body.v37-disc .pcard .nm{position:static;flex:1;min-width:0;font-size:16px;line-height:1.2;order:1}
+  body.v37-disc .pcard .nm span{display:block;color:var(--ink-3);font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  body.v37-disc .pcard .st{position:absolute;top:auto;left:44px;bottom:8px;width:14px;height:14px;padding:0;font-size:0;background:var(--surface);border-radius:50%;justify-content:center}
+  body.v37-disc .pcard .st .dot{width:10px;height:10px}
+  body.v37-disc .pcard .cta{position:static;order:2;flex:none;gap:6px}
+  body.v37-disc .pcard .cta a{width:44px;height:44px;padding:0;font-size:0;gap:0;background:var(--soft);color:var(--ink)}
+  body.v37-disc .pcard .cta a.call{background:#16a34a;color:#fff}
+  body.v37-disc .pcard .cta a svg{width:20px;height:20px}
+  body.v37-disc .xnav{margin-top:0}
+  body.v37-disc #discussion .rail{display:none}
+  body.v37-disc #discussion .chat2{border-radius:18px;overflow:visible;height:auto}
+  body.v37-disc #discussion .thread{height:auto!important;max-height:none!important;overflow:visible!important;padding-bottom:12px}
+  body.v37-disc #discussion .v35-hb{min-height:52px;padding:4px 8px}
+  .chat2>.comp,.cm>.comp{padding:8px 12px calc(8px + env(safe-area-inset-bottom))}
+  .chat2 .comp .v36-comp,.cm .comp .v36-comp{width:100%}
+  /* Discussions : la liste, puis la conversation en plein écran avec un retour */
+  .chatp{display:block}
+  body.v37-cl .chatp>.cm{display:none}
+  body.v37-cv .chatp>.cl{display:none}
+  body.v37-cv .cm .thread{height:auto!important;max-height:none!important;overflow:visible!important}
+  body.v37-cv .cm .chd{position:sticky;top:56px;z-index:5;padding:8px 12px;gap:8px}
+  body.v37-cv .cm .chd>img{width:40px;height:40px}
+  body.v37-cv .cm .chd .grow{min-width:0}
+  body.v37-cv .cm .chd .grow .xs{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  body.v37-cv .cm .chd a.tbtn{flex:none;min-width:44px;height:44px;padding:0 10px;font-size:0;gap:0;justify-content:center}
+  body.v37-cv .cm .chd a.tbtn svg{width:20px;height:20px}
+  .v37-back{display:inline-grid;place-items:center;flex:none;width:44px;height:44px;margin-left:-8px;border:0;border-radius:12px;background:transparent;color:var(--ink);cursor:pointer}
+  .v37-back svg{width:22px;height:22px}
+  /* chat entreprise : en-tête sous la barre, sans chevauchement */
+  .gpt .ghead{position:relative;z-index:2}
+  .gpt .gmain{overflow:clip!important}
+  /* tableaux de l’administration : cartes empilées */
+  .v37-cards{display:block!important;width:100%!important;min-width:0!important;border:0}
+  .v37-cards thead,.v37-cards tr.v37-th{display:none}
+  .v37-cards tbody{display:grid;gap:10px}
+  .v37-cards tr{display:grid;grid-template-columns:minmax(0,1fr);gap:6px;padding:12px 14px;border:1px solid var(--line);border-radius:16px;background:var(--surface)}
+  .v37-cards td{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;min-width:0;padding:0!important;border:0!important;position:static!important;text-align:left!important;background:transparent!important}
+  .v37-cards td[data-l]::before{content:attr(data-l);font-size:12px;color:var(--ink-3);font-weight:600}
+  .v37-cards td:first-child{font-size:15px}
+  .v37-cards td:first-child::before{display:none}
+  .v37-cards td .who{min-width:0}
+  .v37-cards td.hide-m{display:none}
+  .box:has(>.v37-cards),.box:has(>table.v37-cards){overflow:visible}
+  /* analytique admin : les sections ne poussent plus la page */
+  .v36-ana,.v36-ana>*,.v36-ana section,.v36-ana [class*="an-"],.v36-ana [class*="v36-"]:not(td):not(th):not(table){min-width:0;max-width:100%}
+  /* fenêtres : en bas d’écran, pleine largeur, défilement interne */
+  .modal.on{align-items:flex-end;padding:0}
+  .modal.on>.pn{width:100%!important;max-width:100%!important;max-height:calc(100dvh - 24px);border-radius:24px 24px 0 0;padding-bottom:env(safe-area-inset-bottom)}
+  .modal.on>.pn.callp{max-height:100dvh;height:100dvh;border-radius:0}
+}
+/* écran bas (clavier ouvert) : la barre d’onglets s’efface, le composeur prend le bas */
+@media (max-width:760px) and (max-height:620px){
+  .tabbar{display:none}
+  .v37-sticky{bottom:0}
+  .v37-sticky .sugg{display:none}
+}
+
+/* ================= points 40, 41, 44 : une seule icône de repli (lucide panel-left-close / panel-left-open), bouton carré 36 px ;
+   « Nouvelle conversation » compact, à droite du bouton de repli */
+.sbt,.v36-ctg,.v36-copen{width:36px!important;height:36px!important;border-radius:10px!important;place-items:center;color:var(--ink-3);background:transparent;border:0;cursor:pointer;flex:none}
+.sbt:hover,.v36-ctg:hover,.v36-copen:hover{background:var(--soft-2);color:var(--ink)}
+.sbt svg,.v36-ctg svg,.v36-copen svg{width:20px;height:20px}
+body.sbmini .sbt svg{transform:none!important}
+.v36-chd{justify-content:space-between;gap:8px}
+.v36-chd .v36-cnew{flex:0 1 auto!important;min-width:0;height:38px;min-height:38px!important;padding:0 14px;gap:6px;font-size:13.5px;white-space:nowrap;border-radius:12px}
+.v36-chd .v36-cnew svg{width:16px;height:16px;flex:none}
+.v36-hw.plie .v36-ctg{display:none!important}
+.v36-hw.plie .v36-chd{align-items:center}
+.v36-hw.plie .v36-cnew{width:36px!important;height:36px;min-height:36px!important;padding:0!important;justify-content:center}
+.v36-hw:not(.plie) .v36-copen{display:none!important}
+.v36-hw.plie .v36-copen{display:grid!important}
+@media (max-width:760px){
+  /* Yélé : panneau en bas d’écran, au-dessus de la barre d’onglets */
+  .pop.ypop.on{position:fixed!important;left:0!important;right:0!important;top:auto!important;bottom:0!important;width:100%!important;max-width:none!important;max-height:88dvh;overflow:auto;border-radius:24px 24px 0 0;z-index:60;padding-bottom:calc(12px + env(safe-area-inset-bottom))}
+}

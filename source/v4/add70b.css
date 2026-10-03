@@ -1,4 +1,0 @@
-.tbq input,.srch input{border:0;outline:0;background:none;flex:1;min-width:0;font:inherit;color:var(--ink)}
-.tbmain .mw>footer .ptag{display:none}
-.editing .mw>footer .ptag{display:inline-flex}
-.tbmain .mw>footer:not(:has(.mwhid:not([hidden]))){min-height:0}
