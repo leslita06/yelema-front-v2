@@ -600,3 +600,26 @@ a{color:inherit;text-decoration:none}
   .n2-cel{position:absolute;width:0;height:0;padding:0;border:0;overflow:visible}
   .n2-mod.n2-wide .n2-mb{padding:10px 14px}
 }
+
+/* ================= passe qualité : harmonie ================= */
+.n2-sh h2,.n2-fs,.n2-empty h2,.n2-phd h2,.n2-tdbt h1{font-size:24px}
+.n2-fh h1{font-size:40px}
+.n2-icb.n2-clip{width:40px;height:40px}
+.n2-me .n2-icb{width:32px;height:32px}
+.n2-cv .n2-ic,.n2-rt small .n2-ic,.n2-tz .n2-ic,.n2-tabs a .n2-ic,.n2-rmbar .n2-seg .n2-ic{width:16px;height:16px}
+.n2-cv button{width:32px;height:32px}
+@media (max-width:860px){
+  .n2-sh h2,.n2-fs,.n2-empty h2,.n2-phd h2,.n2-tdbt h1{font-size:22px}
+  .n2-fh h1,.n2-hello{font-size:30px}
+  /* assistant de Nouvelle routine : visible en haut de la fenêtre, compact */
+  .n2-rm{grid-template-columns:minmax(0,1fr);grid-template-rows:auto minmax(0,1fr)}
+  .n2-rma{display:flex;order:-1;border-left:0;border-bottom:1px solid var(--n2-line);padding:8px 0 10px}
+  .n2-rma>.n2-pp{font-size:13px;margin:0 0 6px}
+  .n2-rmal{max-height:96px;flex:none}
+  .n2-rmal:empty{display:none}
+  .n2-rmd{min-height:80px}
+  .n2-rmod .n2-mh{padding:16px 16px 4px}.n2-rmod .n2-mb{padding:0 16px}.n2-rmod .n2-mf{padding:10px 16px 14px}
+}
+@media (max-width:860px){.n2-crumb>*:not(:last-child){display:none}.n2-crumb{font-size:15px}}
+
+@media (max-width:860px){.n2-fnum{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.n2-fnum div{min-width:0;padding:8px 6px;font-size:11.5px;text-align:center}.n2-fnum b{font-size:20px}}
