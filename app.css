@@ -5500,3 +5500,256 @@ main .ch>h2,html.v40-pg-profil main h2{font-size:18px!important;font-weight:700!
 .gsh.v40-gsh{display:flex;flex-direction:column;gap:4px}
 .gsh.v40-gsh .tbn{display:block;font-weight:700;font-size:.82em;color:var(--ink-2);overflow-wrap:anywhere}
 html.v38-tbmini .tbrail .v40-tbz{max-height:none}
+/* ================= v4.44 (add89) : points 125 à 131. Préfixe v44-. */
+/* 126 c / 130 b : plus de largeur max figée, le contenu prend toute la place (menu replié comme déplié) */
+.page{max-width:none}
+.xmain .panel{max-width:none}
+/* 126 f : changer la photo du profil, bouton visible + clic sur la photo */
+.v38-pfp img{cursor:pointer}
+.v38-pfh .v44-pfch{position:static!important;width:auto!important;height:44px!important;border-radius:12px!important;flex:none;align-self:center;display:inline-flex;align-items:center;gap:8px;padding:0 16px;font-size:14px;font-weight:600;background:var(--surface)!important;color:var(--ink)!important;border:1px solid var(--line)!important}
+.v38-pfh .v44-pfch svg{width:16px;height:16px}
+@media (max-width:760px){.v38-pfh{flex-wrap:wrap}.v38-pfh .v44-pfch{width:100%!important;justify-content:center}}
+/* 128 : Yélé, signaler un bug */
+.v44-bugl{margin:6px 0 6px 18px;padding:0}.v44-bugl li{margin:2px 0}
+/* ================= 125 a : sonnerie, l'expert n'a pas encore décroché */
+.v38-chd{gap:16px}
+.v44-cmin{display:inline-flex;align-items:center;gap:8px;height:44px;padding:0 16px;border-radius:12px;background:rgba(255,255,255,.12);color:#fff;font:inherit;font-size:14px;font-weight:600;flex:none}
+.v44-cmin:hover{background:rgba(255,255,255,.22)}.v44-cmin svg{width:18px!important;height:18px!important}
+.v44-rg{display:none;align-items:center;gap:5px}
+.v44-rg i{width:7px;height:7px;border-radius:50%;background:#fff;opacity:.35;animation:v44rg 1.2s ease-in-out infinite}
+.v44-rg i:nth-child(2){animation-delay:.2s}.v44-rg i:nth-child(3){animation-delay:.4s}
+@keyframes v44rg{0%,100%{opacity:.25;transform:scale(.8)}50%{opacity:1;transform:scale(1.1)}}
+.v38-call.ring .v44-rg{display:inline-flex}
+.v38-call.ring .v38-wv,.v38-call.ring .v40-cdot,.v38-call.ring .v40-cthk{display:none!important}
+.v38-call.ring .v38-cstate{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.3)}
+.v38-call.ring .v38-cv{filter:saturate(.75) brightness(.85)}
+.v38-call.ring .v38-halo{opacity:.9;background:radial-gradient(closest-side,rgba(255,255,255,.35),rgba(255,255,255,0));animation:v44ringh 2.6s ease-out infinite}
+@keyframes v44ringh{0%{transform:scale(.96);opacity:.9}70%{transform:scale(1.08);opacity:.2}100%{transform:scale(1.1);opacity:0}}
+.v38-call.ring .v38-csub{visibility:hidden}
+/* ================= 129, 1A : vignette « Vous » en haut à droite, grande (200 x 266) */
+.v38-me.v44-me{position:absolute;top:84px;right:24px;bottom:auto;width:200px;height:266px;display:block;border-radius:20px;overflow:hidden;box-shadow:0 0 0 2px rgba(255,255,255,.35),0 12px 32px rgba(0,0,0,.35);background:#2a2150}
+.v38-me.v44-me img{width:100%;height:100%;border-radius:0;object-fit:cover;box-shadow:none}
+.v44-mef{position:absolute;left:0;right:0;bottom:0;display:flex;align-items:center;gap:8px;padding:28px 12px 10px;background:linear-gradient(to top,rgba(17,14,27,.85),rgba(17,14,27,0))}
+.v44-mmic{display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.18)}.v44-mmic svg{width:15px!important;height:15px!important}
+.v38-call.muted .v44-mmic{background:#DC2626}
+.v44-mef small{flex:1;font-size:14px;font-weight:600;opacity:1}
+.v44-mwv,.v44-mwv2{display:inline-flex;align-items:center;gap:2px;height:16px}
+.v44-mwv i,.v44-mwv2 i{width:3px;height:4px;border-radius:2px;background:#6EE7B7}
+.v38-call.user .v44-mwv i{animation:v44mw .55s ease-in-out infinite}
+.v38-call.user .v44-mwv i:nth-child(2n){animation-delay:.15s}.v38-call.user .v44-mwv i:nth-child(3n){animation-delay:.3s}
+.v38-call.muted .v44-mwv i{animation:none!important;background:rgba(255,255,255,.3)}
+@keyframes v44mw{0%,100%{height:4px}50%{height:15px}}
+@media (max-width:760px){
+  .v38-chd .v44-cmin span{display:none}.v44-cmin{width:44px;padding:0;justify-content:center}
+  .v38-me.v44-me{top:76px;right:12px;width:92px;height:122px;border-radius:14px}
+  .v44-mef{padding:16px 6px 6px;gap:4px}.v44-mef small{font-size:12px}.v44-mmic{width:22px;height:22px}.v44-mwv{display:none}
+}
+/* ================= 129, 2A : mini fenêtre d'appel flottante, suit sur toutes les pages */
+.v44-mini{display:none;position:fixed;right:24px;bottom:24px;z-index:calc(var(--z-modal) + 5);width:320px;padding:12px;border-radius:20px;background:linear-gradient(160deg,#2B1D63,#1B1433);color:#fff;box-shadow:0 16px 40px rgba(27,20,51,.4)}
+.v44-mini.on{display:block}
+.v44-mini.v44-mtop{bottom:auto;top:76px}
+.v44-mh{display:flex;align-items:center;gap:12px}
+.v44-mph{position:relative;flex:none;width:56px;height:56px;border-radius:14px;overflow:hidden;box-shadow:0 0 0 2px rgba(255,255,255,.18)}
+.v44-mph img{width:100%;height:100%;object-fit:cover}
+.v44-mini.talk .v44-mph{box-shadow:0 0 0 2px #B7A4FF,0 0 0 6px rgba(183,164,255,.3)}
+.v44-mini.listen .v44-mph,.v44-mini.user .v44-mph{box-shadow:0 0 0 2px #34D399}
+.v44-mini.think .v44-mph{box-shadow:0 0 0 2px #FBBF24}
+.v44-mnm{display:flex;align-items:baseline;gap:10px}.v44-mnm b{font-size:16px;font-weight:700}.v44-mtm{font-size:14px;opacity:.85}
+.v44-mst{display:flex;align-items:center;gap:8px;margin-top:4px;font-size:14px}.v44-mst b{font-weight:500}
+.v44-mini.talk .v44-mwv2 i{background:#C5C4FF;animation:v44mw .7s ease-in-out infinite}
+.v44-mini.user .v44-mwv2 i{animation:v44mw .55s ease-in-out infinite}
+.v44-mini.think .v44-mwv2 i{background:#FBBF24;animation:v44mw 1.6s ease-in-out infinite}
+.v44-mwv2 i:nth-child(2n){animation-delay:.15s!important}.v44-mwv2 i:nth-child(3n){animation-delay:.3s!important}
+.v44-mb{display:flex;gap:8px;margin-top:12px}
+.v44-mb button{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:44px;border-radius:12px;font:inherit;font-size:14px;font-weight:600;color:#fff;background:rgba(255,255,255,.12)}
+.v44-mb button:hover{background:rgba(255,255,255,.22)}.v44-mb svg{width:18px!important;height:18px!important}
+.v44-mmc{width:52px;flex:none}.v44-mmc.off{background:#fff!important;color:#1B1433!important}
+.v44-mret{flex:1;padding:0 10px;white-space:nowrap}
+.v44-mend{width:64px;flex:none;background:#DC2626!important}.v44-mend:hover{background:#B91C1C!important}
+/* la bulle d'aide se range pendant l'appel réduit (Yélé reste dans le menu du compte) */
+body.v44-mini-on .ybtn{display:none!important}
+@media (max-width:760px){.v44-mini{left:12px;right:12px;width:auto;bottom:calc(12px + var(--v44-tab,0px) + env(safe-area-inset-bottom))}}
+@media (prefers-reduced-motion:reduce){.v44-mini i,.v44-rg i,.v44-mwv i,.v38-call.ring .v38-halo{animation:none!important}}
+/* ================= 129, 3A : chat agrandi en vrai plein écran (A et B) */
+.v44-fsb,.v44-fsbg{display:none}
+body.chat-wide{overflow:hidden}
+body.chat-wide .v44-fsbg.on{display:block;position:fixed;inset:0;z-index:60;background:var(--bg,#F6F5FB)}
+body.chat-wide .v44-fsb.on{display:flex;position:fixed;top:0;left:0;right:0;height:64px;z-index:62;align-items:center;gap:12px;padding:0 20px;background:var(--surface);border-bottom:1px solid var(--line)}
+.v44-fsb img{width:40px;height:40px;border-radius:50%;object-fit:cover;object-position:top}
+.v44-fsn{display:flex;flex-direction:column;line-height:1.2}.v44-fsn b{font-size:15px;font-weight:700}.v44-fsn small{font-size:13px;color:var(--ink-3)}
+.v44-fsb .btn{height:44px;border-radius:12px;display:inline-flex;align-items:center;gap:8px;padding:0 16px;font-weight:600}
+.v44-fsb .btn svg{width:18px;height:18px}
+.v44-fsk{font-size:13px;color:var(--ink-3);white-space:nowrap}
+body.chat-wide #discussion .v36-hw{position:fixed!important;top:80px;left:16px;right:16px;bottom:16px;z-index:61;display:flex!important;gap:16px;width:auto!important;max-width:none!important;height:auto!important;margin:0!important}
+body.chat-wide #discussion .v36-hw>.v35-hp{height:100%!important;max-height:none!important}
+body.chat-wide #discussion .v36-hw>.chat2{flex:1;min-width:0;width:auto!important;max-width:none!important;height:100%!important;max-height:none!important;display:flex;flex-direction:column}
+body.chat-wide #discussion .chat2 .thread{flex:1;min-height:0;max-height:none!important;overflow:auto}
+body.chat-wide #discussion .chwide{display:none!important}
+body.chat-wide .ybtn{display:none!important}
+/* ================= 130 c : version B, Appeler et écran en haut à droite */
+.v44-tcta{display:none}
+@media (min-width:761px){
+  html.v44-hasct:not(.v39-va) .v44-tcta{display:flex;gap:8px;align-items:center;flex:none}
+  html.v44-hasct:not(.v39-va) .pcard .cta .call,html.v44-hasct:not(.v39-va) .pcard .cta .sq{display:none!important}
+  .v44-tcta .btn{height:40px;border-radius:12px;display:inline-flex;align-items:center;gap:8px;padding:0 14px;font-weight:600;font-size:14px}
+  .v44-tcta .v44-tscr{width:40px;padding:0;justify-content:center}
+  .v44-tcta svg{width:17px;height:17px}
+}
+/* 2A : la fin de page reste lisible au-dessus de la mini fenêtre ; en mobile, mini fenêtre sur une ligne */
+body.v44-mini-on .page,body.v44-mini-on .xmain{padding-bottom:170px}
+@media (max-width:760px){
+  .v44-mini{display:none;padding:8px;border-radius:16px}
+  .v44-mini.on{display:flex;align-items:center;gap:8px}
+  .v44-mh{flex:1;min-width:0;gap:8px}.v44-mph{width:44px;height:44px;border-radius:12px}
+  .v44-mnm b{font-size:14px}.v44-mtm{font-size:13px}.v44-mst{font-size:13px;margin-top:2px}.v44-mst b{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .v44-mb{margin:0;gap:6px}.v44-mmc{display:none!important}
+  .v44-mret{width:44px;flex:none;padding:0}.v44-mret span{display:none}.v44-mend{width:52px}
+  body.v44-mini-on .page,body.v44-mini-on .xmain{padding-bottom:150px}
+}
+/* 127 a : chiffres de la Vue d'ensemble non cliquables */
+.v44-kpn{cursor:default}
+/* 127 b : badge de rôle bien visible sur la fiche membre */
+.v44-role{display:inline-flex;align-items:center;gap:6px;height:28px;padding:0 12px;border-radius:99px;font-size:13px;font-weight:700;margin-right:8px;vertical-align:middle}
+.v44-role svg{width:14px;height:14px}
+.v44-role.adm{background:#301667;color:#fff}.v44-role.mem{background:#E0E1FF;color:#301667}
+/* ================= 127 c / 130 d : fenêtre de paiement, largeur et hauteur FIXES quel que soit le moyen, rien ne déborde */
+#v36-m.v44-paym .v36-pn{width:min(760px,calc(100vw - 32px))!important;max-width:none!important;height:min(600px,calc(100dvh - 32px))!important;max-height:none!important;overflow:hidden!important;display:flex;flex-direction:column;box-sizing:border-box}
+#v36-m.v44-paym .v38-pm{display:grid!important;grid-template-columns:236px minmax(0,1fr);gap:16px;flex:1;min-height:0;margin-top:14px}
+#v36-m.v44-paym .v38-pml{display:flex!important;flex-direction:column;gap:6px;overflow:auto;min-height:0}
+#v36-m.v44-paym .v38-pmo{min-height:46px;flex:none;padding:6px 10px;font-size:14px}
+#v36-m.v44-paym .v38-pmd{max-height:none!important;overflow:auto;min-height:0;padding:16px;border-radius:14px;scrollbar-gutter:stable}
+.v44-pl{background:#fff!important;box-shadow:inset 0 0 0 1px var(--line)}
+.v44-pl img{width:100%!important;height:100%!important;object-fit:cover}
+.v44-pli{background:var(--tint)!important;color:var(--brand-ink)!important;box-shadow:none}
+.v44-pmt{display:flex;align-items:center;gap:10px;margin:0 0 12px;font-size:15px}
+.v44-qrb{display:inline-flex;align-items:center;gap:8px;margin-top:12px;min-height:40px;padding:0 12px;border-radius:12px;border:1px solid var(--line);background:var(--surface);font:inherit;font-size:13px;font-weight:600;color:var(--brand-ink)}
+.v44-qrb svg{width:16px;height:16px}
+.v44-qrz{display:flex;align-items:center;gap:16px;margin-top:12px}
+.v44-qrz[hidden]{display:none!important}
+.v44-qr{width:150px;height:150px;flex:none;border-radius:12px;background:#fff;padding:6px;box-shadow:inset 0 0 0 1px var(--line)}
+.v44-qrz p{display:flex;flex-direction:column;gap:4px;font-size:13px;color:var(--ink-3)}.v44-qrz p b{color:var(--ink);font-size:14px}
+.v44-rib{display:grid;grid-template-columns:1fr 1fr;gap:8px 16px;padding:12px;border-radius:12px;background:var(--surface)}
+.v44-rib p{display:flex;flex-direction:column;gap:2px;margin:0;border:0!important;padding:0!important}
+.v44-rib p span{font-size:12px;color:var(--ink-3)}.v44-rib p b{font-size:13px;overflow-wrap:anywhere}
+.v44-rib .v44-ribw{grid-column:1/-1}
+.v44-pmu{margin-top:12px!important;min-height:64px!important;gap:12px!important;background:var(--surface)}
+.v44-pmu span{display:flex;flex-direction:column}.v44-pmu small{font-size:12px;font-weight:400;color:var(--ink-3)}
+.v44-pmu.ok{border-style:solid;border-color:var(--ok,#16a34a)}
+#v36-m.v44-paym label[hidden],#v36-m.v44-paym p[hidden]{display:none!important}
+@media (max-width:760px){
+  #v36-m.v44-paym .v36-pn{width:calc(100vw - 16px)!important;height:calc(100dvh - 16px)!important;padding:16px!important}
+  #v36-m.v44-paym .v38-pm{grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr);gap:10px}
+  #v36-m.v44-paym .v38-pml{display:grid!important;grid-template-columns:1fr 1fr;overflow:visible}
+  #v36-m.v44-paym .v38-pmo{min-height:44px;font-size:13px;padding:4px 8px}
+  #v36-m.v44-paym .v38-pmo .v38-pl{width:28px;height:28px}
+  .v44-qrz{flex-direction:column;align-items:flex-start}.v44-qr{width:132px;height:132px}
+}
+#v36-m.v44-paym .v36-mi{display:none}
+#v36-m.v44-paym .v38-pml{gap:4px}
+#v36-m.v44-paym .v38-pmo{min-height:44px}
+#v36-m.v44-paym .g2i{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px}
+#v36-m.v44-paym .v38-pmd .fl2,#v36-m.v44-paym .v38-pmd input{min-width:0;width:100%;box-sizing:border-box}
+/* ================= 130 a : liste des tableaux, UNE seule zone qui défile (Mes tableaux puis Tableaux partagés avec moi), séparateur visible */
+.tbrail .v40-tbz{max-height:none!important;overflow:visible!important;border-bottom:0!important;margin-bottom:0!important;padding-right:0!important}
+.tbrail .tbli{max-height:max(280px,calc(100vh - 380px));overflow-y:auto!important;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:var(--line) transparent;padding-right:4px}
+.tbrail .tbli::-webkit-scrollbar{width:6px}.tbrail .tbli::-webkit-scrollbar-thumb{background:var(--line);border-radius:3px}
+.tbrail .tbli .v40-tbz+p.tbg{border-top:1.5px solid var(--line);margin-top:12px;padding-top:14px}
+html.v38-tbmini .tbrail .tbli{max-height:none;overflow:visible}
+@media (max-width:760px){.tbrail .tbli{max-height:none;overflow:visible}}
+/* ================= 131 a : Routines actives, cartes pleine largeur (modèle Agent 37) */
+#routines .v36-rtmv .ws-h{align-items:center}
+#routines .v36-rtmv .ws-h h2{font-size:22px}
+.v44-rtadd{display:inline-flex;align-items:center;gap:8px;height:44px;padding:0 14px;border-radius:12px;font-weight:600;font-size:15px;color:var(--ink);background:transparent;border:0}
+.v44-rtadd:hover{background:var(--soft)}.v44-rtadd svg{width:18px;height:18px}
+#routines .v33-rts{display:flex;flex-direction:column;gap:12px}
+#routines .v33-rts .v33-rt{display:flex;align-items:center;gap:16px;padding:16px 18px;border:1px solid var(--line);border-radius:16px;background:var(--surface)}
+#routines .v33-rts .v33-rt>img{width:44px;height:44px;border-radius:50%;object-fit:cover;object-position:top;flex:none}
+#routines .v33-rts .v33-rt b{font-size:16px;font-weight:600}
+#routines .v33-rts .v33-rt .v33-st{display:none}
+#routines .v44-rtl{display:flex;align-items:center;gap:8px;margin-top:4px;font-size:14px;color:var(--ink-2)}
+.v44-rtl svg{width:16px;height:16px;flex:none;color:var(--ink-3)}.v44-rtl em{font-style:normal;color:var(--ink-3)}
+#routines .v33-rt .v33-ra{display:flex;align-items:center;gap:8px;flex:none}
+.v44-rtpz{display:grid!important;place-items:center;width:44px;height:44px;border-radius:50%!important;background:#DCF5E8!important;color:#15803D!important;border:0!important;padding:0!important}
+.v44-rtpz:hover{background:#C6EED9!important}.v44-rtpz svg{width:18px;height:18px}
+.v44-rtpz.off{background:var(--soft)!important;color:var(--ink-2)!important}
+.v44-rtx{display:grid!important;place-items:center;width:44px;height:44px;border-radius:12px!important;color:var(--ink-3)!important;background:transparent!important;border:0!important;padding:0!important}
+.v44-rtx:hover{background:#FEE2E2!important;color:#B91C1C!important}.v44-rtx svg{width:18px;height:18px}
+#routines .v33-rt.off{opacity:.75}
+/* ================= 131 b : Nouvelle routine, grande fenêtre deux colonnes */
+.v44-rtm{display:none;position:fixed;inset:0;z-index:calc(var(--z-modal) + 2);align-items:center;justify-content:center;padding:24px}
+.v44-rtm.on{display:flex}
+body.v44-rtopen{overflow:hidden}
+.v44-rtov{position:absolute;inset:0;background:rgba(23,17,43,.42);backdrop-filter:blur(3px)}
+.v44-rtp2{position:relative;display:grid;grid-template-columns:minmax(0,1fr) 360px;width:min(1140px,100%);height:min(680px,calc(100dvh - 48px));background:var(--surface);border-radius:22px;overflow:hidden;box-shadow:0 30px 80px -20px rgba(23,17,43,.45)}
+.v44-rtf{display:flex;flex-direction:column;min-width:0;min-height:0;padding:20px 24px 16px}
+.v44-rth{display:flex;align-items:center;gap:8px;font-size:14px;color:var(--ink-2)}
+.v44-rth img{width:26px;height:26px;border-radius:50%;object-fit:cover;object-position:top}
+.v44-rth>svg{width:14px;height:14px;color:var(--ink-3)}.v44-rth b{font-weight:600;color:var(--ink)}
+.v44-rtc{display:grid;place-items:center;width:44px;height:44px;border-radius:12px;color:var(--ink-2)}.v44-rtc:hover{background:var(--soft)}.v44-rtc svg{width:18px;height:18px}
+.v44-rtn{margin-top:14px;border:0;outline:0;background:transparent;font:inherit;font-size:22px;font-weight:600;color:var(--ink);padding:6px 0}
+.v44-rtn::placeholder{color:var(--ink-3);font-weight:500}
+.v44-rtd{flex:1;min-height:120px;margin-top:6px;border:0;outline:0;resize:none;background:transparent;font:inherit;font-size:16px;line-height:1.55;color:var(--ink);padding:6px 0}
+.v44-rtd::placeholder{color:var(--ink-3)}
+.v44-rtatt{margin:6px 0}
+.v44-rtchip{display:inline-flex;align-items:center;gap:6px;height:34px;padding:0 6px 0 10px;border-radius:99px;background:var(--soft);font-size:13px}
+.v44-rtchip svg{width:14px;height:14px}.v44-rtchip button{display:grid;place-items:center;width:28px;height:28px;border-radius:50%}
+.v44-rtbar{display:flex;flex-wrap:wrap;gap:8px;padding:10px;border:1px solid var(--line);border-radius:16px;background:var(--surface)}
+.v44-rtq{display:inline-flex;align-items:center;gap:8px;height:44px;padding:0 12px;border:1px solid var(--line);border-radius:12px;background:var(--surface);font:inherit;font-size:14px;font-weight:600;color:var(--ink)}
+.v44-rtq>svg{width:16px;height:16px;color:var(--ink-3);flex:none}
+.v44-rtq input{border:0;outline:0;background:transparent;font:inherit;font-weight:600;color:var(--ink);min-width:0}
+.v44-rtq input[type=date]{width:140px}.v44-rtq input[type=time]{width:84px}
+.v44-rtdd{position:relative}
+.v44-ddb{cursor:pointer}.v44-ddb span{white-space:nowrap}
+.v44-ddl{position:absolute;bottom:calc(100% + 6px);left:0;z-index:3;display:flex;flex-direction:column;min-width:100%;width:max-content;max-width:340px;padding:6px;border:1px solid var(--line);border-radius:14px;background:var(--surface);box-shadow:0 18px 40px -14px rgba(23,17,43,.35)}
+.v44-ddl[hidden]{display:none}
+.v44-ddl button{text-align:left;min-height:40px;padding:0 12px;border-radius:10px;font:inherit;font-size:14px;white-space:nowrap}
+.v44-ddl button:hover,.v44-ddl button[aria-selected=true]{background:var(--tint)}
+.v44-rtm[data-mo=date] [data-m=rec],.v44-rtm[data-mo=date] [data-m=trg],.v44-rtm[data-mo=rec] [data-m=trg],.v44-rtm[data-mo=trg] [data-m=rec],.v44-rtm[data-mo=trg] [data-m=date],.v44-rtm[data-mo=trg] [data-m=time]{display:none}
+.v44-rtft{display:flex;align-items:center;gap:8px;margin-top:12px;flex-wrap:wrap}
+.v44-rtmo{display:flex;gap:4px}
+.v44-rtmo button{display:inline-flex;align-items:center;gap:6px;height:40px;padding:0 12px;border-radius:12px;font:inherit;font-size:14px;font-weight:600;color:var(--ink-2)}
+.v44-rtmo button svg{width:16px;height:16px}.v44-rtmo button:hover{background:var(--soft)}
+.v44-rtmo button.on{background:var(--tint);color:var(--brand-ink)}
+.v44-rtsep{width:1px;height:24px;background:var(--line);margin:0 4px}
+.v44-rtclip{display:grid;place-items:center;width:44px;height:44px;border-radius:12px;color:var(--ink-2);cursor:pointer}.v44-rtclip:hover{background:var(--soft)}.v44-rtclip svg{width:18px;height:18px}
+.v44-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.v44-rtskw{position:relative}
+.v44-rtsk{display:inline-flex;align-items:center;gap:6px;height:44px;padding:0 12px;border-radius:12px;font:inherit;font-size:14px;font-weight:600;color:var(--ink-2)}
+.v44-rtsk:hover{background:var(--soft)}.v44-rtsk svg{width:16px;height:16px}.v44-rtsk em{font-style:normal;color:var(--brand-ink)}
+.v44-rtskl{position:absolute;bottom:calc(100% + 6px);left:0;z-index:3;display:flex;flex-direction:column;gap:2px;width:260px;padding:8px;border:1px solid var(--line);border-radius:14px;background:var(--surface);box-shadow:0 18px 40px -14px rgba(23,17,43,.35)}
+.v44-rtskl[hidden]{display:none}.v44-rtskl label{display:flex;align-items:center;gap:8px;min-height:40px;padding:0 8px;border-radius:10px;font-size:14px}.v44-rtskl label:hover{background:var(--soft)}
+.v44-rtgo{display:inline-flex;align-items:center;gap:8px;height:44px;padding:0 18px;border-radius:12px}.v44-rtgo svg{width:16px;height:16px}
+.v44-rtgo.v44-busy{opacity:.6}
+.v44-rta{display:flex;flex-direction:column;min-height:0;border-left:1px solid var(--line);background:var(--bg,#F7F6FB)}
+.v44-rta h3{font-size:15px;font-weight:700;padding:20px 20px 14px;border-bottom:1px solid var(--line);margin:0}
+.v44-rtam{flex:1;min-height:0;overflow:auto;padding:16px 20px;display:flex;flex-direction:column;gap:10px}
+.v44-rtah{margin:auto 0;text-align:center;color:var(--ink-2);font-size:14px;display:flex;flex-direction:column;gap:8px}.v44-rtah small{font-size:13px;color:var(--ink-3)}
+.v44-rtam p.v44-rtu{align-self:flex-end;max-width:88%;padding:10px 12px;border-radius:14px 14px 4px 14px;background:#301667;color:#fff;font-size:14px}
+.v44-rtam p.v44-rtr{align-self:flex-start;max-width:92%;padding:10px 12px;border-radius:14px 14px 14px 4px;background:var(--surface);border:1px solid var(--line);font-size:14px}
+.v44-rtwait{color:var(--ink-3)}
+.v44-rtai{margin:12px;padding:10px 10px 8px 14px;border:1px solid var(--line);border-radius:16px;background:var(--surface)}
+.v44-rtaq{width:100%;border:0;outline:0;resize:none;background:transparent;font:inherit;font-size:15px;color:var(--ink)}
+.v44-rtaib{display:flex;align-items:center;gap:6px}
+.v44-rtmic,.v44-rtsend{display:grid;place-items:center;width:44px;height:44px;border-radius:50%;color:var(--ink-2)}
+.v44-rtmic:hover{background:var(--soft)}.v44-rtmic.rec{background:#FEE2E2;color:#DC2626;animation:v44pulse 1s ease-in-out infinite}
+@keyframes v44pulse{50%{transform:scale(1.08)}}
+.v44-rtsend{background:#301667;color:#fff}.v44-rtsend:disabled{background:var(--line);color:var(--ink-3)}
+.v44-rtmic svg,.v44-rtsend svg{width:18px;height:18px}
+@media (max-width:760px){
+  .v44-rtm{padding:0}
+  .v44-rtp2{grid-template-columns:1fr;grid-template-rows:auto auto;width:100%;height:100dvh;border-radius:0;overflow:auto}
+  .v44-rtf{padding:12px 14px}.v44-rtd{min-height:140px;flex:none}
+  .v44-rtbar{padding:8px}.v44-rtq input[type=date]{width:128px}
+  .v44-rtmo{flex-wrap:wrap}.v44-rtmo button{padding:0 10px}
+  .v44-rtsep{display:none}.v44-rtft .grow{display:none}.v44-rtgo{margin-left:auto}
+  .v44-rta{border-left:0;border-top:1px solid var(--line);min-height:320px}
+  .v44-ddl{max-width:calc(100vw - 40px)}
+  #routines .v33-rts .v33-rt{padding:12px;gap:12px}
+}
+.v44-rtbar .v44-ddl{max-height:260px;overflow:auto}
+/* 131 a : pas de pastille d'état sur une routine, sauf un passage échoué (utile) */
+#routines .v33-rts .v33-rt .v33-st.ko{display:inline-flex}
+/* v4.44, audit 390 : la page de Fatima (version B, discussion) dépassait de 17 px (47 px en 360) : la grille de l'expert prenait la largeur mini du contenu */
+@media (max-width:760px){.xp{grid-template-columns:minmax(0,1fr)!important}.xcol,.xmain{min-width:0!important}}
+/* 1A en mobile : la vignette « Vous » ne mord jamais sur l'expert */
+@media (max-width:760px){.v38-call .v38-cfig{height:min(40vh,360px)}.v38-me.v44-me{width:80px;height:106px;right:10px}}
