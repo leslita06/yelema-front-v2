@@ -1002,7 +1002,7 @@ document.querySelectorAll('[data-perm]').forEach(function(b){var ok=b.querySelec
 
   // ---------- 7. tableau de bord : les personnes en grand, l'expert en rond plus petit
   var AI=['Aïcha Diabaté','aicha'],FA=['Fanta Bakayoko','m_women_16'],KA=['Kader Ouattara','m_men_59'];
-  var EXP={djeneba:['Djénéba','Chief of Staff'],djeneba2:['Djénéba','Chief of Staff'],fatima:['Fatima','Marketing et contenu'],koffi:['Koffi','Design'],adjoua:['Adjoua','Recrutement'],kouassi:['Kouassi','Ventes']};
+  var EXP={djeneba:['Djénéba','Chief of Staff & Direction'],djeneba2:['Djénéba','Chief of Staff & Direction'],fatima:['Fatima','Marketing & Contenu'],koffi:['Koffi','Design & Brand'],adjoua:['Adjoua','Recrutement'],kouassi:['Kouassi','Commercial & Ventes']};
   var HUM={adjoua:[FA],kouassi:[KA,FA]};
   $$('.panel[id^="tb-"]').forEach(function(pn){var t=pn.querySelector('.tbh2 .tbby');if(!t)return;
     var k=pn.id.replace(/^tb-/,'').replace(/-copie$/,'');var e=EXP[k];if(!e)return;var ek=k.replace(/2$/,'');
@@ -1825,9 +1825,9 @@ document.querySelectorAll('[data-perm]').forEach(function(b){var ok=b.querySelec
   // ================= 4. recherche globale (Ctrl K ou Cmd K ; loupe en 390 px)
   if(TOP){
     var MAC=/Mac|iPhone|iPad/.test(navigator.platform||'');
-    var TEAM=[['djeneba','Djénéba','Chief of Staff'],['fatima','Fatima','Marketing et contenu'],['koffi','Koffi','Design']];
-    var RECR=[['adjoua','Adjoua','Recrutement'],['alioune','Alioune','Investissement'],['awa','Awa','Service client'],['fatou','Fatou','RH et paie'],['ibrahim','Ibrahim','Juridique'],
-      ['kouassi','Kouassi','Ventes'],['mamadou','Mamadou','Finance'],['nadia','Nadia','Données'],['salif','Salif','Opérations']];
+    var TEAM=[['djeneba','Djénéba','Chief of Staff & Direction'],['fatima','Fatima','Marketing & Contenu'],['koffi','Koffi','Design & Brand']];
+    var RECR=[['adjoua','Adjoua','Recrutement'],['alioune','Alioune','Investissement'],['awa','Awa','Support & Relation client'],['fatou','Fatou','RH & Paie'],['ibrahim','Ibrahim','Juridique & Conformité'],
+      ['kouassi','Kouassi','Commercial & Ventes'],['mamadou','Mamadou','Finance & Comptabilité'],['nadia','Nadia','Data & Analytics'],['salif','Salif','Opérations & Logistique']];
     var IDX=null;
     var fd=function(d){if(!d)return '';var p=d.split(/[- :]/);return p[2]+'/'+p[1]};
     function index(){if(IDX)return IDX;IDX=[];var mine=ME.ex,dl=['aujourd’hui','hier','cette semaine','la semaine dernière','en septembre'];
@@ -2511,7 +2511,7 @@ document.querySelectorAll('[data-perm]').forEach(function(b){var ok=b.querySelec
 
   // ================= 19. Membres : fenêtre « Attribuer » (personne en tête, cartes d’experts cochables, compteur)
   var AT=$('#v33-att');
-  if(AT){var apn=$('.pn',AT);apn.classList.add('v36-atp');var ROLE={'Djénéba':'Chief of Staff','Fatima':'Marketing et contenu','Koffi':'Design'};
+  if(AT){var apn=$('.pn',AT);apn.classList.add('v36-atp');var ROLE={'Djénéba':'Chief of Staff & Direction','Fatima':'Marketing & Contenu','Koffi':'Design & Brand'};
     var hdr=document.createElement('div');hdr.className='v36-ath';hdr.innerHTML='<img alt=""><span><b class="v36-atn"></b><small class="v36-atr"></small></span>';apn.insertBefore(hdr,$('h2',apn));
     var h2=$('h2',apn);h2.id='v36-att';AT.setAttribute('role','dialog');AT.setAttribute('aria-labelledby','v36-att');
     $$('.v33-atl label',apn).forEach(function(l){var i=$('input',l),im=$('img',l),n=l.textContent.trim();l.className='v36-atc';im.removeAttribute('style');
@@ -2747,7 +2747,7 @@ document.querySelectorAll('[data-perm]').forEach(function(b){var ok=b.querySelec
     function msHTML(kind,label,items,svc){return '<div class="v36-ms" data-k="'+kind+'"><button type="button" class="v36-msb" data-h="1" aria-haspopup="true" aria-expanded="false"><span>'+label+'</span>'+IC.chev+'</button><div class="v36-msp" hidden><label class="v36-msi v36-msa"><input type="checkbox" class="v36-msall" checked><span>'+label+'</span></label>'+
       (svc?'<div class="v36-mss"><span>Par service</span>'+svc.map(function(x){return '<button type="button" class="v36-mssv" data-s="'+x+'" aria-pressed="false">'+x+'</button>'}).join('')+'</div>':'')+
       '<div class="v36-msl">'+items.map(function(x){return '<label class="v36-msi"><input type="checkbox" data-n="'+esc(x[0])+'" data-s="'+esc(x[1])+'"><span>'+esc(x[0])+'<small>'+esc(x[1])+'</small></span></label>'}).join('')+'</div></div></div>'}
-    var XS=[['Djénéba','Chief of Staff'],['Fatima','Marketing et contenu'],['Koffi','Design'],['Kouassi','Ventes'],['Adjoua','Recrutement'],['Mamadou','Finance']],
+    var XS=[['Djénéba','Chief of Staff & Direction'],['Fatima','Marketing & Contenu'],['Koffi','Design & Brand'],['Kouassi','Commercial & Ventes'],['Adjoua','Recrutement'],['Mamadou','Finance & Comptabilité']],
       MS=[['Aïcha Diabaté','Marketing'],['Nadège Touré','Marketing'],['Yao Kra','Marketing'],['Fanta Bakayoko','Commercial'],['Mariam Koné','RH'],['Ibrahim Sylla','Finance'],['Jean-Marc Aka','Direction'],['Serge Bamba','Direction']];
     EXB.addEventListener('click',function(e){stop(e);
       modal({ic:IC.up.replace('m17 8-5-5-5 5M12 3v12','m7 10 5 5 5-5M12 15V3'),tone:'info',t:'Demander un export',p:'Vous recevez un lien de téléchargement par email.',
@@ -2881,8 +2881,8 @@ document.querySelectorAll('[data-perm]').forEach(function(b){var ok=b.querySelec
   var VUE=ls('v33-vue')||'admin',MEMBRE=VUE!=='admin',ADMP=!!$('.sbadm');
   var ME={admin:{n:'Aïcha Diabaté',f:'Aïcha',p:'aicha'},membre:{n:'Nadège Touré',f:'Nadège',p:'m_women_36'},membre0:{n:'Didier Yapi',f:'Didier',p:'m_men_30'}}[VUE]||{n:'Aïcha Diabaté',f:'Aïcha',p:'aicha'};
   // experts proposés (pas encore dans l’équipe) : prénom, métier, accord féminin
-  var CAT={adjoua:['Adjoua','Recrutement',1],alioune:['Alioune','Investissement',0],awa:['Awa','Service client',1],fatou:['Fatou','RH et paie',1],ibrahim:['Ibrahim','Juridique',0],
-    kouassi:['Kouassi','Ventes',0],mamadou:['Mamadou','Finance',0],nadia:['Nadia','Données',1],salif:['Salif','Opérations',0]};
+  var CAT={adjoua:['Adjoua','Recrutement',1],alioune:['Alioune','Investissement',0],awa:['Awa','Support & Relation client',1],fatou:['Fatou','RH & Paie',1],ibrahim:['Ibrahim','Juridique & Conformité',0],
+    kouassi:['Kouassi','Commercial & Ventes',0],mamadou:['Mamadou','Finance & Comptabilité',0],nadia:['Nadia','Data & Analytics',1],salif:['Salif','Opérations & Logistique',0]};
   var PRIX='200 000 FCFA';
   function slug(n){return String(n).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^a-z]/g,'')}
   function pron(k){return CAT[k]&&CAT[k][2]?'Elle':'Il'}
@@ -3187,9 +3187,9 @@ document.querySelectorAll('[data-perm]').forEach(function(b){var ok=b.querySelec
   // ================= 16. appel avec un expert (points 37, 117, 125 a, 129 1A et 2A) : sonnerie WebAudio (2 sonneries puis l'expert décroche),
   //   vignette « Vous » en haut à droite, Réduire (bouton en haut à gauche, Échap) = mini fenêtre flottante qui suit sur toutes les pages
   //   (sessionStorage v44-call), Revenir à l'appel, raccrocher. Le résumé arrive dans la discussion de l'expert.
-  (function(){var EXP={djeneba:['Djénéba','Chief of Staff',1,'Bonjour Aïcha. Point du jour : deux rendez-vous ce matin, le brief Banque Atlantique est prêt, et le devis de la machine d’emballage est toujours bloqué chez Serge.','C’est noté. Je relance Serge maintenant et je vous mets la réponse dans notre discussion avant midi.'],
-      fatima:['Fatima','Marketing et contenu',1,'Bonjour Aïcha. Les trois posts de la promo Sossa sont presque prêts. Le post Facebook a déjà 1 200 vues, je finis la version Instagram.','Très bien. Je mets le prix en plus gros sur les trois visuels et je vous les envoie pour validation dans dix minutes.'],
-      koffi:['Koffi','Design et marque',0,'Bonjour Aïcha. Le packaging Super Mint v2 est livré. Je prépare maintenant les déclinaisons pour les affiches A2 de la rentrée.','D’accord. Je vous propose deux pistes de couleur d’ici ce soir, dans la charte Super Mint.']};
+  (function(){var EXP={djeneba:['Djénéba','Chief of Staff & Direction',1,'Bonjour Aïcha. Point du jour : deux rendez-vous ce matin, le brief Banque Atlantique est prêt, et le devis de la machine d’emballage est toujours bloqué chez Serge.','C’est noté. Je relance Serge maintenant et je vous mets la réponse dans notre discussion avant midi.'],
+      fatima:['Fatima','Marketing & Contenu',1,'Bonjour Aïcha. Les trois posts de la promo Sossa sont presque prêts. Le post Facebook a déjà 1 200 vues, je finis la version Instagram.','Très bien. Je mets le prix en plus gros sur les trois visuels et je vous les envoie pour validation dans dix minutes.'],
+      koffi:['Koffi','Design & Brand',0,'Bonjour Aïcha. Le packaging Super Mint v2 est livré. Je prépare maintenant les déclinaisons pour les affiches A2 de la rentrée.','D’accord. Je vous propose deux pistes de couleur d’ici ce soir, dans la charte Super Mint.']};
     var USR='Parfait. Tu peux me l’envoyer dès que c’est prêt ?';
     var SK='v44-call',RINGS=2,ON=1200,OFF=1400;
     var ov,mini,tm=[],tick,t0=0,muted=false,hp=true,st0='',AC=null,GAIN=null;
@@ -3611,7 +3611,7 @@ document.querySelectorAll('[data-perm]').forEach(function(b){var ok=b.querySelec
   document.addEventListener('click',function(e){var t=e.target.closest&&e.target.closest('.v38-pfp img, .v38-pfph');if(!t)return;stop(e);
     var f=document.createElement('input');f.type='file';f.accept='image/*';f.style.display='none';document.body.appendChild(f);
     f.onchange=function(){var x=f.files&&f.files[0];if(x){var u=URL.createObjectURL(x);$$('.v38-pfp img').forEach(function(i){i.src=u});say('Photo mise à jour','ok')}f.parentNode.removeChild(f)};f.click()},true);
-  var EXP={djeneba:['Djénéba','Chief of Staff'],fatima:['Fatima','Marketing et contenu'],koffi:['Koffi','Design et marque']};
+  var EXP={djeneba:['Djénéba','Chief of Staff & Direction'],fatima:['Fatima','Marketing & Contenu'],koffi:['Koffi','Design & Brand']};
   var I_BACK=svg('<path d="m12 19-7-7 7-7"/><path d="M19 12H5"/>'),I_TEL=svg('<path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384"/>'),
       I_MIN=svg('<path d="m14 10 7-7"/><path d="M20 10h-6V4"/><path d="m3 21 7-7"/><path d="M4 14h6v6"/>');
   // ================= 129, 3A : chat agrandi = vrai plein écran (A et B) : barre « ← Retour », photo + prénom + métier, Appeler et Réduire, Échap
@@ -3871,4 +3871,40 @@ document.querySelectorAll('[data-perm]').forEach(function(b){var ok=b.querySelec
 })();
 
 /* couche 91 */
-/* Couche 90 (passe qualité V1, 04/10) : réservé aux retouches de comportement de la passe. */
+/* Couche 90 (passe qualité V1, 04/10). H (Leslie, « Ok aligne ») : sur la page d'un Expert, la période de l'Analytique
+   (Semaine, Mois, Trimestre) recalcule les livrables par type et les Documents à partir de son dossier Livrables.
+   Aujourd'hui = 01/10/2026 ; Semaine = depuis le lundi 28/09 ; Mois = 30 derniers jours ; Trimestre = 90 derniers jours. */
+(function(){
+  var A=document.getElementById('analytique'),J=document.querySelector('.v33-lvd');
+  if(!A||!J||!A.querySelector('.v36-dc'))return;
+  var L;try{L=JSON.parse(J.textContent)}catch(e){return}
+  var F=[];(function w(a){(a||[]).forEach(function(x){if(x.k==='dir')w(x.c);else F.push(x)})})(L);
+  var T=[['doc','Document','#2E4EC4'],['sheet','Tableur','#137A4B'],['ppt','Présentation','#D9622B'],['pdf','PDF','#B42318'],['img','Image','#7A52E8'],['vid','Vidéo','#A86B00'],['autre','Autre','#6E6A80']];
+  function typ(x){var k=x.k,ext=(x.fm||[]).map(function(f){return String(f[1])}).filter(function(e){return !/^http/.test(e)}),e=(ext[0]||'').toLowerCase();
+    if(k==='doc'||/^(docx?|txt|md)$/.test(e))return 'doc';if(k==='sheet'||k==='xls'||/^(xlsx?|csv)$/.test(e))return 'sheet';
+    if(k==='ppt'||/^(pptx?|key)$/.test(e))return 'ppt';if(k==='img'||/^(png|jpe?g|gif|webp|svg)$/.test(e))return 'img';
+    if(/^(mp4|mov|webm)$/.test(e))return 'vid';if(k==='pdf'||e==='pdf')return 'pdf';return 'autre'}
+  var AUJ='2026-10-01',P={'Semaine':['2026-09-28','cette semaine'],'Mois':['2026-09-02','ce mois-ci'],'Trimestre':['2026-07-03','ce trimestre']};
+  function apply(nom){
+    var p=P[nom];if(!p)return;
+    var cnt={},tot=0;F.forEach(function(x){var d=String(x.d||'').slice(0,10);if(d>=p[0]&&d<=AUJ){var t=typ(x);cnt[t]=(cnt[t]||0)+1;tot++}});
+    var sv=A.querySelector('.v36-dc svg.v36-dn');
+    if(sv){var off=25,h='',R=15.9155,den=tot||1;
+      T.forEach(function(t){var n=cnt[t[0]]||0;if(!n)return;var q=n*100/den,a=Math.max(q-.6,.1);
+        h+='<circle r="'+R+'" cx="21" cy="21" fill="none" stroke="'+t[2]+'" stroke-width="6" stroke-dasharray="'+a.toFixed(2)+' '+(100-a).toFixed(2)+'" stroke-dashoffset="'+off.toFixed(2)+'"><title>'+t[1]+' : '+n+'</title></circle>';off-=q});
+      sv.innerHTML=h+'<text x="21" y="21.5" text-anchor="middle" class="v36-dnn">'+tot+'</text><text x="21" y="26.5" text-anchor="middle" class="v36-dnl">livrables</text>'}
+    var li=A.querySelectorAll('.v36-dc .v36-lg li');
+    T.forEach(function(t,i){var e=li[i];if(!e)return;var n=cnt[t[0]]||0,b=e.querySelector('b.num'),m=e.querySelector('em');
+      if(b)b.textContent=n;if(m)m.textContent=Math.round(n*100/(tot||1))+' %';e.classList.toggle('v36-z',!n)});
+    A.querySelectorAll('.an-k').forEach(function(k){var s=k.querySelector('span');if(!s||s.textContent!=='Documents')return;
+      var b=k.querySelector('b.num'),sm=k.querySelector('small');if(b)b.textContent=cnt.doc||0;if(sm)sm.textContent='créés '+p[1]+' dans ses livrables'});
+    var du=A.querySelector('.anr input[aria-label="Du"]'),au=A.querySelector('.anr input[aria-label="Au"]');
+    if(du)du.value=p[0];if(au)au.value=AUJ;
+  }
+  A.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('.an-per a');if(!a)return;
+    var seg=a.parentNode;[].forEach.call(seg.children,function(x){x.classList.toggle('on',x===a)});
+    setTimeout(function(){apply(a.textContent.trim())},0)});
+  var on=A.querySelector('.an-per a.on');apply(on?on.textContent.trim():'Mois');
+})();
+
+/* couche 92 */
