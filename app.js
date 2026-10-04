@@ -3703,7 +3703,7 @@ document.querySelectorAll('[data-perm]').forEach(function(b){var ok=b.querySelec
       '<div class="v44-rtbar"><span class="v44-rtdd" data-k="d" data-m="date"></span><span class="v44-rtdd" data-k="h" data-m="time"></span>'+
         '<span class="v44-rtdd" data-k="z"></span><span class="v44-rtdd" data-k="f" data-m="rec"></span>'+
         '<span class="v44-rtdd v44-rtdd2" data-k="t" data-m="trg"></span></div>'+
-      '<footer class="v44-rtft"><div class="v44-rtmo" role="radiogroup" aria-label="Quand"><button type="button" role="radio" data-h="1" data-mo="date" class="on" aria-checked="true">'+I_CAL+'Plus tard</button><button type="button" role="radio" data-h="1" data-mo="trg" aria-checked="false">'+I_BELL+'Déclencheur</button><button type="button" role="radio" data-h="1" data-mo="rec" aria-checked="false">'+I_REP+'Récurrent</button></div>'+
+      '<footer class="v44-rtft"><div class="v44-rtmo" role="radiogroup" aria-label="Quand"><button type="button" role="radio" data-h="1" data-mo="date" class="on" aria-checked="true">'+I_CAL+'Plus tard</button><button type="button" role="radio" data-h="1" data-mo="rec" aria-checked="false">'+I_REP+'Récurrent</button></div>'+
         '<span class="v44-rtsep" aria-hidden="true"></span><label class="v44-rtclip" title="Joindre un fichier"><input type="file" hidden>'+I_CLIP+'<span class="v44-sr">Joindre un fichier</span></label>'+
         '<span class="v44-rtskw"><button type="button" class="v44-rtsk" data-h="1" aria-expanded="false">'+I_SK+'Compétences <em></em></button><span class="v44-rtskl" hidden>'+SKL.map(function(t,i){return '<label><input type="checkbox"'+(i<2?' checked':'')+'> '+esc(t)+'</label>'}).join('')+'</span></span>'+
         '<span class="grow"></span><button type="button" class="btn p v44-rtgo" data-h="1">'+I_GO+'Créer</button></footer></section>'+
@@ -3788,4 +3788,84 @@ document.querySelectorAll('[data-perm]').forEach(function(b){var ok=b.querySelec
       b.innerHTML='C’est noté, merci. J’ai transmis votre signalement à l’équipe Yelema, avec la page où vous êtes ('+esc(document.title.split(/[|·]/)[0].trim()||page)+'). Elle vous répond ici, sous une heure ouvrée.';
       var i=$('.v33-in, textarea, input[type=text]',Y);if(i)i.placeholder='Posez votre question à Yélé';Y.scrollTop=Y.scrollHeight})}).observe(Y,{subtree:true,childList:true,characterData:true});
   })();
+})();
+/* v4.45 (add89, suite) : point 132 b, fenêtre « Ajouter un serveur MCP » (admin et Réglages > Connecteurs d’un expert). Préfixe v45-. */
+(function(){
+  function $(s,r){return (r||document).querySelector(s)}function $$(s,r){return [].slice.call((r||document).querySelectorAll(s))}
+  function esc(t){return String(t==null?'':t).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+  function stop(e){e.preventDefault();e.stopPropagation();e.stopImmediatePropagation()}
+  function svg(p){return '<svg class="i s" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">'+p+'</svg>'}
+  var V=window.v36||{},say=function(m,t){(V.toast||window.toast||function(){})(m,t)};if(!V.modal)return;
+  var page=(location.pathname.split('/').pop()||'').replace('.html','');
+  var SRV=svg('<rect width="20" height="8" x="2" y="2" rx="2"/><rect width="20" height="8" x="2" y="14" rx="2"/><path d="M6 6h.01M6 18h.01"/>'),
+      OK=svg('<circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/>'),KO=svg('<circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/>'),
+      CHK=svg('<path d="M20 6 9 17l-5-5"/>'),CHEV=svg('<path d="m6 9 6 6 6-6"/>'),EYE=svg('<path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"/><circle cx="12" cy="12" r="3"/>'),
+      EYEX=svg('<path d="M10.733 5.076a10.744 10.744 0 0 1 11.205 6.575 1 1 0 0 1 0 .696 10.747 10.747 0 0 1-1.444 2.49"/><path d="M14.084 14.158a3 3 0 0 1-4.242-4.242"/><path d="M17.479 17.499a10.75 10.75 0 0 1-15.417-5.151 1 1 0 0 1 0-.696 10.75 10.75 0 0 1 4.446-5.143"/><path d="m2 2 20 20"/>'),
+      EXT=svg('<path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h3"/>');
+  var EXP=[['djeneba','Djénéba'],['fatima','Fatima'],['koffi','Koffi']],NOMS={djeneba:'Djénéba',fatima:'Fatima',koffi:'Koffi'};
+  var TOOLS=['chercher','lire_fiche','lister_elements','creer_element','modifier_element','supprimer_element','exporter_csv','lire_historique','lister_utilisateurs','envoyer_notification','lire_stock','resume_du_jour'];
+  // nom proposé à partir de l'adresse : https://mcp.notion.com/sse → Notion
+  function guess(u){var m=/^https?:\/\/([^\/:?#]+)/i.exec(u.trim());if(!m)return '';var p=m[1].toLowerCase().split('.').filter(function(x){return !/^(www|mcp|api|app|server|srv)$/.test(x)});
+    if(p.length>1)p.pop();var n=p.length>1&&p[p.length-1].length<=3?p[0]:p[p.length-1]||p[0]||'';return n?n.charAt(0).toUpperCase()+n.slice(1):''}
+  function valid(u){return /^https:\/\/[^\s\/.]+\.[^\s\/]{2,}(\/\S*)?$/i.test(u)}
+  function open(o){var adm=!!o.admin,st={ok:0,auth:'none',oauth:0,named:0};
+    var body='<div class="v45-mcp'+(adm?' v45-adm':'')+'">'+
+      '<div class="v45-f"><label class="v45-l" for="v45-u">Adresse du serveur</label><div class="v45-ur"><input id="v45-u" class="fi v45-u" type="url" inputmode="url" autocomplete="off" spellcheck="false" placeholder="https://mcp.exemple.com/mcp"><button type="button" class="btn o v45-tst" data-h="1">Tester</button></div>'+
+        '<div class="v45-res" aria-live="polite"></div></div>'+
+      '<div class="v45-f"><label class="v45-l" for="v45-n">Nom</label><input id="v45-n" class="fi v45-n" type="text" maxlength="60" placeholder="Rempli depuis l’adresse"></div>'+
+      '<div class="v45-f"><span class="v45-l" id="v45-cl">Connexion</span><div class="v45-seg" role="radiogroup" aria-labelledby="v45-cl">'+
+        [['none','Aucune'],['key','Clé d’accès'],['oauth','Se connecter avec le compte']].map(function(a,i){return '<button type="button" class="v45-pil'+(i?'':' on')+'" role="radio" aria-checked="'+(i?'false':'true')+'" data-c="'+a[0]+'" data-h="1">'+a[1]+'</button>'}).join('')+'</div>'+
+        '<div class="v45-cz">'+
+          '<p class="v45-cp" data-c="none">Le serveur est ouvert : aucune clé à donner.</p>'+
+          '<div class="v45-cp" data-c="key" hidden><div class="v45-kw"><input class="fi v45-k" type="password" autocomplete="off" spellcheck="false" placeholder="Collez la clé d’accès du service" aria-label="Clé d’accès"><button type="button" class="v45-eye" data-h="1" aria-label="Afficher la clé" aria-pressed="false">'+EYE+'</button></div></div>'+
+          '<div class="v45-cp" data-c="oauth" hidden><button type="button" class="btn o v45-oa" data-h="1">'+EXT+' <span>Ouvrir la page de connexion du service</span></button></div>'+
+        '</div></div>'+
+      (adm?'<div class="v45-f"><span class="v45-l" id="v45-xl">Experts qui y ont accès</span><div class="v45-xs" role="group" aria-labelledby="v45-xl"><button type="button" class="v45-all on" data-h="1" aria-pressed="true">Tous</button>'+
+        EXP.map(function(x){return '<button type="button" class="v45-x on" data-x="'+x[0]+'" data-h="1" aria-pressed="true"><span class="v45-xp"><img src="../img/'+x[0]+'.jpg" alt=""><i>'+CHK+'</i></span><small>'+x[1]+'</small></button>'}).join('')+'</div></div>':'')+
+      '</div>';
+    var M=V.modal({ic:SRV,tone:'info',t:'Ajouter un serveur MCP',p:adm?'Branché une fois pour l’entreprise, puis donné aux experts choisis.':'Il donne à '+(NOMS[page]||'votre expert')+' les outils de vos logiciels internes.',body:body,
+      a:{l:'Ajouter',fn:function(){if(!st.ok){res('ko','Testez d’abord le serveur : « Ajouter » s’active après un test réussi.');T.focus();return}
+        var sel=adm?$$('.v45-x.on',P).map(function(b){return b.dataset.x}):[];if(adm&&!sel.length){say('Choisissez au moins un expert','warn');return}
+        var n=N.value.trim()||guess(U.value)||'Serveur MCP';V.close();(o.onAdd||function(){})({n:n,u:U.value.trim(),k:st.ok,ex:sel,all:adm&&sel.length===EXP.length});say('Serveur « '+n+' » ajouté, '+st.ok+' outils','ok')}},b:{l:'Annuler'}});
+    var P=$('.pn',M);P.classList.add('v45-pn');if(adm)P.classList.add('v45-pna');var U=$('.v45-u',P),N=$('.v45-n',P),T=$('.v45-tst',P),R=$('.v45-res',P),A=$('.v36-mb1',P),K=$('.v45-k',P);
+    A.classList.add('v45-off');A.title='Testez d’abord le serveur';setTimeout(function(){U.focus()},60);
+    function res(k,h){R.className='v45-res v45-'+k;R.innerHTML=k==='ko'?KO+'<span>'+esc(h)+'</span>':h}
+    function reset(){if(st.ok){st.ok=0;A.classList.add('v45-off');A.title='Testez d’abord le serveur'}if(!T._v36b)res('', '')}
+    function test(){var u=U.value.trim();if(T._v36b)return;
+      if(!u){res('ko','Entrez l’adresse du serveur. Elle commence par https://');U.focus();return}
+      if(!valid(u)){res('ko',(/^http:\/\//i.test(u)?'Adresse non sécurisée : elle doit commencer par https://, pas http://':'Cette adresse n’est pas valide. Exemple : https://mcp.exemple.com/mcp'));U.focus();U.select();return}
+      if(st.auth==='key'&&K.value.trim().length<6){res('ko','Collez la clé d’accès avant de tester.');K.focus();return}
+      if(st.auth==='oauth'&&!st.oauth){res('ko','Connectez-vous au compte du service avant de tester.');$('.v45-oa',P).focus();return}
+      if(!N.value.trim())N.value=guess(u);res('wait','<span class="v36-spin" aria-hidden="true"></span><span>Connexion au serveur…</span>');V.busy&&V.busy(T,'Test…');
+      setTimeout(function(){V.unbusy&&V.unbusy(T);st.ok=TOOLS.length;A.removeAttribute('title');A.classList.remove('v45-off');
+        res('ok','<button type="button" class="v45-tg" data-h="1" aria-expanded="false">'+OK+'<b>'+st.ok+' outils trouvés</b><span class="v45-tgl">Voir les outils</span>'+CHEV+'</button><ul class="v45-tl" hidden>'+TOOLS.map(function(t){return '<li><code>'+t+'</code></li>'}).join('')+'</ul>')},1100)}
+    T.addEventListener('click',function(e){stop(e);test()});
+    U.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();test()}});
+    U.addEventListener('input',function(){reset();if(!st.named)N.value=guess(U.value)});
+    N.addEventListener('input',function(){st.named=!!N.value.trim()});
+    K.addEventListener('input',reset);
+    P.addEventListener('click',function(e){var t=e.target;
+      var pl=t.closest('.v45-pil');if(pl){stop(e);st.auth=pl.dataset.c;$$('.v45-pil',P).forEach(function(b){var on=b===pl;b.classList.toggle('on',on);b.setAttribute('aria-checked',on)});
+        $$('.v45-cp',P).forEach(function(z){z.hidden=z.dataset.c!==st.auth});reset();if(st.auth==='key')K.focus();return}
+      var ey=t.closest('.v45-eye');if(ey){stop(e);var sh=K.type==='password';K.type=sh?'text':'password';ey.innerHTML=sh?EYEX:EYE;ey.setAttribute('aria-pressed',sh);ey.setAttribute('aria-label',sh?'Masquer la clé':'Afficher la clé');return}
+      var oa=t.closest('.v45-oa');if(oa){stop(e);if(st.oauth){st.oauth=0;oa.classList.remove('v45-oaok');oa.innerHTML=EXT+' <span>Ouvrir la page de connexion du service</span>';reset();return}
+        var h=(/^https?:\/\/([^\/]+)/i.exec(U.value.trim())||[,''])[1];V.busy&&V.busy(oa,'Page de connexion'+(h?' de '+h:'')+' ouverte…');
+        setTimeout(function(){V.unbusy&&V.unbusy(oa);st.oauth=1;oa.classList.add('v45-oaok');oa.innerHTML=OK+' <span>Compte connecté'+(h?' ('+esc(h)+')':'')+'</span><small>Changer</small>';reset();say('Compte connecté','ok')},1300);return}
+      var tg=t.closest('.v45-tg');if(tg){stop(e);var l=tg.nextElementSibling,op=l.hidden;l.hidden=!op;tg.setAttribute('aria-expanded',op);$('.v45-tgl',tg).textContent=op?'Masquer les outils':'Voir les outils';tg.classList.toggle('v45-tgo',op);return}
+      var al=t.closest('.v45-all');if(al){stop(e);$$('.v45-x',P).forEach(function(b){b.classList.add('on');b.setAttribute('aria-pressed','true')});al.classList.add('on');al.setAttribute('aria-pressed','true');return}
+      var x=t.closest('.v45-x');if(x){stop(e);var on=!x.classList.contains('on');x.classList.toggle('on',on);x.setAttribute('aria-pressed',on);var all=$$('.v45-x.on',P).length===EXP.length,ab=$('.v45-all',P);ab.classList.toggle('on',all);ab.setAttribute('aria-pressed',all);return}});
+  }
+  window.v45mcp=open;
+  // admin : Connecteurs > Serveurs MCP > « Ajouter un serveur MCP » (avant le gestionnaire d’add88 qui ouvrait « Ajouter une connexion »)
+  window.addEventListener('click',function(e){var t=e.target;if(!t.closest)return;
+    var am=t.closest('.v33-mcp [data-open="v33-key"][data-v33s="ent"]');if(am){stop(e);open({admin:1,onAdd:function(r){var tb=$('.v33-mcp .v33-kl');if(!tb)return;var tr=document.createElement('tr');tr.className='v36-flash';
+        tr.innerHTML='<td><b>'+esc(r.n)+'</b> <span class="pill br">Entreprise</span><span class="v45-co">'+CHK+'Connecté</span></td><td class="hide-m"><code class="xs">'+esc(r.u)+'</code></td><td>'+(r.all?'Tous les experts':esc(r.ex.map(function(x){return NOMS[x]}).join(', ')))+'</td><td><a class="btn o sm" href="#" data-open="cxa" data-h="1" data-app="'+esc(r.n)+'"> Attribuer</a></td>';
+        (tb.tBodies[0]||tb).appendChild(tr);var at=$('[data-open="cxa"]',tr);at.addEventListener('click',function(ev){ev.preventDefault();var m=document.getElementById('cxa'),z=m&&$('.czn',m);if(z)z.textContent=at.dataset.app;if(m)m.classList.add('on')})}});return}
+    // expert : Réglages > Connecteurs > API et MCP > « Ajouter un serveur MCP » (remplace la fenêtre d’add86)
+    var sa=t.closest('#connecteurs .v36-sadd');if(sa){stop(e);var sec=sa.closest('.v35-sec'),TM=sec&&$('.v35-t',sec);open({onAdd:function(r){if(!TM)return;var d=document.createElement('div');d.className='v35-r v36-flash';d.setAttribute('role','row');
+        d.dataset.by='vous';d.dataset.kind='mcp';
+        d.innerHTML='<b role="cell" class="v35-nm">'+esc(r.n)+'<small class="v36-by">Ajouté par vous</small></b><span role="cell" data-l="Adresse"><span class="v35-k"><code>'+esc(r.u.replace(/^https?:\/\//,''))+'</code></span></span><span role="cell" class="v35-m" data-l="Outils">'+r.k+' outils</span><span role="cell" class="v35-m" data-l="Dernier appel">jamais</span><span role="cell" class="v35-ok v45-co">'+CHK+'Connecté</span>';
+        var mb=$('.v36-rmb',TM),c=document.createElement('span');c.className='v36-rm';c.setAttribute('role','cell');
+        c.innerHTML='<button type="button" class="v36-rmb" data-h="1" aria-haspopup="menu" aria-expanded="false" aria-label="Plus d’actions">'+(mb?mb.innerHTML:'⋯')+'</button><span class="v36-rmm" role="menu" hidden><button type="button" role="menuitem" class="v36-rren" data-h="1">Renommer</button><button type="button" role="menuitem" class="v36-rdel" data-h="1">Retirer</button></span>';
+        d.appendChild(c);TM.appendChild(d)}});return}},true);
 })();

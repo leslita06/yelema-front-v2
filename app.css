@@ -5753,3 +5753,76 @@ body.v44-rtopen{overflow:hidden}
 @media (max-width:760px){.xp{grid-template-columns:minmax(0,1fr)!important}.xcol,.xmain{min-width:0!important}}
 /* 1A en mobile : la vignette « Vous » ne mord jamais sur l'expert */
 @media (max-width:760px){.v38-call .v38-cfig{height:min(40vh,360px)}.v38-me.v44-me{width:80px;height:106px;right:10px}}
+/* v4.45 : point 132 b, fenêtre « Ajouter un serveur MCP » (préfixe v45-) */
+#v36-m .v36-pn.v45-pn{width:min(520px,calc(100vw - 32px));height:min(600px,calc(100dvh - 32px));max-height:none;overflow:hidden;box-sizing:border-box}
+#v36-m .v36-pn.v45-pn.v45-pna{height:min(756px,calc(100dvh - 32px))}
+#v36-m .v45-pn .v36-mb{margin-top:auto;flex:none;padding-top:12px;border-top:1px solid var(--line)}
+#v36-m .v45-pn > p{flex:none}
+.v45-mcp{display:flex;flex-direction:column;gap:14px;width:100%;flex:1 1 auto;min-height:0;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;padding:2px 2px 4px;margin:0 -2px;box-sizing:content-box}
+.v45-f{display:flex;flex-direction:column;gap:6px;min-width:0}
+.v45-l{font-size:13px;font-weight:600;color:var(--ink-2)}
+.v45-mcp .fi{width:100%;min-height:44px;box-sizing:border-box;min-width:0}
+.v45-ur{display:flex;gap:8px;align-items:stretch}
+.v45-ur .fi{flex:1}
+.v45-tst{flex:none;width:104px;min-height:44px;justify-content:center;cursor:pointer;font-weight:600}
+.v45-res{min-height:20px;font-size:13.5px;line-height:1.4;display:flex;flex-direction:column;gap:6px}
+.v45-res.v45-ko{flex-direction:row;align-items:flex-start;gap:6px;color:var(--ko);font-weight:600}
+.v45-res.v45-ko svg{flex:none;width:18px;height:18px;margin-top:1px}
+.v45-res.v45-wait{flex-direction:row;align-items:center;gap:8px;color:var(--ink-2)}
+.v45-tg{display:flex;align-items:center;gap:8px;width:100%;min-height:44px;padding:0 12px;border-radius:12px;border:1px solid var(--ok);background:var(--ok-pale);color:var(--ok);font:inherit;font-size:14px;cursor:pointer;text-align:left}
+.v45-tg b{font-weight:700;color:var(--ok)}
+.v45-tg svg{flex:none;width:18px;height:18px}
+.v45-tgl{margin-left:auto;font-size:13px;font-weight:600;color:var(--ink-2)}
+.v45-tg > svg:last-child{color:var(--ink-2);transition:transform .2s var(--ease)}
+.v45-tgo > svg:last-child{transform:rotate(180deg)}
+.v45-tl{list-style:none;margin:0;padding:8px;display:grid;grid-template-columns:1fr 1fr;gap:4px 10px;border:1px solid var(--line);border-radius:12px;background:var(--soft)}
+.v45-tl[hidden]{display:none}
+.v45-tl code{font-size:12.5px;color:var(--ink);overflow-wrap:anywhere}
+.v45-seg{display:grid;grid-template-columns:auto auto 1fr;gap:6px}
+.v45-pil{min-height:40px;padding:0 14px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink-2);font:inherit;font-size:14px;font-weight:600;cursor:pointer;white-space:nowrap}
+.v45-pil.on{background:var(--brand);border-color:var(--brand);color:var(--on-brand)}
+.v45-cz{height:52px;display:flex;align-items:center}
+.v45-cp{width:100%;margin:0}
+.v45-cp[hidden]{display:none!important}
+p.v45-cp{font-size:13.5px;color:var(--ink-3)}
+.v45-kw{position:relative}
+.v45-kw .fi{padding-right:48px}
+.v45-eye{position:absolute;right:2px;top:50%;transform:translateY(-50%);width:44px;height:40px;border:0;background:none;color:var(--ink-2);cursor:pointer;display:grid;place-items:center;border-radius:10px}
+.v45-oa{width:100%;min-height:44px;justify-content:center;cursor:pointer;gap:8px}
+.v45-oa.v45-oaok{border-color:var(--ok);background:var(--ok-pale);color:var(--ok);justify-content:flex-start}
+.v45-oa small{margin-left:auto;color:var(--ink-2);font-weight:600}
+.v45-oa span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+.v45-xs{display:flex;gap:14px;align-items:flex-start;flex-wrap:wrap}
+.v45-all{min-height:44px;margin-top:4px;padding:0 16px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink-2);font:inherit;font-size:14px;font-weight:600;cursor:pointer}
+.v45-all.on{background:var(--tint);border-color:var(--brand);color:var(--brand-ink)}
+.v45-x{display:flex;flex-direction:column;align-items:center;gap:4px;border:0;background:none;padding:0;cursor:pointer;font:inherit;color:var(--ink-2);min-width:56px}
+.v45-xp{position:relative;width:52px;height:52px;border-radius:50%;padding:2px;border:2px solid var(--line);box-sizing:border-box}
+.v45-xp img{width:100%;height:100%;border-radius:50%;object-fit:cover;object-position:top;filter:grayscale(1);opacity:.55}
+.v45-xp i{position:absolute;right:-4px;bottom:-4px;width:20px;height:20px;border-radius:50%;background:var(--surface);border:2px solid var(--line);display:grid;place-items:center;color:transparent}
+.v45-xp i svg{width:12px;height:12px}
+.v45-x.on .v45-xp{border-color:var(--brand)}
+.v45-x.on .v45-xp img{filter:none;opacity:1}
+.v45-x.on .v45-xp i{background:var(--ok);border-color:var(--surface);color:#fff}
+.v45-x small{font-size:12.5px;font-weight:600}
+.v45-off{opacity:.45;cursor:not-allowed!important}
+.v45-co{display:inline-flex;align-items:center;gap:4px;color:var(--ok);font-weight:600;font-size:13px;margin-left:8px;white-space:nowrap}
+.v45-co svg{width:15px;height:15px}
+span.v35-ok.v45-co{margin-left:0}
+@media (max-width:560px){
+  #v36-m.on:has(.v45-pn){align-items:flex-end;padding:0}
+  #v36-m .v36-pn.v45-pn,#v36-m .v36-pn.v45-pn.v45-pna{width:100%;height:min(92dvh,760px);border-radius:24px 24px 0 0;padding:20px 16px 16px}
+  #v36-m .v45-pn .v36-mi{display:none}
+  #v36-m .v45-pn .v36-mb{flex-direction:row;padding-bottom:env(safe-area-inset-bottom)}
+  #v36-m .v45-pn .v36-mb .btn{flex:1;width:auto}
+  .v45-seg{grid-template-columns:1fr 1fr}
+  .v45-pil[data-c="oauth"]{grid-column:1/-1}
+  .v45-cz{height:52px}
+  .v45-tl{grid-template-columns:1fr}
+  .v45-xs{gap:10px}
+}
+/* Point 133 (Leslie 04/10 08:34) : « En ce moment », la pastille d'état est un petit point sur la photo, jamais un disque vert qui la recouvre. */
+.v38-lvi .lvav{position:relative}
+.v38-lvi .lvav i{inset:auto!important;right:-1px!important;bottom:-1px!important;width:12px!important;height:12px!important;border:2px solid #fff!important;border-radius:50%!important}
+/* Point 133 : moins d'espace entre le métier et l'email en version A (ligne email resserrée, bouton copier moins haut). */
+html.v39-va .xcol .pcard .v39-vml{margin-top:0!important}
+html.v39-va .v39-vml button{height:28px!important;width:32px!important}
