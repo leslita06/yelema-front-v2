@@ -2748,7 +2748,7 @@ document.querySelectorAll('[data-perm]').forEach(function(b){var ok=b.querySelec
       (svc?'<div class="v36-mss"><span>Par service</span>'+svc.map(function(x){return '<button type="button" class="v36-mssv" data-s="'+x+'" aria-pressed="false">'+x+'</button>'}).join('')+'</div>':'')+
       '<div class="v36-msl">'+items.map(function(x){return '<label class="v36-msi"><input type="checkbox" data-n="'+esc(x[0])+'" data-s="'+esc(x[1])+'"><span>'+esc(x[0])+'<small>'+esc(x[1])+'</small></span></label>'}).join('')+'</div></div></div>'}
     var XS=[['Djénéba','Chief of Staff & Direction'],['Fatima','Marketing & Contenu'],['Koffi','Design & Brand'],['Kouassi','Commercial & Ventes'],['Adjoua','Recrutement'],['Mamadou','Finance & Comptabilité']],
-      MS=[['Aïcha Diabaté','Marketing'],['Nadège Touré','Marketing'],['Yao Kra','Marketing'],['Fanta Bakayoko','Commercial'],['Mariam Koné','RH'],['Ibrahim Sylla','Finance'],['Jean-Marc Aka','Direction'],['Serge Bamba','Direction']];
+      MS=[['Aïcha Diabaté','Marketing'],['Nadège Touré','Marketing'],['Yao Kra','Marketing'],['Fanta Bakayoko','Commercial'],['Mariam Koné','RH'],['Yao N’Guessan','Finance'],['Jean-Marc Aka','Direction'],['Serge Bamba','Direction']];
     EXB.addEventListener('click',function(e){stop(e);
       modal({ic:IC.up.replace('m17 8-5-5-5 5M12 3v12','m7 10 5 5 5-5M12 15V3'),tone:'info',t:'Demander un export',p:'Vous recevez un lien de téléchargement par email.',
         body:'<div class="v36-exf"><span class="v36-exk">Pour qui</span><div class="seg v36-exw" role="radiogroup" aria-label="Pour qui"><a href="#" class="on" role="radio" aria-checked="true" data-h="1" data-v="ent">Toute l’entreprise</a><a href="#" role="radio" aria-checked="false" data-h="1" data-v="x">Des Experts</a><a href="#" role="radio" aria-checked="false" data-h="1" data-v="m">Des membres</a></div>'+
@@ -2973,7 +2973,7 @@ document.querySelectorAll('[data-perm]').forEach(function(b){var ok=b.querySelec
 
   // ================= 2. « Assigner à » : choisir un ou plusieurs services (point 79)
   var MEMB=[['Jean-Marc Aka','Direction','m_men_83'],['Serge Bamba','Direction','m_men_80'],['Sarah Diallo','Direction','m_women_69'],['Aïcha Diabaté','Marketing','aicha'],['Nadège Touré','Marketing','m_women_36'],['Yao Kra','Marketing','m_men_53'],
-    ['Fanta Bakayoko','Commercial','m_women_16'],['Kader Ouattara','Commercial','m_men_59'],['Rokia Traoré','Commercial','m_women_89'],['Mariam Koné','RH','m_women_30'],['Ibrahim Sylla','Finance','m_men_91'],
+    ['Fanta Bakayoko','Commercial','m_women_16'],['Kader Ouattara','Commercial','m_men_59'],['Rokia Traoré','Commercial','m_women_89'],['Mariam Koné','RH','m_women_30'],['Yao N’Guessan','Finance','m_men_91'],
     ['Hervé N’Guessan','Opérations','m_men_49'],['Olivier Kacou','Opérations','m_men_16'],['Didier Yapi','Opérations','m_men_30']];
   var SERV=[];MEMB.forEach(function(m){if(SERV.indexOf(m[1])<0)SERV.push(m[1])});
   function first(n){return n.split(' ')[0]}
@@ -3329,7 +3329,7 @@ document.querySelectorAll('[data-perm]').forEach(function(b){var ok=b.querySelec
       setTimeout(function(){w.innerHTML='<div class="bub">Bien reçu. '+(page==='djeneba'?'Je m’en occupe et je répartis avec l’équipe si besoin. ':'Je m’y mets tout de suite. ')+'Je vous tiens au courant ici.</div><time>à l’instant</time>'},1800)}})();
 
   // ================= 19. Recruter (point 94) : la carte ouvre la fiche, pastille « Déjà recruté(e) », admin peut assigner à un nouveau membre
-  (function(){var FEMX={djeneba:1,fatima:1,koffi:0};
+  (function(){var FEMX={djeneba:1,fatima:1,koffi:0,adjoua:1,awa:1,kouassi:0,mamadou:0};
     // point 107 i : « Déjà recruté(e) » à la place du bouton, même niveau et même format que « Recruter <prénom> »
     $$('.pc2.mine2').forEach(function(c){var k=(c.getAttribute('href')||c.dataset.v36k||'').replace(/^recrue-|\.html$/g,''),lab=IC.check+' Déjà recruté'+(FEMX[k]?'e':'');
       var it=$('.inteam',c);if(it)it.remove();var rb=$('.rb',c);if(!rb){rb=document.createElement('span');rb.className='rb';($('.nm',c)||c).appendChild(rb)}rb.classList.add('v39-rbd');rb.innerHTML=lab});
@@ -3908,3 +3908,5 @@ document.querySelectorAll('[data-perm]').forEach(function(b){var ok=b.querySelec
 })();
 
 /* couche 92 */
+
+/* couche 93 */
